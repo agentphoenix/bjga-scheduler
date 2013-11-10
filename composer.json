@@ -1,0 +1,39 @@
+{
+	"require": {
+		"laravel/framework": "4.0.*"
+	},
+	
+	"require-dev": {
+		"raveren/kint": "dev-master"
+	},
+	
+	"autoload": {
+		"classmap": [
+			"app/database/migrations",
+			"app/database/seeds"
+		],
+		
+		"psr-0": {
+			"Scheduler\\": "app/"
+		}
+	},
+	
+	"config": {
+		"preferred-install": "dist",
+		"process-timeout": 500
+	},
+
+	"scripts": {
+		"post-install-cmd": [
+			"php artisan optimize"
+		],
+		"pre-update-cmd": [
+			"php artisan clear-compiled"
+		],
+		"post-update-cmd": [
+			"php artisan optimize"
+		]
+	},
+
+	"minimum-stability": "stable"
+}

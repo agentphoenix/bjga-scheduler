@@ -1,0 +1,111 @@
+@import "variables.less";
+
+body {
+	font-family: @font-primary;
+}
+
+.nav-main {
+	ul {
+		li {
+			a {
+				font-family: @font-primary;
+
+				&.active {
+					border-color: #bbb;
+				}
+			}
+		}
+	}
+}
+
+header {
+	.overlay {
+		font-family: @font-georgia;
+		background-color: transparent !important;
+	}
+}
+
+.nav-sub {
+	ul {
+		li {
+			a {
+				font-family: @font-primary;
+				font-size: 12px;
+			}
+
+			.arrow {
+				display: none !important;
+			}
+		}
+	}
+}
+
+section {
+	h1 {
+		font-family: @font-georgia;
+	}
+
+	h2, h3, h4 {
+		font-family: @font-primary;
+	}
+
+	dl {
+		dt {
+			font-family: @font-primary;
+		}
+	}
+}
+
+footer {
+	font-family: @font-primary;
+}
+
+.btn {
+	font-family: @font-primary;
+
+	&.btn-primary {
+		border-color: @color-darkgreen;
+	}
+}
+
+form {
+	.control-label {
+		font-family: @font-primary;
+	}
+}
+
+blockquote {
+	small {
+		font-family: @font-georgia;
+
+		span {
+			font-family: @font-primary;
+		}
+	}
+
+	.lead {
+		font-family: @font-georgia;
+	}
+}
+
+.booking-engine {
+	.loading {
+		font-family: @font-primary;
+	}
+}
+
+.alert {
+	font-family: @font-primary;
+}
+
+.pinseeker {
+	font-family: @font-primary;
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+textarea,
+select {
+	font-family: @font-primary;
+}
