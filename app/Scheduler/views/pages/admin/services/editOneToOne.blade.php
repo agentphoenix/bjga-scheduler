@@ -80,7 +80,7 @@
 			<div class="col-lg-2">
 				<div class="form-group">
 					<label class="label-control">Duration</label>
-					{{ Form::text('duration', 60, array('class' => 'form-control')) }}
+					{{ Form::text('duration', null, array('class' => 'form-control')) }}
 				</div>
 			</div>
 		</div>
