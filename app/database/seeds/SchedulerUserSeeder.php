@@ -29,7 +29,17 @@ class SchedulerUserSeeder extends Seeder {
 
 		foreach ($staff as $s)
 		{
-			Staff::create($s);
+			$item = Staff::create($s);
+
+			// Create general availability
+			for ($d = 0; $d <=6; $d++)
+			{
+				Schedule::create(array(
+					'staff_id'		=> $item->id,
+					'day'			=> $d,
+					'availability'	=> '',
+				));
+			}
 		}
 	}
 
