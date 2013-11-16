@@ -1,7 +1,7 @@
 <nav class="nav-sub hidden-xs">
 	<ul class="social-icons">
-		<li><a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="facebook-icon"></a></li>
-		<li><a href="http://twitter.com/BrianJacobsgolf" target="_blank" class="twitter-icon"></a></li>
+		<li><a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="icn-size-24"><span class="icn" data-icon="c"></span></a></li>
+		<li><a href="http://twitter.com/BrianJacobsgolf" target="_blank" class="icn-size-24"><span class="icn" data-icon="w"></span></a></li>
 	</ul>
 
 	<ul>
@@ -9,7 +9,7 @@
 
 		@if (Auth::check())
 			<li class="{{ Request::is('book') ? 'active' : '' }}"><a href="{{ URL::route('book.index') }}">Book Appointment</a><div class="arrow"></div></li>
-			<li><a href="#">My Account</a><div class="arrow"></div></li>
+			<li><a href="{{ URL::route('admin.user.edit', array(Auth::user()->id)) }}">My Account</a><div class="arrow"></div></li>
 
 			@if (Auth::user()->isStaff())
 				<li class="{{ Request::is('admin*') ? 'active' : '' }}"><a href="{{ URL::route('admin') }}">Admin</a><div class="arrow"></div></li>			
