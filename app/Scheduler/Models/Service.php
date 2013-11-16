@@ -109,8 +109,7 @@ class Service extends Model {
 	 */
 	public function getDurationAttribute($value)
 	{
-		if ($value > 0)
-			return $value / 60;
+		if ($value > 0) return $value / 60;
 	}
 
 	/*
