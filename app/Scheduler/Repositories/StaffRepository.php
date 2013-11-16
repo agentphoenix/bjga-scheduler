@@ -25,7 +25,7 @@ class StaffRepository implements StaffRepositoryInterface {
 			{
 				$all = $all->filter(function($s)
 				{
-					return $s->instruction === true;
+					return (bool) $s->instruction === true;
 				});
 			}
 
