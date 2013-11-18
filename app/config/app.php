@@ -183,6 +183,7 @@ return array(
 
 		'Date'					=> "Carbon\\Carbon",
 		'Model'					=> "Scheduler\\Extensions\\Laravel\\Database\\Eloquent\\Model",
+		//'Markdown'				=> "Scheduler\\Facades\\Markdown",
 		'ServiceFullException'	=> "Scheduler\\Exceptions\\ServiceFullException",
 
 		/**
