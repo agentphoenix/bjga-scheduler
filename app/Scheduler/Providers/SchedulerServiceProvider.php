@@ -1,19 +1,31 @@
 <?php namespace Scheduler\Providers;
 
 use Route;
+use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 
 class SchedulerServiceProvider extends ServiceProvider {
 
 	public function register()
 	{
-		//
+		//$this->registerMarkdown();
 	}
 
 	public function boot()
 	{
 		$this->setupClassBindings();
 		$this->registerRoutes();
+	}
+
+	/**
+	 * The Markdown class provides for parsing Markdown content to HTML.
+	 */
+	protected function registerMarkdown()
+	{
+		$this->app['markdown'] = $this->app->share(function($app)
+		{
+			return new Markdown(new MarkdownParser);
+		});
 	}
 
 	protected function setupClassBindings()
@@ -32,12 +44,6 @@ class SchedulerServiceProvider extends ServiceProvider {
 
 	protected function registerRoutes()
 	{
-		Route::get('test', function()
-		{
-			$service = \Service::find(1);
-			dd($service->serviceOccurrences->count());
-		});
-
 		// Home
 		Route::get('/', array('as' => 'home', 'uses' => 'Scheduler\Controllers\Home@getIndex'));
 		Route::get('logout', array('as' => 'logout', 'uses' => 'Scheduler\Controllers\Home@getLogout'));
