@@ -1,7 +1,8 @@
 {
 	"require": {
 		"laravel/framework": "4.0.*",
-		"dflydev/markdown": "1.*"
+		"dflydev/markdown": "1.*",
+		"iron-io/iron_mq": "1.*"
 	},
 	
 	"require-dev": {
