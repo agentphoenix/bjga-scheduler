@@ -17,7 +17,7 @@
 
 			@if ($_currentUser->id == $user->id)
 				<div class="btn-group">
-					<a href="#" class="btn btn-default js-user-action icn-size-16" data-action="password" data-id="{{ $user->id }}">Change Password</a>
+					<a href="#" class="btn btn-default js-user-action icn-size-16-with-text" data-action="password" data-id="{{ $user->id }}">Change Password</a>
 				</div>
 			@endif
 		</div>
@@ -32,7 +32,7 @@
 
 			@if ($_currentUser->id == $user->id)
 				<div class="col-xs-12 col-sm-6">
-					<p><a href="#" class="btn btn-block btn-lg btn-default js-user-action" data-action="password" data-id="{{ $user->id }}">Change Password</a></p>
+					<p><a href="#" class="btn btn-block btn-lg btn-default js-user-action icn-size-16-with-text" data-action="password" data-id="{{ $user->id }}">Change Password</a></p>
 				</div>
 			@endif
 		</div>

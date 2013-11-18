@@ -33,7 +33,6 @@
 ## FIXME
 
 - Case sensitivity on Linux-based systems
-- Text-based buttons next to icon-based buttons
 
 ## PRODUCTION DEPLOYMENT
 
