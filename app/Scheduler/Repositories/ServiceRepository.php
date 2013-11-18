@@ -150,12 +150,29 @@ class ServiceRepository implements ServiceRepositoryInterface {
 
 	public function update($id, array $data)
 	{
+		// Get the service
 		$service = $this->find($id);
 
 		if ($service)
 		{
+			// Parse out the additional services and prep them for update
+			if (array_key_exists('additional_service', $data))
+			{
+				foreach ($data['additional_service'] as $key => $value)
+				{
+					if ( ! empty($value) and $value > "0")
+					{
+						$servicesArr[] = "{$value},{$data['additional_service_occurrences'][$key]}";
+					}
+				}
+
+				$data['additional_services'] = implode(';', $servicesArr);
+			}
+
+			// Update the service
 			$update = $service->update($data);
 
+			// Update the service occurrences if we have them
 			if (array_key_exists('date', $data))
 			{
 				$occurrence = $service->serviceOccurrences->first();
@@ -187,7 +204,7 @@ class ServiceRepository implements ServiceRepositoryInterface {
 					$emailAddresses[] = $attendee->user->email;
 				}
 
-				// Send an email to the attendees about any changes to the appointment
+				#TODO: Send an email to the attendees about any changes to the appointment
 			}
 
 			if ($service->isManyToMany())
@@ -195,7 +212,10 @@ class ServiceRepository implements ServiceRepositoryInterface {
 				//
 			}
 
-			return $update;
+			if ($update)
+			{
+				return $service;
+			}
 		}
 
 		return false;
