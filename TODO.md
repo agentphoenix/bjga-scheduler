@@ -10,11 +10,8 @@
 - Service management
 	- Create 1-to-many service
 	- Create many-to-many service
-	- Edit 1-to-1 service
 	- Edit 1-to-many service
 	- Edit many-to-many service
-	- Delete 1-to-1 service
-	- Delete 1-to-many service
 	- Delete many-to-many service
 - Appointment management
 	- Create 1-to-1 appointment
@@ -43,6 +40,7 @@
 - Remove log files from app/storage/logs
 - Remove cache files from app/storage/cache
 - Remove view files from app/storage/views
+- Generate key
 - Compile files
 
 ## FUTURE
