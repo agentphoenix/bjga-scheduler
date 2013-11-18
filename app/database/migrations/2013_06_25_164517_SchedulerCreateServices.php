@@ -35,6 +35,7 @@ class SchedulerCreateServices extends Migration {
 			$table->integer('user_limit')->nullable();
 			$table->integer('lead_out')->default(15);
 			$table->timestamps();
+			$table->softDeletes();
 		});
 
 		Schema::create('services_occurrences', function(Blueprint $table)
@@ -45,6 +46,7 @@ class SchedulerCreateServices extends Migration {
 			$table->time('start_time')->nullable();
 			$table->time('end_time')->nullable();
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 

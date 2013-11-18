@@ -7,19 +7,21 @@ class Service extends Model {
 
 	protected $table = 'services';
 
+	protected $softDelete = true;
+
 	protected $fillable = array(
 		'category_id', 'staff_id', 'name', 'slug', 'description', 'price', 
 		'occurrences', 'duration', 'additional_services', 'user_limit',
 	);
 
 	protected $dates = array(
-		'created_at', 'updated_at',
+		'created_at', 'updated_at', 'deleted_at',
 	);
 	
 	protected static $properties = array(
 		'id', 'category_id', 'staff_id', 'name', 'slug', 'description', 'price', 
 		'occurrences', 'duration', 'additional_services', 'user_limit',
-		'created_at', 'updated_at',
+		'created_at', 'updated_at', 'deleted_at',
 	);
 
 	/*
