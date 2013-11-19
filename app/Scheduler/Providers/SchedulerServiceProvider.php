@@ -48,6 +48,11 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Route::get('/', array('as' => 'home', 'uses' => 'Scheduler\Controllers\Home@getIndex'));
 		Route::get('logout', array('as' => 'logout', 'uses' => 'Scheduler\Controllers\Home@getLogout'));
 		Route::post('login', 'Scheduler\Controllers\Home@postLogin');
+		
+		Route::get('password/remind', 'Scheduler\Controllers\Home@getPasswordReminder');
+		Route::post('password/remind', 'Scheduler\Controllers\Home@postPasswordReminder');
+		Route::get('password/reset/{token}', 'Scheduler\Controllers\Home@getPasswordReset');
+		Route::post('password/reset/{token}', 'Scheduler\Controllers\Home@postPasswordReset');
 
 		// Registration
 		Route::get('register', array('as' => 'register', 'uses' => 'Scheduler\Controllers\Home@getRegister'));

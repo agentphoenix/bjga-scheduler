@@ -3,8 +3,9 @@
 use Hash;
 use Model;
 use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Model implements UserInterface {
+class User extends Model implements UserInterface, RemindableInterface {
 
 	protected $table = 'users';
 
@@ -139,6 +140,17 @@ class User extends Model implements UserInterface {
 	public function getAuthPassword()
 	{
 		return $this->password;
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Remindable Interface Implementation
+	|--------------------------------------------------------------------------
+	*/
+
+	public function getReminderEmail()
+	{
+		return $this->email;
 	}
 	
 }

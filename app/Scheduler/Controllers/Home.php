@@ -1,9 +1,11 @@
 <?php namespace Scheduler\Controllers;
 
 use Auth;
+use Hash;
 use View;
 use Input;
 use Session;
+use Password;
 use Redirect;
 use Validator;
 use UserRepositoryInterface;
@@ -131,6 +133,37 @@ class Home extends Base {
 
 			return Redirect::back()->withInput();
 		}
+	}
+
+	public function getPasswordReminder()
+	{
+		return View::make('pages.passwordReminder');
+	}
+	public function postPasswordReminder()
+	{
+		return Password::remind(array('email' => Input::get('email')));
+	}
+	public function getPasswordReset($token)
+	{
+		return View::make('pages.passwordReset')->with('token', $token);
+	}
+	public function postPasswordReset($token)
+	{
+		$credentials = array(
+			'email' => Input::get('email'),
+			'password' => Input::get('password'),
+			'password_confirmation' => Input::get('password_confirmation')
+		);
+
+		return Password::reset($credentials, function($user, $password)
+		{
+			$user->password = $password;
+			$user->save();
+
+			return Redirect::route('home')
+				->with('message', "Your password has been reset!")
+				->with('messageStatus', 'success');
+		});
 	}
 
 	/**

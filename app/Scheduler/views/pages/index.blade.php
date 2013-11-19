@@ -104,10 +104,12 @@
 					<div class="visible-lg">
 						{{ Form::button("Log In", array('type' => 'submit', 'class' => 'btn btn-primary')) }}
 						<a href="{{ URL::route('register') }}" class="btn btn-default">Register</a>
+						<a href="{{ URL::to('password/remind') }}" class="btn btn-link">Forgot Password?</a>
 					</div>
 					<div class="hidden-lg">
 						{{ Form::button("Log In", array('type' => 'submit', 'class' => 'btn btn-block btn-lg btn-primary')) }}
 						<a href="{{ URL::route('register') }}" class="btn btn-block btn-lg btn-default">Register</a>
+						<a href="{{ URL::to('password/remind') }}" class="btn btn-block btn-lg btn-link">Forgot Password?</a>
 					</div>
 				{{ Form::close() }}
 			@endif
