@@ -195,28 +195,19 @@ header {
 	
 	.social-icons {
 		float: right;
-		margin: -1px @spacing 0 0;
+		margin: -2px @spacing 0 0;
+		padding: 0;
 
 		li {
-			margin: 0 0 0 5px;
+			margin: 0 0 0 10px;
 
 			a {
-				height: 26px;
-				width: 26px;
-
-				background-color: transparent;
-				background-repeat: no-repeat;
-				background-position: 0 0;
-
-				&.twitter-icon {
-					background-image: url(../img/icn-twitter.png);
-				}
-				&.facebook-icon {
-					background-image: url(../img/icn-facebook.png);
+				&.facebook:hover {
+					color: @color-facebook !important;
 				}
 
-				&:hover {
-					background-position: 0 -26px;
+				&.twitter:hover {
+					color: @color-twitter !important;
 				}
 			}
 		}

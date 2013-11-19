@@ -1,7 +1,7 @@
 <nav class="nav-sub hidden-xs">
 	<ul class="social-icons">
-		<li><a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="icn-size-24"><span class="icn" data-icon="c"></span></a></li>
-		<li><a href="http://twitter.com/BrianJacobsgolf" target="_blank" class="icn-size-24"><span class="icn" data-icon="w"></span></a></li>
+		<li><a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="icn-size-24 facebook"><span class="icn" data-icon="c"></span></a></li>
+		<li><a href="http://twitter.com/BrianJacobsgolf" target="_blank" class="icn-size-24 twitter"><span class="icn" data-icon="w"></span></a></li>
 	</ul>
 
 	<ul>
