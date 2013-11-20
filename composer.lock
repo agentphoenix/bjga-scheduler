@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4c003a1ce281a315c1e79527ad38dd1a",
+    "hash": "fe346d82b7507203bc6a923b5462774b",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2010,7 +2010,7 @@
     "aliases": [
 
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "raveren/kint": 20
     },
