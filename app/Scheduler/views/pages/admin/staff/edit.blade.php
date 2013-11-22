@@ -13,6 +13,10 @@
 				<div class="btn-group">
 					<a href="{{ URL::route('admin.staff.index') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
+
+				<div class="btn-group">
+					<a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-default icn-size-16-with-text">Edit My User Account</a>
+				</div>
 			</div>
 		</div>
 		<div class="hidden-lg">
@@ -49,7 +53,7 @@
 								<div class="col-lg-4">
 									<div class="form-group{{ ($errors->has('access')) ? ' has-error' : '' }}">
 										<label class="label-control">Access Level</label>
-										{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2'), null, array('class' => 'form-control input-with-feedback')) }}
+										{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), null, array('class' => 'form-control input-with-feedback')) }}
 										{{ $errors->first('access', '<p class="help-block">:message</p>') }}
 									</div>
 								</div>

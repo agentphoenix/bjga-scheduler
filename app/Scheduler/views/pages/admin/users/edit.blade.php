@@ -20,6 +20,12 @@
 					<a href="#" class="btn btn-default js-user-action icn-size-16-with-text" data-action="password" data-id="{{ $user->id }}">Change Password</a>
 				</div>
 			@endif
+
+			@if ($_currentUser->isStaff())
+				<div class="btn-group">
+					<a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-default icn-size-16-with-text">My Staff Account</a>
+				</div>
+			@endif
 		</div>
 	</div>
 	<div class="hidden-lg">
