@@ -15,7 +15,7 @@
 
 	<h1>Reset Password</h1>
 
-	<p>In order to book private lessons and golf schools, join teams and attend events and programs, you'll need to register. Join us today and take your game inside the ropes with Brian Jacobs Golf!</p>
+	<p>To reset your password, enter your email address below. You'll be sent an email with a confirmation link where you'll be able to set your new password.</p>
 
 	<hr>
 

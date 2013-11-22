@@ -12,10 +12,6 @@
 
 	<h1>Reset Password</h1>
 
-	<p>In order to book private lessons and golf schools, join teams and attend events and programs, you'll need to register. Join us today and take your game inside the ropes with Brian Jacobs Golf!</p>
-
-	<hr>
-
 	{{ Form::open(array('url' => "password/reset/{$token}")) }}
 		<div class="row">
 			<div class="col-xs-12 col-lg-4">
