@@ -101,6 +101,8 @@
 				
 				<p>Enter your schedule for each day of the week. If you have no availability on a day, simply leave it blank. Times should be in a 24-hour format (e.g. 18:00).</p>
 
+				<hr>
+
 				<div class="row">
 					<div class="col-lg-6">
 						@for ($d = 0; $d <=6; $d++)
@@ -129,7 +131,78 @@
 			{{ Form::close() }}
 		</div>
 
-		<div id="scheduleExceptions" class="tab-pane"></div>
+		<div id="scheduleExceptions" class="tab-pane">
+			@if ($staff->exceptions->count() > 0)
+				<div class="btn-toolbar">
+					<div class="btn-group">
+						<a href="#" class="btn btn-default icn-size-16">{{ $_icons['add'] }}</a>
+					</div>
+				</div>
+				
+				<ul class="nav nav-pills">
+					<li class="active"><a href="#excUpcoming" data-toggle="pill">Upcoming Exceptions</a></li>
+					<li><a href="#excHistory" data-toggle="pill">Exception History</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div id="excUpcoming" class="tab-pane active">
+						@if ($exceptionsUpcoming->count() > 0)
+							<div class="data-table data-table-striped data-table-bordered">
+							@foreach ($exceptionsUpcoming as $e)
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-lg-9">
+										<p><strong>{{ Date::createFromFormat('Y-m-d', $e->date)->format('l F dS Y') }}</strong></p>
+										<p class="text-muted text-small">{{ implode(', ', $e->exceptions) }}</p>
+									</div>
+									<div class="col-xs-12 col-sm-12 col-lg-3">
+										<div class="visible-lg">
+											<div class="btn-toolbar pull-right">
+												<div class="btn-group">
+													<a href="#" class="btn btn-small btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+												</div>
+												<div class="btn-group">
+													<a href="#" class="btn btn-small btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $e->id }}">{{ $_icons['remove'] }}</a>
+												</div>
+											</div>
+										</div>
+										<div class="hidden-lg">
+											<div class="row">
+												<div class="col-xs-12 col-sm-12">
+													<p><a href="#" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
+												</div>
+												<div class="col-xs-12 col-sm-12">
+													<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $e->id }}">{{ $_icons['remove'] }}</a></p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							@endforeach
+							</div>
+						@else
+							<div class="alert alert-warning">No upcoming schedule exceptions found.</div>
+						@endif
+					</div>
+
+					<div id="excHistory" class="tab-pane">
+						@if ($exceptionsHistory->count() > 0)
+							<div class="data-table data-table-striped data-table-bordered">
+							@foreach ($exceptionsHistory as $e)
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-lg-9">
+										<p><strong>{{ Date::createFromFormat('Y-m-d', $e->date)->format('l F dS Y') }}</strong></p>
+										<p class="text-muted text-small">{{ implode(', ', $e->exceptions) }}</p>
+									</div>
+								</div>
+							@endforeach
+							</div>
+						@else
+							<div class="alert alert-warning">No schedule exception history found.</div>
+						@endif
+					</div>
+				</div>
+			@endif
+		</div>
 	</div>
 
 	{{ modal(array('id' => 'staffExceptions', 'header' => "Set Schedule Exception")) }}

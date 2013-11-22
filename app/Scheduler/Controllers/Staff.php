@@ -1,5 +1,6 @@
 <?php namespace Scheduler\Controllers;
 
+use Date;
 use Input;
 use Redirect;
 use StaffValidator;
@@ -122,6 +123,22 @@ class Staff extends Base {
 			$this->_data->staff = $staff;
 
 			$this->_data->schedule = $staff->schedule;
+
+			$this->_data->exceptionsUpcoming = $staff->exceptions->filter(function($e)
+			{
+				$now = Date::now();
+				$date = Date::createFromFormat('Y-m-d', $e->date);
+
+				return $date->gte($now);
+			});
+
+			$this->_data->exceptionsHistory = $staff->exceptions->filter(function($e)
+			{
+				$now = Date::now();
+				$date = Date::createFromFormat('Y-m-d', $e->date);
+
+				return $date->lt($now);
+			});
 
 			$this->_data->days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
 		}
