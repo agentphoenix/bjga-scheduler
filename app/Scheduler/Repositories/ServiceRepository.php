@@ -158,6 +158,8 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			// Parse out the additional services and prep them for update
 			if (array_key_exists('additional_service', $data))
 			{
+				$servicesArr = array();
+
 				foreach ($data['additional_service'] as $key => $value)
 				{
 					if ( ! empty($value) and $value > "0")
@@ -185,26 +187,29 @@ class ServiceRepository implements ServiceRepositoryInterface {
 
 			if ($service->isOneToMany())
 			{
-				// Get the appointment
+				// Get the appointment(s)
 				$appt = Appointment::where('service_id', $id)
 					->where('date', $data['date'])->get();
 
-				// Update the appointment
-				$appt->update(array(
-					'date'			=> $data['date'],
-					'start_time'	=> $data['start_time'],
-					'end_time'		=> $data['end_time']
-				));
-
-				// Start an array for holding the attendee email addresses
-				$emailAddresses = array();
-
-				foreach ($appt->attendees as $attendee)
+				if ($appt->count() > 0)
 				{
-					$emailAddresses[] = $attendee->user->email;
-				}
+					// Update the appointment
+					$appt->update(array(
+						'date'			=> $data['date'],
+						'start_time'	=> $data['start_time'],
+						'end_time'		=> $data['end_time']
+					));
 
-				#TODO: Send an email to the attendees about any changes to the appointment
+					// Start an array for holding the attendee email addresses
+					$emailAddresses = array();
+
+					foreach ($appt->attendees as $attendee)
+					{
+						$emailAddresses[] = $attendee->user->email;
+					}
+
+					#TODO: Send an email to the attendees about any changes to the appointment
+				}
 			}
 
 			if ($service->isManyToMany())

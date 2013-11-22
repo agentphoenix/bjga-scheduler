@@ -106,7 +106,7 @@
 		<div class="row">
 			<div class="col-lg-2">
 				<label class="label-control">User Limit</label>
-				{{ Form::text('user_limit', 5, array('class' => 'form-control')) }}
+				{{ Form::text('user_limit', null, array('class' => 'form-control')) }}
 			</div>
 		</div>
 		<div class="row">
@@ -204,13 +204,13 @@
 			$('#timeStart').datetimepicker({
 				pickDate: false,
 				format: "HH:mm A",
-				defaultDate: moment("{{ $service->serviceOccurrences->first()->start_time }}", "HH:mm A")
+				defaultDate: moment("{{ $service->serviceOccurrences->first()->start_time }}", "HH:mm")
 			});
 
 			$('#timeEnd').datetimepicker({
 				pickDate: false,
 				format: "HH:mm A",
-				defaultDate: moment("{{ $service->serviceOccurrences->first()->end_time }}", "HH:mm A")
+				defaultDate: moment("{{ $service->serviceOccurrences->first()->end_time }}", "HH:mm")
 			});
 		});
 	</script>
