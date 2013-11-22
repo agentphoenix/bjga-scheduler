@@ -1,28 +1,7 @@
 @import "mixins.less";
 @import "variables.less";
-
-/* Large desktop */
-@media (min-width: 1200px) {}
-
-/* Portrait tablet to landscape and desktop */
-@media (min-width: 992px) and (max-width: 1199px) {
-	body {
-		padding: 0;
-
-		background: @color-bg;
-	}
-
-	.wrapper {
-		margin: 0;
-
-		border: none;
-
-		.rounded(0);
-		.box-shadow(~"0 0 0 transparent");
-	}
-}
  
-/* Landscape phone to portrait tablet */
+/* Tablets */
 @media (min-width: 768px) and (max-width: 991px) {
 	body {
 		padding: 0;
@@ -95,9 +74,68 @@
 	.control-label {
 		font-size: 16px;
 	}
+
+	.navbar {
+		.container {
+			padding-left: @spacing;
+			padding-right: @spacing;
+		}
+
+		&.navbar-default {
+			.gradient(@color-success-bright, @color-success);
+		}
+
+		.navbar-header {
+			.navbar-brand {
+				color: @color-white;
+				text-shadow: 0 1px 1px rgba(0, 0, 0, .35);
+				font-weight: 600;
+			}
+
+			.navbar-toggle {
+				border-color: transparent;
+
+				.icon-bar {
+					background-color: rgba(255, 255, 255, .4);
+				}
+
+				&:hover,
+				&:visited,
+				&:active,
+				&:focus {
+					background-color: transparent;
+
+					.icon-bar {
+						background-color: @color-white;
+					}
+				}
+			}
+		}
+
+		.navbar-collapse {
+			background-color: darken(@color-bg, 5%);
+		}
+	}
+
+	.copyright {
+		padding-top: 10px;
+		padding-bottom: 10px;
+
+		border-top: 1px solid @color-lightgray;
+		border-bottom: 1px solid @color-lightgray;
+		background-color: @color-gradient-light-top;
+		text-align: center;
+
+		div {
+			float: none;
+			display: block;
+
+			text-align: center;
+		}
+	}
 }
  
-/* Landscape phones and down */
+/* Mobile */
 @media (max-width: 767px) {
 	body {
 		padding: 40px 0 0 0;
