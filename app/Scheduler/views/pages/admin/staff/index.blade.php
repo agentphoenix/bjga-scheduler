@@ -48,7 +48,7 @@
 							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-small btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 						</div>
 						<div class="btn-group">
-							<a href="#" class="btn btn-small btn-danger icn-size-1 js-staff-action" data-action="delete" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
+							<a href="#" class="btn btn-small btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
 						</div>
 					</div>
 				</div>
