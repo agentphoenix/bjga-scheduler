@@ -55,11 +55,17 @@
 				</div>
 				<div class="hidden-lg">
 					<div class="row">
-						<div class="col-xs-6 col-sm-4">
+						@if ( ! empty($user->phone))
+							<div class="col-xs-12 visible-xs">
+								<p><a href="tel:{{ $user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['warning'] }}</a></p>
+							</div>
+						@endif
+
+						<div class="col-xs-6 col-sm-6">
 							<p><a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
 						</div>
 
-						<div class="col-xs-6 col-sm-4">
+						<div class="col-xs-6 col-sm-6">
 							<p><a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-user-action" data-action="delete" data-id="{{ $user->id }}">{{ $_icons['remove'] }}</a></p>
 						</div>
 					</div>
