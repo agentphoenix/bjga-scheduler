@@ -88,7 +88,7 @@
 
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-block btn-primary">Create Appointment</a></p>
+						<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-block btn-primary">Manage Appointments</a></p>
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 						<p><a href="#" class="btn btn-block btn-default">View Reports</a></p>

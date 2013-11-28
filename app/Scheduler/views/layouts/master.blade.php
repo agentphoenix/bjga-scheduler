@@ -14,12 +14,12 @@
 	<![endif]-->
 
 	@if (App::environment() == 'production')
-		<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
+		<link href="http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600,700" rel="stylesheet">
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,600" rel="stylesheet">
+		<link href="http://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet">
 	@endif
-	
-	{{ HTML::style('css/bootstrap.min.css') }}
+
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
 	{{ HTML::style('css/fonts.css') }}
 	{{ HTML::style('css/style.css') }}
 	{{ HTML::style('css/responsive.css') }}
@@ -77,8 +77,8 @@
 		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<!--<![endif]-->
 
-	{{ HTML::script('js/bootstrap.min.js') }}
-	<script type="text/javascript">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+	<script>
 
 		// Destroy all modals when they're hidden
 		$('.modal').on('hidden.bs.modal', function()
@@ -90,7 +90,7 @@
 	@yield('scripts')
 	
 	@if (App::environment() == 'production')
-		<script type="text/javascript">
+		<script>
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-36788318-1']);
 			_gaq.push(['_trackPageview']);

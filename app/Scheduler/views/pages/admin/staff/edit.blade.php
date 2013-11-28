@@ -201,6 +201,8 @@
 						@endif
 					</div>
 				</div>
+			@else
+				<div class="alert alert-warning">No schedule exceptions found.</div>
 			@endif
 		</div>
 	</div>
