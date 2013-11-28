@@ -57,7 +57,7 @@
 					<div class="row">
 						@if ( ! empty($user->phone))
 							<div class="col-xs-12 visible-xs">
-								<p><a href="tel:{{ $user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['warning'] }}</a></p>
+								<p><a href="tel:{{ $user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['phone'] }}</a></p>
 							</div>
 						@endif
 
