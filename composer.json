@@ -6,7 +6,8 @@
 	},
 	
 	"require-dev": {
-		"raveren/kint": "dev-master"
+		"raveren/kint": "dev-master",
+		"fzaninotto/faker": "1.*"
 	},
 	
 	"autoload": {
