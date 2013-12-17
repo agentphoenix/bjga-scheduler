@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('SchedulerServiceSeeder');
 		$this->call('SchedulerSettingSeeder');
 		$this->call('SchedulerUserSeeder');
+		//$this->call('SchedulerCustomerSeeder');
 	}
 
 }
