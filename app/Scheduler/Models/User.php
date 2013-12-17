@@ -71,6 +71,17 @@ class User extends Model implements UserInterface, RemindableInterface {
 		$this->attributes['password'] = Hash::make($value);
 	}
 
+	/**
+	 * Make sure the phone number is in the proper format.
+	 *
+	 * @param	string	$value	Password
+	 * @return	void
+	 */
+	public function setPhoneAttribute($value)
+	{
+		$this->attributes['phone'] = preg_replace('~.*(\d{3})[^\d]*(\d{3})[^\d]*(\d{4}).*~', '$1-$2-$3', $value);
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Model Methods
