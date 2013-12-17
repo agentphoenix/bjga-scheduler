@@ -104,6 +104,8 @@ class Service extends Base {
 			$this->_data->services[] = 'Please choose a service';
 			$this->_data->services += $this->service->allForDropdownByCategory();
 
+			$this->_data->schedule = $service->serviceOccurrences;
+
 			$additionalServices = explode(';', $service->additional_services);
 
 			if (is_array($additionalServices))
@@ -151,7 +153,7 @@ class Service extends Base {
 				$this->_view = 'admin.services.editOneToMany';
 			
 			if ($service->isManyToMany())
-				$this->_data->serviceType = 'ManyToMany';
+				$this->_view = 'admin.services.editManyToMany';
 		}
 		else
 		{

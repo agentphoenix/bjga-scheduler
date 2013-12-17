@@ -83,6 +83,19 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			));
 		}
 
+		if (array_key_exists('service_dates', $data))
+		{
+			foreach ($data['service_dates'] as $key => $date)
+			{
+				ServiceOccurrence::create(array(
+					'service_id'	=> $service->id,
+					'date'			=> $date,
+					'start_time'	=> $data['service_times_start'][$key],
+					'end_time'		=> $data['service_times_end'][$key],
+				));
+			}
+		}
+
 		return $service;
 	}
 
@@ -183,6 +196,40 @@ class ServiceRepository implements ServiceRepositoryInterface {
 					'start_time'	=> $data['start_time'],
 					'end_time'		=> $data['end_time']
 				));
+			}
+
+			// Update the service schedule if we have them
+			if (array_key_exists('service_dates', $data))
+			{
+				foreach ($data['service_dates'] as $key => $date)
+				{
+					if ( ! empty($date))
+					{
+						// Get the occurrence
+						$occurrence = $service->serviceOccurrences->filter(function($o) use($key)
+						{
+							return $o->id === $key;
+						})->first();
+
+						if ($occurrence)
+						{
+							$occurrence->fill(array(
+								'date'			=> $date,
+								'start_time'	=> $data['service_times_start'][$key],
+								'end_time'		=> $data['service_times_end'][$key]
+							))->save();
+						}
+						else
+						{
+							ServiceOccurrence::create(array(
+								'service_id'	=> $service->id,
+								'date'			=> $date,
+								'start_time'	=> $data['service_times_start'][$key],
+								'end_time'		=> $data['service_times_end'][$key],
+							));
+						}
+					}
+				}
 			}
 
 			if ($service->isOneToMany())

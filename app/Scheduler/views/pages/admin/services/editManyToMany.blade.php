@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	Create Many-to-Many Service
+	Edit Many-to-Many Service
 @endsection
 
 @section('content')
-	<h1>Create Many-to-Many Service</h1>
+	<h1>Edit Many-to-Many Service <small>{{ $service->name }}</small></h1>
 
 	@if ($_currentUser->access() > 1)
 		<div class="visible-lg">
@@ -24,9 +24,7 @@
 		</div>
 	@endif
 
-	<p class="alert alert-warning">A Many-to-Many service is a service that has multiple occurrences and partcipants. Examples of this include weekly programs and teams.</p>
-
-	{{ Form::open(array('route' => 'admin.service.store')) }}
+	{{ Form::model($service, array('route' => array('admin.service.update', $service->id), 'method' => 'put')) }}
 		<div class="row">
 			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('category_id')) ? ' has-error' : '' }}">
@@ -100,6 +98,22 @@
 						<p class="text-small">Choose a service and the number of occurrences for that service. If there are multiple additional services, you can use the add button at the bottom to create more rows as needed.</p>
 
 						<div class="data-table data-table-bordered data-table-striped" id="serviceDataTable">
+							@foreach ($additionalServices as $s)
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label class="control-label">Service</label>
+											{{ Form::select('additional_service[]', $services, $s['service'], array('class' => 'form-control')) }}
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="form-group">
+											<label class="control-label">Occurrences</label>
+											{{ Form::text('additional_service_occurrences[]', $s['occurrences'], array('class' => 'form-control')) }}
+										</div>
+									</div>
+								</div>
+							@endforeach
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
@@ -110,7 +124,7 @@
 								<div class="col-lg-4">
 									<div class="form-group">
 										<label class="control-label">Occurrences</label>
-										{{ Form::text('additional_service_occurrences[]', null, array('class' => 'form-control')) }}
+										<input type="text" name="additional_service_occurrences[]" value="" class="form-control">
 									</div>
 								</div>
 							</div>
@@ -134,6 +148,28 @@
 						<p class="text-small">Set all the dates and times this service will occur. When a student signs up for the service, their schedule will automatically be created with all of its dates.</p>
 
 						<div class="data-table data-table-bordered data-table-striped" id="serviceScheduleTable">
+							@foreach ($schedule as $s)
+								<div class="row">
+									<div class="col-lg-4">
+										<div class="form-group">
+											<label class="control-label">Date</label>
+											{{ Form::text('service_dates['.$s->id.']', $s->date, array('class' => 'form-control js-datepicker')) }}
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="form-group">
+											<label class="control-label">Start Time</label>
+											{{ Form::text('service_times_start['.$s->id.']', $s->start_time, array('class' => 'form-control js-timepicker')) }}
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="form-group">
+											<label class="control-label">End Time</label>
+											{{ Form::text('service_times_end['.$s->id.']', $s->end_time, array('class' => 'form-control js-timepicker')) }}
+										</div>
+									</div>
+								</div>
+							@endforeach
 							<div class="row">
 								<div class="col-lg-4">
 									<div class="form-group">
@@ -163,8 +199,6 @@
 				</div>
 			</div>
 		</div>
-
-		{{ Form::hidden('slug', '') }}
 
 		<div class="row">
 			<div class="col-lg-12">
@@ -218,6 +252,15 @@
 
 		$(function()
 		{
+			$('.js-timepicker').each(function()
+			{
+				$(this).datetimepicker({
+					pickDate: false,
+					format: "HH:mm A",
+					defaultDate: moment($(this).val(), "HH:mm:ss")
+				});
+			});
+
 			$('.js-datepicker').datetimepicker({
 				pickTime: false,
 				format: "YYYY-MM-DD"
