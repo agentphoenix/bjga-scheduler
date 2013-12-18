@@ -18,9 +18,7 @@ Route::get('import', function()
 
 	if (App::environment() != 'production')
 	{
-		//$faker = Faker\Factory::create();
-		//$fakerEmail = $faker->safeEmail;
-		$fakerEmail = 'me@example.com';
+		$faker = Faker\Factory::create();
 	}
 
 	// Open the file for reading
@@ -42,7 +40,7 @@ Route::get('import', function()
 				$name = ucwords($name);
 
 				// Don't use real email addresses in DEV
-				$email = (App::environment() == 'production') ? $data[3] : $fakerEmail;
+				$email = (App::environment() == 'production') ? $data[3] : $faker->safeEmail;
 
 				// Clean up the phone numbers
 				$phone = preg_replace('~.*(\d{3})[^\d]*(\d{3})[^\d]*(\d{4}).*~', '$1-$2-$3', $data[2]);
