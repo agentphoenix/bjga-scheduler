@@ -9,11 +9,15 @@ class SchedulerUserSeeder extends Seeder {
 				'name' => "Brian Jacobs",
 				'email' => "bjacobs1@rochester.rr.com",
 				'password' => "nikegolf",
+				'phone' => '585-415-9323',
+				'address' => '284 Chambers St. Spencerport, NY',
 			),
 			array(
 				'name' => "David VanScott",
 				'email' => "david.vanscott@gmail.com",
 				'password' => "alpha312",
+				'phone' => '585-576-8260',
+				'address' => '2145 East Ave. Apt H Rochester, NY 14610',
 			),
 		);
 
