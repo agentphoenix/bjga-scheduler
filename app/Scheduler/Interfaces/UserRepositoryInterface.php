@@ -4,6 +4,8 @@ interface UserRepositoryInterface {
 
 	public function all();
 
+	public function allPaginated();
+
 	public function create(array $data);
 
 	public function delete($id);
