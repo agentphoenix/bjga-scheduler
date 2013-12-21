@@ -4,6 +4,7 @@ use Auth;
 use Event;
 use Model;
 use Config;
+use Calendar;
 
 class Appointment extends Model {
 
@@ -68,11 +69,16 @@ class Appointment extends Model {
 		parent::boot();
 
 		// Get all the aliases
-		$a = Config::get('app.aliases');
+		//$a = Config::get('app.aliases');
 
-		Event::listen("eloquent.creating: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@beforeCreate");
-		Event::listen("eloquent.created: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@afterCreate");
-		Event::listen("eloquent.deleting: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@beforeDelete");
+		//Event::listen("eloquent.creating: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@beforeCreate");
+		//Event::listen("eloquent.created: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@afterCreate");
+		//Event::listen("eloquent.deleting: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@beforeDelete");
+
+		static::created(function($model)
+		{
+			Queue::push('Scheduler\Services\CalendarService@createEvent', array('model' => $model));
+		});
 	}
 
 	public function enroll()
