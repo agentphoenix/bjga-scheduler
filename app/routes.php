@@ -65,3 +65,65 @@ Route::get('import', function()
 
 	sd($customers);
 });
+
+Route::get('calendar', function()
+{
+	$calendar = new Sabre\VObject\Component\VCalendar();
+
+	$calendar->add('VEVENT', array(
+		'SUMMARY' => 'Event 1',
+		'DTSTART' => new DateTime('2013-12-18 10:00:00', new DateTimeZone('America/New_York')),
+		'DTEND' => new DateTime('2013-12-18 11:00:00', new DateTimeZone('America/New_York')),
+	));
+	$calendar->add('VEVENT', array(
+		'SUMMARY' => 'Event 2',
+		'DTSTART' => new DateTime('2013-12-18 11:00:00', new DateTimeZone('America/New_York')),
+		'DTEND' => new DateTime('2013-12-18 12:00:00', new DateTimeZone('America/New_York')),
+	));
+	$calendar->add('VEVENT', array(
+		'SUMMARY' => 'Event 3',
+		'DTSTART' => new DateTime('2013-12-18 13:00:00', new DateTimeZone('America/New_York')),
+		'DTEND' => new DateTime('2013-12-18 15:00:00', new DateTimeZone('America/New_York')),
+	));
+	$calendar->add('VEVENT', array(
+		'SUMMARY' => 'Event 4',
+		'DTSTART' => new DateTime('2013-12-18 15:00:00', new DateTimeZone('America/New_York')),
+		'DTEND' => new DateTime('2013-12-18 16:00:00', new DateTimeZone('America/New_York')),
+	));
+
+	File::put(App::make('path.public').'/calendars/DavidVanScott.ics', $calendar->serialize());
+
+	/*$h = fopen(App::make('path.public').'/calendars/DavidVanScott.ics', 'a+');
+
+	$calendar = Sabre\VObject\Reader::read($h);
+	$calendar->add('VEVENT', array(
+		'SUMMARY' => 'Event 1',
+		'DTSTART' => new DateTime('2013-12-18 13:00:00', new DateTimeZone('America/New_York')),
+		'DTEND' => new DateTime('2013-12-18 15:00:00', new DateTimeZone('America/New_York')),
+	));
+	$calendar->add('VEVENT', array(
+		'SUMMARY' => 'Event 2',
+		'DTSTART' => new DateTime('2013-12-18 15:00:00', new DateTimeZone('America/New_York')),
+		'DTEND' => new DateTime('2013-12-18 16:00:00', new DateTimeZone('America/New_York')),
+	));
+
+	fwrite($h, $calendar->serialize());
+	fclose($h);
+
+	//File::put(App::make('path.public').'/calendars/DavidVanScott.ics', $calendar->serialize());
+
+	/*$handle = fopen(App::make('path.public').'/calendars/DavidVanScott.ics', 'r');
+
+	$c = Sabre\VObject\Reader::read($handle);
+
+	s($c->children);*/
+
+	/*$splitter = new Sabre\VObject\Splitter\ICalendar($handle);
+
+	while($event = $splitter->getNext())
+	{
+		s((string)$event->SUMMARY);
+	}*/
+
+	return 'done';
+});
