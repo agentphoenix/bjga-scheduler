@@ -59,28 +59,6 @@ class Appointment extends Model {
 	|--------------------------------------------------------------------------
 	*/
 
-	/**
-	 * Boot the model and define the event listeners.
-	 *
-	 * @return	void
-	 */
-	public static function boot()
-	{
-		parent::boot();
-
-		// Get all the aliases
-		//$a = Config::get('app.aliases');
-
-		//Event::listen("eloquent.creating: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@beforeCreate");
-		//Event::listen("eloquent.created: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@afterCreate");
-		//Event::listen("eloquent.deleting: {$a['Appointment']}", "{$a['AppointmentEventHandler']}@beforeDelete");
-
-		static::created(function($model)
-		{
-			Queue::push('Scheduler\Services\CalendarService@createEvent', array('model' => $model));
-		});
-	}
-
 	public function enroll()
 	{
 		// Get the user

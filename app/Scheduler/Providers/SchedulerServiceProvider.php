@@ -1,6 +1,8 @@
 <?php namespace Scheduler\Providers;
 
+use Queue;
 use Route;
+use Appointment;
 use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +17,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->setupClassBindings();
 		$this->registerRoutes();
+		$this->registerModelEvents();
 	}
 
 	/**
@@ -125,6 +128,24 @@ class SchedulerServiceProvider extends ServiceProvider {
 				'as' => 'ajax.withdraw',
 				'uses' => 'Scheduler\Controllers\Ajax@postWithdraw'
 			));
+		});
+	}
+
+	protected function registerModelEvents()
+	{
+		Appointment::created(function($model)
+		{
+			Queue::push('Scheduler\Services\CalendarService', array('model' => $model));
+		});
+
+		Appointment::deleted(function($model)
+		{
+			Queue::push('Scheduler\Services\CalendarService', array('model' => $model));
+		});
+
+		Appointment::updated(function($model)
+		{
+			Queue::push('Scheduler\Services\CalendarService', array('model' => $model));
 		});
 	}
 
