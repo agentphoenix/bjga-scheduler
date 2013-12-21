@@ -180,11 +180,13 @@ class Staff extends Base {
 
 			if (Input::has('formAction'))
 			{
-				//
+				if (Input::get('formAction') == 'exceptions')
+				{
+					$this->staff->createException($staff->id, Input::all());
+				}
 			}
 			else
 			{
-				// Update the staff record
 				$this->staff->update($id, Input::all());
 			}
 
@@ -225,6 +227,28 @@ class Staff extends Base {
 			$this->_view = 'admin.error';
 
 			$this->_data->error = "You do not have permission to remove staff members!";
+		}
+	}
+
+	public function destroyException($id)
+	{
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			$exception = $this->staff->findException($id);
+
+			$this->staff->deleteException($id);
+
+			return Redirect::route('admin.staff.edit', array($exception->staff_id))
+				->with('message', "Schedule exception was successfully removed.")
+				->with('messageStatus', 'success');
+		}
+		else
+		{
+			$this->unauthorized();
+
+			$this->_view = 'admin.error';
+
+			$this->_data->error = "You do not have permission to remove schedule exceptions!";
 		}
 	}
 

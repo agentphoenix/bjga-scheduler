@@ -40,8 +40,8 @@ class ScheduleException extends Model {
 
 	public function setExceptionsAttribute($value)
 	{
-		// Convert the duration from hours to minutes
-		$this->attributes['exceptions'] = implode(',', $value);
+		if (is_array($value))
+			$this->attributes['exceptions'] = implode(',', $value);
 	}
 	
 	public function getExceptionsAttribute($value)

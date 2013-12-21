@@ -90,6 +90,11 @@ class SchedulerServiceProvider extends ServiceProvider {
 
 			Route::resource('service', 'Scheduler\Controllers\Service', array('except' => array('show', 'create')));
 			Route::resource('user', 'Scheduler\Controllers\User', array('except' => array('show')));
+
+			Route::delete('staff/destroyExcpetion/{id}', array(
+				'as'	=> 'admin.staff.destroyException',
+				'uses'	=> 'Scheduler\Controllers\Staff@destroyException'
+			));
 			Route::resource('staff', 'Scheduler\Controllers\Staff', array('except' => array('show')));
 		});
 
@@ -100,6 +105,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::get('service/delete/{id}', 'Scheduler\Controllers\Ajax@deleteService');
 			Route::get('staff/delete/{id}', 'Scheduler\Controllers\Ajax@deleteStaff');
 			Route::get('staff/exception/{id}', 'Scheduler\Controllers\Ajax@setScheduleException');
+			Route::get('staff/delete_exception/{id}', 'Scheduler\Controllers\Ajax@deleteScheduleException');
 			Route::get('user/delete/{id}', 'Scheduler\Controllers\Ajax@deleteUser');
 			Route::get('user/password/{id}', 'Scheduler\Controllers\Ajax@changePassword');
 

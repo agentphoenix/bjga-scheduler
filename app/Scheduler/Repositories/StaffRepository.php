@@ -4,6 +4,7 @@ use Auth;
 use Date;
 use Staff;
 use Schedule;
+use ScheduleException;
 use StaffRepositoryInterface;
 
 class StaffRepository implements StaffRepositoryInterface {
@@ -54,14 +55,45 @@ class StaffRepository implements StaffRepositoryInterface {
 		return $staff;
 	}
 
+	public function createException($id, array $data)
+	{
+		// Get the staff member
+		$staff = $this->find($id);
+
+		if ($staff)
+		{
+			// Create a new exception
+			$exception = new ScheduleException(array(
+				'date'			=> $data['date'],
+				'exceptions'	=> $data['times'],
+			));
+
+			$scheduleException = $staff->exceptions()->save($exception);
+
+			return $scheduleException;
+		}
+
+		return false;
+	}
+
 	public function delete($id)
 	{
 		return Staff::destroy($id);
 	}
 
+	public function deleteException($id)
+	{
+		return ScheduleException::destroy($id);
+	}
+
 	public function find($id)
 	{
 		return Staff::find($id);
+	}
+
+	public function findException($id)
+	{
+		return ScheduleException::find($id);
 	}
 
 	public function getAppointments()

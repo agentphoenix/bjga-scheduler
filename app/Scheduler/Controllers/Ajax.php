@@ -45,6 +45,24 @@ class Ajax extends Base {
 		}
 	}
 
+	public function deleteScheduleException($id)
+	{
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			$exception = $this->staff->findException($id);
+
+			if ($exception)
+			{
+				return partial('common/modal_content', [
+					'modalHeader'	=> "Remove Schedule Exception",
+					'modalBody'		=> View::make('pages.ajax.deleteScheduleException')
+										->with('ex', $exception),
+					'modalFooter'	=> false,
+				]);
+			}
+		}
+	}
+
 	public function deleteService($id)
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
@@ -195,9 +213,27 @@ class Ajax extends Base {
 
 			if ($user)
 			{
+				$times = array(
+					'8:00' => '8:00am', '8:15' => '8:15am', '8:30' => '8:30am', '8:45' => '8:45am',
+					'9:00' => '9:00am', '9:15' => '9:15am', '9:30' => '9:30am', '9:45' => '9:45am',
+					'10:00' => '10:00am', '10:15' => '10:15am', '10:30' => '10:30am', '10:45' => '10:45am',
+					'11:00' => '11:00am', '11:15' => '11:15am', '11:30' => '11:30am', '11:45' => '11:45am',
+					'12:00' => '12:00pm', '12:15' => '12:15pm', '12:30' => '12:30pm', '12:45' => '12:45pm',
+					'13:00' => '1:00pm', '13:15' => '1:15pm', '13:30' => '1:30pm', '13:45' => '1:45pm',
+					'14:00' => '2:00pm', '14:15' => '2:15pm', '14:30' => '2:30pm', '14:45' => '2:45pm',
+					'15:00' => '3:00pm', '15:15' => '3:15pm', '15:30' => '3:30pm', '15:45' => '3:45pm',
+					'16:00' => '4:00pm', '16:15' => '4:15pm', '16:30' => '4:30pm', '16:45' => '4:45pm',
+					'17:00' => '5:00pm', '17:15' => '5:15pm', '17:30' => '5:30pm', '17:45' => '5:45pm',
+					'18:00' => '6:00pm', '18:15' => '6:15pm', '18:30' => '6:30pm', '18:45' => '6:45pm',
+					'19:00' => '7:00pm', '19:15' => '7:15pm', '19:30' => '7:30pm', '19:45' => '7:45pm',
+					'20:00' => '8:00pm', '20:15' => '8:15pm', '20:30' => '8:30pm', '20:45' => '8:45pm',
+				);
+
 				return partial('common/modal_content', [
 					'modalHeader'	=> "Set Schedule Exception",
-					'modalBody'		=> View::make('pages.ajax.setScheduleException')->with('user', $user),
+					'modalBody'		=> View::make('pages.ajax.setScheduleException')
+										->with('user', $user)
+										->with('times', $times),
 					'modalFooter'	=> false,
 				]);
 			}

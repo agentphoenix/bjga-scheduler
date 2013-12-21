@@ -108,7 +108,7 @@
 						@for ($d = 0; $d <=6; $d++)
 							<div class="row">
 								<div class="col-sm-5 col-lg-3"><strong>{{ $days[$d] }}</strong></div>
-								<div class="col-sm-7 col-lg-9">
+								<div class="col-sm-7 col-lg-6">
 									<div class="form-group">
 										{{ Form::text('schedule['.$d.']', $schedule->filter(function($s) use($d){ return $s->day == $d; })->first()->availability, array('class' => 'form-control')) }}
 									</div>
@@ -132,82 +132,73 @@
 		</div>
 
 		<div id="scheduleExceptions" class="tab-pane">
-			@if ($staff->exceptions->count() > 0)
-				<div class="btn-toolbar">
-					<div class="btn-group">
-						<a href="#" class="btn btn-default icn-size-16">{{ $_icons['add'] }}</a>
-					</div>
-				</div>
-				
-				<ul class="nav nav-pills">
-					<li class="active"><a href="#excUpcoming" data-toggle="pill">Upcoming Exceptions</a></li>
-					<li><a href="#excHistory" data-toggle="pill">Exception History</a></li>
-				</ul>
+			<ul class="nav nav-pills">
+				<li class="active"><a href="#excUpcoming" data-toggle="pill">Upcoming Exceptions</a></li>
+				<li><a href="#excHistory" data-toggle="pill">Exception History</a></li>
+			</ul>
 
-				<div class="tab-content">
-					<div id="excUpcoming" class="tab-pane active">
-						@if ($exceptionsUpcoming->count() > 0)
-							<div class="data-table data-table-striped data-table-bordered">
-							@foreach ($exceptionsUpcoming as $e)
-								<div class="row">
-									<div class="col-xs-12 col-sm-12 col-lg-9">
-										<p><strong>{{ Date::createFromFormat('Y-m-d', $e->date)->format('l F dS Y') }}</strong></p>
-										<p class="text-muted text-small">{{ implode(', ', $e->exceptions) }}</p>
-									</div>
-									<div class="col-xs-12 col-sm-12 col-lg-3">
-										<div class="visible-lg">
-											<div class="btn-toolbar pull-right">
-												<div class="btn-group">
-													<a href="#" class="btn btn-small btn-default icn-size-16">{{ $_icons['edit'] }}</a>
-												</div>
-												<div class="btn-group">
-													<a href="#" class="btn btn-small btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $e->id }}">{{ $_icons['remove'] }}</a>
-												</div>
+			<div class="tab-content">
+				<div id="excUpcoming" class="tab-pane active">
+					<div class="btn-toolbar">
+						<div class="btn-group">
+							<a href="#" class="btn btn-default icn-size-16 js-staff-action" data-action="exception" data-id="{{ $_currentUser->id }}">{{ $_icons['add'] }}</a>
+						</div>
+					</div>
+
+					@if ($exceptionsUpcoming->count() > 0)
+						<div class="data-table data-table-striped data-table-bordered">
+						@foreach ($exceptionsUpcoming as $e)
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-lg-9">
+									<p><strong>{{ Date::createFromFormat('Y-m-d', $e->date)->format('l F dS Y') }}</strong></p>
+									<p class="text-muted text-small">{{ implode(', ', $e->exceptions) }}</p>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-lg-3">
+									<div class="visible-lg">
+										<div class="btn-toolbar pull-right">
+											<div class="btn-group">
+												<a href="#" class="btn btn-small btn-danger icn-size-16 js-staff-action" data-action="deleteException" data-id="{{ $e->id }}">{{ $_icons['remove'] }}</a>
 											</div>
 										</div>
-										<div class="hidden-lg">
-											<div class="row">
-												<div class="col-xs-12 col-sm-12">
-													<p><a href="#" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
-												</div>
-												<div class="col-xs-12 col-sm-12">
-													<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $e->id }}">{{ $_icons['remove'] }}</a></p>
-												</div>
+									</div>
+									<div class="hidden-lg">
+										<div class="row">
+											<div class="col-xs-12 col-sm-12">
+												<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-staff-action" data-action="deleteException" data-id="{{ $e->id }}">{{ $_icons['remove'] }}</a></p>
 											</div>
 										</div>
 									</div>
 								</div>
-							@endforeach
 							</div>
-						@else
-							<div class="alert alert-warning">No upcoming schedule exceptions found.</div>
-						@endif
-					</div>
-
-					<div id="excHistory" class="tab-pane">
-						@if ($exceptionsHistory->count() > 0)
-							<div class="data-table data-table-striped data-table-bordered">
-							@foreach ($exceptionsHistory as $e)
-								<div class="row">
-									<div class="col-xs-12 col-sm-12 col-lg-9">
-										<p><strong>{{ Date::createFromFormat('Y-m-d', $e->date)->format('l F dS Y') }}</strong></p>
-										<p class="text-muted text-small">{{ implode(', ', $e->exceptions) }}</p>
-									</div>
-								</div>
-							@endforeach
-							</div>
-						@else
-							<div class="alert alert-warning">No schedule exception history found.</div>
-						@endif
-					</div>
+						@endforeach
+						</div>
+					@else
+						<div class="alert alert-warning">No upcoming schedule exceptions found.</div>
+					@endif
 				</div>
-			@else
-				<div class="alert alert-warning">No schedule exceptions found.</div>
-			@endif
+
+				<div id="excHistory" class="tab-pane">
+					@if ($exceptionsHistory->count() > 0)
+						<div class="data-table data-table-striped data-table-bordered">
+						@foreach ($exceptionsHistory as $e)
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-lg-9">
+									<p><strong>{{ Date::createFromFormat('Y-m-d', $e->date)->format('l F dS Y') }}</strong></p>
+									<p class="text-muted text-small">{{ implode(', ', $e->exceptions) }}</p>
+								</div>
+							</div>
+						@endforeach
+						</div>
+					@else
+						<div class="alert alert-warning">No schedule exception history found.</div>
+					@endif
+				</div>
+			</div>
 		</div>
 	</div>
 
 	{{ modal(array('id' => 'staffExceptions', 'header' => "Set Schedule Exception")) }}
+	{{ modal(array('id' => 'deleteStaffExceptions', 'header' => "Delete Schedule Exception")) }}
 @endsection
 
 @section('scripts')
@@ -220,10 +211,17 @@
 			var action = $(this).data('action');
 			var id = $(this).data('id');
 
-			if (action == 'exceptions')
+			if (action == 'exception')
 			{
 				$('#staffExceptions').modal({
 					remote: "{{ URL::to('ajax/staff/exception') }}/" + id
+				}).modal('show');
+			}
+
+			if (action == 'deleteException')
+			{
+				$('#deleteStaffExceptions').modal({
+					remote: "{{ URL::to('ajax/staff/delete_exception') }}/" + id
 				}).modal('show');
 			}
 		});
