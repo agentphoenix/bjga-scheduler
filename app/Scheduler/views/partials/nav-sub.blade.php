@@ -8,7 +8,7 @@
 		<li class="{{ Request::is('/') ? 'active' : '' }}"><a href="{{ URL::route('home') }}">Home</a><div class="arrow"></div></li>
 
 		@if (Auth::check())
-			<li class="{{ Request::is('book') ? 'active' : '' }}"><a href="{{ URL::route('book.index') }}">Book Appointment</a><div class="arrow"></div></li>
+			<li class="{{ Request::is('book*') ? 'active' : '' }}"><a href="{{ URL::route('book.index') }}">Book Appointment</a><div class="arrow"></div></li>
 			<li><a href="{{ URL::route('admin.user.edit', array(Auth::user()->id)) }}">My Account</a><div class="arrow"></div></li>
 
 			@if (Auth::user()->isStaff())
