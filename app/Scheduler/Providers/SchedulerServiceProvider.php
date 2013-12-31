@@ -1,8 +1,12 @@
 <?php namespace Scheduler\Providers;
 
-use Queue;
-use Route;
-use Appointment;
+use Auth,
+	View,
+	Event,
+	Queue,
+	Route,
+	Config,
+	Appointment;
 use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +21,9 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->setupClassBindings();
 		$this->registerRoutes();
-		$this->registerModelEvents();
+		$this->registerPushQueueRoutes();
+		//$this->registerModelEvents();
+		$this->registerEventListeners();
 	}
 
 	/**
@@ -43,62 +49,86 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->app->bind($a['ServiceRepositoryInterface'], $a['ServiceRepository']);
 		$this->app->bind($a['StaffRepositoryInterface'], $a['StaffRepository']);
 		$this->app->bind($a['UserRepositoryInterface'], $a['UserRepository']);
+
+		View::share('_currentUser', Auth::user());
+		View::share('_icons', Config::get('icons'));
 	}
 
 	protected function registerRoutes()
 	{
 		// Home
-		Route::get('/', array('as' => 'home', 'uses' => 'Scheduler\Controllers\Home@getIndex'));
-		Route::get('logout', array('as' => 'logout', 'uses' => 'Scheduler\Controllers\Home@getLogout'));
-		Route::post('login', 'Scheduler\Controllers\Home@postLogin');
+		Route::get('/', array(
+			'as'	=> 'home',
+			'uses'	=> 'Scheduler\Controllers\HomeController@index'));
+		Route::get('logout', array(
+			'as'	=> 'logout',
+			'uses'	=> 'Scheduler\Controllers\HomeController@getLogout'));
+		Route::post('login', 'Scheduler\Controllers\HomeController@postLogin');
 		
-		Route::get('password/remind', 'Scheduler\Controllers\Home@getPasswordReminder');
-		Route::post('password/remind', 'Scheduler\Controllers\Home@postPasswordReminder');
-		Route::get('password/reset/{token}', 'Scheduler\Controllers\Home@getPasswordReset');
-		Route::post('password/reset/{token}', 'Scheduler\Controllers\Home@postPasswordReset');
+		Route::get('password/remind', 'Scheduler\Controllers\HomeController@getPasswordReminder');
+		Route::post('password/remind', 'Scheduler\Controllers\HomeController@postPasswordReminder');
+		Route::get('password/reset/{token}', 'Scheduler\Controllers\HomeController@getPasswordReset');
+		Route::post('password/reset/{token}', 'Scheduler\Controllers\HomeController@postPasswordReset');
 
 		// Registration
-		Route::get('register', array('as' => 'register', 'uses' => 'Scheduler\Controllers\Home@getRegister'));
-		Route::post('register', 'Scheduler\Controllers\Home@postRegister');
+		Route::get('register', array(
+			'as'	=> 'register',
+			'uses'	=> 'Scheduler\Controllers\HomeController@getRegister'));
+		Route::post('register', 'Scheduler\Controllers\HomeController@postRegister');
 
 		// Events
-		Route::get('events', array('as' => 'events', 'uses' => 'Scheduler\Controllers\Home@getAllEvents'));
-		Route::get('event/{slug}', array('as' => 'event', 'uses' => 'Scheduler\Controllers\Home@getEvent'));
+		Route::get('events', array(
+			'as'	=> 'events',
+			'uses'	=> 'Scheduler\Controllers\HomeController@getAllEvents'));
+		Route::get('event/{slug}', array(
+			'as'	=> 'event',
+			'uses'	=> 'Scheduler\Controllers\HomeController@getEvent'));
 		
 		// Booking
 		Route::group(array('prefix' => 'book'), function()
 		{
-			Route::get('/', array('as' => 'book.index', 'uses' => 'Scheduler\Controllers\Booking@getIndex'));
-			Route::get('lesson', array('as' => 'book.lesson',  'uses' => 'Scheduler\Controllers\Booking@getLesson'));
+			Route::get('/', array(
+				'as'	=> 'book.index',
+				'uses'	=> 'Scheduler\Controllers\Booking@getIndex'));
+			
+			Route::get('lesson', array(
+				'as'	=> 'book.lesson',
+				'uses' => 'Scheduler\Controllers\Booking@getLesson'));
 			Route::post('lesson', 'Scheduler\Controllers\Booking@postLesson');
+
+			Route::get('program', array(
+				'as'	=> 'book.program',
+				'uses' => 'Scheduler\Controllers\Booking@getProgram'));
+			Route::post('program', 'Scheduler\Controllers\Booking@postProgram');
 		});
 
 		// Admin
 		Route::group(array('prefix' => 'admin'), function()
 		{
-			Route::get('/', array('as' => 'admin', 'uses' => 'Scheduler\Controllers\Admin@getIndex'));
+			Route::get('/', array(
+				'as'	=> 'admin',
+				'uses'	=> 'Scheduler\Controllers\AdminController@index'));
 
 			Route::get('service/create/oneToOne', array(
 				'as'	=> 'admin.service.createOneToOne',
-				'uses'	=> 'Scheduler\Controllers\Service@createOneToOne'
-			));
+				'uses'	=> 'Scheduler\Controllers\Service@createOneToOne'));
 			Route::get('service/create/oneToMany', array(
 				'as'	=> 'admin.service.createOneToMany',
-				'uses'	=> 'Scheduler\Controllers\Service@createOneToMany'
-			));
+				'uses'	=> 'Scheduler\Controllers\Service@createOneToMany'));
 			Route::get('service/create/manyToMany', array(
 				'as'	=> 'admin.service.createManyToMany',
-				'uses'	=> 'Scheduler\Controllers\Service@createManyToMany'
-			));
+				'uses'	=> 'Scheduler\Controllers\Service@createManyToMany'));
 
-			Route::resource('service', 'Scheduler\Controllers\Service', array('except' => array('show', 'create')));
-			Route::resource('user', 'Scheduler\Controllers\User', array('except' => array('show')));
+			Route::resource('service', 'Scheduler\Controllers\Service', array(
+				'except' => array('show', 'create')));
+			Route::resource('user', 'Scheduler\Controllers\User', array(
+				'except' => array('show')));
 
 			Route::delete('staff/destroyExcpetion/{id}', array(
 				'as'	=> 'admin.staff.destroyException',
-				'uses'	=> 'Scheduler\Controllers\Staff@destroyException'
-			));
-			Route::resource('staff', 'Scheduler\Controllers\Staff', array('except' => array('show')));
+				'uses'	=> 'Scheduler\Controllers\Staff@destroyException'));
+			Route::resource('staff', 'Scheduler\Controllers\Staff', array(
+				'except' => array('show')));
 		});
 
 		// Ajax requests
@@ -111,23 +141,35 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::get('staff/delete_exception/{id}', 'Scheduler\Controllers\Ajax@deleteScheduleException');
 			Route::get('user/delete/{id}', 'Scheduler\Controllers\Ajax@deleteUser');
 			Route::get('user/password/{id}', 'Scheduler\Controllers\Ajax@changePassword');
+			Route::get('service/get', array(
+				'as'	=> 'ajax.getService',
+				'uses'	=> 'Scheduler\Controllers\Ajax@getService'));
 
 			Route::post('enroll', array(
 				'as' => 'ajax.enroll',
-				'uses' => 'Scheduler\Controllers\Ajax@postEnroll'
-			));
+				'uses' => 'Scheduler\Controllers\Ajax@postEnroll'));
 			Route::post('service/new', array(
 				'as' => 'ajax.createService',
-				'uses' => 'Scheduler\Controllers\Ajax@postNewService'
-			));
+				'uses' => 'Scheduler\Controllers\Ajax@postNewService'));
 			Route::post('service/edit', array(
 				'as' => 'ajax.editService',
-				'uses' => 'Scheduler\Controllers\Ajax@postEditService'
-			));
+				'uses' => 'Scheduler\Controllers\Ajax@postEditService'));
 			Route::post('withdraw', array(
 				'as' => 'ajax.withdraw',
-				'uses' => 'Scheduler\Controllers\Ajax@postWithdraw'
-			));
+				'uses' => 'Scheduler\Controllers\Ajax@postWithdraw'));
+		});
+	}
+
+	protected function registerPushQueueRoutes()
+	{
+		Route::post('queue/writeCalendar', function()
+		{
+			Queue::marshal();
+		});
+
+		Route::post('queue/sendEmail', function()
+		{
+			Queue::marshal();
 		});
 	}
 
@@ -147,6 +189,13 @@ class SchedulerServiceProvider extends ServiceProvider {
 		{
 			Queue::push('Scheduler\Services\CalendarService', array('model' => $model));
 		});
+	}
+
+	public function registerEventListeners()
+	{
+		Event::listen('book.create.oneToOne', 'Scheduler\Events\BookingEventHandler@createOneToOne');
+		Event::listen('book.create.oneToMany', 'Scheduler\Events\BookingEventHandler@createOneToMany');
+		Event::listen('book.create.manyToMany', 'Scheduler\Events\BookingEventHandler@createManyToMany');
 	}
 
 }

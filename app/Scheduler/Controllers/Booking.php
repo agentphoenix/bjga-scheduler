@@ -1,14 +1,16 @@
 <?php namespace Scheduler\Controllers;
 
-use Date;
-use View;
-use Input;
-use Service;
-use Appointment;
-use ServiceFullException;
-use UserRepositoryInterface;
-use ServiceRepositoryInterface;
-use ScheduleRepositoryInterface;
+use Date,
+	View,
+	Input,
+	Service,
+	Redirect,
+	Appointment,
+	ServiceFullException,
+	UserRepositoryInterface,
+	ServiceRepositoryInterface,
+	ScheduleRepositoryInterface,
+	Scheduler\Services\BookingService;
 
 class Booking extends Base {
 
@@ -36,38 +38,32 @@ class Booking extends Base {
 	}
 	public function postLesson()
 	{
-		// Get the items from the POST
-		$serviceID = e(Input::get('service_id'));
+		$book = new BookingService;
 
-		// Get the user
-		//$user = Sentry::getUser();
+		$book->book(Input::all());
 
-		// Get the service
-		$service = Service::find($serviceID);
+		return Redirect::route('book.index')
+			->with('message', 'Appointment has been successfully booked.')
+			->with('messageStatus', 'success');
+	}
 
-		// Get the date
-		$date = Date::createFromFormat('Y-m-d', e(Input::get('date')));
+	public function getProgram()
+	{
+		// Get the services for this category
+		$services = array(0 => "Please choose one") + $this->service->getValues(2);
 
-		try
-		{
-			// Create a new appointment
-			$appt = Appointment::create(array(
-				'staff_id'		=> $service->staff->id,
-				'service_id'	=> $service->id,
-				'date'			=> $date->toDateString(),
-				'start_time'	=> $date->toTimeString(),
-				'end_time'		=> $date->copy()->addMinutes($service->duration)->addMinutes(15)->toTimeString(),
-			));
+		return View::make('pages.book.program')
+			->with('services', $services);
+	}
+	public function postProgram()
+	{
+		$book = new BookingService;
 
-			// Attach the user to the appointment
-			$appt->attendees()->attach($user->id);
-		}
-		catch (ServiceFullException $e)
-		{
-			// This service is full and cannot accept any new attendees.
-		}
+		$book->book(Input::all());
 
-		return Redirect::to('book/lesson');
+		return Redirect::route('book.index')
+			->with('message', "You've successfully enrolled in the program.")
+			->with('messageStatus', 'success');
 	}
 
 }

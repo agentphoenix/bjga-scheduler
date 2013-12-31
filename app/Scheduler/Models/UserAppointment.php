@@ -29,7 +29,8 @@ class UserAppointment extends Model {
 	 */
 	public function appointment()
 	{
-		return $this->belongsTo('Appointment');
+		return $this->belongsTo('Appointment')
+			->orderBy('staff_appointments.date', 'asc');
 	}
 
 	/**

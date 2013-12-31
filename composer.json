@@ -3,7 +3,8 @@
 		"laravel/framework": "4.0.*",
 		"dflydev/markdown": "1.0.*",
 		"iron-io/iron_mq": "1.4.*",
-		"sabre/vobject" : "3.1.*"
+		"sabre/vobject" : "3.1.*",
+		"mailchimp/mailchimp": "2.0.*"
 	},
 	
 	"require-dev": {

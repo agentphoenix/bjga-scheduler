@@ -50,7 +50,7 @@ class Appointment extends Model {
 	 */
 	public function attendees()
 	{
-		return $this->hasMany('UserAppointment');
+		return $this->hasMany('UserAppointment', 'appointment_id');
 	}
 
 	/*

@@ -1,84 +1,68 @@
 <?php namespace Scheduler\Controllers;
 
-use Auth;
-use Hash;
-use View;
-use Input;
-use Session;
-use Password;
-use Redirect;
-use Validator;
-use UserRepositoryInterface;
-use ServiceRepositoryInterface;
-use AppointmentRepositoryInterface;
+use Auth,
+	Hash,
+	View,
+	Event,
+	Input,
+	Session,
+	Password,
+	Redirect,
+	Validator,
+	UserRepositoryInterface,
+	ServiceRepositoryInterface,
+	AppointmentRepositoryInterface;
 
-class Home extends Base {
+class HomeController extends BaseController {
 
 	public function __construct(UserRepositoryInterface $user,
 			AppointmentRepositoryInterface $appointment,
 			ServiceRepositoryInterface $service)
 	{
+		parent::__construct();
+
 		$this->user = $user;
 		$this->service = $service;
 		$this->appointment = $appointment;
 	}
 
-	/**
-	 * Home page.
-	 */
-	public function getIndex()
+	public function index()
 	{
 		return View::make('pages.index')
 			->with('myEvents', $this->user->getUserSchedule())
-			->with('upcomingEvents', $this->appointment->getUpcomingEvents());
+			->with('unscheduled', $this->user->getUnscheduledAppointments());
 	}
 
-	/**
-	 * Do the log in process.
-	 */
 	public function postLogin()
 	{
-		// Setup the validator
 		$validator = Validator::make(Input::all(), array(
 			'email'		=> 'required',
 			'password'	=> 'required',
 		));
 
-		// Validate the data
 		if ( ! $validator->passes())
 		{
-			// Flash the session
 			Session::flash('loginMessage', "Your information couldn't be validated. Please correct the issues and try again.");
 
 			return Redirect::back()->withInput()->withErrors($validator->errors());
 		}
 
-		// Get the values from the POST
-		$email = e(trim(Input::get('email')));
-		$password = e(trim(Input::get('password')));
+		$email = trim(Input::get('email'));
+		$password = trim(Input::get('password'));
 
-		// Do the login
 		if (Auth::attempt(array('email' => $email, 'password' => $password), true))
 		{
 			if (Auth::user()->isStaff())
-			{
 				return Redirect::route('admin');
-			}
 			else
-			{
 				return Redirect::route('home');
-			}
 		}
 
-		// Flash the session
 		Session::flash('loginMessage', "Either your email address or password were incorrect. Please try again.");
 
 		return Redirect::back()->withInput();
 	}
 
-	/**
-	 * Log a user out.
-	 */
 	public function getLogout()
 	{
 		Auth::logout();
@@ -86,9 +70,6 @@ class Home extends Base {
 		return Redirect::route('home');
 	}
 
-	/**
-	 * Register a new user.
-	 */
 	public function getRegister()
 	{
 		return View::make('pages.register');
@@ -118,12 +99,10 @@ class Home extends Base {
 
 		if ($user)
 		{
-			// Log the user in
 			Auth::login($user, true);
 
-			# TODO: send an email to the user with their information
+			Event::fire('scheduler.user.registered', array($user));
 
-			// Kick them over to the home page
 			return Redirect::route('home');
 		}
 		else
@@ -141,6 +120,8 @@ class Home extends Base {
 	}
 	public function postPasswordReminder()
 	{
+		Event::fire('scheduler.user.passwordReminder', array(Input::all()));
+
 		return Password::remind(array('email' => Input::get('email')));
 	}
 	public function getPasswordReset($token)
@@ -159,6 +140,8 @@ class Home extends Base {
 		{
 			$user->password = $password;
 			$user->save();
+
+			Event::fire('scheduler.user.passwordReset', array($user));
 
 			return Redirect::route('home')
 				->with('message', "Your password has been reset!")

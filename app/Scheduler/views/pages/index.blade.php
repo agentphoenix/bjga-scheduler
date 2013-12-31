@@ -5,21 +5,44 @@
 @endsection
 
 @section('content')
-	<div class="row">
-		<div class="col-md-6 col-lg-6">
-			@if (Auth::check())
-				<h1>My Appointments</h1>
+	@if (Auth::check())
+		<div class="row">
+			<div class="col-md-6 col-lg-6 col-md-push-6 col-lg-push-6">
+				<h1>&nbsp;</h1>
+				<p><a href="{{ URL::route('book.index') }}" class="btn btn-lg btn-block btn-primary">Book Now</a></p>
+				<p><a href="{{ URL::route('book.index') }}" class="btn btn-lg btn-block btn-default">My Account</a></p>
+				<p><a href="{{ URL::route('book.index') }}" class="btn btn-lg btn-block btn-default">Find Events</a></p>
+				<p><a href="{{ URL::route('book.index') }}" class="btn btn-lg btn-block btn-default">Log Out</a></p>
+			</div>
 
-				<div class="row">
-					<div class="col-md-12 col-lg-12">
-						<div class="visible-lg">
-							<p><a href="{{ URL::route('book.index') }}" class="btn btn-primary">Book Now</a></p>
-						</div>
-						<div class="hidden-lg">
-							<p><a href="{{ URL::route('book.index') }}" class="btn btn-block btn-lg btn-primary">Book Now</a></p>
+			<div class="col-md-6 col-lg-6 col-md-pull-6 col-lg-pull-6">
+				@if ($unscheduled->count() < 0)
+					<h1 class="text-warning"><span class="icn-size-32">{{ $_icons['warning'] }}</span> Unscheduled Appointments</h1>
+
+					<div class="panel panel-warning">
+						<div class="panel-heading"><h3 class="panel-title">Select a pending appointment to schedule</h3></div>
+						<div class="panel-body">
+							<div class="data-table data-table-bordered data-table-striped">
+								@foreach ($unscheduled as $u)
+									<div class="row">
+										<div class="col-lg-6">
+											<p><strong>{{ $u->appointment->service->name }}</strong></p>
+										</div>
+										<div class="col-lg-6">
+											<div class="btn-toolbar pull-right">
+												<div class="btn-group">
+													<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								@endforeach
+							</div>
 						</div>
 					</div>
-				</div>
+				@endif
+
+				<h1><span class="icn-size-32">{{ $_icons['user'] }}</span> My Appointments</h1>
 
 				@if (count($myEvents) > 0)
 					<dl>
@@ -71,9 +94,13 @@
 						@endforeach
 					</dl>
 				@else
-					<div class="alert alert-warning">You don't have any upcoming events.</div>
+					<div class="alert alert-warning">You don't have any upcoming appointments.</div>
 				@endif
-			@else
+			</div>
+		</div>
+	@else
+		<div class="row">
+			<div class="col-lg-6 col-lg-offset-3">
 				<h1>Log In</h1>
 
 				@if (Session::has('loginMessage'))
@@ -82,169 +109,34 @@
 
 				{{ Form::open(array('url' => 'login')) }}
 					<div class="row">
-						<div class="col-md-10 col-lg-10">
+						<div class="col-lg-12">
 							<div class="form-group{{ ($errors->has('email')) ? ' has-error' : '' }}">
 								<label class="control-label">Email Address</label>
-								{{ Form::email('email', null, array('class' => 'form-control')) }}
+								{{ Form::email('email', null, array('class' => 'form-control input-lg')) }}
 								{{ $errors->first('email', '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-md-10 col-lg-10">
+						<div class="col-lg-12">
 							<div class="form-group{{ ($errors->has('password')) ? ' has-error' : '' }}">
 								<label class="control-label">Password</label>
-								{{ Form::password('password', array('class' => 'form-control')) }}
+								{{ Form::password('password', array('class' => 'form-control input-lg')) }}
 								{{ $errors->first('password', '<p class="help-block">:message</p>') }}
 							</div>
 						</div>
 					</div>
 
-					<div class="visible-lg">
-						{{ Form::button("Log In", array('type' => 'submit', 'class' => 'btn btn-primary')) }}
-						<a href="{{ URL::route('register') }}" class="btn btn-default">Register</a>
-						<a href="{{ URL::to('password/remind') }}" class="btn btn-link">Forgot Password?</a>
-					</div>
-					<div class="hidden-lg">
-						{{ Form::button("Log In", array('type' => 'submit', 'class' => 'btn btn-block btn-lg btn-primary')) }}
-						<a href="{{ URL::route('register') }}" class="btn btn-block btn-lg btn-default">Register</a>
-						<a href="{{ URL::to('password/remind') }}" class="btn btn-block btn-lg btn-link">Forgot Password?</a>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>{{ Form::button("Log In", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}</p>
+							<p><a href="{{ URL::route('register') }}" class="btn btn-lg btn-block btn-default">Register</a></p>
+							<p><a href="{{ URL::to('password/remind') }}" class="btn btn-block btn-link">Forgot Password?</a></p>
+						</div>
 					</div>
 				{{ Form::close() }}
-			@endif
-		</div>
-
-		<div class="col-md-6 col-lg-6">
-			<h1>Upcoming Events</h1>
-
-			@if (count($upcomingEvents) > 0)
-				<?php $eventCount = 0;?>
-				<dl>
-				@foreach ($upcomingEvents as $upcoming)
-					@if ($eventCount < 5)
-						<?php $eventDate = Date::createFromFormat('Y-m-d', $upcoming->date);?>
-						<?php $eventStart = Date::createFromFormat('H:i:s', $upcoming->start_time);?>
-						<?php $eventEnd = Date::createFromFormat('H:i:s', $upcoming->end_time);?>
-						<?php $openSlots = $upcoming->service->user_limit - $upcoming->attendees->count();?>
-						<?php $hasOpenings = $upcoming->attendees->count() < $upcoming->service->user_limit;?>
-
-						<dt>{{ $upcoming->service->name }}</dt>
-						<dd>
-							@if ($eventDate->isToday())
-								Today;
-							@elseif ($eventDate->isTomorrow())
-								Tommorow;
-							@else
-								{{ $eventDate->format('l F jS, Y') }};
-							@endif
-
-							{{ $eventStart->format('g:ia') }} - {{ $eventEnd->format('g:ia') }}
-						</dd>
-						
-						<dd>
-							<span class="label label-default label-lg">
-							@if (Str::lower($upcoming->service->price) != 'free')
-								${{ $upcoming->service->price }}
-							@else
-								{{ $upcoming->service->price }}
-							@endif
-							</span>
-
-							@if ($hasOpenings and ($openSlots <= 5 and $openSlots > 1))
-								&nbsp;<span class="label label-warning">Only {{ $openSlots }} slots left. Enroll today!</span>
-							@endif
-
-							@if ($hasOpenings and $openSlots == 1)
-								&nbsp;<span class="label label-danger">Only 1 slot left. Enroll today!</span>
-							@endif
-						</dd>
-						
-						<dd><p class="help-block">{{ $upcoming->service->description }}</p></dd>
-
-						<dd>
-							<div class="visible-lg">
-								<div class="btn-toolbar">
-									@if ( ! $upcoming->service->isOneToOne())
-										<div class="btn-group">
-											<a href="{{ URL::route('event', array($upcoming->service->slug)) }}" class="btn btn-sm btn-default">More Info</a>
-										</div>
-									@endif
-
-									@if (Auth::check() and $hasOpenings and ! Auth::user()->isAttending($upcoming->id))
-										<div class="btn-group">
-											<a href="#" class="btn btn-sm btn-primary js-enroll" data-appointment="{{ $upcoming->id }}">Enroll Now</a>
-										</div>
-									@endif
-								</div>
-							</div>
-							<div class="hidden-lg">
-								@if ( ! $upcoming->service->isOneToOne())
-									<p><a href="{{ URL::route('event', array($upcoming->service->slug)) }}" class="btn btn-block btn-lg btn-default">More Info</a></p>
-								@endif
-
-								@if (Auth::check() and $hasOpenings and ! Auth::user()->isAttending($upcoming->id))
-									<p><a href="#" class="btn btn-block btn-lg btn-primary js-enroll" data-appointment="{{ $upcoming->id }}">Enroll Now</a></p>
-								@endif
-							</div>
-						</dd>
-					@endif
-
-					<?php ++$eventCount;?>
-				@endforeach
-				</dl>
-			@else
-				<div class="alert alert-warning">
-					There are no scheduled events in the next 90 days. Check back regularly for more events and programs.
-				</div>
-			@endif
-
-			<div class="visible-lg">
-				<a href="{{ URL::route('events') }}" class="btn btn-block btn-default">View All Events</a>
-			</div>
-			<div class="hidden-lg">
-				<a href="{{ URL::route('events') }}" class="btn btn-block btn-lg btn-default">View All Events</a>
 			</div>
 		</div>
-	</div>
-@endsection
-
-@section('scripts')
-	<script type="text/javascript">
-		
-		$(document).on('click', '.js-enroll', function(e)
-		{
-			e.preventDefault();
-
-			$.ajax({
-				type: "POST",
-				data: {
-					'appointment': $(this).data('appointment')
-				},
-				url: "{{ URL::route('ajax.enroll') }}",
-				success: function(data)
-				{
-					location.reload();
-				}
-			});
-		});
-
-		$(document).on('click', '.js-withdraw', function(e)
-		{
-			e.preventDefault();
-
-			$.ajax({
-				type: "POST",
-				data: {
-					'appointment': $(this).data('appointment')
-				},
-				url: "{{ URL::route('ajax.withdraw') }}",
-				success: function(data)
-				{
-					location.reload();
-				}
-			});
-		});
-
-	</script>
+	@endif
 @endsection

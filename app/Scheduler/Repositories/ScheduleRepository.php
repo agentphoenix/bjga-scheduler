@@ -110,8 +110,11 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
 			// Get a slice of the array
 			$slice = array_slice($availability, $key, $timeBlocks, true);
 
+			$freshSlice = array_diff($slice, array(false));
+
 			// Get the keys
-			$sliceKeys = array_keys($slice);
+			//$sliceKeys = array_keys($slice);
+			$sliceKeys = array_keys($freshSlice);
 
 			if ((reset($sliceKeys) + $timeBlocks - 1) != end($sliceKeys))
 			{
@@ -129,32 +132,37 @@ class ScheduleRepository implements ScheduleRepositoryInterface {
 	 */
 	protected function createNormalSchedule()
 	{
-		// Break the availability into an array
-		list($start, $end) = explode('-', $this->schedule->availability);
-
-		// Break the times into variables
-		list($startHr, $startMin) = explode(':', trim($start));
-		list($endHr, $endMin) = explode(':', trim($end));
-
-		// Set the date objects for start, end and calculated time
-		$startTime = Date::createFromTime($startHr, $startMin);
-		$endTime = Date::createFromTime($endHr, $endMin);
-		$calcTime = $startTime->copy();
-
-		// Loop through from start to end and set the availability
-		while ($calcTime->gte($startTime) and $calcTime->lt($endTime))
+		if ( ! empty($this->schedule->availability))
 		{
-			// Store the availability as Carbon objects
-			$availability[] = $this->date->copy()
-				->hour($calcTime->hour)
-				->minute($calcTime->minute)
-				->second(0);
+			// Break the availability into an array
+			list($start, $end) = explode('-', $this->schedule->availability);
 
-			// Add 15 minutes
-			$calcTime->addMinutes(15);
+			// Break the times into variables
+			list($startHr, $startMin) = explode(':', trim($start));
+			list($endHr, $endMin) = explode(':', trim($end));
+
+			// Set the date objects for start, end and calculated time
+			$startTime = Date::createFromTime($startHr, $startMin);
+			$endTime = Date::createFromTime($endHr, $endMin);
+			$calcTime = $startTime->copy();
+
+			// Loop through from start to end and set the availability
+			while ($calcTime->gte($startTime) and $calcTime->lt($endTime))
+			{
+				// Store the availability as Carbon objects
+				$availability[] = $this->date->copy()
+					->hour($calcTime->hour)
+					->minute($calcTime->minute)
+					->second(0);
+
+				// Add 15 minutes
+				$calcTime->addMinutes(15);
+			}
+
+			return $availability;
 		}
 
-		return $availability;
+		return array();
 	}
 
 	/**

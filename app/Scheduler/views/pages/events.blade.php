@@ -88,3 +88,43 @@
 		</div>
 	@endif
 @endsection
+
+@section('scripts')
+	<script type="text/javascript">
+		
+		$(document).on('click', '.js-enroll', function(e)
+		{
+			e.preventDefault();
+
+			$.ajax({
+				type: "POST",
+				data: {
+					'appointment': $(this).data('appointment')
+				},
+				url: "{{ URL::route('ajax.enroll') }}",
+				success: function(data)
+				{
+					location.reload();
+				}
+			});
+		});
+
+		$(document).on('click', '.js-withdraw', function(e)
+		{
+			e.preventDefault();
+
+			$.ajax({
+				type: "POST",
+				data: {
+					'appointment': $(this).data('appointment')
+				},
+				url: "{{ URL::route('ajax.withdraw') }}",
+				success: function(data)
+				{
+					location.reload();
+				}
+			});
+		});
+
+	</script>
+@endsection

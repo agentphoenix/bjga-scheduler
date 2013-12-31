@@ -1,21 +1,21 @@
 <?php namespace Scheduler\Services;
 
-use App;
-use File;
-use DateTime;
-use DateTimeZone;
-use Sabre\VObject\Component\VEvent;
-use Sabre\VObject\Component\VCalendar;
+use App,
+	File;
+use DateTime,
+	DateTimeZone;
+use Sabre\VObject\Component\VEvent,
+	Sabre\VObject\Component\VCalendar;
 
 class CalendarService {
 
 	public function fire($job, $data)
 	{
-		// Get the appointment model
-		$model = $data['model'];
+		// Get the appointment
+		$appt = $data['appt'];
 
 		// Get the staff member
-		$staff = $model->staff;
+		$staff = $appt->staff;
 
 		// Set the calendar we're using
 		$calendarName = str_replace(' ', '', $staff->user->name).'.ics';

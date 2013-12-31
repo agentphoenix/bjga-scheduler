@@ -4,6 +4,7 @@ use Auth;
 use Date;
 use User;
 use UserRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface {
 
@@ -50,6 +51,22 @@ class UserRepository implements UserRepositoryInterface {
 		})->first();
 	}
 
+	public function getUnscheduledAppointments($id = false)
+	{
+		// Get the user
+		$user = ($id) ? $this->find($id) : Auth::user();
+
+		if ($user)
+		{
+			return $user->appointments->filter(function($a)
+			{
+				return $a->appointment->date === null;
+			});
+		}
+
+		return new Collection;
+	}
+
 	public function getUserSchedule($id = false)
 	{
 		// Get the user
@@ -63,17 +80,17 @@ class UserRepository implements UserRepositoryInterface {
 			// Make sure we only show appointments from today on
 			$appointments = $user->appointments->filter(function($a) use($today)
 			{
-				// Make the date an object
-				$appointmentDate = Date::createFromFormat('Y-m-d', $a->appointment->date);
+				if ($a->appointment->date !== null)
+				{
+					$appointmentDate = Date::createFromFormat('Y-m-d', $a->appointment->date);
 
-				return ($appointmentDate->gte($today));
+					return ($appointmentDate->gte($today));
+				}
 			})->sortBy(function($appt)
 			{
-				// Sort by date
 				return $appt->appointment->date;
 			})->sortBy(function($appt)
 			{
-				// Sort by time
 				return $appt->appointment->start_time;
 			});
 

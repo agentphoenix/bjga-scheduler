@@ -1,13 +1,14 @@
 <?php namespace Scheduler\Controllers;
 
-use View;
-use Input;
-use Config;
-use UserRepositoryInterface;
-use StaffRepositoryInterface;
-use ServiceRepositoryInterface;
-use ScheduleRepositoryInterface;
-use AppointmentRepositoryInterface;
+use Date,
+	View,
+	Input,
+	Config,
+	UserRepositoryInterface,
+	StaffRepositoryInterface,
+	ServiceRepositoryInterface,
+	ScheduleRepositoryInterface,
+	AppointmentRepositoryInterface;
 
 class Ajax extends Base {
 
@@ -131,7 +132,37 @@ class Ajax extends Base {
 
 		return View::make('pages.ajax.availability')
 			->with('availability', $availableTime)
-			->with('date', $date->format('l F jS Y'));
+			->with('date', $date);
+	}
+
+	public function getService()
+	{
+		$serviceId = Input::get('service');
+
+		$service = $this->service->find($serviceId);
+
+		if ($service)
+		{
+			$appt = $service->appointments->last();
+
+			return json_encode(array(
+				'service' => array(
+					'id'			=> (int) $service->id,
+					'name'			=> (string) $service->name,
+					'description'	=> (string) $service->description,
+					'price'			=> (string) $service->price,
+					'user_limit'	=> (int) $service->user_limit,
+				),
+				'appointment' => array(
+					'id'			=> (int) $appt->id,
+					'date'			=> (string) Date::createFromFormat('Y-m-d', $appt->date)->format('l F jS, Y'),
+					'start_time'	=> (string) Date::createFromFormat('H:i:s', $appt->start_time)->format('g:ia'),
+				),
+				'enrolled' => (int) $service->appointments->last()->attendees->count(),
+			));
+		}
+
+		return json_encode(array());
 	}
 
 	public function postEnroll()

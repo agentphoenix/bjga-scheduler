@@ -1,10 +1,11 @@
 <?php namespace Scheduler\Controllers;
 
-use UserRepositoryInterface;
-use StaffRepositoryInterface;
-use AppointmentRepositoryInterface;
+use View,
+	UserRepositoryInterface,
+	StaffRepositoryInterface,
+	AppointmentRepositoryInterface;
 
-class Admin extends Base {
+class AdminController extends BaseController {
 
 	public function __construct(UserRepositoryInterface $user,
 			AppointmentRepositoryInterface $appointment,
@@ -17,11 +18,10 @@ class Admin extends Base {
 		$this->appointment	= $appointment;
 	}
 
-	public function getIndex()
+	public function index()
 	{
-		$this->_view = 'admin.index';
-
-		$this->_data->appointments = $this->staff->getAppointments();
+		return View::make('pages.admin.index')
+			->with('appointments', $this->staff->getAppointments());
 	}
 
 }
