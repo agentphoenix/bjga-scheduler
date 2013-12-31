@@ -89,17 +89,17 @@ class SchedulerServiceProvider extends ServiceProvider {
 		{
 			Route::get('/', array(
 				'as'	=> 'book.index',
-				'uses'	=> 'Scheduler\Controllers\Booking@getIndex'));
+				'uses'	=> 'Scheduler\Controllers\BookingController@index'));
 			
 			Route::get('lesson', array(
 				'as'	=> 'book.lesson',
-				'uses' => 'Scheduler\Controllers\Booking@getLesson'));
-			Route::post('lesson', 'Scheduler\Controllers\Booking@postLesson');
+				'uses' => 'Scheduler\Controllers\BookingController@getLesson'));
+			Route::post('lesson', 'Scheduler\Controllers\BookingController@postLesson');
 
 			Route::get('program', array(
 				'as'	=> 'book.program',
-				'uses' => 'Scheduler\Controllers\Booking@getProgram'));
-			Route::post('program', 'Scheduler\Controllers\Booking@postProgram');
+				'uses' => 'Scheduler\Controllers\BookingController@getProgram'));
+			Route::post('program', 'Scheduler\Controllers\BookingController@postProgram');
 		});
 
 		// Admin
@@ -111,15 +111,15 @@ class SchedulerServiceProvider extends ServiceProvider {
 
 			Route::get('service/create/oneToOne', array(
 				'as'	=> 'admin.service.createOneToOne',
-				'uses'	=> 'Scheduler\Controllers\Service@createOneToOne'));
+				'uses'	=> 'Scheduler\Controllers\ServiceController@createOneToOne'));
 			Route::get('service/create/oneToMany', array(
 				'as'	=> 'admin.service.createOneToMany',
-				'uses'	=> 'Scheduler\Controllers\Service@createOneToMany'));
+				'uses'	=> 'Scheduler\Controllers\ServiceController@createOneToMany'));
 			Route::get('service/create/manyToMany', array(
 				'as'	=> 'admin.service.createManyToMany',
-				'uses'	=> 'Scheduler\Controllers\Service@createManyToMany'));
+				'uses'	=> 'Scheduler\Controllers\ServiceController@createManyToMany'));
 
-			Route::resource('service', 'Scheduler\Controllers\Service', array(
+			Route::resource('service', 'Scheduler\Controllers\ServiceController', array(
 				'except' => array('show', 'create')));
 			Route::resource('user', 'Scheduler\Controllers\User', array(
 				'except' => array('show')));
@@ -134,29 +134,29 @@ class SchedulerServiceProvider extends ServiceProvider {
 		// Ajax requests
 		Route::group(array('prefix' => 'ajax'), function()
 		{
-			Route::get('availability', 'Scheduler\Controllers\Ajax@getAvailability');
-			Route::get('service/delete/{id}', 'Scheduler\Controllers\Ajax@deleteService');
-			Route::get('staff/delete/{id}', 'Scheduler\Controllers\Ajax@deleteStaff');
-			Route::get('staff/exception/{id}', 'Scheduler\Controllers\Ajax@setScheduleException');
-			Route::get('staff/delete_exception/{id}', 'Scheduler\Controllers\Ajax@deleteScheduleException');
-			Route::get('user/delete/{id}', 'Scheduler\Controllers\Ajax@deleteUser');
-			Route::get('user/password/{id}', 'Scheduler\Controllers\Ajax@changePassword');
+			Route::get('availability', 'Scheduler\Controllers\AjaxController@getAvailability');
+			Route::get('service/delete/{id}', 'Scheduler\Controllers\AjaxController@deleteService');
+			Route::get('staff/delete/{id}', 'Scheduler\Controllers\AjaxController@deleteStaff');
+			Route::get('staff/exception/{id}', 'Scheduler\Controllers\AjaxController@setScheduleException');
+			Route::get('staff/delete_exception/{id}', 'Scheduler\Controllers\AjaxController@deleteScheduleException');
+			Route::get('user/delete/{id}', 'Scheduler\Controllers\AjaxController@deleteUser');
+			Route::get('user/password/{id}', 'Scheduler\Controllers\AjaxController@changePassword');
 			Route::get('service/get', array(
 				'as'	=> 'ajax.getService',
-				'uses'	=> 'Scheduler\Controllers\Ajax@getService'));
+				'uses'	=> 'Scheduler\Controllers\AjaxController@getService'));
 
 			Route::post('enroll', array(
 				'as' => 'ajax.enroll',
-				'uses' => 'Scheduler\Controllers\Ajax@postEnroll'));
+				'uses' => 'Scheduler\Controllers\AjaxController@postEnroll'));
 			Route::post('service/new', array(
 				'as' => 'ajax.createService',
-				'uses' => 'Scheduler\Controllers\Ajax@postNewService'));
+				'uses' => 'Scheduler\Controllers\AjaxController@postNewService'));
 			Route::post('service/edit', array(
 				'as' => 'ajax.editService',
-				'uses' => 'Scheduler\Controllers\Ajax@postEditService'));
+				'uses' => 'Scheduler\Controllers\AjaxController@postEditService'));
 			Route::post('withdraw', array(
 				'as' => 'ajax.withdraw',
-				'uses' => 'Scheduler\Controllers\Ajax@postWithdraw'));
+				'uses' => 'Scheduler\Controllers\AjaxController@postWithdraw'));
 		});
 	}
 

@@ -12,7 +12,7 @@ use Date,
 	ScheduleRepositoryInterface,
 	Scheduler\Services\BookingService;
 
-class Booking extends Base {
+class BookingController extends BaseController {
 
 	public function __construct(UserRepositoryInterface $user,
 			ScheduleRepositoryInterface $schedule,
@@ -23,7 +23,7 @@ class Booking extends Base {
 		$this->service = $service;
 	}
 
-	public function getIndex()
+	public function index()
 	{
 		return View::make('pages.book.index');
 	}

@@ -10,7 +10,7 @@ use Date,
 	ScheduleRepositoryInterface,
 	AppointmentRepositoryInterface;
 
-class Ajax extends Base {
+class AjaxController extends BaseController {
 
 	public function __construct(ScheduleRepositoryInterface $schedule,
 			ServiceRepositoryInterface $service,
@@ -19,8 +19,6 @@ class Ajax extends Base {
 			StaffRepositoryInterface $staff)
 	{
 		parent::__construct();
-
-		$this->layout = 'layouts.ajax';
 
 		$this->schedule = $schedule;
 		$this->service = $service;

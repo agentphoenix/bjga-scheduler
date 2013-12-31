@@ -1,14 +1,15 @@
 <?php namespace Scheduler\Controllers;
 
-use Event;
-use Input;
-use Redirect;
-use ServiceValidator;
-use StaffRepositoryInterface;
-use ServiceRepositoryInterface;
-use CategoryRepositoryInterface;
+use View,
+	Event,
+	Input,
+	Redirect,
+	ServiceValidator,
+	StaffRepositoryInterface,
+	ServiceRepositoryInterface,
+	CategoryRepositoryInterface;
 
-class Service extends Base {
+class ServiceController extends BaseController {
 
 	public function __construct(ServiceRepositoryInterface $service,
 			CategoryRepositoryInterface $category,
@@ -30,18 +31,16 @@ class Service extends Base {
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
-			$this->_view = 'admin.services.index';
-
-			$this->_data->services = $this->service->allByCategory();
-			$this->_data->categories = $this->category->all();
+			return View::make('pages.admin.services.index')
+				->with('services', $this->service->allByCategory())
+				->with('categories', $this->category->all());
 		}
 		else
 		{
 			$this->unauthorized();
 
-			$this->_view = 'admin.error';
-
-			$this->_data->error = "You do not have permission to manage services!";
+			return View::make('pages.admin.error')
+				->withError('You do not have permission to manage services!');
 		}
 	}
 
