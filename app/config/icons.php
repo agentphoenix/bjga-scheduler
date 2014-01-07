@@ -16,6 +16,8 @@ return array(
 	'gear' => '<span class="icn" data-icon="2"></span>',
 	'golf' => '<span class="icn" data-icon="g"></span>',
 
+	'logout' => '<span class="icn" data-icon="i"></span>',
+
 	'phone' => '<span class="icn" data-icon="p"></span>',
 
 	'remove' => '<span class="icn" data-icon="-"></span>',
