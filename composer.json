@@ -1,7 +1,7 @@
 {
 	"require": {
-		"laravel/framework": "4.0.*",
-		"dflydev/markdown": "1.0.*",
+		"laravel/framework": "4.1.*",
+		"dflydev/markdown": "1.*",
 		"iron-io/iron_mq": "1.4.*",
 		"sabre/vobject" : "3.1.*",
 		"mailchimp/mailchimp": "2.0.*"
@@ -18,8 +18,8 @@
 			"app/database/seeds"
 		],
 		
-		"psr-0": {
-			"Scheduler\\": "app/"
+		"psr-4": {
+			"Scheduler\\": "Scheduler"
 		}
 	},
 	
