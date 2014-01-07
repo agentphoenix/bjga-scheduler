@@ -192,26 +192,6 @@ header {
 			}
 		}
 	}
-	
-	.social-icons {
-		float: right;
-		margin: -2px @spacing 0 0;
-		padding: 0;
-
-		li {
-			margin: 0 0 0 10px;
-
-			a {
-				&.facebook:hover {
-					color: @color-facebook !important;
-				}
-
-				&.twitter:hover {
-					color: @color-twitter !important;
-				}
-			}
-		}
-	}
 }
 
 section {
@@ -286,6 +266,16 @@ footer {
 		
 		&:hover {
 			color: @color-gray-dark;
+		}
+
+		&.facebook:hover {
+			color: @color-facebook !important;
+			text-decoration: none;
+		}
+
+		&.twitter:hover {
+			color: @color-twitter !important;
+			text-decoration: none;
 		}
 	}
 
@@ -622,6 +612,9 @@ strong {
 .text-small {
 	font-size: @font-size-small;
 }
+.text-large {
+	font-size: @font-size-large;
+}
 
 .search-control {
 	.rounded(50px);
@@ -761,4 +754,8 @@ strong {
 	&:hover {
 		color: @color-warning;
 	}
+}
+
+.lg-btn-spacing {
+	margin: 15px 0;
 }
