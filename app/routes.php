@@ -127,3 +127,8 @@ Route::get('calendar', function()
 
 	return 'done';
 });
+
+Route::get('schedule', function()
+{
+	App::make('ScheduleRepository')->getAvailability(1, Date::createFromFormat('Y-m-d', '2014-01-07'), 1);
+});
