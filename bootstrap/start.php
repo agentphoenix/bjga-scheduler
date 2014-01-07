@@ -13,8 +13,6 @@
 
 $app = new Illuminate\Foundation\Application;
 
-$app->redirectIfTrailingSlash();
-
 /*
 |--------------------------------------------------------------------------
 | Detect The Application Environment
@@ -28,7 +26,7 @@ $app->redirectIfTrailingSlash();
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('dev.*', 'localhost', 'scheduler.dev'),
+	'local' => array('dev.*', 'localhost*', 'scheduler.dev', 'HRS-M-2JH1K'),
 	//'foo' => array('dev.*', 'localhost'),
 
 ));
