@@ -18,6 +18,8 @@ return array(
 
 	'logout' => '<span class="icn" data-icon="i"></span>',
 
+	'map' => '<span class="icn" data-icon="m"></span>',
+
 	'phone' => '<span class="icn" data-icon="p"></span>',
 
 	'remove' => '<span class="icn" data-icon="-"></span>',

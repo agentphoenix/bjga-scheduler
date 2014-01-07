@@ -10,7 +10,7 @@
 				Rochester, NY 14428<br>
 				(585) 889-4110</p>
 
-				<p><a href="http://maps.google.com/?q=128 Cedars Ave Rochester, NY 14428" target="_blank"><span class="map-pin"></span>View in Google Maps</a></p>
+				<p><a href="http://maps.google.com/?q=128 Cedars Ave Rochester, NY 14428" class="btn btn-sm btn-default" target="_blank"><span class="icn-size-16">{{ $_icons['map'] }}</span></a></p>
 			</div>
 		</div>
 		<div class="col-lg-4">
