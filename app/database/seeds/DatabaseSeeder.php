@@ -11,9 +11,7 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		$this->call('SchedulerCategorySeeder');
 		$this->call('SchedulerServiceSeeder');
-		$this->call('SchedulerSettingSeeder');
 		$this->call('SchedulerUserSeeder');
 		$this->call('SchedulerCustomerSeeder');
 	}

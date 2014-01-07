@@ -23,7 +23,7 @@ class SchedulerUserSeeder extends Seeder {
 
 		foreach ($users as $user)
 		{
-			User::create($user);
+			UserModel::create($user);
 		}
 
 		$staff = array(
@@ -33,15 +33,15 @@ class SchedulerUserSeeder extends Seeder {
 
 		foreach ($staff as $s)
 		{
-			$item = Staff::create($s);
+			$item = StaffModel::create($s);
 
 			// Create general availability
 			for ($d = 0; $d <=6; $d++)
 			{
-				Schedule::create(array(
+				ScheduleModel::create(array(
 					'staff_id'		=> $item->id,
 					'day'			=> $d,
-					'availability'	=> '',
+					'availability'	=> '9:00-17:00',
 				));
 			}
 		}

@@ -12,28 +12,19 @@ class SchedulerCreateServices extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('categories', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string('name');
-			$table->text('description')->nullable();
-			$table->timestamps();
-		});
-
 		Schema::create('services', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('category_id');
 			$table->integer('staff_id')->unsigned();
+			$table->string('category');
 			$table->string('name');
 			$table->string('slug')->nullable()->unique();
 			$table->text('description')->nullable();
 			$table->string('price')->nullable();
 			$table->integer('occurrences')->nullable();
+			$table->integer('occurrences_schedule')->default(0);
 			$table->integer('duration')->nullable();
-			$table->text('additional_services')->nullable();
 			$table->integer('user_limit')->nullable();
-			$table->integer('lead_out')->default(15);
 			$table->timestamps();
 			$table->softDeletes();
 		});
@@ -42,9 +33,8 @@ class SchedulerCreateServices extends Migration {
 		{
 			$table->increments('id');
 			$table->bigInteger('service_id')->unsigned();
-			$table->date('date');
-			$table->time('start_time')->nullable();
-			$table->time('end_time')->nullable();
+			$table->datetime('start')->nullable();
+			$table->datetime('end')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});
@@ -57,7 +47,6 @@ class SchedulerCreateServices extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('categories');
 		Schema::drop('services');
 		Schema::drop('services_occurrences');
 	}

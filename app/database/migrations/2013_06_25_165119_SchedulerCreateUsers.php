@@ -21,27 +21,21 @@ class SchedulerCreateUsers extends Migration {
 			$table->string('phone')->nullable();
 			$table->text('address')->nullable();
 			$table->timestamps();
+			$table->softDeletes();
 		});
 
 		Schema::create('users_appointments', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
 			$table->bigInteger('appointment_id')->unsigned();
+			$table->bigInteger('recur_id')->unsigned()->nullable();
 			$table->integer('user_id')->unsigned();
-			$table->boolean('gift_certificate')->default(0);
-			$table->integer('gift_certificate_amount')->default(0);
-			$table->string('payment_type')->default('money');
+			$table->boolean('has_gift')->default(0);
+			$table->integer('gift_amount')->default(0);
 			$table->boolean('paid')->default(0);
 			$table->integer('amount');
-		});
-
-		Schema::create('users_credits', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->integer('user_id')->unsigned();
-			$table->string('type')->default('hours');
-			$table->integer('amount');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
@@ -54,7 +48,6 @@ class SchedulerCreateUsers extends Migration {
 	{
 		Schema::drop('users');
 		Schema::drop('users_appointments');
-		Schema::drop('users_credits');
 	}
 
 }

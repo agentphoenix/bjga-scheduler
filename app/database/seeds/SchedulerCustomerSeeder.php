@@ -59,7 +59,7 @@ class SchedulerCustomerSeeder extends Seeder {
 
 		foreach ($customers as $customer)
 		{
-			User::create($customer);
+			UserModel::create($customer);
 		}
 	}
 
