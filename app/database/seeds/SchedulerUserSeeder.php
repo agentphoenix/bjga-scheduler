@@ -38,7 +38,7 @@ class SchedulerUserSeeder extends Seeder {
 			// Create general availability
 			for ($d = 0; $d <=6; $d++)
 			{
-				ScheduleModel::create(array(
+				StaffScheduleModel::create(array(
 					'staff_id'		=> $item->id,
 					'day'			=> $d,
 					'availability'	=> '9:00-17:00',
