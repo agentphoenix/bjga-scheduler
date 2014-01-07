@@ -12,25 +12,25 @@
 				<div class="visible-xs visible-sm">
 					<div class="lg-btn-spacing">
 						<a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-default btn-block">
-							<div class="icn icn-size-96" data-icon="g"></div>
+							<div class="icn-size-96">{{ $_icons['golf'] }}</div>
 							Book a Lesson
 						</a>
 					</div>
 					<div class="lg-btn-spacing">
 						<a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-default btn-block">
-							<div class="icn icn-size-96" data-icon="e"></div>
+							<div class="icn-size-96">{{ $_icons['calendar'] }}</div>
 							Find a Program, Event or Clinic
 						</a>
 					</div>
 					<div class="lg-btn-spacing">
 						<a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-default btn-block">
-							<div class="icn icn-size-96" data-icon="l"></div>
+							<div class="icn-size-96">{{ $_icons['user'] }}</div>
 							My Account
 						</a>
 					</div>
 					<div class="lg-btn-spacing">
 						<a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-default btn-block">
-							<div class="icn icn-size-96" data-icon="l"></div>
+							<div class="icn-size-96">{{ $_icons['logout'] }}</div>
 							Log Out
 						</a>
 					</div>
@@ -38,8 +38,8 @@
 				<div class="visible-md visible-lg">
 					<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
 					<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Find an Event, Program or Clinic</a></p>
-					<p><a href="{{ URL::route('book.index') }}" class="btn btn-lg btn-block btn-default">My Account</a></p>
-					<p><a href="{{ URL::route('book.index') }}" class="btn btn-lg btn-block btn-default">Log Out</a></p>
+					<p><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-lg btn-block btn-default">My Account</a></p>
+					<p><a href="{{ URL::route('logout') }}" class="btn btn-lg btn-block btn-default">Log Out</a></p>
 				</div>
 			</div>
 
