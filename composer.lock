@@ -379,16 +379,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.1.12",
+            "version": "v4.1.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "956511d9ebbddabb6ab79b1ec074616308a93a50"
+                "reference": "99a342124cb1003ef4eee36aad8f50fb7ef36e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/956511d9ebbddabb6ab79b1ec074616308a93a50",
-                "reference": "956511d9ebbddabb6ab79b1ec074616308a93a50",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/99a342124cb1003ef4eee36aad8f50fb7ef36e7e",
+                "reference": "99a342124cb1003ef4eee36aad8f50fb7ef36e7e",
                 "shasum": ""
             },
             "require": {
@@ -492,7 +492,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-01-05 16:10:41"
+            "time": "2014-01-13 19:40:50"
         },
         {
             "name": "mailchimp/mailchimp",
