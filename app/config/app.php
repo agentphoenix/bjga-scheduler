@@ -176,9 +176,10 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		'Book'			=> 'Scheduler\Facades\Book',
-		'Date'			=> "Carbon\Carbon",
-		'Model'			=> "Scheduler\Extensions\Laravel\Database\Eloquent\Model",
-		'Markdown'		=> "Scheduler\Facades\Markdown",
+		'Date'			=> 'Carbon\Carbon',
+		'MailChimp'		=> 'Scheduler\Facades\MailChimp',
+		'Markdown'		=> 'Scheduler\Facades\Markdown',
+		'Model'			=> 'Scheduler\Extensions\Laravel\Database\Eloquent\Model',
 		
 		/**
 		 * Exceptions
@@ -195,7 +196,6 @@ return array(
 		 */
 		'AppointmentEventHandler'	=> 'Scheduler\Events\AppointmentEventHandler',
 		'ServiceEventHandler'		=> 'Scheduler\Events\ServiceEventHandler',
-		'StaffEventHandler'			=> 'Scheduler\Events\StaffEventHandler',
 		'UserEventHandler'			=> 'Scheduler\Events\UserEventHandler',
 
 		/**

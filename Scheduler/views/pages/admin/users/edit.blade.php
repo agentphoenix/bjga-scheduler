@@ -44,6 +44,8 @@
 		</div>
 	</div>
 
+	<p class="alert alert-warning">Your email address, phone number, and address can only be seen by Brian Jacobs Golf staff members and will never be shared with anyone without your consent.</p>
+
 	{{ Form::model($user, array('route' => array('admin.user.update', $user->id), 'method' => 'put')) }}
 		<div class="row">
 			<div class="col-lg-4">

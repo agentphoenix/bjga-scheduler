@@ -1,7 +1,6 @@
 <?php namespace Scheduler\Models\Eloquent;
 
-use Str,
-	Model;
+use Str, Model;
 
 class ServiceModel extends Model {
 
@@ -85,37 +84,7 @@ class ServiceModel extends Model {
 
 	public function isProgram()
 	{
-		return (bool) $this->user_limit > 1;
-	}
-
-	/**
-	 * Is this a 1 occurrence/1 user service?
-	 *
-	 * @return	bool
-	 */
-	public function isOneToOne()
-	{
-		return (bool) ($this->serviceOccurrences->count() == 0 and $this->user_limit == 1);
-	}
-
-	/**
-	 * Is this a 1 occurrence/many users service?
-	 *
-	 * @return	bool
-	 */
-	public function isOneToMany()
-	{
-		return (bool) ($this->serviceOccurrences->count() == 1 and $this->user_limit > 1);
-	}
-
-	/**
-	 * Is this a many occurrence/many users service?
-	 *
-	 * @return	bool
-	 */
-	public function isManyToMany()
-	{
-		return (bool) ($this->serviceOccurrences->count() > 1 and $this->user_limit > 1);
+		return (bool) ($this->user_limit > 1);
 	}
 	
 }

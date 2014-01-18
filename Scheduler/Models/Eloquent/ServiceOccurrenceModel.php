@@ -20,5 +20,16 @@ class ServiceOccurrenceModel extends Model {
 	{
 		return $this->belongsTo('ServiceModel');
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Getters/Setters
+	|--------------------------------------------------------------------------
+	*/
+
+	public function getDates()
+	{
+		return array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
+	}
 	
 }

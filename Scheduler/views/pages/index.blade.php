@@ -17,7 +17,7 @@
 						</a>
 					</div>
 					<div class="lg-btn-spacing">
-						<a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-default btn-block">
+						<a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-default btn-block">
 							<div class="icn-size-96">{{ $_icons['calendar'] }}</div>
 							Find a Program, Event or Clinic
 						</a>
@@ -37,7 +37,7 @@
 				</div>
 				<div class="visible-md visible-lg">
 					<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
-					<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Find an Event, Program or Clinic</a></p>
+					<p><a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-block btn-primary">Find an Event, Program or Clinic</a></p>
 					<p><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-lg btn-block btn-default">My Account</a></p>
 					<p><a href="{{ URL::route('logout') }}" class="btn btn-lg btn-block btn-default">Log Out</a></p>
 				</div>
@@ -77,18 +77,17 @@
 						@foreach ($myEvents as $mine)
 							<dt>{{ $mine->appointment->service->name }}</dt>
 							<dd>
-								<?php $apptDate = Date::createFromFormat('Y-m-d', $mine->appointment->date);?>
-								<?php $apptTime = Date::createFromFormat('H:i:s', $mine->appointment->start_time);?>
+								<?php $appt = $mine->appointment->start;?>
 
-								@if ($apptDate->isToday())
+								@if ($appt->isToday())
 									Today
-								@elseif ($apptDate->isTomorrow())
+								@elseif ($appt->isTomorrow())
 									Tommorow
 								@else
-									{{ $apptDate->format('l F jS, Y') }}
+									{{ $appt->format('l F jS, Y') }}
 								@endif
 
-								at {{ $apptTime->format('g:ia') }}
+								at {{ $appt->format('g:ia') }}
 							</dd>
 							<dd>
 								<div class="visible-lg">
@@ -98,7 +97,7 @@
 										</div>
 										<div class="btn-group">
 											<a href="#" class="btn btn-sm btn-danger js-withdraw" data-appointment="{{ $mine->id }}">
-												@if ($mine->appointment->service->isOneToOne())
+												@if ($mine->appointment->service->isLesson())
 													Cancel
 												@else
 													Withdraw
@@ -111,7 +110,7 @@
 									<p><a href="#" class="btn btn-block btn-lg btn-default">More Info</a></p>
 
 									<p><a href="#" class="btn btn-block btn-lg btn-danger js-withdraw" data-appointment="{{ $mine->id }}">
-										@if ($mine->appointment->service->isOneToOne())
+										@if ($mine->appointment->service->isLesson())
 											Cancel
 										@else
 											Withdraw

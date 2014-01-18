@@ -6,6 +6,7 @@ use Hash,
 	Event,
 	Input,
 	Redirect,
+	MailChimp,
 	UserValidator,
 	UserRepositoryInterface;
 
@@ -78,9 +79,8 @@ class UserController extends BaseController {
 		{
 			$this->unauthorized();
 
-			$this->_view = 'admin.error';
-
-			$this->_data->error = "You do not have permission to create users!";
+			return View::make('pages.admin.error')
+				->withError("You do not have permission to create users!");
 		}
 	}
 
@@ -94,6 +94,7 @@ class UserController extends BaseController {
 		{
 			return View::make('pages.admin.users.edit')
 				->withUser($user);
+				//->withSubscription(MailChimp::findUser($user));
 		}
 		else
 		{
@@ -104,12 +105,6 @@ class UserController extends BaseController {
 		}
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function update($id)
 	{
 		// Get the user

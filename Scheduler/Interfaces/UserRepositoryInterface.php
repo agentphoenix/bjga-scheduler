@@ -9,6 +9,7 @@ interface UserRepositoryInterface {
 	public function find($id);
 	public function getAccessLevel($id = false);
 	public function getAppointment($id, $user = false);
+	public function getNonStaff();
 	public function getUnscheduledAppointments($id = false);
 	public function getUserSchedule($id = false);
 	public function isStaff($id = false);

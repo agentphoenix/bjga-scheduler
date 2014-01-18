@@ -53,4 +53,10 @@ class UserEventHandler {
 
 	public function onUserUpdated($user, $input){}
 
+	public function onStaffCreated($staff){}
+
+	public function onStaffDeleted($staff){}
+
+	public function onStaffUpdated($item){}
+
 }

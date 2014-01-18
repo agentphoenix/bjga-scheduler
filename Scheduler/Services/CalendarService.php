@@ -1,9 +1,7 @@
 <?php namespace Scheduler\Services;
 
-use App,
-	File;
-use DateTime,
-	DateTimeZone;
+use App, File;
+use DateTime, DateTimeZone;
 use Sabre\VObject\Component\VEvent,
 	Sabre\VObject\Component\VCalendar;
 
@@ -29,7 +27,7 @@ class CalendarService {
 		foreach ($staff->appointments as $a)
 		{
 			// Set the summary
-			$event['SUMMARY'] = ($a->service->isOneToOne())
+			$event['SUMMARY'] = ($a->service->isLesson())
 				? $a->attendees->first()->user->name
 				: $a->service->name;
 

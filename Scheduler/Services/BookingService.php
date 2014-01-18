@@ -5,14 +5,15 @@ use Date,
 	UserAppointmentModel,
 	StaffAppointmentModel,
 	UserRepositoryInterface,
-	StaffAppointmentRecurModel,
-	ServiceRepositoryInterface;
+	ServiceRepositoryInterface,
+	StaffAppointmentRecurModel;
 
 class BookingService {
 
+	protected $user;
 	protected $service;
 
-	public function __construct(ServiceRepositoryInterface $service
+	public function __construct(ServiceRepositoryInterface $service,
 			UserRepositoryInterface $user)
 	{
 		$this->user = $user;
@@ -106,13 +107,53 @@ class BookingService {
 		}
 
 		// Fire the lesson booking event
-		Event::fire('book.create.lesson', array($service, $bookStaff, $bookUser));
+		Event::fire('book.lesson.created', array($service, $bookStaff, $bookUser));
 	}
 
-	protected function program($value='')
+	public function program(array $data)
 	{
+		// Get the service
+		$service = $this->service->find($data['service_id']);
+
+		// Get the user
+		$user = $this->user->find((int) $data['user']);
+
+		// Set the initial user appointment record
+		$userApptRecord = array(
+			'user_id'		=> $user->id,
+			'has_gift'		=> (int) $data['has_gift'],
+			'gift_amount'	=> ($data['has_gift'] == 1) ? (int) $data['gift_amount'] : 0,
+			'amount'		=> ($data['has_gift'] == 1) ? ($service->price - $data['gift_amount']) : $service->price,
+		);
+
+		// Staff members get free lessons, so we need to take that into account
+		if ($user->isStaff())
+			$userApptRecord = array_merge($userApptRecord, array('paid' => (int) true, 'amount' => 0));
+
+		if ($service->appointments->count() > 1)
+		{
+			foreach ($service->appointments as $a)
+			{
+				// Book the user
+				$userApptArr = array_merge(
+					$userApptRecord,
+					array('appointment_id' => $a->id)
+				);
+				$bookUser = UserAppointmentModel::create($userApptArr);
+			}
+		}
+		else
+		{
+			// Book the user
+			$userApptArr = array_merge(
+				$userApptRecord,
+				array('appointment_id' => $service->appointments()->first()->id)
+			);
+			$bookUser = UserAppointmentModel::create($userApptArr);
+		}
+
 		// Fire the program booking event
-		Event::fire('book.create.oneToMany', array($service, $bookUser));
+		Event::fire('book.program.created', array($service, $bookUser));
 	}
 
 }

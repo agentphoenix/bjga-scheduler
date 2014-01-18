@@ -1,21 +1,37 @@
 <?php namespace Scheduler\Repositories\Eloquent;
 
-use ServiceModel,
+use Date,
+	Queue,
+	ServiceModel,
+	UserAppointmentModel,
 	StaffAppointmentModel,
 	ServiceOccurrenceModel,
 	ServiceRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class ServiceRepository implements ServiceRepositoryInterface {
 
+	/**
+	 * Get all services.
+	 *
+	 * @return	Collection
+	 */
 	public function all()
 	{
 		return ServiceModel::all();
 	}
 
+	/**
+	 * Get all the services broken down by category.
+	 *
+	 * @return	array
+	 */
 	public function allByCategory()
 	{
+		// Get everything from the database
 		$items = $this->all();
 
+		// Start a holding array
 		$final = array();
 
 		if ($items->count() > 0)
@@ -31,10 +47,17 @@ class ServiceRepository implements ServiceRepositoryInterface {
 		return $final;
 	}
 
+	/**
+	 * Get all the services by category for a dropdown.
+	 *
+	 * @return	array
+	 */
 	public function allForDropdownByCategory()
 	{
+		// Get all the services
 		$all = $this->all();
 
+		// Start a holding array
 		$services = array();
 
 		if ($all->count() > 0)
@@ -48,48 +71,102 @@ class ServiceRepository implements ServiceRepositoryInterface {
 		return $services;
 	}
 
+	/**
+	 * Get all program services for a given timeframe.
+	 *
+	 * @param	int		$timeframe	The timeframe for programs in days
+	 * @return	Collection
+	 */
+	public function allPrograms($timeframe = false)
+	{
+		// Get the services
+		$services = ServiceModel::getCategory('program')->get();
+
+		if ($timeframe)
+		{
+			// Filter by the timeframe
+			return $services->filter(function($s) use ($timeframe)
+			{
+				if ($s->appointments)
+				{
+					$startDate = $s->appointments->first()->start;
+					$endDate = $startDate->copy()->addDays($timeframe)->endOfDay();
+
+					return $startDate->lte($endDate);
+				}
+			});
+		}
+
+		return $services;
+	}
+
+	/**
+	 * Create a new service.
+	 *
+	 * In addition to creating the service, this will also create the service
+	 * occurrence records and create the staff appointment records as well.
+	 *
+	 * @param	array	$data	Data to use for creation
+	 * @return	ServiceModel
+	 */
 	public function create(array $data)
 	{
-		$servicesArr = array();
-
-		foreach ($data['additional_service'] as $key => $value)
-		{
-			if ( ! empty($value) and $value > "0")
-			{
-				$servicesArr[] = "{$value},{$data['additional_service_occurrences'][$key]}";
-			}
-		}
-
-		$data['additional_services'] = implode(';', $servicesArr);
-
+		// Create the service
 		$service = ServiceModel::create($data);
-
-		if (array_key_exists('date', $data))
-		{
-			ServiceOccurrenceModel::create(array(
-				'service_id'	=> $service->id,
-				'date'			=> $data['date'],
-				'start_time'	=> $data['start_time'],
-				'end_time'		=> $data['end_time'],
-			));
-		}
 
 		if (array_key_exists('service_dates', $data))
 		{
+			$i = 0;
+
 			foreach ($data['service_dates'] as $key => $date)
 			{
-				ServiceOccurrenceModel::create(array(
-					'service_id'	=> $service->id,
-					'date'			=> $date,
-					'start_time'	=> $data['service_times_start'][$key],
-					'end_time'		=> $data['service_times_end'][$key],
-				));
+				if ( ! empty($date))
+				{
+					$start = Date::createFromFormat('Y-m-d', $date, 'America/New_York');
+					$start->hour(substr($data['service_times_start'][$key], 0, 2))
+						->minute(substr($data['service_times_start'][$key], 3, 2))
+						->second(0);
+
+					$end = Date::createFromFormat('Y-m-d', $date, 'America/New_York');
+					$end->hour(substr($data['service_times_end'][$key], 0, 2))
+						->minute(substr($data['service_times_end'][$key], 3, 2))
+						->second(0);
+
+					// Create the service occurrences
+					ServiceOccurrenceModel::create(array(
+						'service_id'	=> $service->id,
+						'start'			=> $start,
+						'end'			=> $end,
+					));
+
+					// Create the staff appointments
+					$staffAppt = StaffAppointmentModel::create(array(
+						'staff_id'		=> $service->staff->id,
+						'service_id'	=> $service->id,
+						'start'			=> $start,
+						'end'			=> $end,
+					));
+
+					++$i;
+				}
 			}
+
+			if ($staffAppt)
+				Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
+
+			// Make sure we have an accurate count of occurrences for the service record
+			$service = $service->fill(array('occurrences' => $i))->save();
 		}
 
 		return $service;
 	}
 
+	/**
+	 * Delete a service by its primary key and all of its associated data.
+	 *
+	 * @param	int		$id
+	 * @return	ServiceModel
+	 */
 	public function delete($id)
 	{
 		// Get the service
@@ -137,21 +214,65 @@ class ServiceRepository implements ServiceRepositoryInterface {
 		return $service;
 	}
 
+	/**
+	 * Find a service by its primary key.
+	 *
+	 * @param	int		$id
+	 * @return	ServiceModel
+	 */
 	public function find($id)
 	{
 		return ServiceModel::find($id);
 	}
 
+	/**
+	 * Find a service by its slug.
+	 *
+	 * @param	string	$slug
+	 * @return	ServiceModel
+	 */
 	public function findBySlug($slug)
 	{
 		return ServiceModel::where('slug', 'like', "%{$slug}%")->first();
 	}
+
+	/**
+	 * Convert a collection for use in a dropdown.
+	 *
+	 * @param	Collection	$collection
+	 * @param	string		$key
+	 * @param	string		$value
+	 * @return	array
+	 */
+	public function forDropdown(Collection $collection, $key, $value)
+	{
+		if ($collection->count() > 0)
+			return $collection->toSimpleArray($key, $value);
+
+		return $collection->toArray();
+	}
 	
+	/**
+	 * Get the values for services by category.
+	 *
+	 * @param	string	$category
+	 * @return	Collection
+	 */
 	public function getValues($category)
 	{
-		return ServiceModel::getCategory($category)->get()->toSimpleArray('id', 'name');
+		// Get the category items
+		$services = ServiceModel::getCategory($category)->get();
+
+		return $this->forDropdown($services, 'id', 'name');
 	}
 
+	/**
+	 * Update a service by its primary key.
+	 *
+	 * @param	int		$id
+	 * @param	array	$data	Data for update
+	 * @return	ServiceModel
+	 */
 	public function update($id, array $data)
 	{
 		// Get the service
@@ -159,106 +280,115 @@ class ServiceRepository implements ServiceRepositoryInterface {
 
 		if ($service)
 		{
-			// Parse out the additional services and prep them for update
-			if (array_key_exists('additional_service', $data))
-			{
-				$servicesArr = array();
-
-				foreach ($data['additional_service'] as $key => $value)
-				{
-					if ( ! empty($value) and $value > "0")
-					{
-						$servicesArr[] = "{$value},{$data['additional_service_occurrences'][$key]}";
-					}
-				}
-
-				$data['additional_services'] = implode(';', $servicesArr);
-			}
-
 			// Update the service
-			$update = $service->update($data);
-
-			// Update the service occurrences if we have them
-			if (array_key_exists('date', $data))
-			{
-				$occurrence = $service->serviceOccurrences->first();
-				$occurrence->update(array(
-					'date'			=> $data['date'],
-					'start_time'	=> $data['start_time'],
-					'end_time'		=> $data['end_time']
-				));
-			}
+			$update = $service->fill($data)->save();
 
 			// Update the service schedule if we have them
 			if (array_key_exists('service_dates', $data))
 			{
+				$i = 0;
+
 				foreach ($data['service_dates'] as $key => $date)
 				{
 					if ( ! empty($date))
 					{
+						$start = Date::createFromFormat('Y-m-d', $date, 'America/New_York');
+						$start->hour(substr($data['service_times_start'][$key], 0, 2))
+							->minute(substr($data['service_times_start'][$key], 3, 2))
+							->second(0);
+
+						$end = Date::createFromFormat('Y-m-d', $date, 'America/New_York');
+						$end->hour(substr($data['service_times_end'][$key], 0, 2))
+							->minute(substr($data['service_times_end'][$key], 3, 2))
+							->second(0);
+
 						// Get the occurrence
-						$occurrence = $service->serviceOccurrences->filter(function($o) use($key)
+						$occurrence = $service->serviceOccurrences->filter(function($o) use ($key)
 						{
 							return $o->id === $key;
 						})->first();
 
 						if ($occurrence)
-						{
-							$occurrence->fill(array(
-								'date'			=> $date,
-								'start_time'	=> $data['service_times_start'][$key],
-								'end_time'		=> $data['service_times_end'][$key]
-							))->save();
-						}
+							$occurrence->fill(array('start' => $start, 'end' => $end))->save();
 						else
 						{
 							ServiceOccurrenceModel::create(array(
-								'service_id'	=> $service->id,
-								'date'			=> $date,
-								'start_time'	=> $data['service_times_start'][$key],
-								'end_time'		=> $data['service_times_end'][$key],
+								'service_id' => $service->id,
+								'start' => $start,
+								'end' => $end
 							));
 						}
+
+						++$i;
 					}
 				}
+
+				// Make sure we have an accurate occurrences count
+				$update = $service->fill(array('occurrences' => $i))->save();
 			}
 
-			if ($service->isOneToMany())
+			if ($service->isProgram())
 			{
-				// Get the appointment(s)
-				$appt = StaffAppointmentModel::where('service_id', $id)
-					->where('date', $data['date'])->get();
-
-				if ($appt->count() > 0)
+				if ($service->appointments->count() > 0)
 				{
-					// Update the appointment
-					$appt->update(array(
-						'date'			=> $data['date'],
-						'start_time'	=> $data['start_time'],
-						'end_time'		=> $data['end_time']
-					));
+					$users = array();
 
-					// Start an array for holding the attendee email addresses
-					$emailAddresses = array();
-
-					foreach ($appt->attendees as $attendee)
+					foreach ($service->appointments as $staffAppt)
 					{
-						$emailAddresses[] = $attendee->user->email;
+						// Delete all the user appointments
+						if ($staffAppt->attendees->count() > 0)
+						{
+							foreach ($staffAppt->attendees as $attendee)
+							{
+								// Store the attendee information for later
+								$users[] = $attendee;
+
+								// Delete the user appointment
+								$attendee->delete();
+							}
+						}
+
+						// Delete the staff appointment
+						$staffAppt->delete();
 					}
 
-					#TODO: Send an email to the attendees about any changes to the appointment
+					if ($service->serviceOccurrences->count() > 0)
+					{
+						foreach ($service->serviceOccurrences as $o)
+						{
+							$staffAppt = StaffAppointmentModel::create(array(
+								'staff_id'		=> $service->staff->id,
+								'service_id'	=> $service->id,
+								'start'			=> $o->start,
+								'end'			=> $o->end,
+							));
+
+							if (isset($users))
+							{
+								// Create the user appointments
+								foreach ($users as $u)
+								{
+									UserAppointmentModel::create(array(
+										'appointment_id'	=> $staffAppt->id,
+										'user_id'			=> $u->user_id,
+										'has_gift'			=> $u->has_gift,
+										'gift_amount'		=> $u->gift_amount,
+										'paid'				=> $u->paid,
+										'amount'			=> $u->amount,
+									));
+								}
+							}
+						}
+
+						# TODO: send emails to the attendees that the service has changed
+					}
 				}
+
+				if ($staffAppt)
+					Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
 			}
 
-			if ($service->isManyToMany())
-			{
-				//
-			}
-
-			if ($update)
-			{
-				return $service;
-			}
+			return $service;
 		}
 
 		return false;

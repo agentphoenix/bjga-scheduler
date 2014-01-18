@@ -9,17 +9,19 @@ use App,
 	Route,
 	Config,
 	StaffAppointmentModel;
+use Mailchimp\Mailchimp;
 use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 use Scheduler\Services\BookingService,
-	Scheduler\Services\MarkdownService;
+	Scheduler\Services\MarkdownService,
+	Scheduler\Services\MailChimpService;
 
 class SchedulerServiceProvider extends ServiceProvider {
 
 	public function register()
 	{
 		$this->setupMarkdown();
-		$this->setupBooking();
+		//$this->setupMailchimp();
 	}
 
 	public function boot()
@@ -28,13 +30,17 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->setupRoutes();
 		$this->setupPushQueueRoutes();
 		$this->setupEventListeners();
+		$this->setupBooking();
 	}
 
 	protected function setupBooking()
 	{
 		$this->app['scheduler.booking'] = $this->app->share(function($app)
 		{
-			return new BookingService;
+			return new BookingService(
+				$app->make('ServiceRepository'),
+				$app->make('UserRepository')
+			);
 		});
 	}
 
@@ -46,10 +52,18 @@ class SchedulerServiceProvider extends ServiceProvider {
 		});
 	}
 
+	public function setupMailchimp()
+	{
+		$this->app['scheduler.mailchimp'] = $this->app->share(function($app)
+		{
+			return new MailChimpService(new Mailchimp('f04794d1de4fc62cf6ec66f764edc967-us3'));
+		});
+	}
+
 	protected function setupBindings()
 	{
 		// Get the aliases from the app config
-		$a = $this->app['config']->get('app.aliases');
+		$a = Config::get('app.aliases');
 
 		// Bind the repositories to any calls to their interfaces
 		App::bind($a['ServiceRepositoryInterface'], $a['ServiceRepository']);
@@ -110,10 +124,6 @@ class SchedulerServiceProvider extends ServiceProvider {
 				'except' => array('show', 'create')));
 			Route::resource('user', 'Scheduler\Controllers\UserController', array(
 				'except' => array('show')));
-
-			Route::delete('staff/destroyExcpetion/{id}', array(
-				'as'	=> 'admin.staff.destroyException',
-				'uses'	=> 'Scheduler\Controllers\Staff@destroyException'));
 			Route::resource('staff', 'Scheduler\Controllers\StaffController', array(
 				'except' => array('show')));
 		});
@@ -124,13 +134,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::get('availability', 'Scheduler\Controllers\AjaxController@getAvailability');
 			Route::get('service/delete/{id}', 'Scheduler\Controllers\AjaxController@deleteService');
 			Route::get('staff/delete/{id}', 'Scheduler\Controllers\AjaxController@deleteStaff');
-			Route::get('staff/exception/{id}', 'Scheduler\Controllers\AjaxController@setScheduleException');
-			Route::get('staff/delete_exception/{id}', 'Scheduler\Controllers\AjaxController@deleteScheduleException');
 			Route::get('user/delete/{id}', 'Scheduler\Controllers\AjaxController@deleteUser');
 			Route::get('user/password/{id}', 'Scheduler\Controllers\AjaxController@changePassword');
 			Route::get('service/get', array(
 				'as'	=> 'ajax.getService',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@getService'));
+			Route::get('service/getProgram', array(
+				'as'	=> 'ajax.getProgramService',
+				'uses'	=> 'Scheduler\Controllers\AjaxController@getProgramDetails'));
 
 			Route::post('enroll', array(
 				'as' => 'ajax.enroll',
@@ -162,8 +173,16 @@ class SchedulerServiceProvider extends ServiceProvider {
 
 	public function setupEventListeners()
 	{
-		Event::listen('book.create.lesson', 'Scheduler\Events\BookingEventHandler@createLesson');
-		Event::listen('book.create.program', 'Scheduler\Events\BookingEventHandler@createProgram');
+		Event::listen('book.lesson.created', 'Scheduler\Events\BookingEventHandler@createLesson');
+		Event::listen('book.program.created', 'Scheduler\Events\BookingEventHandler@createProgram');
+
+		Event::listen('service.created', 'Scheduler\Events\ServiceEventHandler@onCreated');
+		Event::listen('service.deleted', 'Scheduler\Events\ServiceEventHandler@onDeleted');
+		Event::listen('service.updated', 'Scheduler\Events\ServiceEventHandler@onUpdated');
+
+		Event::listen('staff.created', 'Scheduler\Events\UserEventHandler@onStaffCreated');
+		Event::listen('staff.deleted', 'Scheduler\Events\UserEventHandler@onStaffDeleted');
+		Event::listen('staff.updated', 'Scheduler\Events\UserEventHandler@onStaffUpdated');
 
 		Event::listen('user.created', 'Scheduler\Events\UserEventHandler@onUserCreated');
 		Event::listen('user.deleted', 'Scheduler\Events\UserEventHandler@onUserDeleted');

@@ -6,14 +6,9 @@ class BookingEventHandler {
 
 	public function createLesson($service, $staffAppt, $userAppt)
 	{
-		$this->updateCalendar($staffAppt);
+		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
 	}
 
-	public function createProgram($service, $userAppt) {}
-
-	protected function updateCalendar($appt)
-	{
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $appt));
-	}
+	public function createProgram($service, $userAppt){}
 
 }

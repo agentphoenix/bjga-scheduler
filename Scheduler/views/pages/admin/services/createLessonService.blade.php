@@ -28,7 +28,7 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="form-group{{ ($errors->has('staff_id')) ? ' has-error' : '' }}">
-					<label class="label-control">Staff Member</label>
+					<label class="label-control">Instructor</label>
 					{{ Form::select('staff_id', $staff, null, array('class' => 'form-control input-with-feedback')) }}
 					{{ $errors->first('staff_id', '<p class="help-block">:message</p>') }}
 				</div>
@@ -100,10 +100,10 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-lg">
-					{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-primary')) }}
+					{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 				</div>
 				<div class="hidden-lg">
-					{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
+					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-block btn-primary')) }}
 				</div>
 			</div>
 		</div>

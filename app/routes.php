@@ -130,5 +130,12 @@ Route::get('calendar', function()
 
 Route::get('schedule', function()
 {
-	App::make('ScheduleRepository')->getAvailability(1, Date::createFromFormat('Y-m-d', '2014-01-07'), 1);
+	$staff = StaffModel::find(2);
+
+	$schedule = $staff->schedule()->getModel()->newInstance()
+		->fill(array('day' => 8, 'availability' => ''));
+
+	$staff->schedule()->save($schedule);
+
+	s($staff->schedule->toArray());
 });

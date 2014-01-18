@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	Enroll in Program
+	Enroll in a Program
 @endsection
 
 @section('content')
-	<h1>Enroll in Program</h1>
+	<h1>Enroll in a Program</h1>
 
 	{{ Form::open(array('route' => 'book.program.store')) }}
 		<div class="row">
@@ -20,27 +20,7 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-lg-4">
-				<div class="form-group">
-					<label class="control-label">Date</label>
-					<div class="controls">
-						<span class="displayDate"></span>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-2">
-				<div class="form-group">
-					<label class="control-label">Start Time</label>
-					<div class="controls">
-						<span class="displayTime"></span>
-					</div>
-				</div>
-			</div>
-		</div>
+		<div id="programServiceDetails"></div>
 
 		@if ($_currentUser->isStaff())
 			<div class="row">
@@ -48,7 +28,7 @@
 					<div class="form-group">
 						<label class="control-label">User</label>
 						<div class="controls">
-							{{ Form::select('user', User::all()->toSimpleArray('id', 'name'), $_currentUser->id, array('class' => 'form-control')) }}
+							{{ Form::select('user', UserModel::all()->toSimpleArray('id', 'name'), $_currentUser->id, array('class' => 'form-control')) }}
 						</div>
 					</div>
 				</div>
@@ -62,8 +42,8 @@
 				<div class="form-group">
 					<label class="control-label">Do you have a gift certificate?</label>
 					<div class="controls">
-						<label class="radio-inline">{{ Form::radio('gift_certificate', 1) }} Yes</label>
-						<label class="radio-inline">{{ Form::radio('gift_certificate', 0) }} No</label>
+						<label class="radio-inline">{{ Form::radio('has_gift', 1) }} Yes</label>
+						<label class="radio-inline">{{ Form::radio('has_gift', 0) }} No</label>
 					</div>
 				</div>
 			</div>
@@ -77,7 +57,7 @@
 						<div class="controls">
 							<div class="input-group">
 									<span class="input-group-addon"><strong>$</strong></span>
-								{{ Form::text('gift_certificate_amount', null, array('class' => 'form-control')) }}
+								{{ Form::text('gift_amount', null, array('class' => 'form-control')) }}
 							</div>
 						</div>
 					</div>
@@ -85,7 +65,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" id="enrollBtn">
 			<div class="col-lg-12">
 				<div class="visible-lg">
 					<p>{{ Form::submit('Enroll Now', array('class' => 'btn btn-primary')) }}</p>
@@ -95,6 +75,8 @@
 				</div>
 			</div>
 		</div>
+
+		<p id="noEnroll" class="hide alert alert-danger">There are no more slots available for this program!</p>
 
 		{{ Form::hidden('appointment_id', null) }}
 	{{ Form::close() }}
@@ -115,9 +97,22 @@
 					var obj = $.parseJSON(data);
 					
 					$('#serviceDescription').html(obj.service.description);
-					$('.displayDate').html(obj.appointment.date);
-					$('.displayTime').html(obj.appointment.start_time);
 					$('[name="appointment_id"]').val(obj.appointment.id);
+
+					if (obj.service.user_limit == obj.enrolled)
+					{
+						$('#enrollBtn').addClass('hide');
+						$('#noEnroll').removeClass('hide');
+					}
+				}
+			});
+
+			$.ajax({
+				url: "{{ URL::route('ajax.getProgramService') }}",
+				data: { service: selected },
+				success: function(data)
+				{
+					$('#programServiceDetails').html(data);
 				}
 			});
 		});
@@ -133,4 +128,4 @@
 		});
 
 	</script>
-@endsection
+@stop

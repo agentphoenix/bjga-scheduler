@@ -33,7 +33,7 @@ class StaffModel extends Model {
 
 	public function schedule()
 	{
-		return $this->hasMany('ScheduleModel', 'staff_id');
+		return $this->hasMany('StaffScheduleModel', 'staff_id');
 	}
 	
 }

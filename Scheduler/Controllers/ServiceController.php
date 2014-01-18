@@ -10,6 +10,9 @@ use View,
 
 class ServiceController extends BaseController {
 
+	protected $staff;
+	protected $service;
+
 	public function __construct(ServiceRepositoryInterface $service,
 			StaffRepositoryInterface $staff)
 	{
@@ -29,10 +32,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError('You do not have permission to manage services!');
+			$this->unauthorized("You do not have permission to manage services!");
 		}
 	}
 
@@ -51,9 +51,11 @@ class ServiceController extends BaseController {
 					->with('messageStatus', 'danger');
 			}
 
+			// Create the new service
 			$service = $this->service->create(Input::all());
 
-			Event::fire('scheduler.service.created', $service);
+			// Fire the service created event
+			Event::fire('scheduler.service.created', array($service, Input::all()));
 
 			return Redirect::route('admin.service.index')
 				->with('message', 'Service was successfully created.')
@@ -61,10 +63,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to create services!");
+			$this->unauthorized("You do not have permission to create services!");
 		}
 	}
 
@@ -72,41 +71,35 @@ class ServiceController extends BaseController {
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
+			// Get the service
 			$service = $this->service->find($id);
 
-			$categories = array(
-				''			=> "Please choose a category",
-				'lesson'	=> "Lesson",
-				'program'	=> "Program",
-			);
-
-			$staff[''] = 'Please choose a staff member';
+			// Set up the staff array
+			$staff[''] = 'Please choose an instructor';
 			$staff += $this->staff->allForDropdown();
 
+			// Set up the services array
 			$services[] = 'Please choose a service';
 			$services += $this->service->allForDropdownByCategory();
 
-			$schedule = $service->serviceOccurrences;
-
-			if ($service->isOneToOne())
+			if ($service->isLesson())
 			{
 				return View::make('pages.admin.services.editLessonService')
 					->withService($service)
 					->withStaff($staff);
 			}
-			
-			if ($service->isOneToMany())
-				$this->_view = 'admin.services.editOneToMany';
-			
-			if ($service->isManyToMany())
-				$this->_view = 'admin.services.editManyToMany';
+
+			if ($service->isProgram())
+			{
+				return View::make('pages.admin.services.editProgramService')
+					->withService($service)
+					->withStaff($staff)
+					->withSchedule($service->serviceOccurrences);
+			}
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to update services!");
+			$this->unauthorized("You do not have permission to update services!");
 		}
 	}
 
@@ -125,9 +118,11 @@ class ServiceController extends BaseController {
 					->with('messageStatus', 'danger');
 			}
 
+			// Update the service
 			$service = $this->service->update($id, Input::all());
 
-			Event::fire('scheduler.service.updated', $service);
+			// Fire the service updated event
+			Event::fire('scheduler.service.updated', array($service, Input::all()));
 
 			return Redirect::route('admin.service.edit', array($id))
 				->with('message', 'Service was successfully updated.')
@@ -135,10 +130,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to edit services!");
+			$this->unauthorized("You do not have permission to edit services!");
 		}
 	}
 
@@ -146,9 +138,11 @@ class ServiceController extends BaseController {
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 2)
 		{
+			// Delete the service
 			$service = $this->service->delete($id);
 
-			Event::fire('scheduler.service.deleted', $service);
+			// Fire the service deleted event
+			Event::fire('scheduler.service.deleted', array($service));
 
 			return Redirect::route('admin.service.index')
 				->with('message', "Service was successfully deleted.")
@@ -156,10 +150,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to delete services!");
+			$this->unauthorized("You do not have permission to delete services!");
 		}
 	}
 
@@ -167,15 +158,11 @@ class ServiceController extends BaseController {
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
-			$categories = array(
-				''			=> "Please choose a category",
-				'lesson'	=> "Lesson",
-				'program'	=> "Program",
-			);
-
-			$staff[''] = 'Please choose a staff member';
+			// Set up the staff array
+			$staff[''] = 'Please choose an instructor';
 			$staff += $this->staff->allForDropdown();
 
+			// Set up the services array
 			$services[] = 'Please choose a service';
 			$services += $this->service->allForDropdownByCategory();
 
@@ -185,60 +172,29 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to create services!");
+			$this->unauthorized("You do not have permission to create services!");
 		}
 	}
 
-	public function createOneToMany()
+	public function createProgramService()
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
-			$this->_data->categories[''] = 'Please choose a category';
-			$this->_data->categories += $this->category->all()->toSimpleArray('id', 'name');
+			// Set up the staff array
+			$staff[''] = 'Please choose an instructor';
+			$staff += $this->staff->allForDropdown();
 
-			$this->_data->staff[''] = 'Please choose a staff member';
-			$this->_data->staff += $this->staff->allForDropdown();
+			// Set up the services array
+			$services[] = 'Please choose a service';
+			$services += $this->service->allForDropdownByCategory();
 
-			$this->_data->services[] = 'Please choose a service';
-			$this->_data->services += $this->service->allForDropdownByCategory();
-
-			$this->_view = 'admin.services.createOneToMany';
+			return View::make('pages.admin.services.createProgramService')
+				->withStaff($staff)
+				->withServices($services);
 		}
 		else
 		{
-			$this->unauthorized();
-
-			$this->_view = 'admin.error';
-
-			$this->_data->error = "You do not have permission to create services!";
-		}
-	}
-
-	public function createManyToMany()
-	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
-		{
-			$this->_data->categories[''] = 'Please choose a category';
-			$this->_data->categories += $this->category->all()->toSimpleArray('id', 'name');
-
-			$this->_data->staff[''] = 'Please choose a staff member';
-			$this->_data->staff += $this->staff->allForDropdown();
-
-			$this->_data->services[] = 'Please choose a service';
-			$this->_data->services += $this->service->allForDropdownByCategory();
-
-			$this->_view = 'admin.services.createManyToMany';
-		}
-		else
-		{
-			$this->unauthorized();
-
-			$this->_view = 'admin.error';
-
-			$this->_data->error = "You do not have permission to create services!";
+			$this->unauthorized("You do not have permission to create services!");
 		}
 	}
 

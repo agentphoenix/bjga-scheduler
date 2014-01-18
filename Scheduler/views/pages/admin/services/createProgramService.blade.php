@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	Create Many-to-Many Service
-@endsection
+	Create Program Service
+@stop
 
 @section('content')
-	<h1>Create Many-to-Many Service</h1>
+	<h1>Create Program Service</h1>
 
 	@if ($_currentUser->access() > 1)
 		<div class="visible-lg">
@@ -24,23 +24,11 @@
 		</div>
 	@endif
 
-	<p class="alert alert-warning">A Many-to-Many service is a service that has multiple occurrences and partcipants. Examples of this include weekly programs and teams.</p>
-
 	{{ Form::open(array('route' => 'admin.service.store')) }}
 		<div class="row">
 			<div class="col-lg-4">
-				<div class="form-group{{ ($errors->has('category_id')) ? ' has-error' : '' }}">
-					<label class="label-control">Category</label>
-					{{ Form::select('category_id', $categories, null, array('class' => 'form-control')) }}
-					{{ $errors->first('category_id', '<p class="help-block">:message</p>') }}
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('staff_id')) ? ' has-error' : '' }}">
-					<label class="label-control">Staff Member</label>
+					<label class="label-control">Instructor</label>
 					{{ Form::select('staff_id', $staff, null, array('class' => 'form-control')) }}
 					{{ $errors->first('staff_id', '<p class="help-block">:message</p>') }}
 				</div>
@@ -69,12 +57,15 @@
 		<div class="row">
 			<div class="col-lg-2">
 				<label class="label-control">Price</label>
-				{{ Form::text('price', null, array('class' => 'form-control')) }}
+				<div class="input-group">
+					<span class="input-group-addon"><strong>$</strong></span>
+					{{ Form::text('price', null, array('class' => 'form-control')) }}
+				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
-				<p class="help-block">If the service is free, leave this blank. Do not enter a dollar sign ($) at the beginning of the price.</p>
+				<p class="help-block">If the service is free, enter zero.</p>
 			</div>
 		</div>
 
@@ -87,40 +78,6 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<p class="help-block">What is the maximum number of people who can attend?</p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-8">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h2 class="panel-title">Additional Services Included</h2>
-					</div>
-					<div class="panel-body">
-						<p class="text-small">Choose a service and the number of occurrences for that service. If there are multiple additional services, you can use the add button at the bottom to create more rows as needed.</p>
-
-						<div class="data-table data-table-bordered data-table-striped" id="serviceDataTable">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="control-label">Service</label>
-										{{ Form::select('additional_service[]', $services, null, array('class' => 'form-control')) }}
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="form-group">
-										<label class="control-label">Occurrences</label>
-										{{ Form::text('additional_service_occurrences[]', null, array('class' => 'form-control')) }}
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="visible-lg visible-md"><a href="#" class="btn btn-sm btn-default icn-size-16 js-addService-action">{{ $_icons['add'] }}</a></div>
-
-						<div class="visible-sm visible-xs"><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-addService-action">{{ $_icons['add'] }}</a></div>
-					</div>
-				</div>
 			</div>
 		</div>
 
@@ -165,34 +122,26 @@
 		</div>
 
 		{{ Form::hidden('slug', '') }}
+		{{ Form::hidden('category', 'program') }}
 
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-lg">
-					{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-primary')) }}
+					{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 				</div>
 				<div class="hidden-lg">
-					{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
+					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-block btn-primary')) }}
 				</div>
 			</div>
 		</div>
 	{{ Form::close() }}
-@endsection
+@stop
 
 @section('scripts')
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 	<script src="{{ URL::asset('js/bootstrap-datetimepicker.js') }}"></script>
 	<script>
-		$(document).on('click', '.js-addService-action', function(e)
-		{
-			e.preventDefault();
-
-			$('#serviceDataTable .row:first').clone().find("input").each(function()
-			{
-				$(this).val('');
-			}).end().appendTo('#serviceDataTable');
-		});
-
+		
 		$(document).on('click', '.js-addSchedule-action', function(e)
 		{
 			e.preventDefault();
@@ -228,5 +177,6 @@
 				format: "HH:mm A"
 			});
 		});
+
 	</script>
-@endsection
+@stop

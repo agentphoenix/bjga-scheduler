@@ -10,6 +10,8 @@ class UserAppointmentModel extends Model {
 		'appointment_id', 'recur_id', 'user_id', 'has_gift', 'gift_amount', 'paid', 'amount',
 	);
 
+	protected $softDelete = true;
+
 	/*
 	|--------------------------------------------------------------------------
 	| Relationships

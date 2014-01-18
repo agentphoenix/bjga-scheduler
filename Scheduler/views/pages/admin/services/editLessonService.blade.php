@@ -2,7 +2,7 @@
 
 @section('title')
 	Edit Lesson Service
-@endsection
+@stop
 
 @section('content')
 	<h1>Edit Lesson Service <small>{{ $service->name }}</small></h1>

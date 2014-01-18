@@ -63,6 +63,16 @@ class UserRepository implements UserRepositoryInterface {
 		})->first();
 	}
 
+	public function getNonStaff()
+	{
+		$users = $this->all();
+
+		return $users->filter(function($u)
+		{
+			return ( ! $u->isStaff());
+		})->toSimpleArray('id', 'name');
+	}
+
 	public function getUnscheduledAppointments($id = false)
 	{
 		// Get the user
@@ -72,7 +82,7 @@ class UserRepository implements UserRepositoryInterface {
 		{
 			return $user->appointments->filter(function($a)
 			{
-				return $a->appointment->date === null;
+				return $a->appointment->start === null;
 			});
 		}
 
