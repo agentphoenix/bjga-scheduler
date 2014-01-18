@@ -4,7 +4,8 @@
 		"dflydev/markdown": "1.*",
 		"iron-io/iron_mq": "1.4.*",
 		"sabre/vobject" : "3.1.*",
-		"mailchimp/mailchimp": "2.0.*"
+		"mailchimp/mailchimp": "2.0.*",
+		"drewm/mailchimp-api": "*"
 	},
 	
 	"require-dev": {
