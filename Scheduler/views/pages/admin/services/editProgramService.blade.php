@@ -158,7 +158,7 @@
 
 @section('scripts')
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap-datetimepicker.js') }}"></script>
+	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 	<script>
 		
 		$(document).on('click', '.js-addSchedule-action', function(e)

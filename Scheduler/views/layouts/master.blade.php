@@ -22,6 +22,7 @@
 		<link href="http://localhost/global/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 	@endif
 
+	{{ HTML::style('css/bootstrap-datetimepicker.min.css') }}
 	{{ HTML::style('css/fonts.css') }}
 	{{ HTML::style('css/style.css') }}
 	{{ HTML::style('css/responsive.css') }}
