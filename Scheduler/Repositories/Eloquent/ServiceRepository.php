@@ -133,7 +133,7 @@ class ServiceRepository implements ServiceRepositoryInterface {
 						->second(0);
 
 					// Create the service occurrences
-					ServiceOccurrenceModel::create(array(
+					$serviceOccurrence = ServiceOccurrenceModel::create(array(
 						'service_id'	=> $service->id,
 						'start'			=> $start,
 						'end'			=> $end,
@@ -143,6 +143,7 @@ class ServiceRepository implements ServiceRepositoryInterface {
 					$staffAppt = StaffAppointmentModel::create(array(
 						'staff_id'		=> $service->staff->id,
 						'service_id'	=> $service->id,
+						'occurrence_id'	=> $serviceOccurrence->id,
 						'start'			=> $start,
 						'end'			=> $end,
 					));
@@ -290,6 +291,10 @@ class ServiceRepository implements ServiceRepositoryInterface {
 
 				foreach ($data['service_dates'] as $key => $date)
 				{
+					// New occurrence added
+					// Existing occurence updated
+					// Existing occurrence removed
+					
 					if ( ! empty($date))
 					{
 						$start = Date::createFromFormat('Y-m-d', $date, 'America/New_York');
@@ -305,11 +310,23 @@ class ServiceRepository implements ServiceRepositoryInterface {
 						// Get the occurrence
 						$occurrence = $service->serviceOccurrences->filter(function($o) use ($key)
 						{
-							return $o->id === $key;
+							return $o->id == $key;
 						})->first();
 
 						if ($occurrence)
+						{
+							// Update the service occurrence
 							$occurrence->fill(array('start' => $start, 'end' => $end))->save();
+
+							// Update the staff appointments with this occurrence
+							if ($occurrence->staffAppointments->count() > 0)
+							{
+								foreach ($occurrence->staffAppointments as $sa)
+								{
+									$sa->fill(array('start' => $start, 'end' => $end))->save();
+								}
+							}
+						}
 						else
 						{
 							ServiceOccurrenceModel::create(array(
@@ -327,66 +344,9 @@ class ServiceRepository implements ServiceRepositoryInterface {
 				$update = $service->fill(array('occurrences' => $i))->save();
 			}
 
-			if ($service->isProgram())
-			{
-				if ($service->appointments->count() > 0)
-				{
-					$users = array();
+			# TODO: need to figure out where to update the staff calendar
 
-					foreach ($service->appointments as $staffAppt)
-					{
-						// Delete all the user appointments
-						if ($staffAppt->attendees->count() > 0)
-						{
-							foreach ($staffAppt->attendees as $attendee)
-							{
-								// Store the attendee information for later
-								$users[] = $attendee;
-
-								// Delete the user appointment
-								$attendee->delete();
-							}
-						}
-
-						// Delete the staff appointment
-						$staffAppt->delete();
-					}
-
-					if ($service->serviceOccurrences->count() > 0)
-					{
-						foreach ($service->serviceOccurrences as $o)
-						{
-							$staffAppt = StaffAppointmentModel::create(array(
-								'staff_id'		=> $service->staff->id,
-								'service_id'	=> $service->id,
-								'start'			=> $o->start,
-								'end'			=> $o->end,
-							));
-
-							if (isset($users))
-							{
-								// Create the user appointments
-								foreach ($users as $u)
-								{
-									UserAppointmentModel::create(array(
-										'appointment_id'	=> $staffAppt->id,
-										'user_id'			=> $u->user_id,
-										'has_gift'			=> $u->has_gift,
-										'gift_amount'		=> $u->gift_amount,
-										'paid'				=> $u->paid,
-										'amount'			=> $u->amount,
-									));
-								}
-							}
-						}
-
-						# TODO: send emails to the attendees that the service has changed
-					}
-				}
-
-				if ($staffAppt)
-					Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
-			}
+			# TODO: send emails to the attendees that the service has been changed
 
 			return $service;
 		}

@@ -137,7 +137,7 @@ class BookingService {
 				// Book the user
 				$userApptArr = array_merge(
 					$userApptRecord,
-					array('appointment_id' => $a->id)
+					array('appointment_id' => $a->id, 'occurrence_id' => $a->occurrence_id)
 				);
 				$bookUser = UserAppointmentModel::create($userApptArr);
 			}
