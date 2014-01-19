@@ -30,6 +30,7 @@ class SchedulerCreateStaff extends Migration {
 			$table->integer('staff_id')->unsigned();
 			$table->integer('service_id')->unsigned();
 			$table->bigInteger('recur_id')->unsigned()->nullable();
+			$table->bigInteger('occurrence_id')->unsigned()->nullable();
 			$table->datetime('start')->nullable();
 			$table->datetime('end')->nullable();
 			$table->text('notes')->nullable();

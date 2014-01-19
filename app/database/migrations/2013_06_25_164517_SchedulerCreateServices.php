@@ -31,7 +31,7 @@ class SchedulerCreateServices extends Migration {
 
 		Schema::create('services_occurrences', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->bigIncrements('id');
 			$table->bigInteger('service_id')->unsigned();
 			$table->datetime('start')->nullable();
 			$table->datetime('end')->nullable();

@@ -18,7 +18,17 @@ class ServiceOccurrenceModel extends Model {
 	
 	public function service()
 	{
-		return $this->belongsTo('ServiceModel');
+		return $this->belongsTo('ServiceModel', 'service_id');
+	}
+
+	public function staffAppointments()
+	{
+		return $this->hasMany('StaffAppointmentModel', 'occurrence_id');
+	}
+
+	public function userAppointments()
+	{
+		return $this->hasMany('UserAppointmentModel', 'occurrence_id');
 	}
 
 	/*
