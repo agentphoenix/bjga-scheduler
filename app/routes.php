@@ -139,3 +139,11 @@ Route::get('schedule', function()
 
 	s($staff->schedule->toArray());
 });
+
+Route::get('attendees', function()
+{
+	$service = ServiceModel::find(6);
+
+	//sd($service);
+	sd($service->attendees()->toArray());
+});

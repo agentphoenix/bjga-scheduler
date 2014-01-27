@@ -4,6 +4,7 @@ use Date,
 	View,
 	Input,
 	Config,
+	ServiceOccurrenceModel,
 	UserRepositoryInterface,
 	StaffRepositoryInterface,
 	ServiceRepositoryInterface,
@@ -124,7 +125,7 @@ class AjaxController extends BaseController {
 		if ($service)
 		{
 			return View::make('pages.ajax.programServiceDetails')
-				->withDates($service->serviceOccurrences)
+				->withDates($service->serviceOccurrences->sortBy(function($s) { return $s->start; }))
 				->withPrice($service->price);
 		}
 
@@ -218,6 +219,43 @@ class AjaxController extends BaseController {
 					->with('_icons', $this->icons);
 			}
 		}
+	}
+
+	public function postRemoveServiceScheduleItem()
+	{
+		// Get the service occurrence ID
+		$id = (is_numeric(Input::get('id'))) ? Input::get('id') : false;
+
+		// Get the occurrence
+		$occurrence = ServiceOccurrenceModel::find($id);
+
+		if ($occurrence)
+		{
+			// Remove any user appointments
+			if ($occurrence->userAppointments->count() > 0)
+			{
+				foreach ($occurrence->userAppointments as $a)
+				{
+					$a->delete();
+				}
+			}
+
+			// Remove any staff appointments
+			if ($occurrence->staffAppointments->count() > 0)
+			{
+				foreach ($occurrence->staffAppointments as $a)
+				{
+					$a->delete();
+				}
+			}
+
+			// Remove the occurrence
+			$occurrence->delete();
+
+			return json_encode(array('code' => 1));
+		}
+
+		return json_encode(array('code' => 0));
 	}
 
 	public function postWithdraw()

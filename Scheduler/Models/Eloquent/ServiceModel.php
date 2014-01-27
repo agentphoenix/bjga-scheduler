@@ -77,6 +77,29 @@ class ServiceModel extends Model {
 	|--------------------------------------------------------------------------
 	*/
 
+	public function attendees()
+	{
+		// Start a new collection
+		$collection = $this->newCollection();
+
+		if ($this->appointments->count() > 0)
+		{
+			foreach ($this->appointments as $a)
+			{
+				if ($a->userAppointments->count() > 0)
+				{
+					foreach ($a->userAppointments as $u)
+					{
+						if ( ! $collection->has($u->user->id))
+							$collection->put($u->user->id, $u->user);
+					}
+				}
+			}
+		}
+
+		return $collection;
+	}
+
 	public function isLesson()
 	{
 		return (bool) ($this->serviceOccurrences->count() == 0 and $this->user_limit == 1);

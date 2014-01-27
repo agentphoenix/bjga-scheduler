@@ -93,7 +93,7 @@
 						<div class="data-table data-table-bordered data-table-striped" id="serviceScheduleTable">
 							@foreach ($schedule as $s)
 								<div class="row">
-									<div class="col-lg-4">
+									<div class="col-lg-3">
 										<div class="form-group">
 											<label class="control-label">Date</label>
 											{{ Form::text('service_dates['.$s->id.']', $s->start->format('Y-m-d'), array('class' => 'form-control js-datepicker')) }}
@@ -111,10 +111,14 @@
 											{{ Form::text('service_times_end['.$s->id.']', $s->end->format('H:i A'), array('class' => 'form-control js-timepicker')) }}
 										</div>
 									</div>
+									<div class="col-lg-1">
+										<label class="control-label">&nbsp;</label>
+										<a class="btn btn-xs btn-danger icn-size-16 js-removeSchedule-action" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
+									</div>
 								</div>
 							@endforeach
 							<div class="row">
-								<div class="col-lg-4">
+								<div class="col-lg-3">
 									<div class="form-group">
 										<label class="control-label">Date</label>
 										{{ Form::text('service_dates[]', null, array('class' => 'form-control js-datepicker')) }}
@@ -171,17 +175,44 @@
 				{
 					$(this).val('').datetimepicker({
 						pickTime: false,
-						format: "YYYY-MM-DD"
+						format: "YYYY-MM-DD",
+						minuteStepping: 15
 					});
 				}
 				else
 				{
 					$(this).datetimepicker({
 						pickDate: false,
-						format: "HH:mm A"
+						format: "HH:mm A",
+						minuteStepping: 15
 					});
 				}
 			}).end().appendTo('#serviceScheduleTable');
+		});
+
+		$(document).on('click', '.js-removeSchedule-action', function(e)
+		{
+			e.preventDefault();
+
+			var row = $(this).closest('.row');
+
+			$.ajax({
+				data: { 'id': $(this).data('id') },
+				url: "{{ URL::route('ajax.removeServiceScheduleItem') }}",
+				type: "POST",
+				success: function(data)
+				{
+					var obj = $.parseJSON(data);
+
+					if (obj.code == 1)
+					{
+						row.fadeOut(300, function()
+						{
+							$(this).remove();
+						});
+					}
+				}
+			});
 		});
 
 		$(function()
@@ -191,18 +222,21 @@
 				$(this).datetimepicker({
 					pickDate: false,
 					format: "HH:mm A",
+					minuteStepping: 15,
 					defaultDate: moment($(this).val(), "HH:mm:ss")
 				});
 			});
 
 			$('.js-datepicker').datetimepicker({
 				pickTime: false,
-				format: "YYYY-MM-DD"
+				format: "YYYY-MM-DD",
+				minuteStepping: 15
 			});
 
 			$('.js-timepicker').datetimepicker({
 				pickDate: false,
-				format: "HH:mm A"
+				format: "HH:mm A",
+				minuteStepping: 15
 			});
 		});
 

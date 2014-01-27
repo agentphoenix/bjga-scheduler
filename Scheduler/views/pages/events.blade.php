@@ -13,8 +13,8 @@
 			<?php $eventDate = Date::createFromFormat('Y-m-d', $event->date);?>
 			<?php $eventStart = Date::createFromFormat('H:i:s', $event->start_time);?>
 			<?php $eventEnd = Date::createFromFormat('H:i:s', $event->end_time);?>
-			<?php $openSlots = $event->service->user_limit - $event->attendees->count();?>
-			<?php $hasOpenings = $event->attendees->count() < $event->service->user_limit;?>
+			<?php $openSlots = $event->service->user_limit - $event->userAppointments->count();?>
+			<?php $hasOpenings = $event->userAppointments->count() < $event->service->user_limit;?>
 
 			<dt>{{ $event->service->name }}</dt>
 			<dd>

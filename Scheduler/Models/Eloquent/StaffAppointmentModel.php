@@ -28,8 +28,8 @@ class StaffAppointmentModel extends Model {
 	{
 		return $this->belongsTo('StaffModel', 'staff_id');
 	}
-	
-	public function attendees()
+
+	public function userAppointments()
 	{
 		return $this->hasMany('UserAppointmentModel', 'appointment_id');
 	}
@@ -53,6 +53,29 @@ class StaffAppointmentModel extends Model {
 	public function getDates()
 	{
 		return array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Model Methods
+	|--------------------------------------------------------------------------
+	*/
+
+	public function attendees()
+	{
+		// Start a new collection
+		$collection = $this->newCollection();
+		
+		if ($this->userAppointments->count() > 0)
+		{
+			foreach ($this->userAppointments as $a)
+			{
+				if ( ! $collection->has($a->user->id))
+					$collection->put($a->user->id, $a->user);
+			}
+		}
+
+		return $collection;
 	}
 	
 }

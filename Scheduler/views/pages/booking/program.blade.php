@@ -117,9 +117,9 @@
 			});
 		});
 
-		$(document).on('change', '[name="gift_certificate"]', function(e)
+		$(document).on('change', '[name="has_gift"]', function(e)
 		{
-			var selected = $('[name="gift_certificate"]:checked').val();
+			var selected = $('[name="has_gift"]:checked').val();
 
 			if (selected == "1")
 				$('#giftCertificateAmount').removeClass('hide');

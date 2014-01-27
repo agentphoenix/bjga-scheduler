@@ -15,10 +15,10 @@
 					<dt>{{ $appt->service->name }}</dt>
 					<dd><span class="label label-default">{{ Date::createFromFormat('H:i:s', $appt->start_time)->format('g:ia') }} - {{ Date::createFromFormat('H:i:s', $appt->end_time)->format('g:ia') }}</span></dd>
 
-					@if ($appt->attendees->count() > 1)
-						<dd>{{ $appt->attendees->count() }} attendees</dd>
+					@if ($appt->userAppointments->count() > 1)
+						<dd>{{ $appt->userAppointments->count() }} attendees</dd>
 					@else
-						<dd>{{ $appt->attendees->first()->user->name }}</dd>
+						<dd>{{ $appt->userAppointments->first()->user->name }}</dd>
 					@endif
 
 					<dd>
@@ -29,7 +29,7 @@
 									<a href="#" class="btn btn-sm btn-default">Edit</a>
 								</div>
 
-								@if ($appt->attendees->count() === 1 and (bool) $appt->attendees->first()->paid === false)
+								@if ($appt->userAppointments->count() === 1 and (bool) $appt->userAppointments->first()->paid === false)
 									<div class="btn-group">
 										<a href="#" class="btn btn-sm btn-default">Mark as Paid</a>
 									</div>
@@ -49,7 +49,7 @@
 									<p><a href="#" class="btn btn-block btn-lg btn-default">Edit Appointment</a></p>
 								</div>
 
-								@if ($appt->attendees->count() === 1 and (bool) $appt->attendees->first()->paid === false)
+								@if ($appt->userAppointments->count() === 1 and (bool) $appt->userAppointments->first()->paid === false)
 									<div class="col-sm-12">
 										<p><a href="#" class="btn btn-block btn-lg btn-warning">Mark as Paid</a></p>
 									</div>

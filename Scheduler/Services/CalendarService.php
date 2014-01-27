@@ -28,7 +28,7 @@ class CalendarService {
 		{
 			// Set the summary
 			$event['SUMMARY'] = ($a->service->isLesson())
-				? $a->attendees->first()->user->name
+				? $a->userAppointments->first()->user->name
 				: $a->service->name;
 
 			// Set the start time and end time

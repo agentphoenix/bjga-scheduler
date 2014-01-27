@@ -52,16 +52,16 @@
 			<div class="col-md-4 col-lg-4">
 				<dl>
 					@if ($currentUser->isStaff())
-						<dt>Attendees ({{ $appointment->attendees->count() }}/{{ $event->user_limit }})</dt>
-						@foreach ($appointment->attendees as $attendee)
+						<dt>Attendees ({{ $appointment->userAppointments->count() }}/{{ $event->user_limit }})</dt>
+						@foreach ($appointment->userAppointments as $ua)
 							<dd>
-								@if ((bool) $attendee->paid)
+								@if ((bool) $ua->paid)
 									<span class="label label-success icn-size-16">!</span>
 								@else
 									<span class="label label-danger icn-size-16">!</span>
 								@endif
 
-								{{ $attendee->user->name }}
+								{{ $ua->user->name }}
 							</dd>
 						@endforeach
 					@endif

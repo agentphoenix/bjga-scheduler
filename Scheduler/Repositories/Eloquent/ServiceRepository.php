@@ -152,11 +152,11 @@ class ServiceRepository implements ServiceRepositoryInterface {
 				}
 			}
 
-			if ($staffAppt)
-				Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
-
 			// Make sure we have an accurate count of occurrences for the service record
 			$service = $service->fill(array('occurrences' => $i))->save();
+
+			// Update the calendar
+			Queue::push('Scheduler\Services\CalendarService', array('model' => $service));
 		}
 
 		return $service;
@@ -185,25 +185,25 @@ class ServiceRepository implements ServiceRepositoryInterface {
 		// Remove any staff and user appointments
 		if ($service->appointments->count() > 0)
 		{
-			if ($service->appointments->attendees->count() > 0)
-			{
-				// Start an array for holding attendee email addresses
-				$emailAddresses = array();
-
-				foreach ($service->appointments->attendees as $attendee)
-				{
-					// Get the email address
-					$emailAddresses[] = $attendee->user->email;
-
-					// Delete the user appointment
-					$attendee->delete();
-				}
-
-				// Send an email to the attendees that the appointment has been canceled
-			}
-
 			foreach ($service->appointments as $appt)
 			{
+				if ($appt->userAppointments->count() > 0)
+				{
+					// Start an array for holding attendee email addresses
+					$emailAddresses = array();
+
+					foreach ($service->appointments->userAppointments as $ua)
+					{
+						// Get the email address
+						$emailAddresses[] = $ua->user->email;
+
+						// Delete the user appointment
+						$ua->delete();
+					}
+
+					// Send an email to the attendees that the appointment has been canceled
+				}
+
 				// Remove the staff appointment
 				$appt->delete();
 			}
@@ -211,6 +211,9 @@ class ServiceRepository implements ServiceRepositoryInterface {
 
 		// Delete the service
 		$service->delete();
+
+		// Update the calendar
+		Queue::push('Scheduler\Services\CalendarService', array('model' => $service));
 
 		return $service;
 	}
@@ -293,7 +296,6 @@ class ServiceRepository implements ServiceRepositoryInterface {
 				{
 					// New occurrence added
 					// Existing occurence updated
-					// Existing occurrence removed
 					
 					if ( ! empty($date))
 					{
@@ -329,11 +331,45 @@ class ServiceRepository implements ServiceRepositoryInterface {
 						}
 						else
 						{
-							ServiceOccurrenceModel::create(array(
+							// Create a new occurrence
+							$newOccurrence = ServiceOccurrenceModel::create(array(
 								'service_id' => $service->id,
 								'start' => $start,
 								'end' => $end
 							));
+
+							// Create a new staff appointment
+							$newAppt = StaffAppointmentModel::create(array(
+								'staff_id'		=> $service->staff->id,
+								'service_id'	=> $service->id,
+								'occurrence_id'	=> $newOccurrence->id,
+								'start'			=> $start,
+								'end'			=> $end,
+							));
+
+							// Get the attendees for the service
+							$attendees = $service->attendees();
+
+							if ($attendees->count() > 0)
+							{
+								$baseUserAppt = array(
+									'appointment_id'	=> $newAppt->id,
+									'occurrence_id'		=> $newOccurrence->id,
+								);
+
+								foreach ($attendees as $attendee)
+								{
+									// Add the user ID in
+									$userAppt = $baseUserAppt + array('user_id' => $attendee->id);
+
+									// If it's a staff member, set them as having paid
+									if ($attendee->isStaff())
+										$userAppt = $userAppt + array('paid' => (int) true);
+
+									// Create the new user appointment
+									UserAppointmentModel::create($userAppt);
+								}
+							}
 						}
 
 						++$i;
@@ -344,7 +380,8 @@ class ServiceRepository implements ServiceRepositoryInterface {
 				$update = $service->fill(array('occurrences' => $i))->save();
 			}
 
-			# TODO: need to figure out where to update the staff calendar
+			// Update the calendar
+			Queue::push('Scheduler\Services\CalendarService', array('model' => $service));
 
 			# TODO: send emails to the attendees that the service has been changed
 

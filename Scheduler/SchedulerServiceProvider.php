@@ -152,6 +152,9 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::post('service/edit', array(
 				'as' => 'ajax.editService',
 				'uses' => 'Scheduler\Controllers\AjaxController@postEditService'));
+			Route::post('service/removeScheduleItem', array(
+				'as' => 'ajax.removeServiceScheduleItem',
+				'uses' => 'Scheduler\Controllers\AjaxController@postRemoveServiceScheduleItem'));
 			Route::post('withdraw', array(
 				'as' => 'ajax.withdraw',
 				'uses' => 'Scheduler\Controllers\AjaxController@postWithdraw'));
