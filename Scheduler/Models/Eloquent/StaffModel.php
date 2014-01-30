@@ -10,6 +10,8 @@ class StaffModel extends Model {
 
 	protected $softDelete = true;
 
+	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+
 	/*
 	|--------------------------------------------------------------------------
 	| Relationships
