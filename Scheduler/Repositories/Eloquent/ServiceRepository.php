@@ -153,10 +153,7 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			}
 
 			// Make sure we have an accurate count of occurrences for the service record
-			$service = $service->fill(array('occurrences' => $i))->save();
-
-			// Update the calendar
-			Queue::push('Scheduler\Services\CalendarService', array('model' => $service));
+			$service->fill(array('occurrences' => $i))->save();
 		}
 
 		return $service;
@@ -176,44 +173,33 @@ class ServiceRepository implements ServiceRepositoryInterface {
 		// Remove any service occurrences
 		if ($service->serviceOccurrences->count() > 0)
 		{
-			foreach ($service->serviceOccurrences as $o)
+			foreach ($service->serviceOccurrences as $occurrence)
 			{
-				$o->delete();
+				$occurrence->delete();
 			}
 		}
 
 		// Remove any staff and user appointments
 		if ($service->appointments->count() > 0)
 		{
-			foreach ($service->appointments as $appt)
+			foreach ($service->appointments as $staffAppt)
 			{
-				if ($appt->userAppointments->count() > 0)
+				if ($staffAppt->userAppointments->count() > 0)
 				{
-					// Start an array for holding attendee email addresses
-					$emailAddresses = array();
-
-					foreach ($service->appointments->userAppointments as $ua)
+					foreach ($staffAppt->userAppointments as $userAppt)
 					{
-						// Get the email address
-						$emailAddresses[] = $ua->user->email;
-
 						// Delete the user appointment
-						$ua->delete();
+						$userAppt->delete();
 					}
-
-					// Send an email to the attendees that the appointment has been canceled
 				}
 
 				// Remove the staff appointment
-				$appt->delete();
+				$staffAppt->delete();
 			}
 		}
 
 		// Delete the service
-		$service->delete();
-
-		// Update the calendar
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $service));
+		ServiceModel::destroy($service->id);
 
 		return $service;
 	}
@@ -379,11 +365,6 @@ class ServiceRepository implements ServiceRepositoryInterface {
 				// Make sure we have an accurate occurrences count
 				$update = $service->fill(array('occurrences' => $i))->save();
 			}
-
-			// Update the calendar
-			Queue::push('Scheduler\Services\CalendarService', array('model' => $service));
-
-			# TODO: send emails to the attendees that the service has been changed
 
 			return $service;
 		}
