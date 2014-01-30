@@ -55,7 +55,7 @@ class ServiceController extends BaseController {
 			$service = $this->service->create(Input::all());
 
 			// Fire the service created event
-			Event::fire('scheduler.service.created', array($service, Input::all()));
+			Event::fire('service.created', array($service, Input::all()));
 
 			return Redirect::route('admin.service.index')
 				->with('message', 'Service was successfully created.')
@@ -122,7 +122,7 @@ class ServiceController extends BaseController {
 			$service = $this->service->update($id, Input::all());
 
 			// Fire the service updated event
-			Event::fire('scheduler.service.updated', array($service, Input::all()));
+			Event::fire('service.updated', array($service, Input::all()));
 
 			return Redirect::route('admin.service.edit', array($id))
 				->with('message', 'Service was successfully updated.')
@@ -142,7 +142,7 @@ class ServiceController extends BaseController {
 			$service = $this->service->delete($id);
 
 			// Fire the service deleted event
-			Event::fire('scheduler.service.deleted', array($service));
+			Event::fire('service.deleted', array($service));
 
 			return Redirect::route('admin.service.index')
 				->with('message', "Service was successfully deleted.")
