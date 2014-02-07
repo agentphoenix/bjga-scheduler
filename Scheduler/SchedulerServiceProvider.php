@@ -126,6 +126,8 @@ class SchedulerServiceProvider extends ServiceProvider {
 				'except' => array('show')));
 			Route::resource('staff', 'Scheduler\Controllers\StaffController', array(
 				'except' => array('show')));
+			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController', array(
+				'except' => array('create')));
 		});
 
 		// Ajax requests

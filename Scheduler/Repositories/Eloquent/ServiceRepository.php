@@ -1,7 +1,6 @@
 <?php namespace Scheduler\Repositories\Eloquent;
 
 use Date,
-	Queue,
 	ServiceModel,
 	UserAppointmentModel,
 	StaffAppointmentModel,
@@ -240,6 +239,17 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			return $collection->toSimpleArray($key, $value);
 
 		return $collection->toArray();
+	}
+
+	public function getAttendees($id)
+	{
+		// Get the service
+		$service = $this->find($id);
+
+		if ($service)
+			return $service->attendees();
+
+		return new Collection;
 	}
 	
 	/**
