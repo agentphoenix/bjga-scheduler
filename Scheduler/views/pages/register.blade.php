@@ -70,6 +70,18 @@
 
 				<div class="row">
 					<div class="col-lg-12">
+						<div class="form-group">
+							<div class="checkbox">
+								<label>
+									{{ Form::checkbox('mailchimp_optin', 1, false) }} Sign up for our newsletter
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
 						<p>{{ Form::submit("Register", array('class' => 'btn btn-lg btn-block btn-primary')) }}</p>
 						<p><a href="{{ URL::route('home') }}" class="btn btn-block btn-link">Home</a></p>
 					</div>
