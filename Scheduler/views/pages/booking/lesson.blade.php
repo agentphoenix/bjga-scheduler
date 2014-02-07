@@ -133,10 +133,10 @@
 
 @section('scripts')
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap-datetimepicker.js') }}"></script>
+	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 	<script>
 		
-		$(document).on('click', '#checkAvailability', function(e)
+		$('#checkAvailability').on('click', function(e)
 		{
 			e.preventDefault();
 
@@ -164,7 +164,7 @@
 			$('#bookingForm').removeClass('hide');
 		});
 
-		$(document).on('change', '[name="has_gift"]', function(e)
+		$('[name="has_gift"]').on('change', function(e)
 		{
 			var selected = $('[name="has_gift"]:checked').val();
 
@@ -174,7 +174,7 @@
 				$('#giftCertificateAmount').addClass('hide');
 		});
 
-		$(document).on('click', '.js-change-time', function(e)
+		$('.js-change-time').on('click', function(e)
 		{
 			$('#bookingForm').addClass('hide');
 			$('#ajax-container').html('').closest('.row').removeClass('hide');
@@ -183,11 +183,13 @@
 
 		$(function()
 		{
+			var now = moment();
+
 			$('.js-datepicker').datetimepicker({
 				pickTime: false,
 				format: "YYYY-MM-DD",
-				defaultDate: moment(),
-				startDate: moment()
+				defaultDate: now,
+				startDate: now
 			});
 		});
 
