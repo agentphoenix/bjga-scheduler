@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Extensions\Laravel\Database\Eloquent;
 
-use Date;
+use Date,
+	Config;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel {
@@ -55,7 +56,7 @@ class Model extends EloquentModel {
 	 */
 	public function freshTimestamp()
 	{
-		return Date::now('UTC');
+		return Date::now(Config::get('app.timezone'));
 	}
 
 	/**
@@ -73,7 +74,7 @@ class Model extends EloquentModel {
 		{
 			$format = $this->getDateFormat();
 
-			return Date::createFromFormat($format, $value, 'UTC');
+			return Date::createFromFormat($format, $value, Config::get('app.timezone'));
 		}
 
 		return $value;
