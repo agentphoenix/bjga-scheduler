@@ -147,3 +147,12 @@ Route::get('attendees', function()
 	//sd($service);
 	sd($service->attendees()->toArray());
 });
+
+Route::get('mailchimp', function()
+{
+	$mailchimp = App::make('scheduler.mailchimp');
+
+	$list = $mailchimp->call('lists/list');
+
+	sd($mailchimp);
+});
