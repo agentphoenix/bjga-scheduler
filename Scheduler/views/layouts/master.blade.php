@@ -19,7 +19,7 @@
 		<link href="http://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet">
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 	@else
-		<link href="http://localhost/global/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://localhost/global/bootstrap/3.1/css/bootstrap.min.css" rel="stylesheet">
 	@endif
 
 	{{ HTML::style('css/bootstrap-datetimepicker.min.css') }}
@@ -84,7 +84,7 @@
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	@else
 		<script src="http://localhost/global/jquery/jquery-2.1.0.min.js"></script>
-		<script src="http://localhost/global/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+		<script src="http://localhost/global/bootstrap/3.1/js/bootstrap.min.js"></script>
 	@endif
 	<script>
 
