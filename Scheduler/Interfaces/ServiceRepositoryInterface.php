@@ -13,6 +13,7 @@ interface ServiceRepositoryInterface {
 	public function find($id);
 	public function findBySlug($slug);
 	public function forDropdown(Collection $collection, $key, $value);
+	public function getAttendees($id);
 	public function getValues($category);
 	public function update($id, array $data);
 	

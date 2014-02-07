@@ -15,9 +15,7 @@ if ( ! function_exists('partial'))
 
 		// Make sure we have data before attaching it
 		if ($data !== false)
-		{
 			return $viewObj->with($data);
-		}
 
 		return $viewObj;
 	}
@@ -33,16 +31,10 @@ if ( ! function_exists('modal'))
 {
 	function modal(array $data = array())
 	{
-		// Set the variables
-		$id		= (array_key_exists('id', $data)) ? $data['id'] : false;
-		$header	= (array_key_exists('header', $data)) ? $data['header'] : false;
-		$body	= (array_key_exists('body', $data)) ? $data['body'] : false;
-		$footer	= (array_key_exists('footer', $data)) ? $data['footer'] : false;
-
 		return View::make('partials.common.modal')
-			->with('modalId', $id)
-			->with('modalHeader', $header)
-			->with('modalBody', $body)
-			->with('modalFooter', $footer);
+			->with('modalId', (array_key_exists('id', $data)) ? $data['id'] : false)
+			->with('modalHeader', (array_key_exists('header', $data)) ? $data['header'] : false)
+			->with('modalBody', (array_key_exists('body', $data)) ? $data['body'] : false)
+			->with('modalFooter', (array_key_exists('footer', $data)) ? $data['footer'] : false);
 	}
 }
