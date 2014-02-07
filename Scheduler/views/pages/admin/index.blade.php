@@ -13,7 +13,7 @@
 				<dl>
 				@foreach ($appointments as $appt)
 					<dt>{{ $appt->service->name }}</dt>
-					<dd><span class="label label-default">{{ Date::createFromFormat('H:i:s', $appt->start_time)->format('g:ia') }} - {{ Date::createFromFormat('H:i:s', $appt->end_time)->format('g:ia') }}</span></dd>
+					<dd><span class="label label-default">{{ $appt->start->format('g:ia') }} - {{ $appt->end->format('g:ia') }}</span></dd>
 
 					@if ($appt->userAppointments->count() > 1)
 						<dd>{{ $appt->userAppointments->count() }} attendees</dd>
@@ -72,13 +72,16 @@
 			<h1>My Account</h1>
 
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+				<div class="col-lg-12">
 					<p><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-lg btn-block btn-default">Edit My Account</a></p>
 				</div>
 
 				@if ($_currentUser->isStaff())
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 						<p><a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default">Edit My Staff Account</a></p>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+						<p><a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-warning">Block My Calendar</a></p>
 					</div>
 				@endif
 			</div>
