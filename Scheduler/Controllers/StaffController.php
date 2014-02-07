@@ -1,6 +1,8 @@
 <?php namespace Scheduler\Controllers;
 
-use View,
+use Book,
+	Date,
+	View,
 	Input,
 	Redirect,
 	StaffValidator,
@@ -165,6 +167,106 @@ class StaffController extends BaseController {
 
 			return View::make('pages.admin.error')
 				->withError("You do not have permission to remove staff members!");
+		}
+	}
+
+	public function block()
+	{
+		if ($this->currentUser->isStaff())
+		{
+			return View::make('pages.admin.staff.blocks')
+				->with('blocks', $this->staff->getBlocks($this->currentUser));
+		}
+		else
+		{
+			$this->unauthorized();
+
+			return View::make('pages.admin.error')
+				->withError("Only staff members can block their schedules!");
+		}
+	}
+
+	public function storeBlock()
+	{
+		if ($this->currentUser->isStaff())
+		{
+			$date = Date::createFromFormat('Y-m-d', Input::get('date'));
+
+			if (Input::get('all_day'))
+			{
+				$schedule = $this->currentUser->staff->schedule->filter(function($s) use ($date)
+				{
+					return (int) $s->day === (int) $date->dayOfWeek;
+				})->first();
+
+				// Break the availability apart
+				list($aStart, $aEnd) = explode('-', $schedule->availability);
+
+				// Break the start and end times apart
+				list($aStartHour, $aStartMinute) = explode(':', $aStart);
+				list($aEndHour, $aEndMinute) = explode(':', $aEnd);
+			}
+			else
+			{
+				// Break the start and end times apart
+				list($aStartHour, $aStartMinute) = explode(':', Input::get('start'));
+				list($aEndHour, $aEndMinute) = explode(':', Input::get('end'));
+
+				$start = Input::get('start');
+				$end = Input::get('end');
+			}
+
+			$start = $date->copy()->hour($aStartHour)->minute($aStartMinute)->second(0);
+			$end = $date->copy()->hour($aEndHour)->minute($aEndMinute)->second(0);
+
+			Book::block(array(
+				'staff'	=> Input::get('staff_id'),
+				'start'	=> $date->copy()->hour($aStartHour)->minute($aStartMinute)->second(0),
+				'end'	=> $date->copy()->hour($aEndHour)->minute($aEndMinute)->second(0),
+			));
+
+			return Redirect::route('admin.index')
+				->with('message', "Schedule block was successfully entered.")
+				->with('messageStatus', 'success');
+		}
+		else
+		{
+			$this->unauthorized();
+
+			return View::make('pages.admin.error')
+				->withError("Only staff members can block their schedules!");
+		}
+	}
+
+	public function destroyBlock($id)
+	{
+		# code...
+	}
+
+	public function createBlock()
+	{
+		return partial('common/modal_content', array(
+			'modalHeader'	=> "Create Schedule Block",
+			'modalBody'		=> View::make('pages.ajax.createScheduleBlock')
+								->withUser($this->currentUser),
+			'modalFooter'	=> false,
+		));
+	}
+
+	public function schedule($id)
+	{
+		if ($this->currentUser->isStaff())
+		{
+			return View::make('pages.admin.staff.schedule')
+				->withStaff($this->staff->find($id))
+				->withSchedule($this->staff->getSchedule($id, 7));
+		}
+		else
+		{
+			$this->unauthorized();
+
+			return View::make('pages.admin.error')
+				->withError("Only staff members can view schedules!");
 		}
 	}
 

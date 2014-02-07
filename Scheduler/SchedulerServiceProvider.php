@@ -7,21 +7,19 @@ use App,
 	Event,
 	Queue,
 	Route,
-	Config,
-	StaffAppointmentModel;
-use Mailchimp\Mailchimp;
+	Config;
+use Drewm\MailChimp;
 use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 use Scheduler\Services\BookingService,
-	Scheduler\Services\MarkdownService,
-	Scheduler\Services\MailChimpService;
+	Scheduler\Services\MarkdownService;
 
 class SchedulerServiceProvider extends ServiceProvider {
 
 	public function register()
 	{
 		$this->setupMarkdown();
-		//$this->setupMailchimp();
+		$this->setupMailchimp();
 	}
 
 	public function boot()
@@ -56,7 +54,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->app['scheduler.mailchimp'] = $this->app->share(function($app)
 		{
-			return new MailChimpService(new Mailchimp('f04794d1de4fc62cf6ec66f764edc967-us3'));
+			return new MailChimp('f04794d1de4fc62cf6ec66f764edc967-us3');
 		});
 	}
 
@@ -113,6 +111,12 @@ class SchedulerServiceProvider extends ServiceProvider {
 				'as'	=> 'admin',
 				'uses'	=> 'Scheduler\Controllers\AdminController@index'));
 
+			/**
+			 * Lesson and program service creation routes.
+			 *
+			 * service/create/lesson	GET		Create lesson page
+			 * service/create/program	GET		Enroll in program page
+			 */
 			Route::get('service/create/lesson', array(
 				'as'	=> 'admin.service.createLesson',
 				'uses'	=> 'Scheduler\Controllers\ServiceController@createLessonService'));
@@ -120,6 +124,38 @@ class SchedulerServiceProvider extends ServiceProvider {
 				'as'	=> 'admin.service.createProgram',
 				'uses'	=> 'Scheduler\Controllers\ServiceController@createProgramService'));
 
+			/**
+			 * Staff schedule blocking routes.
+			 *
+			 * staff/block			GET		Get all blocks for a user
+			 * staff/block/create	GET		Creation form for a new block
+			 * staff/block			POST	Create new block
+			 * staff/block/{id}		DELETE	Remove a block
+			 */
+			Route::get('staff/block', array(
+				'as'	=> 'admin.staff.block',
+				'uses'	=> 'Scheduler\Controllers\StaffController@block'));
+			Route::post('staff/block', array(
+				'as'	=> 'admin.staff.block.store',
+				'uses'	=> 'Scheduler\Controllers\StaffController@storeBlock'));
+			Route::delete('staff/block/{id}', array(
+				'as'	=> 'admin.staff.block.destroy',
+				'uses'	=> 'Scheduler\Controllers\StaffController@destroyBlock'));
+			Route::get('staff/block/create', array(
+				'as'	=> 'admin.staff.block.create',
+				'uses'	=> 'Scheduler\Controllers\StaffController@createBlock'));
+			Route::get('staff/schedule/{id}', array(
+				'as'	=> 'admin.staff.schedule',
+				'uses'	=> 'Scheduler\Controllers\StaffController@schedule'));
+
+			/**
+			 * Resourceful controllers.
+			 *
+			 * service
+			 * user
+			 * staff
+			 * appointment
+			 */
 			Route::resource('service', 'Scheduler\Controllers\ServiceController', array(
 				'except' => array('show', 'create')));
 			Route::resource('user', 'Scheduler\Controllers\UserController', array(
@@ -178,6 +214,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 
 	public function setupEventListeners()
 	{
+		Event::listen('book.block.created', 'Scheduler\Events\BookingEventHandler@createBlock');
 		Event::listen('book.lesson.created', 'Scheduler\Events\BookingEventHandler@createLesson');
 		Event::listen('book.program.created', 'Scheduler\Events\BookingEventHandler@createProgram');
 

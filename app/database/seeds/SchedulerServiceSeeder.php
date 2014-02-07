@@ -6,6 +6,15 @@ class SchedulerServiceSeeder extends Seeder {
 	{
 		$services = array(
 			array(
+				'category'			=> '',
+				'staff_id'			=> 0,
+				'name'				=> "BLOCKED",
+				'price'				=> 0,
+				'occurrences'		=> 1,
+				'duration'			=> 0,
+				'user_limit'		=> 0,
+			),
+			array(
 				'category'			=> 'lesson',
 				'staff_id'			=> 1,
 				'name'				=> "Private Lesson",

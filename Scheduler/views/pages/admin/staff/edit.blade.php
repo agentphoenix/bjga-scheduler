@@ -16,13 +16,20 @@
 
 				<div class="btn-group">
 					<a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-default icn-size-16-with-text">Edit My User Account</a>
+					<a href="{{ URL::route('admin.staff.schedule', array($staff->id)) }}" class="btn btn-default icn-size-16-with-text">See My Upcoming Schedule</a>
 				</div>
 			</div>
 		</div>
 		<div class="hidden-lg">
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-12 col-sm-4">
 					<p><a href="{{ URL::route('admin.staff.index') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
+				</div>
+				<div class="col-xs-12 col-sm-4">
+					<p><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit User Account</a></p>
+				</div>
+				<div class="col-xs-12 col-sm-4">
+					<p><a href="{{ URL::route('admin.staff.schedule', array($staff->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">See My Schedule</a></p>
 				</div>
 			</div>
 		</div>

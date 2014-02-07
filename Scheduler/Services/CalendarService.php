@@ -10,10 +10,10 @@ class CalendarService {
 	public function fire($job, $data)
 	{
 		// Get the appointment
-		$appt = $data['model'];
+		$model = $data['model'];
 
 		// Get the staff member
-		$staff = $appt->staff;
+		$staff = $model->staff;
 
 		// Set the calendar we're using
 		$calendarName = str_replace(' ', '', $staff->user->name).'.ics';
@@ -32,8 +32,8 @@ class CalendarService {
 				: $a->service->name;
 
 			// Set the start time and end time
-			$event['DTSTART'] = new DateTime("{$a->date} {$a->start_time}", new DateTimeZone('America/New_York'));
-			$event['DTEND'] = new DateTime("{$a->date} {$a->end_time}", new DateTimeZone('America/New_York'));
+			$event['DTSTART'] = $a->start;
+			$event['DTEND'] = $a->end;
 
 			// Add the event to the calendar
 			$calendar->add('VEVENT', $event);

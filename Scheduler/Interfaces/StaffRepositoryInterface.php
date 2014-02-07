@@ -8,6 +8,8 @@ interface StaffRepositoryInterface {
 	public function delete($id);
 	public function find($id);
 	public function getAppointments();
+	public function getBlocks($user);
+	public function getSchedule($staffId, $days);
 	public function update($id, array $data);
 	
 }

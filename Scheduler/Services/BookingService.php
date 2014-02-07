@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Services;
 
-use Date,
+use Auth,
+	Date,
 	Event,
 	UserAppointmentModel,
 	StaffAppointmentModel,
@@ -18,6 +19,20 @@ class BookingService {
 	{
 		$this->user = $user;
 		$this->service = $service;
+	}
+
+	public function block(array $data)
+	{
+		// Create a new appointment
+		$block = StaffAppointmentModel::create(array(
+			'staff_id'		=> $data['staff'],
+			'service_id'	=> 1,
+			'start'			=> $data['start'],
+			'end'			=> $data['end'],
+		));
+
+		// Fire the lesson booking event
+		Event::fire('book.block.created', array(Auth::user(), $block));
 	}
 
 	public function lesson(array $data)

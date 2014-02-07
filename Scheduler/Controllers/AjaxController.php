@@ -99,14 +99,13 @@ class AjaxController extends BaseController {
 	public function getAvailability()
 	{
 		// Get the data
-		$serviceID = e(Input::get('service'));
-		$date = Date::createFromFormat("Y-m-d", e(Input::get('date')));
+		$date = Date::createFromFormat("Y-m-d", Input::get('date'));
 
 		// Get the service
-		$service = $this->service->find($serviceID);
+		$service = $this->service->find(Input::get('service'));
 
 		// Get the availability
-		$availability = $this->schedule->getAvailability($service->staff->id, $date, $service);
+		$availability = $this->schedule->getAvailability($service->staff_id, $date, $service);
 
 		// Now find the available times
 		$availableTime = $this->schedule->findTimeBlock($availability, $service);

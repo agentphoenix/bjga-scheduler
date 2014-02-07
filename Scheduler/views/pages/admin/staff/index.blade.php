@@ -45,6 +45,9 @@
 				<div class="visible-lg">
 					<div class="btn-toolbar pull-right">
 						<div class="btn-group">
+							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-small btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
+						</div>
+						<div class="btn-group">
 							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-small btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 						</div>
 						<div class="btn-group">
@@ -54,7 +57,10 @@
 				</div>
 				<div class="hidden-lg">
 					<div class="row">
-						<div class="col-xs-12 col-sm-12">
+						<div class="col-xs-6 col-sm-6">
+							<p><a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
+						</div>
+						<div class="col-xs-6 col-sm-6">
 							<p><a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
 						</div>
 						<div class="col-xs-12 col-sm-12">

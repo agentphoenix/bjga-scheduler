@@ -4,6 +4,7 @@ use Auth,
 	Date,
 	StaffModel,
 	StaffRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class StaffRepository implements StaffRepositoryInterface {
 
@@ -123,15 +124,68 @@ class StaffRepository implements StaffRepositoryInterface {
 		// Get the user
 		$user = Auth::user();
 
-		return $user->staff->appointments->filter(function($a)
-		{
-			$date = Date::now();
+		// Get today
+		$today = Date::now();
 
-			return ($a->date == $date->format('Y-m-d'));
+		return $user->staff->appointments->filter(function($a) use ($today)
+		{
+			return ($a->start->startOfDay() == $today->startOfDay());
 		})->sortBy(function($a)
 		{
-			return $a->start_time;
+			return $a->start;
 		});
+	}
+
+	public function getBlocks($user)
+	{
+		// Get the staff record
+		$staff = $user->staff;
+
+		// Start an array for storing the blocks
+		$blocks = array();
+
+		if ($staff)
+		{
+			if ($staff->appointments->count() > 0)
+			{
+				// Get today
+				$today = Date::now();
+
+				return $staff->appointments->filter(function($a) use ($today)
+				{
+					return $a->service_id === 1 and $a->start->startOfDay() >= $today->startOfDay();
+				})->sortBy(function($a)
+				{
+					return $a->start;
+				});
+			}
+
+			return new Collection;
+		}
+
+		return new Collection;
+	}
+
+	public function getSchedule($staffId, $days)
+	{
+		// Get the staff member
+		$staff = $this->find($staffId);
+
+		if ($staff)
+		{
+			// Get today
+			$today = Date::now();
+
+			return $staff->appointments->filter(function($a) use ($today, $days)
+			{
+				return $a->start->startOfDay() <= $today->addDays($days)->startOfDay();
+			})->sortBy(function($a)
+			{
+				return $a->start;
+			});
+		}
+
+		return new Collection;
 	}
 
 	/**
