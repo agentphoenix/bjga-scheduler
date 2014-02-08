@@ -42,17 +42,17 @@ class UserEventHandler {
 				// Get the MailChimp instance
 				$mailchimp = App::make('scheduler.mailchimp');
 
+				// Get the list
+				$list = $mailchimp->call('lists/list', array('list_name' => 'Subscribers'));
+
 				// Break the user name out
 				$name = explode(' ', $input['name']);
 				$firstName = (isset($name[0])) ? $name[0] : false;
 				$lastName = (isset($name[1])) ? $name[1] : false;
 
-				// Get the list
-				$list = $mailchimp->call('lists/list', array('list_name' => 'Subscribers'));
-
 				// Subscribe the user
 				$result = $mailchimp->call('lists/subscribe', array(
-					'id'				=> $list->data['id'],
+					'id'				=> $list['data'][0]['id'],
 					'email'				=> array('email' => $input['email']),
 					'merge_vars'		=> array('FNAME' => $firstName, 'LNAME' => $lastName),
 					'double_optin'		=> false,
