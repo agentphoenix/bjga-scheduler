@@ -6,6 +6,4 @@ return array(
 
 	'url' => 'http://localhost',
 
-	'key' => 'YourSecretKey!!!',
-
 );

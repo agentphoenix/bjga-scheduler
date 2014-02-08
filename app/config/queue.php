@@ -50,9 +50,9 @@ return array(
 
 		'iron' => array(
 			'driver'  => 'iron',
-			'project' => 'your-project-id',
-			'token'   => 'your-token',
-			'queue'   => 'your-queue-name',
+			'project' => $_ENV['QUEUE_PROJECT_ID'],
+			'token'   => $_ENV['QUEUE_TOKEN'],
+			'queue'   => $_ENV['QUEUE_NAME'],
 		),
 
 	),
