@@ -83,7 +83,7 @@
 			if (action == 'delete')
 			{
 				$('#deleteBlock').modal({
-					remote: "{{ URL::route('admin.staff.block.create') }}"
+					remote: "{{ URL::to('admin/staff/block/delete') }}/" + id
 				}).modal('show');
 			}
 		});

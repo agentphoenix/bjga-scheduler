@@ -225,7 +225,7 @@ class StaffController extends BaseController {
 				'end'	=> $date->copy()->hour($aEndHour)->minute($aEndMinute)->second(0),
 			));
 
-			return Redirect::route('admin.index')
+			return Redirect::route('admin')
 				->with('message', "Schedule block was successfully entered.")
 				->with('messageStatus', 'success');
 		}
@@ -238,9 +238,29 @@ class StaffController extends BaseController {
 		}
 	}
 
+	public function deleteBlock($id)
+	{
+		if ($this->currentUser->isStaff())
+		{
+			return partial('common/modal_content', array(
+				'modalHeader'	=> "Remove Schedule Block",
+				'modalBody'		=> View::make('pages.ajax.deleteScheduleBlock')->withId($id),
+				'modalFooter'	=> false,
+			));
+		}
+	}
+
 	public function destroyBlock($id)
 	{
-		# code...
+		// Clear the block
+		$this->staff->deleteBlock($id);
+
+		// Fire the lesson booking event
+		Event::fire('book.block.created', array($this->currentUser));
+
+		return Redirect::route('admin.staff.block')
+			->with('message', "Schedule block was successfully removed.")
+			->with('messageStatus', 'success');
 	}
 
 	public function createBlock()

@@ -3,6 +3,7 @@
 use Auth,
 	Date,
 	StaffModel,
+	StaffAppointmentModel,
 	StaffRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -106,6 +107,11 @@ class StaffRepository implements StaffRepositoryInterface {
 		}
 		
 		return false;
+	}
+
+	public function deleteBlock($id)
+	{
+		return StaffAppointmentModel::destroy($id);
 	}
 
 	/**
