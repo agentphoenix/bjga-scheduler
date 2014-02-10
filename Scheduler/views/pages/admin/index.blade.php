@@ -94,7 +94,7 @@
 						<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-lg btn-block btn-primary">Manage Appointments</a></p>
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-						<p><a href="#" class="btn btn-lg btn-block btn-default">View Reports</a></p>
+						<p><a href="{{ URL::route('admin.reports.index') }}" class="btn btn-lg btn-block btn-default">Report Center</a></p>
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 						<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-lg btn-block btn-default">Manage Services</a></p>
