@@ -120,5 +120,31 @@ class UserRepository implements UserRepositoryInterface {
 
 		return false;
 	}
+
+	public function getUnpaid()
+	{
+		return UserAppointmentModel::where('paid', (int) false)
+			->orderBy('created_at', 'asc')
+			->get();
+	}
+
+	public function getUnpaidAmount()
+	{
+		// Get the unpaid records
+		$unpaid = $this->getUnpaid();
+
+		// Set the unpaid amount
+		$amount = 0;
+
+		if ($unpaid->count() > 0)
+		{
+			foreach ($unpaid as $u)
+			{
+				$amount += $u->amount;
+			}
+		}
+
+		return $amount;
+	}
 	
 }

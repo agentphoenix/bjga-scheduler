@@ -10,6 +10,8 @@ interface UserRepositoryInterface {
 	public function getAccessLevel($id = false);
 	public function getAppointment($id, $user = false);
 	public function getNonStaff();
+	public function getUnpaid();
+	public function getUnpaidAmount();
 	public function getUnscheduledAppointments($id = false);
 	public function getUserSchedule($id = false);
 	public function isStaff($id = false);
