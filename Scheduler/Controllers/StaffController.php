@@ -3,6 +3,7 @@
 use Book,
 	Date,
 	View,
+	Event,
 	Input,
 	Redirect,
 	StaffValidator,
@@ -256,7 +257,7 @@ class StaffController extends BaseController {
 		$this->staff->deleteBlock($id);
 
 		// Fire the lesson booking event
-		Event::fire('book.block.created', array($this->currentUser));
+		Event::fire('book.block.created', array($this->currentUser, false));
 
 		return Redirect::route('admin.staff.block')
 			->with('message', "Schedule block was successfully removed.")
