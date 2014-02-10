@@ -2,7 +2,7 @@
 
 @section('title')
 	Home
-@endsection
+@stop
 
 @section('content')
 	@if (Auth::check())
@@ -19,7 +19,7 @@
 					<div class="lg-btn-spacing">
 						<a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-default btn-block">
 							<div class="icn-size-96">{{ $_icons['calendar'] }}</div>
-							Find a Program, Event or Clinic
+							Enroll in a Program, Event or Clinic
 						</a>
 					</div>
 					<div class="lg-btn-spacing">
@@ -37,39 +37,13 @@
 				</div>
 				<div class="visible-md visible-lg">
 					<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
-					<p><a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-block btn-primary">Find an Event, Program or Clinic</a></p>
+					<p><a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-block btn-primary">Enroll in an Event, Program or Clinic</a></p>
 					<p><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-lg btn-block btn-default">My Account</a></p>
 					<p><a href="{{ URL::route('logout') }}" class="btn btn-lg btn-block btn-default">Log Out</a></p>
 				</div>
 			</div>
 
 			<div class="col-md-6 col-lg-6 col-md-pull-6 col-lg-pull-6">
-				@if ($unscheduled->count() > 0)
-					<h1 class="text-warning"><span class="icn-size-32">{{ $_icons['warning'] }}</span> Unscheduled Appointments</h1>
-
-					<div class="panel panel-warning">
-						<div class="panel-heading"><h3 class="panel-title">Select a pending appointment to schedule</h3></div>
-						<div class="panel-body">
-							<div class="data-table data-table-bordered data-table-striped">
-								@foreach ($unscheduled as $u)
-									<div class="row">
-										<div class="col-lg-6">
-											<p><strong>{{ $u->appointment->service->name }}</strong></p>
-										</div>
-										<div class="col-lg-6">
-											<div class="btn-toolbar pull-right">
-												<div class="btn-group">
-													<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								@endforeach
-							</div>
-						</div>
-					</div>
-				@endif
-
 				<h1>My Appointments</h1>
 
 				@if (count($myEvents) > 0)
