@@ -81,7 +81,7 @@
 						<p><a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default">Edit My Staff Account</a></p>
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-						<p><a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-warning">Block My Calendar</a></p>
+						<p><a class="btn btn-lg btn-block btn-warning js-staff-action" data-action="add">Block My Calendar</a></p>
 					</div>
 				@endif
 			</div>
@@ -109,6 +109,8 @@
 			@endif
 		</div>
 	</div>
+
+	{{ modal(array('id' => 'addBlock', 'header' => "Create Schedule Block")) }}
 
 	<div class="modal fade" id="cancelModal">
 		<div class="modal-dialog">
@@ -157,4 +159,25 @@
 			</div>
 		</div>
 	</div>
-@endsection
+@stop
+
+@section('scripts')
+	<script type="text/javascript">
+		
+		$('.js-staff-action').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var action = $(this).data('action');
+			var id = $(this).data('id');
+
+			if (action == 'add')
+			{
+				$('#addBlock').modal({
+					remote: "{{ URL::route('admin.staff.block.create') }}"
+				}).modal('show');
+			}
+		});
+
+	</script>
+@stop
