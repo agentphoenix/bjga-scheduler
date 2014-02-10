@@ -144,9 +144,22 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::get('staff/block/create', array(
 				'as'	=> 'admin.staff.block.create',
 				'uses'	=> 'Scheduler\Controllers\StaffController@createBlock'));
+			Route::get("staff/block/delete/{id}", array(
+				'as'	=> 'admin.staff.block.delete',
+				'uses'	=> 'Scheduler\Controllers\StaffController@deleteBlock'));
 			Route::get('staff/schedule/{id}', array(
 				'as'	=> 'admin.staff.schedule',
 				'uses'	=> 'Scheduler\Controllers\StaffController@schedule'));
+
+			Route::get('reports', array(
+				'as'	=> 'admin.reports.index',
+				'uses'	=> 'Scheduler\Controllers\ReportController@index'));
+			Route::get('reports/unpaid', array(
+				'as'	=> 'admin.reports.unpaid',
+				'uses'	=> 'Scheduler\Controllers\ReportController@unpaid'));
+			Route::get('reports/monthly', array(
+				'as'	=> 'admin.reports.monthly',
+				'uses'	=> 'Scheduler\Controllers\ReportController@monthly'));
 
 			/**
 			 * Resourceful controllers.
