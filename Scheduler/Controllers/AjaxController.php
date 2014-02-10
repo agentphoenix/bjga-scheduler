@@ -37,11 +37,11 @@ class AjaxController extends BaseController {
 
 		if ($this->currentUser == $user)
 		{
-			return partial('common/modal_content', [
+			return partial('common/modal_content', array(
 				'modalHeader'	=> "Change Password",
 				'modalBody'		=> View::make('pages.ajax.changePassword')->with('user', $user),
 				'modalFooter'	=> false,
-			]);
+			));
 		}
 	}
 
@@ -53,11 +53,11 @@ class AjaxController extends BaseController {
 
 			if ($service)
 			{
-				return partial('common/modal_content', [
+				return partial('common/modal_content', array(
 					'modalHeader'	=> "Delete Service",
 					'modalBody'		=> View::make('pages.ajax.deleteService')->with('service', $service),
 					'modalFooter'	=> false,
-				]);
+				));
 			}
 		}
 	}
@@ -70,11 +70,11 @@ class AjaxController extends BaseController {
 
 			if ($staff)
 			{
-				return partial('common/modal_content', [
+				return partial('common/modal_content', array(
 					'modalHeader'	=> "Remove Staff Member",
 					'modalBody'		=> View::make('pages.ajax.deleteStaff')->with('staff', $staff),
 					'modalFooter'	=> false,
-				]);
+				));
 			}
 		}
 	}
@@ -87,11 +87,11 @@ class AjaxController extends BaseController {
 
 			if ($user)
 			{
-				return partial('common/modal_content', [
+				return partial('common/modal_content', array(
 					'modalHeader'	=> "Delete User",
 					'modalBody'		=> View::make('pages.ajax.deleteUser')->with('user', $user),
 					'modalFooter'	=> false,
-				]);
+				));
 			}
 		}
 	}
