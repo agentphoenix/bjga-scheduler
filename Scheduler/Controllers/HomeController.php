@@ -26,9 +26,14 @@ class HomeController extends BaseController {
 
 	public function index()
 	{
-		return View::make('pages.index')
-			->with('myEvents', $this->user->getUserSchedule())
-			->with('unscheduled', $this->user->getUnscheduledAppointments());
+		if (Auth::check())
+		{
+			return View::make('pages.index')
+				->with('myEvents', $this->user->getUserSchedule())
+				->with('unscheduled', $this->user->getUnscheduledAppointments());
+		}
+
+		return View::make('pages.login');
 	}
 
 	public function postLogin()
