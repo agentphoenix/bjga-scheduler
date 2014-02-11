@@ -11,7 +11,7 @@
 		<div class="visible-lg">
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.service.index') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+					<a href="{{ URL::route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 			</div>
 		</div>
@@ -82,6 +82,18 @@
 		</div>
 
 		<div class="row">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="label-control">Status</label>
+					<div>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) true, true) }} Active</label>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) false) }} Inactive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-lg-8">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -127,7 +139,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-lg">
-					{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
+					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-primary')) }}
 				</div>
 				<div class="hidden-lg">
 					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-block btn-primary')) }}

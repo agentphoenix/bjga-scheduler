@@ -15,9 +15,14 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 *
 	 * @return	Collection
 	 */
-	public function all()
+	public function all($onlyActive = false)
 	{
-		return ServiceModel::all();
+		$services = ServiceModel::orderBy('order', 'asc');
+
+		if ($onlyActive)
+			$services = $services->where('status', (int) true);
+
+		return $services->get();
 	}
 
 	/**
@@ -25,10 +30,10 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 *
 	 * @return	array
 	 */
-	public function allByCategory()
+	public function allByCategory($onlyActive = false)
 	{
 		// Get everything from the database
-		$items = $this->all();
+		$items = $this->all($onlyActive);
 
 		// Start a holding array
 		$final = array();
@@ -51,10 +56,10 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 *
 	 * @return	array
 	 */
-	public function allForDropdownByCategory()
+	public function allForDropdownByCategory($onlyActive = false)
 	{
 		// Get all the services
-		$all = $this->all();
+		$all = $this->all($onlyActive);
 
 		// Start a holding array
 		$services = array();
@@ -76,10 +81,16 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 * @param	int		$timeframe	The timeframe for programs in days
 	 * @return	Collection
 	 */
-	public function allPrograms($timeframe = false)
+	public function allPrograms($timeframe = false, $onlyActive = false)
 	{
 		// Get the services
-		$services = ServiceModel::getCategory('program')->get();
+		$query = ServiceModel::getCategory('program')
+			->orderBy('order', 'asc');
+
+		if ($onlyActive)
+			$query = $query->where('status', (int) true);
+
+		$services = $query->get();
 
 		if ($timeframe)
 		{
@@ -258,10 +269,16 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 * @param	string	$category
 	 * @return	Collection
 	 */
-	public function getValues($category)
+	public function getValues($category, $onlyActive = false)
 	{
 		// Get the category items
-		$services = ServiceModel::getCategory($category)->get();
+		$query = ServiceModel::getCategory($category)
+			->orderBy('order', 'asc');
+
+		if ($onlyActive)
+			$query = $query->where('status', (int) true);
+
+		$services = $query->get();
 
 		return $this->forDropdown($services, 'id', 'name');
 	}

@@ -2,7 +2,7 @@
 
 {{ Form::open(array('route' => array('admin.service.destroy', $service->id), 'method' => 'delete')) }}
 	<div class="visible-lg">
-		{{ Form::button("Remove", array('type' => 'submit', 'class' => 'btn btn-danger')) }}
+		{{ Form::button("Remove", array('type' => 'submit', 'class' => 'btn btn-lg btn-danger')) }}
 	</div>
 	<div class="hidden-lg">
 		{{ Form::button("Remove", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-danger')) }}

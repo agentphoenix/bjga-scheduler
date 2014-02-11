@@ -82,6 +82,18 @@
 		</div>
 
 		<div class="row">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="label-control">Status</label>
+					<div>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) true) }} Active</label>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) false) }} Inactive</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-lg-8">
 				<div class="panel panel-default">
 					<div class="panel-heading">
