@@ -65,8 +65,8 @@
 					<div class="form-group">
 						<label class="label-control">Available for Instruction</label>
 						<div>
-							<label class="radio-inline">{{ Form::radio('instruction', (int) true) }} Yes</label>
-							<label class="radio-inline">{{ Form::radio('instruction', (int) false) }} No</label>
+							<label class="radio-inline text-small">{{ Form::radio('instruction', (int) true) }} Yes</label>
+							<label class="radio-inline text-small">{{ Form::radio('instruction', (int) false) }} No</label>
 						</div>
 					</div>
 				</div>
