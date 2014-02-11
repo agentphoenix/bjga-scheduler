@@ -64,7 +64,6 @@
 			<div class="col-lg-10">
 				<section>
 					@if (Session::has('message'))
-						<br>
 						<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
 					@endif
 					
