@@ -12,6 +12,8 @@
 					</div>
 					<div class="btn-group">
 						<a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="btn btn-sm btn-default facebook icn-size-16">{{ $_icons['facebook'] }}</a>
+					</div>
+					<div class="btn-group">
 						<a href="http://twitter.com/BrianJacobsgolf" target="_blank" class="btn btn-sm btn-default twitter icn-size-16">{{ $_icons['twitter'] }}</a>
 					</div>
 				</div>

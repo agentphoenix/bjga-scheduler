@@ -45,32 +45,31 @@
 @else
 	<body>
 @endif
-	
-	<header>
+
+	<div class="container wrapper">
 		@include('partials.nav-main')
-	</header>
 
-	<div id="wrapper" class="container-fluid">
-		<div class="row">
-			<div class="col-lg-2">
-				<nav class="nav-sub">
-					@include('partials.nav-sub')
-				</nav>
+		@include('partials.header')
+		
+		@include('partials.nav-sub')
+		
+		<section>
+			<div class="inner">
+				@if (Session::has('message'))
+					<br>
+					<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
+				@endif
+				
+				@yield('content')
+			</div>
+		</section>
+		
+		@include('partials.footer')
+	</div>
 
-				<div class="copyright">
-					&copy; {{ Date::now()->year }} Brian Jacobs Golf
-				</div>
-			</div>
-			<div class="col-lg-10">
-				<section>
-					@if (Session::has('message'))
-						<br>
-						<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
-					@endif
-					
-					@yield('content')
-				</section>
-			</div>
+	<div class="copyright">
+		<div class="container">
+			&copy; {{ Date::now()->year }} Brian Jacobs Golf
 		</div>
 	</div>
 
