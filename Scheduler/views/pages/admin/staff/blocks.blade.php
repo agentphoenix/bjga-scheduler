@@ -10,10 +10,10 @@
 	<div class="visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('admin') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ URL::route('admin') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 			<div class="btn-group">
-				<a class="btn btn-primary icn-size-16 js-staff-action" data-action="add">{{ $_icons['add'] }}</a>
+				<a class="btn btn-sm btn-primary icn-size-16 js-staff-action" data-action="add">{{ $_icons['add'] }}</a>
 			</div>
 		</div>
 	</div>

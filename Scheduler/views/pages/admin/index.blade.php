@@ -25,18 +25,20 @@
 						<div class="visible-lg">
 							<div class="btn-toolbar">
 								<div class="btn-group">
-									<a href="#" class="btn btn-lg btn-default">Email</a>
-									<a href="#" class="btn btn-lg btn-default">Edit</a>
+									<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['email'] }}</a>
+								</div>
+								<div class="btn-group">
+									<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 								</div>
 
 								@if ($appt->userAppointments->count() === 1 and (bool) $appt->userAppointments->first()->paid === false)
 									<div class="btn-group">
-										<a href="#" class="btn btn-lg btn-default">Mark as Paid</a>
+										<a href="#" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['check'] }}</a>
 									</div>
 								@endif
 
 								<div class="btn-group">
-									<a href="#" class="btn btn-lg btn-danger">Cancel</a>
+									<a href="#" class="btn btn-sm btn-danger icn-size-16">{{ $_icons['reject'] }}</a>
 								</div>
 							</div>
 						</div>
@@ -51,7 +53,7 @@
 
 								@if ($appt->userAppointments->count() === 1 and (bool) $appt->userAppointments->first()->paid === false)
 									<div class="col-sm-12">
-										<p><a href="#" class="btn btn-block btn-lg btn-warning">Mark as Paid</a></p>
+										<p><a href="#" class="btn btn-block btn-lg btn-primary">Mark as Paid</a></p>
 									</div>
 								@endif
 
