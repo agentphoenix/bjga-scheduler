@@ -146,5 +146,62 @@ class UserRepository implements UserRepositoryInterface {
 
 		return $amount;
 	}
+
+	public function getSchedule(UserModel $user)
+	{
+		// Start an array for holding everything
+		$schedule = array();
+
+		// Get today
+		$today = Date::now();
+
+		// Filter user appointments to only show today forward
+		$userAppointments = $user->appointments->filter(function($a) use ($today)
+		{
+			return $a->appointment->start->startOfDay() >= $today->startOfDay();
+		})->sortBy(function($x)
+		{
+			return $x->appointment->start;
+		});
+
+		if ($userAppointments->count() > 0)
+		{
+			foreach ($userAppointments as $a)
+			{
+				// How many days until this appointment?
+				$daysToEvent = $a->appointment->start->diffInDays($today);
+
+				$schedule[$daysToEvent][] = $a;
+			}
+		}
+
+		if ($user->staff)
+		{
+			// Filter staff appointments to only show today forward
+			$staffAppointments = $user->staff->appointments->filter(function($s) use ($today)
+			{
+				return $s->start->startOfDay() >= $today->startOfDay();
+			})->sortBy(function($x)
+			{
+				return $x->start;
+			});
+			
+			if ($staffAppointments->count() > 0)
+			{
+				foreach ($staffAppointments as $s)
+				{
+					// How many days until this appointment?
+					$daysToEvent = $s->start->diffInDays($today);
+
+					$schedule[$daysToEvent][] = $s;
+				}
+			}
+		}
+
+		// Sort the array
+		ksort($schedule);
+
+		return $schedule;
+	}
 	
 }

@@ -29,8 +29,7 @@ class HomeController extends BaseController {
 		if (Auth::check())
 		{
 			return View::make('pages.index')
-				->with('myEvents', $this->user->getUserSchedule())
-				->with('unscheduled', $this->user->getUnscheduledAppointments());
+				->withSchedule($this->user->getSchedule($this->currentUser));
 		}
 
 		return View::make('pages.login');
@@ -55,10 +54,7 @@ class HomeController extends BaseController {
 
 		if (Auth::attempt(array('email' => $email, 'password' => $password), true))
 		{
-			if (Auth::user()->isStaff())
-				return Redirect::route('admin');
-			else
-				return Redirect::route('home');
+			return Redirect::route('home');
 		}
 
 		Session::flash('loginMessage', "Either your email address or password were incorrect. Please try again.");
