@@ -46,7 +46,7 @@
 	<body>
 @endif
 	
-	<header>
+	<header class="slideRight">
 		@include('partials.nav-main')
 	</header>
 
