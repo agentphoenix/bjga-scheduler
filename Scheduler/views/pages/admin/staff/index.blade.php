@@ -30,11 +30,11 @@
 
 	<div class="row">
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-			{{ Form::text('search', null, array('placeholder' => 'Search for staff', 'class' => 'form-control search-control')) }}
+			{{ Form::text('search', null, array('placeholder' => 'Search for staff', 'class' => 'form-control search-control', 'id' => 'searchStaff')) }}
 		</div>
 	</div>
 
-	<div class="data-table data-table-striped data-table-bordered">
+	<div class="data-table data-table-striped data-table-bordered" id="staffTable">
 	@foreach ($staff as $s)
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-lg-9">
@@ -45,9 +45,6 @@
 				<div class="visible-lg">
 					<div class="btn-toolbar pull-right">
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
-						</div>
-						<div class="btn-group">
 							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 						</div>
 						<div class="btn-group">
@@ -57,9 +54,6 @@
 				</div>
 				<div class="hidden-lg">
 					<div class="row">
-						<div class="col-xs-6 col-sm-6">
-							<p><a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
-						</div>
 						<div class="col-xs-6 col-sm-6">
 							<p><a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
 						</div>
@@ -77,7 +71,19 @@
 @endsection
 
 @section('scripts')
-	<script type="text/javascript">
+	{{ HTML::script('js/jquery.quicksearch.min.js') }}
+	<script>
+
+		$('#searchStaff').quicksearch('#staffTable > div', {
+			hide: function()
+			{
+				$(this).addClass('hide');
+			},
+			show: function()
+			{
+				$(this).removeClass('hide');
+			}
+		});
 		
 		$('.js-staff-action').on('click', function(e)
 		{

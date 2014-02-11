@@ -30,11 +30,11 @@
 
 	<div class="row">
 		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-			{{ Form::text('search', null, array('placeholder' => 'Search for users', 'class' => 'form-control search-control')) }}
+			{{ Form::text('search', null, array('placeholder' => 'Search for users', 'class' => 'form-control search-control', 'id' => 'searchUsers')) }}
 		</div>
 	</div>
 
-	<div class="data-table data-table-striped data-table-bordered">
+	<div class="data-table data-table-striped data-table-bordered" id="usersTable">
 	@foreach ($users as $user)
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-lg-8">
@@ -44,6 +44,12 @@
 			<div class="col-xs-12 col-sm-12 col-lg-4">
 				<div class="visible-lg">
 					<div class="btn-toolbar pull-right">
+						@if ( ! empty($user->email))
+							<div class="btn-group">
+								<a href="tel:{{ $user->email }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['email'] }}</a>
+							</div>
+						@endif
+
 						<div class="btn-group">
 							<a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 						</div>
@@ -58,6 +64,12 @@
 						@if ( ! empty($user->phone))
 							<div class="col-xs-12 visible-xs">
 								<p><a href="tel:{{ $user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['phone'] }}</a></p>
+							</div>
+						@endif
+
+						@if ( ! empty($user->email))
+							<div class="col-xs-12 visible-xs">
+								<p><a href="tel:{{ $user->email }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['email'] }}</a></p>
 							</div>
 						@endif
 
@@ -79,7 +91,19 @@
 @endsection
 
 @section('scripts')
-	<script type="text/javascript">
+	{{ HTML::script('js/jquery.quicksearch.min.js') }}
+	<script>
+
+		$('#searchUsers').quicksearch('#usersTable > div', {
+			hide: function()
+			{
+				$(this).addClass('hide');
+			},
+			show: function()
+			{
+				$(this).removeClass('hide');
+			}
+		});
 		
 		$('.js-user-action').on('click', function(e)
 		{
