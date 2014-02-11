@@ -68,7 +68,7 @@
 		<div class="row" id="enrollBtn">
 			<div class="col-lg-12">
 				<div class="visible-lg">
-					<p>{{ Form::submit('Enroll Now', array('class' => 'btn btn-primary')) }}</p>
+					<p>{{ Form::submit('Enroll Now', array('class' => 'btn btn-lg btn-primary')) }}</p>
 				</div>
 				<div class="hidden-lg">
 					<p>{{ Form::submit('Enroll Now', array('class' => 'btn btn-block btn-lg btn-primary')) }}</p>

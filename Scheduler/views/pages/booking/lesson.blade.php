@@ -35,7 +35,7 @@
 			<div class="col-lg-4">
 				<div class="form-group">
 					<div class="visible-lg">
-						<a href="{{ URL::to('ajax/availability') }}" class="btn btn-primary" id="checkAvailability">Check Availability</a>
+						<a href="{{ URL::to('ajax/availability') }}" class="btn btn-lg btn-primary" id="checkAvailability">Check Availability</a>
 					</div>
 					<div class="hidden-lg">
 						<p><a href="{{ URL::to('ajax/availability') }}" class="btn btn-lg btn-block btn-primary" id="checkAvailability">Check Availability</a></p>
@@ -117,7 +117,7 @@
 				<div class="col-lg-12">
 					<div class="visible-lg">
 						<p>
-							{{ Form::submit('Book Now', array('class' => 'btn btn-primary')) }}
+							{{ Form::submit('Book Now', array('class' => 'btn btn-lg btn-primary')) }}
 							<a href="{{ URL::route('home') }}" class="btn btn-link">Cancel</a>
 						</p>
 					</div>
@@ -140,17 +140,22 @@
 		{
 			e.preventDefault();
 
-			$.ajax({
-				data: {
-					'service': $('[name="service_id"] option:selected').val(),
-					'date': $('[name="date"]').val()
-				},
-				url: this.href,
-				success: function(data)
-				{
-					$('#ajax-container').html(data);
-				}
-			});
+			if ($('[name="service_id"] option:selected').val() == "")
+				alert("Please select a service");
+			else
+			{
+				$.ajax({
+					data: {
+						'service': $('[name="service_id"] option:selected').val(),
+						'date': $('[name="date"]').val()
+					},
+					url: this.href,
+					success: function(data)
+					{
+						$('#ajax-container').html(data);
+					}
+				});
+			}
 		});
 
 		$(document).on('click', '.js-book', function(e)

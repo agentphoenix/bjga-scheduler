@@ -11,13 +11,13 @@
 		<div class="visible-lg">
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.staff.index') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+					<a href="{{ URL::route('admin.staff.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-default icn-size-16-with-text">Edit My User Account</a>
-					<a href="{{ URL::route('admin.staff.schedule', array($staff->id)) }}" class="btn btn-default icn-size-16-with-text">See My Upcoming Schedule</a>
-					<a href="{{ URL::route('admin.staff.block') }}" class="btn btn-default icn-size-16-with-text">Manage Schedule Blocks</a>
+					<a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-sm btn-default icn-size-16-with-text">Edit My User Account</a>
+					<a href="{{ URL::route('admin.staff.schedule', array($staff->id)) }}" class="btn btn-sm btn-default icn-size-16-with-text">See My Upcoming Schedule</a>
+					<a href="{{ URL::route('admin.staff.block') }}" class="btn btn-sm btn-default icn-size-16-with-text">Manage Schedule Blocks</a>
 				</div>
 			</div>
 		</div>
@@ -115,7 +115,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-lg">
-					{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-primary')) }}
+					{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-primary')) }}
 				</div>
 				<div class="hidden-lg">
 					{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}

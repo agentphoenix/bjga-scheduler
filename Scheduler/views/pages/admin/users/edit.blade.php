@@ -11,7 +11,7 @@
 		<div class="btn-toolbar">
 			@if ($_currentUser->access() > 1)
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.user.index') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+					<a href="{{ URL::route('admin.user.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 			@endif
 

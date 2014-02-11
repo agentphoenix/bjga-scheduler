@@ -10,7 +10,7 @@
 	<div class="hidden-xs">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('admin.reports.index') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ URL::route('admin.reports.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 		</div>
 	</div>

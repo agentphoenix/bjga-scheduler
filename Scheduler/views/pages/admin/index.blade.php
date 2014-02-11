@@ -25,18 +25,18 @@
 						<div class="visible-lg">
 							<div class="btn-toolbar">
 								<div class="btn-group">
-									<a href="#" class="btn btn-sm btn-default">Email</a>
-									<a href="#" class="btn btn-sm btn-default">Edit</a>
+									<a href="#" class="btn btn-lg btn-default">Email</a>
+									<a href="#" class="btn btn-lg btn-default">Edit</a>
 								</div>
 
 								@if ($appt->userAppointments->count() === 1 and (bool) $appt->userAppointments->first()->paid === false)
 									<div class="btn-group">
-										<a href="#" class="btn btn-sm btn-default">Mark as Paid</a>
+										<a href="#" class="btn btn-lg btn-default">Mark as Paid</a>
 									</div>
 								@endif
 
 								<div class="btn-group">
-									<a href="#" class="btn btn-sm btn-danger">Cancel</a>
+									<a href="#" class="btn btn-lg btn-danger">Cancel</a>
 								</div>
 							</div>
 						</div>

@@ -10,10 +10,10 @@
 	<div class="visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('admin') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ URL::route('admin') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 			<div class="btn-group">
-				<a href="{{ URL::route('admin.staff.create') }}" class="btn btn-primary icn-size-16">{{ $_icons['add'] }}</a>
+				<a href="{{ URL::route('admin.staff.create') }}" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
 			</div>
 		</div>
 	</div>
@@ -45,13 +45,13 @@
 				<div class="visible-lg">
 					<div class="btn-toolbar pull-right">
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-small btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
+							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
 						</div>
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-small btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 						</div>
 						<div class="btn-group">
-							<a href="#" class="btn btn-small btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
+							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
 						</div>
 					</div>
 				</div>

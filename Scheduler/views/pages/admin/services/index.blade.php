@@ -10,10 +10,10 @@
 	<div class="visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('admin') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ URL::route('admin') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 			<div class="btn-group">
-				<button type="button" class="btn btn-primary icn-size-16 dropdown-toggle" data-toggle="dropdown">{{ $_icons['add'] }}</button>
+				<button type="button" class="btn btn-sm btn-primary icn-size-16 dropdown-toggle" data-toggle="dropdown">{{ $_icons['add'] }}</button>
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="{{ URL::route('admin.service.createLesson') }}">New Lesson Service</a></li>
 					<li><a href="{{ URL::route('admin.service.createProgram') }}">New Program Service</a></li>

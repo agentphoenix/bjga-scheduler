@@ -11,7 +11,7 @@
 		<div class="visible-lg">
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.staff.index') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+					<a href="{{ URL::route('admin.staff.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 			</div>
 		</div>
@@ -84,7 +84,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="visible-lg">
-						{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-primary')) }}
+						{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-primary')) }}
 					</div>
 					<div class="hidden-lg">
 						{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
