@@ -7,8 +7,8 @@
 			<li class="{{ (Request::is('admin/user/*') ? 'active' : '') }}"><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
 			<li><a href="{{ URL::route('logout') }}"><span class="icn-size-16">{{ $_icons['logout'] }}</span>Log Out</a></li>
 		@else
-			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Log In</a></li>
-			<li class="{{ (Request::is('register') ? 'active' : '') }}"><a href="{{ URL::route('register') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Register</a></li>
+			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['login'] }}</span>Log In</a></li>
+			<li class="{{ (Request::is('register') ? 'active' : '') }}"><a href="{{ URL::route('register') }}"><span class="icn-size-16">{{ $_icons['edit'] }}</span>Register</a></li>
 		@endif
 	</ul>
 

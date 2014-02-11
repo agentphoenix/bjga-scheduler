@@ -60,6 +60,10 @@
 				<div class="copyright">
 					&copy; {{ Date::now()->year }} Brian Jacobs Golf
 				</div>
+				<div>
+					<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
+					<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
+				</div>
 			</div>
 			<div class="col-lg-10">
 				<section>
