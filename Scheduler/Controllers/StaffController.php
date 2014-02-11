@@ -20,8 +20,8 @@ class StaffController extends BaseController {
 	{
 		parent::__construct();
 
-		$this->staff	= $staff;
-		$this->user		= $user;
+		$this->staff = $staff;
+		$this->user = $user;
 	}
 
 	public function index()
