@@ -19,6 +19,7 @@ return array(
 
 	'info' => '<span class="icn" data-icon="i"></span>',
 
+	'login' => '<span class="icn" data-icon="4"></span>',
 	'logout' => '<span class="icn" data-icon="x"></span>',
 
 	'map' => '<span class="icn" data-icon="m"></span>',
@@ -29,7 +30,6 @@ return array(
 	'reject' => '<span class="icn" data-icon="b"></span>',
 	'remove' => '<span class="icn" data-icon="-"></span>',
 	'report' => '<span class="icn" data-icon="r"></span>',
-	'ruler' => '<span class="icn" data-icon="f"></span>',
 
 	'schedule' => '<span class="icn" data-icon="o"></span>',
 	'school' => '<span class="icn" data-icon="s"></span>',
