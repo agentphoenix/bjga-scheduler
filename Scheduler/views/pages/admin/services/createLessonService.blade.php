@@ -11,13 +11,13 @@
 		<div class="hidden-xs">
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.service.index') }}" class="btn btn-default icn-size-16">{{ $_icons['back'] }}</a>
+					<a href="{{ URL::route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 			</div>
 		</div>
 		<div class="visible-xs">
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-sm-6">
 					<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 				</div>
 			</div>
@@ -26,7 +26,7 @@
 
 	{{ Form::open(array('route' => 'admin.service.store')) }}
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('staff_id')) ? ' has-error' : '' }}">
 					<label class="label-control">Instructor</label>
 					{{ Form::select('staff_id', $staff, null, array('class' => 'form-control input-with-feedback')) }}
@@ -89,7 +89,19 @@
 				<div class="form-group">
 					<label class="label-control">Occurrence Schedule</label>
 					{{ Form::text('occurrences_schedule', 0, array('class' => 'form-control input-with-feedback')) }}
-					<p class="help-block">Number of days between occurrences.</p>
+					<p class="help-block">Days between occurrences.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="label-control">Status</label>
+					<div>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) true, true) }} Active</label>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) false) }} Inactive</label>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -100,7 +112,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-lg">
-					{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
+					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-primary')) }}
 				</div>
 				<div class="hidden-lg">
 					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-block btn-primary')) }}

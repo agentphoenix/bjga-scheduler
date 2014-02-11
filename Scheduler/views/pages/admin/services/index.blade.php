@@ -51,7 +51,12 @@
 				@foreach ($services[$category] as $service)
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-lg-9">
-							<p><strong>{{ $service->name }}</strong></p>
+							<p>
+								<strong>{{ $service->name }}</strong>
+								@if ((bool) $service->status === false)
+									<span class="label label-warning">Inactive</span>
+								@endif
+							</p>
 							<p class="text-sm text-muted">{{ $service->description }}</p>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-lg-3">
@@ -67,7 +72,7 @@
 										<a href="{{ URL::route('admin.service.edit', array($service->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 									</div>
 
-									@if ($_currentUser->access() == 3)
+									@if ($_currentUser->access() >= 2)
 										<div class="btn-group">
 											<a href="{{ URL::route('admin.service.destroy', array($service->id)) }}" class="btn btn-sm btn-danger icn-size-16 js-service-action" data-action="delete" data-id="{{ $service->id }}">{{ $_icons['remove'] }}</a>
 										</div>

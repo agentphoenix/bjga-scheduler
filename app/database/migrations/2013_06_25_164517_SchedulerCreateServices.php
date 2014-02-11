@@ -17,6 +17,8 @@ class SchedulerCreateServices extends Migration {
 			$table->increments('id');
 			$table->integer('staff_id')->unsigned();
 			$table->string('category');
+			$table->integer('order')->default(99);
+			$table->boolean('status')->default(1);
 			$table->string('name');
 			$table->string('slug')->nullable()->unique();
 			$table->text('description')->nullable();

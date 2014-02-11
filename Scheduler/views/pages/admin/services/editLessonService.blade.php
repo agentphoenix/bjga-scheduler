@@ -26,7 +26,7 @@
 
 	{{ Form::model($service, array('route' => array('admin.service.update', $service->id), 'method' => 'put')) }}
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('staff_id')) ? ' has-error' : '' }}">
 					<label class="label-control">Staff Member</label>
 					{{ Form::select('staff_id', $staff, null, array('class' => 'form-control input-with-feedback')) }}
@@ -89,7 +89,19 @@
 				<div class="form-group">
 					<label class="label-control">Occurrence Schedule</label>
 					{{ Form::text('occurrences_schedule', null, array('class' => 'form-control input-with-feedback')) }}
-					<p class="help-block">Number of days between occurrences.</p>
+					<p class="help-block">Days between occurrences.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="label-control">Status</label>
+					<div>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) true) }} Active</label>
+						<label class="radio-inline text-small">{{ Form::radio('status', (int) false) }} Inactive</label>
+					</div>
 				</div>
 			</div>
 		</div>
