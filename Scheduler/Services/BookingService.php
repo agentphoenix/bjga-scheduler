@@ -171,4 +171,24 @@ class BookingService {
 		Event::fire('book.program.created', array($service, $bookUser));
 	}
 
+	public function withdraw($appointmentId, $user)
+	{
+		// Find the appointment
+
+		// If it's a lesson, get the user appointment record and remove it
+		// If it's a program, filter by the user and remove
+
+		// Remove the staff appointment
+
+		if ($service->isLesson())
+			Event::fire('book.lesson.userCancelled', array($service, $user));
+		else
+			Event::fire('book.program.userCancelled', array($service, $user));
+	}
+
+	public function cancel()
+	{
+		# code...
+	}
+
 }
