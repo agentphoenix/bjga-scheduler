@@ -16,7 +16,7 @@ class BookingController extends BaseController {
 	public function getLesson()
 	{
 		return View::make('pages.booking.lesson')
-			->withServices(array('' => "Please choose one") + $this->service->getValues('lesson'));
+			->withServices(array('' => "Please choose one") + $this->service->getValues('lesson', true));
 	}
 	public function postLesson()
 	{
@@ -30,12 +30,12 @@ class BookingController extends BaseController {
 	public function getProgram()
 	{
 		// Get the services for this category
-		$services = $this->service->allPrograms(90);
+		$services = $this->service->allPrograms(90, true);
 
 		$allServices = array('' => "Please choose one") + $this->service->forDropdown($services, 'id', 'name');
 
 		return View::make('pages.booking.program')
-			->with('services', $allServices);
+			->withServices($allServices);
 	}
 	public function postProgram()
 	{
