@@ -71,9 +71,9 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="form-group">
-							<div class="checkbox">
-								<label>
-									{{ Form::checkbox('mailchimp_optin', 1, false) }} Sign up for our newsletter
+							<div>
+								<label class="checkbox-inline text-small">
+									{{ Form::checkbox('mailchimp_optin', 1, true) }} Sign up for our newsletter
 								</label>
 							</div>
 						</div>
