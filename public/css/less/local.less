@@ -1,0 +1,25 @@
+@import "variables.less";
+@import "mixins.less";
+@import "bs3-mixins.less";
+
+body.dev header {
+	.gradient(@color-warning-bright, @color-warning);
+
+	nav.nav-main {
+		ul {
+			li {
+				a {
+					color: @color-warning-text;
+
+					&:hover {
+						color: darken(@color-warning-text, 10%);
+					}
+
+					&.active {
+						color: @color-white;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,5 +1,5 @@
 <div class="slideLeft">
-	<p><strong>Menu</strong></p>
+	<p>Menu</p>
 
 	<ul>
 		@if (Auth::check())
@@ -14,7 +14,7 @@
 
 	@if (Auth::check())
 		@if ($_currentUser->isStaff())
-			<p><strong>Admin</strong></p>
+			<p>Admin</p>
 
 			<ul>
 				<li class="{{ (Request::is('admin/appointments*') ? 'active' : '') }}"><a href="#"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>

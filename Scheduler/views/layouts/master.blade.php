@@ -36,12 +36,9 @@
 	<link rel='stylesheet' href='{{ URL::asset('css/retina.css') }}' media='only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)'>
 </head>
 @if (App::environment() == 'foo')
+	{{ HTML::style('css/local.css') }}
+
 	<body class="dev">
-		<div class="progress progress-striped">
-			<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-				<div class="bar">This page is for testing only!</div>
-			</div>
-		</div>
 @else
 	<body>
 @endif
@@ -61,8 +58,8 @@
 					&copy; {{ Date::now()->year }} Brian Jacobs Golf
 				</div>
 				<div>
-					<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
-					<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
+					<a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
+					<a href="https://twitter.com/BrianJacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
 				</div>
 			</div>
 			<div class="col-lg-10">

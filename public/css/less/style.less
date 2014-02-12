@@ -14,11 +14,16 @@ body {
 }
 
 header {
+	position: relative;
 	height: 75px;
+
+	border-bottom: 1px solid rgba(0, 0, 0, .4);
 
 	.gradient(@color-success-bright, @color-success);
 
 	nav.nav-main {
+		position: relative;
+
 		.brand {
 			display: block;
 			width: 322px;
@@ -31,13 +36,13 @@ header {
 		
 		ul {
 			margin: 0 0 0 @spacing;
-			padding: @spacing 0 0 0;
+			padding: 13px 0 0 0;
 			
 			list-style: none;
 			
 			li {
 				float: left;
-				margin: 0 30px 0 0;
+				margin: 0 25px 0 0;
 				
 				a {
 					display: block;
@@ -45,9 +50,10 @@ header {
 		
 					color: @color-success-dark;
 					font-weight: 600;
-					font-size: 20px;
+					font-size: 18px;
 					font-family: @font-titillium;
 					border: 1px solid transparent;
+					letter-spacing: .02em;
 					
 					&:hover {
 						text-decoration: none;
@@ -65,7 +71,8 @@ header {
 }
 
 nav.nav-sub {
-	padding-top: 15px;
+	position: relative;
+	padding-top: @spacing;
 
 	p {
 		margin: 0;
@@ -73,8 +80,10 @@ nav.nav-sub {
 
 		color: rgba(255, 255, 255, .4);
 		text-transform: uppercase;
-		font-size: 16px;
-		font-weight: 600;
+		font-size: @font-size;
+		font-weight: 400;
+		font-family: @font-titillium;
+		letter-spacing: .02em;
 	}
 
 	ul {
@@ -88,8 +97,9 @@ nav.nav-sub {
 
 			a {
 				color: rgba(255, 255, 255, .25);
-				font-weight: 600;
-				font-size: 14px;
+				font-weight: 400;
+				font-size: @font-size-small;
+				letter-spacing: .01em;
 
 				&:hover {
 					color: rgba(255, 255, 255, .5);
@@ -328,7 +338,7 @@ select {
 .label {
 	font-weight: 600;
 
-	.rounded(@border-radius / 2);
+	.rounded(2px);
 
 	&.label-warning {
 		color: @color-warning-text;
@@ -417,29 +427,6 @@ select {
 	}
 }
 
-.progress {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1000;
-	width: 100%;
-	height: 40px;
-	line-height: 40px;
-
-	.rounded(0);
-
-	.progress-bar-warning {
-		background-color: @color-warning;
-	}
-
-	.bar {
-		font-size: 18px;
-		font-weight: 600;
-		color: @color-warning-text;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, .35);
-	}
-}
-
 .help-block {
 	font-size: @font-size-small;
 	color: @color-gray;
@@ -462,7 +449,7 @@ strong {
 }
 
 .search-control {
-	.rounded(50px);
+	.rounded(50px) !important;
 }
 
 .data-table {
@@ -617,7 +604,7 @@ strong {
 }
 
 .lg-btn-spacing {
-	margin: 15px 0;
+	margin: @spacing 0;
 }
 
 .bootstrap-datetimepicker-widget td.active,
