@@ -6,7 +6,7 @@
 	<meta name="description" content="Brian Jacobs Golf Academy is committed to providing the best golf instruction in western New York and helping golfers of all skills be more consistent and enjoy the game more.">
 	<meta name="author" content="Brian Jacobs">
 	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon">
+	<link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico?v2') }}">
 	<link rel="apple-touch-icon-precomposed" href="{{ URL::asset('apple-touch-icon.png') }}">
 	
 	<!--[if lt IE 9]>
