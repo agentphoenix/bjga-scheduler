@@ -209,6 +209,9 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::post('withdraw', array(
 				'as' => 'ajax.withdraw',
 				'uses' => 'Scheduler\Controllers\AjaxController@postWithdraw'));
+			Route::post('service/reorder', array(
+				'as' => 'ajax.reorderService',
+				'uses' => 'Scheduler\Controllers\AjaxController@updateServiceOrder'));
 		});
 	}
 

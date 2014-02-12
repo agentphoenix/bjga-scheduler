@@ -271,4 +271,19 @@ class AjaxController extends BaseController {
 		Session::flash('messageStatus', "success");
 	}
 
+	public function updateServiceOrder()
+	{
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			// Get the input
+			$services = Input::get('service');
+
+			foreach ($services as $key => $value)
+			{
+				// Update the service
+				$this->service->update($value, array('order' => $key + 1));
+			}
+		}
+	}
+
 }

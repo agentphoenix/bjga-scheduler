@@ -2,7 +2,7 @@
 
 @section('title')
 	Services
-@endsection
+@stop
 
 @section('content')
 	<h1>Services</h1>
@@ -47,9 +47,9 @@
 	@foreach ($categories as $category)
 		<div id="{{ strtolower(str_replace(' ', '', $category)) }}" class="tab-pane">
 			@if (count($services[$category]) > 0)
-				<div class="data-table data-table-striped data-table-bordered">
+				<div class="data-table data-table-striped data-table-bordered sortable">
 				@foreach ($services[$category] as $service)
-					<div class="row">
+					<div class="row" id="service_{{ $service->id }}">
 						<div class="col-xs-12 col-sm-12 col-lg-9">
 							<p>
 								<strong>{{ $service->name }}</strong>
@@ -111,14 +111,31 @@
 
 	{{ modal(array('id' => 'deleteService', 'header' => "Delete Service")) }}
 	{{ modal(array('id' => 'serviceAttendees', 'header' => "Service Attendees")) }}
-@endsection
+@stop
 
 @section('scripts')
-	<script type="text/javascript">
+	{{ HTML::script('js/jquery.ui.core.min.js') }}
+	{{ HTML::script('js/jquery.ui.widget.min.js') }}
+	{{ HTML::script('js/jquery.ui.mouse.min.js') }}
+	{{ HTML::script('js/jquery.ui.sortable.min.js') }}
+	{{ HTML::script('js/touch-fix.js') }}
+	<script>
 
 		$(document).ready(function()
 		{
 			$('.nav-tabs a:first').tab('show');
+
+			// Makes the list sortable and update when the sort stops
+			$('.sortable').sortable({
+				stop: function(event, ui)
+				{
+					$.ajax({
+						type: 'POST',
+						url: "{{ URL::route('ajax.reorderService') }}",
+						data: $(this).sortable('serialize')
+					});
+				}
+			}).disableSelection();
 		});
 		
 		$(document).on('click', '.js-service-action', function(e)
@@ -144,4 +161,4 @@
 		});
 
 	</script>
-@endsection
+@stop
