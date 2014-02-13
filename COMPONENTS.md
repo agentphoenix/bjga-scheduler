@@ -2,7 +2,7 @@
 	- http://laravel.com
 - jQuery 2.1.0 (version 1.11.0 for less than IE 9)
 	- http://jquery.com
-- Bootstrap 3.1.0
+- Bootstrap 3.1.1
 	- http://getbootstrap.com/
 - DateTimePicker 2.1.30
 	- https://github.com/Eonasdan/bootstrap-datetimepicker
