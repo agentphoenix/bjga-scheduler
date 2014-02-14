@@ -21,7 +21,7 @@
 
 			<div class="data-table data-table-striped data-table-bordered">
 			@foreach ($appointments as $a)
-				@if ($a instanceof Scheduler\UserAppointmentModel)
+				@if ($a instanceof Scheduler\Models\Eloquent\UserAppointmentModel)
 					<?php
 
 					$appt = $a->appointment;
@@ -38,10 +38,10 @@
 				@endif
 
 				<div class="row">
-					<div class="col-lg-2">
+					<div class="col-md-2 col-lg-2">
 						<p class="text-small"><strong>{{ $appt->start->format('g:ia') }} - {{ $appt->end->format('g:ia') }}</strong></p>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-md-6 col-lg-6">
 						<p class="lead">
 							<strong>
 								@if ($appt->service->isLesson())
@@ -52,8 +52,8 @@
 							</strong>
 						</p>
 					</div>
-					<div class="col-lg-4">
-						<div class="visible-lg">
+					<div class="col-md-4 col-lg-4">
+						<div class="visible-md visible-lg">
 							<div class="btn-toolbar pull-right">
 								@if ($appt->service->isProgram())
 									<div class="btn-group">
@@ -85,6 +85,10 @@
 											<a href="{{ URL::route('admin.staff.block') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
 										</div>
 									@endif
+								@else
+									<div class="btn-group">
+										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+									</div>
 								@endif
 							</div>
 						</div>
