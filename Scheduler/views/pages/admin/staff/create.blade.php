@@ -2,22 +2,22 @@
 
 @section('title')
 	Add Staff Member
-@endsection
+@stop
 
 @section('content')
 	<h1>Add Staff Member</h1>
 
 	@if ($_currentUser->access() > 1)
-		<div class="visible-lg">
+		<div class="visible-md visible-lg">
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<a href="{{ URL::route('admin.staff.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 			</div>
 		</div>
-		<div class="hidden-lg">
+		<div class="visible-xs visible-sm">
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-6 col-sm-3">
 					<p><a href="{{ URL::route('admin.staff.index') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 				</div>
 			</div>
@@ -27,20 +27,20 @@
 	@if (count($users) > 0)
 		{{ Form::open(array('route' => 'admin.staff.store')) }}
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-md-8 col-lg-4">
 					<div class="form-group{{ ($errors->has('user_id')) ? ' has-error' : '' }}">
 						<label class="label-control">User</label>
-						{{ Form::select('user_id', $users, null, array('class' => 'form-control input-with-feedback')) }}
+						{{ Form::select('user_id', $users, null, array('class' => 'form-control input-lg input-with-feedback')) }}
 						{{ $errors->first('user_id', '<p class="help-block">:message</p>') }}
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-lg-2">
+				<div class="col-md-4 col-lg-2">
 					<div class="{{ ($errors->has('access')) ? 'form-group has-error' : '' }}">
 						<label class="label-control">Access Level</label>
-						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), 1, array('class' => 'form-control input-with-feedback')) }}
+						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), 1, array('class' => 'form-control input-lg input-with-feedback')) }}
 						{{ $errors->first('access', '<p class="help-block">:message</p>') }}
 					</div>
 				</div>
@@ -52,16 +52,16 @@
 			</div>
 
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-md-8 col-lg-4">
 					<div class="form-group">
 						<label class="label-control">Title</label>
-						{{ Form::text('title', null, array('class' => 'form-control')) }}
+						{{ Form::text('title', null, array('class' => 'form-control input-lg')) }}
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-md-8 col-lg-4">
 					<div class="form-group">
 						<label class="label-control">Available for Instruction</label>
 						<div>
@@ -76,17 +76,17 @@
 				<div class="col-lg-8">
 					<div class="form-group">
 						<label class="label-control">Bio</label>
-						{{ Form::textarea('bio', null, array('class' => 'form-control', 'rows' => 8)) }}
+						{{ Form::textarea('bio', null, array('class' => 'form-control input-lg', 'rows' => 8)) }}
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="visible-lg">
+					<div class="visible-md visible-lg">
 						{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-primary')) }}
 					</div>
-					<div class="hidden-lg">
+					<div class="visible-xs visible-sm">
 						{{ Form::button('Submit', array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
 					</div>
 				</div>
@@ -95,4 +95,4 @@
 	@else
 		{{ partial('common.alert', array('class' => 'warning', 'content' => "There are no available users to add as staff members.")) }}
 	@endif
-@endsection
+@stop

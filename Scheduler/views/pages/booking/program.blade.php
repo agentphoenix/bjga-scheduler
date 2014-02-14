@@ -2,7 +2,7 @@
 
 @section('title')
 	Enroll in a Program
-@endsection
+@stop
 
 @section('content')
 	<h1>Enroll in a Program</h1>
@@ -80,7 +80,7 @@
 
 		{{ Form::hidden('appointment_id', null) }}
 	{{ Form::close() }}
-@endsection
+@stop
 
 @section('scripts')
 	<script>

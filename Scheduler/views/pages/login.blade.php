@@ -6,7 +6,7 @@
 
 @section('content')
 	<div class="row">
-		<div class="col-lg-6 col-lg-offset-3">
+		<div class="col-sm-10 col-md-6 col-lg-6 col-sm-offset-1 col-md-offset-3 col-lg-offset-3">
 			<h1>Log In</h1>
 
 			@if (Session::has('loginMessage'))
@@ -37,8 +37,15 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<p>{{ Form::button("Log In", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}</p>
-						<p><a href="{{ URL::route('register') }}" class="btn btn-lg btn-block btn-default">Register</a></p>
-						<p><a href="{{ URL::to('password/remind') }}" class="btn btn-block btn-link">Forgot Password?</a></p>
+
+						<div class="row">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<p><a href="{{ URL::route('register') }}" class="btn btn-lg btn-block btn-default">Register</a></p>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<p><a href="{{ URL::to('password/remind') }}" class="btn btn-lg btn-block btn-default">Forgot Password?</a></p>
+							</div>
+						</div>
 					</div>
 				</div>
 			{{ Form::close() }}

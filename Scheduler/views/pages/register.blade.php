@@ -6,7 +6,7 @@
 
 @section('content')
 	<div class="row">
-		<div class="col-lg-6 col-lg-offset-3">
+		<div class="col-sm-10 col-md-6 col-lg-6 col-sm-offset-1 col-md-offset-3 col-lg-offset-3">
 			<h1>Register</h1>
 
 			@if (Session::has('registerMessage'))
@@ -83,7 +83,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<p>{{ Form::submit("Register", array('class' => 'btn btn-lg btn-block btn-primary')) }}</p>
-						<p><a href="{{ URL::route('home') }}" class="btn btn-block btn-link">Home</a></p>
+						<p><a href="{{ URL::route('home') }}" class="btn btn-lg btn-block btn-default">Home</a></p>
 					</div>
 				</div>
 			{{ Form::close() }}

@@ -2,47 +2,41 @@
 
 @section('title')
 	Users
-@endsection
+@stop
 
 @section('content')
 	<h1>Users</h1>
 
-	<div class="visible-lg">
+	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
-			<div class="btn-group">
-				<a href="{{ URL::route('admin') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
-			</div>
 			<div class="btn-group">
 				<a href="{{ URL::route('admin.user.create') }}" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
 			</div>
 		</div>
 	</div>
-	<div class="hidden-lg">
+	<div class="visible-xs visible-sm">
 		<div class="row">
-			<div class="col-xs-6 col-sm-6">
-				<p><a href="{{ URL::route('admin') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
-			</div>
-			<div class="col-xs-6 col-sm-6">
+			<div class="col-xs-6 col-sm-3">
 				<p><a href="{{ URL::route('admin.user.create') }}" class="btn btn-block btn-lg btn-primary icn-size-16">{{ $_icons['add'] }}</a></p>
 			</div>
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-			{{ Form::text('search', null, array('placeholder' => 'Search for users', 'class' => 'form-control search-control', 'id' => 'searchUsers')) }}
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+			{{ Form::text('search', null, array('placeholder' => 'Search for users', 'class' => 'form-control input-lg search-control', 'id' => 'searchUsers')) }}
 		</div>
 	</div>
 
 	<div class="data-table data-table-striped data-table-bordered" id="usersTable">
 	@foreach ($users as $user)
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-lg-8">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-8">
 				<p><strong>{{ $user->name }}</strong></p>
 				<p class="text-muted text-small">{{ $user->email }}</p>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-lg-4">
-				<div class="visible-lg">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+				<div class="visible-md visible-lg">
 					<div class="btn-toolbar pull-right">
 						@if ( ! empty($user->email))
 							<div class="btn-group">
@@ -59,25 +53,25 @@
 						</div>
 					</div>
 				</div>
-				<div class="hidden-lg">
+				<div class="visible-xs visible-sm">
 					<div class="row">
 						@if ( ! empty($user->phone))
-							<div class="col-xs-12 visible-xs">
+							<div class="visible-xs col-xs-12">
 								<p><a href="tel:{{ $user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['phone'] }}</a></p>
 							</div>
 						@endif
 
 						@if ( ! empty($user->email))
-							<div class="col-xs-12 visible-xs">
+							<div class="visible-xs col-xs-12">
 								<p><a href="tel:{{ $user->email }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['email'] }}</a></p>
 							</div>
 						@endif
 
-						<div class="col-xs-6 col-sm-6">
+						<div class="col-xs-12 col-sm-6">
 							<p><a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
 						</div>
 
-						<div class="col-xs-6 col-sm-6">
+						<div class="col-xs-12 col-sm-6">
 							<p><a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-user-action" data-action="delete" data-id="{{ $user->id }}">{{ $_icons['remove'] }}</a></p>
 						</div>
 					</div>
@@ -86,9 +80,11 @@
 		</div>
 	@endforeach
 	</div>
+@stop
 
+@section('modals')
 	{{ modal(array('id' => 'deleteUser', 'header' => "Delete User")) }}
-@endsection
+@stop
 
 @section('scripts')
 	{{ HTML::script('js/jquery.quicksearch.min.js') }}
@@ -121,4 +117,4 @@
 		});
 
 	</script>
-@endsection
+@stop

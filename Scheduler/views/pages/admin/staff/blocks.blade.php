@@ -2,7 +2,7 @@
 
 @section('title')
 	Schedule Blocking
-@endsection
+@stop
 
 @section('content')
 	<h1>Schedule Blocking</h1>
@@ -58,10 +58,12 @@
 	@else
 		{{ partial('common/alert', array('content' => 'No upcoming schedule blocks found.')) }}
 	@endif
+@stop
 
+@section('modals')
 	{{ modal(array('id' => 'addBlock', 'header' => "Create Schedule Block")) }}
 	{{ modal(array('id' => 'deleteBlock', 'header' => "Remove Schedule Block")) }}
-@endsection
+@stop
 
 @section('scripts')
 	<script type="text/javascript">
@@ -89,4 +91,4 @@
 		});
 
 	</script>
-@endsection
+@stop

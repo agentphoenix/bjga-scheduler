@@ -2,7 +2,7 @@
 
 @section('title')
 	Book Lesson
-@endsection
+@stop
 
 @section('content')
 	<h1>Book Lesson</h1>
@@ -129,7 +129,7 @@
 			</div>
 		</div>
 	{{ Form::close() }}
-@endsection
+@stop
 
 @section('scripts')
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
@@ -199,4 +199,4 @@
 		});
 
 	</script>
-@endsection
+@stop
