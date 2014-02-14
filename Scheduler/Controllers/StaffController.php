@@ -226,7 +226,7 @@ class StaffController extends BaseController {
 				'end'	=> $date->copy()->hour($aEndHour)->minute($aEndMinute)->second(0),
 			));
 
-			return Redirect::route('admin')
+			return Redirect::route('admin.staff.block')
 				->with('message', "Schedule block was successfully entered.")
 				->with('messageStatus', 'success');
 		}
