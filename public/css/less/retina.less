@@ -1,25 +1,32 @@
 header {
 	nav.nav-main {
 		.brand {
-			background-image: url(../img/img-bjga@2x.png) !important;
+			background-image: url(../img/logo@2x.png) !important;
 			background-size: 322px 75px;
 		}
 	}
 }
 
-/* Landscape phones and down */
-@media (max-width: 480px) {
-	.navbar {
-		.navbar-inner {
+/* Tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+	header {
+		nav.nav-main {
 			.brand {
-				background-image: url(../img/mobile-phone/img-bjga@2x.png);
-				background-size: 220px 20px;
+				background-image: url(../img/logo@2x.png) !important;
+				background-size: 322px 75px;
 			}
 		}
 	}
+}
 
-	.bjga-logo {
-		background: transparent url(../img/mobile-phone/img-logo@2x.png) no-repeat top center;
-		background-size: 159px 122px;
+/* Phones */
+@media (max-width: 767px) {
+	header {
+		nav.nav-main {
+			.brand {
+				background-image: url(../img/logo-mobile@2x.png) !important;
+				background-size: 100px 75px;
+			}
+		}
 	}
 }
