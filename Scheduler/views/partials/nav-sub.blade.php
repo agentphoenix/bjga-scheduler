@@ -1,7 +1,8 @@
-<div class="slideLeft">
+<nav class="nav-sub slideRight">
 	<p>Menu</p>
 
 	<ul>
+		<li class="visible-xs visible-sm"><a href="http://brianjacobsgolf.com">Brian Jacobs Golf Home</a></li>
 		@if (Auth::check())
 			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
 			<li class="{{ (Request::is('admin/user/*') ? 'active' : '') }}"><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
@@ -34,4 +35,19 @@
 			@endif
 		</ul>
 	@endif
-</div>
+
+	<div class="social">
+		<div class="visible-xs visible-sm">
+			<a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="btn btn-lg btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
+			<a href="https://twitter.com/BrianJacobsgolf" target="_blank" class="btn btn-lg btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
+		</div>
+		<div class="visible-md visible-lg">
+			<a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
+			<a href="https://twitter.com/BrianJacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
+		</div>
+	</div>
+
+	<div class="copyright">
+		&copy; {{ Date::now()->year }} Brian Jacobs Golf
+	</div>
+</nav>

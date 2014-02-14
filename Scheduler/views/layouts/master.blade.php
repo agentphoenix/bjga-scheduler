@@ -23,8 +23,8 @@
 	@endif
 
 	{{ HTML::style('css/bootstrap-datetimepicker.min.css') }}
-	{{ HTML::style('css/fonts.css') }}
 	{{ HTML::style('css/style.css') }}
+	{{ HTML::style('css/fonts.css') }}
 	{{ HTML::style('css/responsive.css') }}
 	@yield('styles')
 
@@ -43,36 +43,39 @@
 	<body>
 @endif
 	
-	<header class="slideRight">
-		@include('partials.nav-main')
-	</header>
+	@include('partials.nav-main')
 
-	<div id="wrapper" class="container-fluid">
-		<div class="row">
-			<div class="col-lg-2">
-				<nav class="nav-sub">
+	<div id="wrapper" class="visible-xs visible-sm">
+		@include('partials.nav-sub')
+		
+		<section class="content slideRight">
+			@if (Session::has('message'))
+				<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
+			@endif
+			
+			@yield('content')
+		</section>
+	</div>
+	<div id="wrapper" class="visible-md visible-lg">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-3 col-lg-2">
 					@include('partials.nav-sub')
-				</nav>
-
-				<div class="copyright">
-					&copy; {{ Date::now()->year }} Brian Jacobs Golf
 				</div>
-				<div>
-					<a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
-					<a href="https://twitter.com/BrianJacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
+				<div class="col-md-9 col-lg-10">
+					<section>
+						@if (Session::has('message'))
+							<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
+						@endif
+						
+						@yield('content')
+					</section>
 				</div>
-			</div>
-			<div class="col-lg-10">
-				<section>
-					@if (Session::has('message'))
-						<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
-					@endif
-					
-					@yield('content')
-				</section>
 			</div>
 		</div>
 	</div>
+
+	@yield('modals')
 
 	@if (App::environment() == 'production')
 		<!--[if lt IE 9]>
@@ -87,7 +90,13 @@
 		<script src="http://localhost/global/jquery/jquery-2.1.0.min.js"></script>
 		<script src="http://localhost/global/bootstrap/3.1/js/bootstrap.min.js"></script>
 	@endif
+	{{ HTML::script('js/trunk.js') }}
 	<script>
+
+		$('#navToggle').click(function(e)
+		{
+			e.preventDefault();
+		});
 
 		// Destroy all modals when they're hidden
 		$('.modal').on('hidden.bs.modal', function()
