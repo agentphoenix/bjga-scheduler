@@ -24,11 +24,11 @@ class HomeController extends BaseController {
 		$this->appointment = $appointment;
 	}
 
-	public function index()
+	public function mySchedule()
 	{
 		if (Auth::check())
 		{
-			return View::make('pages.index')
+			return View::make('pages.schedule')
 				->withSchedule($this->user->getSchedule($this->currentUser));
 		}
 

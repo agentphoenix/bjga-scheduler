@@ -79,7 +79,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		Route::get('/', array(
 			'as'	=> 'home',
-			'uses'	=> 'Scheduler\Controllers\HomeController@index'));
+			'uses'	=> 'Scheduler\Controllers\HomeController@mySchedule'));
 		Route::get('logout', array(
 			'as'	=> 'logout',
 			'uses'	=> 'Scheduler\Controllers\HomeController@getLogout'));
