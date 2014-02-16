@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder {
 
 		$this->call('SchedulerServiceSeeder');
 		$this->call('SchedulerUserSeeder');
-		$this->call('SchedulerCustomerSeeder');
+		//$this->call('SchedulerCustomerSeeder');
 	}
 
 }
