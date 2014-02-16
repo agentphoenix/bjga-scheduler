@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-lg-4">
 			<div class="form-group">
-				<label class="label-control">Date</label>
+				<label class="control-label">Date</label>
 				{{ Form::text('date', null, array('class' => 'form-control js-datepicker')) }}
 			</div>
 		</div>
@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="form-group">
-				<label class="label-control">Times</label>
+				<label class="control-label">Times</label>
 				<div class="row">
 					@foreach ($times as $value => $time)
 						<div class="col-lg-4">

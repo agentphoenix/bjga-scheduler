@@ -42,8 +42,8 @@
 				<div class="form-group">
 					<label class="control-label">Do you have a gift certificate?</label>
 					<div class="controls">
-						<label class="radio-inline">{{ Form::radio('has_gift', 1) }} Yes</label>
-						<label class="radio-inline">{{ Form::radio('has_gift', 0) }} No</label>
+						<label class="radio-inline text-sm">{{ Form::radio('has_gift', 1) }} Yes</label>
+						<label class="radio-inline text-sm">{{ Form::radio('has_gift', 0) }} No</label>
 					</div>
 				</div>
 			</div>
@@ -67,10 +67,10 @@
 
 		<div class="row" id="enrollBtn">
 			<div class="col-lg-12">
-				<div class="visible-lg">
+				<div class="visible-md visible-lg">
 					<p>{{ Form::submit('Enroll Now', array('class' => 'btn btn-lg btn-primary')) }}</p>
 				</div>
-				<div class="hidden-lg">
+				<div class="visible-xs visible-sm">
 					<p>{{ Form::submit('Enroll Now', array('class' => 'btn btn-block btn-lg btn-primary')) }}</p>
 				</div>
 			</div>

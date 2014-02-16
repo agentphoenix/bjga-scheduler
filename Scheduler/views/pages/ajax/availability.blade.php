@@ -9,13 +9,8 @@
 	<div class="row">
 	@foreach ($availability as $av)
 		@if ($av !== false)
-			<div class="col-lg-2">
-				<div class="hidden-xs">
-					<p><a href="#" class="btn btn-block btn-default js-book" data-date="{{ $date->format('Y-m-d') }}" data-time="{{ $av->format('G:i') }}">{{ $av->format('g:ia') }}</a></p>
-				</div>
-				<div class="visible-xs">
-					<p><a href="#" class="btn btn-lg btn-block btn-default js-book" data-date="{{ $date->format('Y-m-d') }}" data-time="{{ $av->format('G:i') }}">{{ $av->format('g:ia') }}</a></p>
-				</div>
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
+				<p><a href="#" class="btn btn-lg btn-block btn-default js-book" data-date="{{ $date->format('Y-m-d') }}" data-time="{{ $av->format('G:i') }}">{{ $av->format('g:ia') }}</a></p>
 			</div>
 		@else
 			<?php --$avail;?>

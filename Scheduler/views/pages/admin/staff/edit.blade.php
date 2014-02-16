@@ -17,7 +17,7 @@
 					<a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-default">Edit My User Account</a>
 				</div>
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.staff.block') }}" class="btn btn-default">Manage Schedule Blocks</a>
+					<a href="{{ URL::route('admin.staff.block') }}" class="btn btn-default">Manage My Schedule Blocks</a>
 				</div>
 			</div>
 		</div>
@@ -30,7 +30,7 @@
 					<p><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-block btn-lg btn-default">Edit User Account</a></p>
 				</div>
 				<div class="col-xs-12 col-sm-4">
-					<p><a href="{{ URL::route('admin.staff.block') }}" class="btn btn-lg btn-block btn-default">Manage Schedule Blocks</a></p>
+					<p><a href="{{ URL::route('admin.staff.block') }}" class="btn btn-lg btn-block btn-default">Manage My Schedule Blocks</a></p>
 				</div>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 					<div class="row">
 						<div class="col-md-8 col-lg-4">
 							<div class="form-group">
-								<label class="label-control">Title</label>
+								<label class="control-label">Title</label>
 								{{ Form::text('title', null, array('class' => 'form-control input-lg')) }}
 							</div>
 						</div>
@@ -52,7 +52,7 @@
 					<div class="row">
 						<div class="col-md-4 col-lg-2">
 							<div class="form-group{{ ($errors->has('access')) ? ' has-error' : '' }}">
-								<label class="label-control">Access Level</label>
+								<label class="control-label">Access Level</label>
 								{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), null, array('class' => 'form-control input-lg input-with-feedback')) }}
 								{{ $errors->first('access', '<p class="help-block">:message</p>') }}
 							</div>
@@ -62,7 +62,7 @@
 					<div class="row">
 						<div class="col-md-8 col-lg-4">
 							<div class="form-group">
-								<label class="label-control">Available for Instruction</label>
+								<label class="control-label">Available for Instruction</label>
 								<div>
 									<label class="radio-inline">{{ Form::radio('instruction', (int) true) }} Yes</label>
 									<label class="radio-inline">{{ Form::radio('instruction', (int) false) }} No</label>
@@ -75,7 +75,7 @@
 				<div class="row">
 					<div class="col-lg-8">
 						<div class="form-group">
-							<label class="label-control">Bio</label>
+							<label class="control-label">Bio</label>
 							{{ Form::textarea('bio', null, array('class' => 'form-control input-lg', 'rows' => 8)) }}
 						</div>
 					</div>

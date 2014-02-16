@@ -70,11 +70,13 @@
 						</div>
 						<div class="visible-xs visible-sm">
 							<div class="row">
-								@if ($service->isProgram())
-									<div class="col-xs-12 col-sm-4">
+								<div class="col-xs-12 col-sm-4">
+									@if ($service->isProgram())
 										<p><a class="btn btn-lg btn-block btn-default icn-size-16 js-service-action" data-action="attendees" data-id="{{ $service->id }}">{{ $_icons['users'] }}</a></p>
-									</div>
-								@endif
+									@else
+										<div class="visible-sm">&nbsp;</div>
+									@endif
+								</div>
 
 								<div class="col-xs-12 col-sm-4">
 									<p><a href="{{ URL::route('admin.service.edit', array($service->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>

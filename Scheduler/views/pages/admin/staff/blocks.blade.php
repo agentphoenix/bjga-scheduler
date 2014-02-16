@@ -34,7 +34,7 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-9">
 					<p><strong>{{ $b->start->format('l F jS, Y') }}</strong></p>
-					<p class="text-muted text-small">{{ $b->start->format('g:ia') }} - {{ $b->end->format('g:ia') }}</p>
+					<p class="text-muted text-sm">{{ $b->start->format('g:ia') }} - {{ $b->end->format('g:ia') }}</p>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-lg-3">
 					<div class="visible-lg">

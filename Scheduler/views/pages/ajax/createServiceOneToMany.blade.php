@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-lg-4">
 			<div class="form-group{{ ($errors->has('name')) ? ' has-error' : '' }}">
-				<label class="label-control">Service Name</label>
+				<label class="control-label">Service Name</label>
 				{{ Form::text('name', null, array('class' => 'form-control input-with-feedback')) }}
 				{{ $errors->first('name', '<p class="help-block">:message</p>') }}
 			</div>
@@ -16,7 +16,7 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="form-group">
-				<label class="label-control">Description</label>
+				<label class="control-label">Description</label>
 				{{ Form::textarea('description', null, array('class' => 'form-control', 'rows' => 3)) }}
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 
 	<div class="row">
 		<div class="col-lg-2">
-			<label class="label-control">Price</label>
+			<label class="control-label">Price</label>
 			{{ Form::text('price', null, array('class' => 'form-control')) }}
 		</div>
 	</div>
@@ -37,7 +37,7 @@
 	<div class="row">
 		<div class="col-lg-2">
 			<div class="form-group">
-				<label class="label-control">Date</label>
+				<label class="control-label">Date</label>
 				{{ Form::text('date', null, array('class' => 'form-control js-datepicker')) }}
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 	<div class="row">
 		<div class="col-lg-2">
 			<div class="form-group">
-				<label class="label-control">Start Time</label>
+				<label class="control-label">Start Time</label>
 				{{ Form::text('start_time', null, array('class' => 'form-control')) }}
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 	<div class="row">
 		<div class="col-lg-2">
 			<div class="form-group">
-				<label class="label-control">End Time</label>
+				<label class="control-label">End Time</label>
 				{{ Form::text('end_time', null, array('class' => 'form-control')) }}
 			</div>
 		</div>
@@ -63,7 +63,7 @@
 
 	<div class="row">
 		<div class="col-lg-2">
-			<label class="label-control">User Limit</label>
+			<label class="control-label">User Limit</label>
 			{{ Form::text('user_limit', 5, array('class' => 'form-control')) }}
 		</div>
 	</div>
@@ -80,7 +80,7 @@
 					<h2 class="panel-title">Additional Services Included</h2>
 				</div>
 				<div class="panel-body">
-					<p class="text-small">Choose a service and the number of occurrences for that service. If there are multiple additional services, you can use the add button at the bottom to create more rows as needed.</p>
+					<p class="text-sm">Choose a service and the number of occurrences for that service. If there are multiple additional services, you can use the add button at the bottom to create more rows as needed.</p>
 
 					<div class="data-table data-table-bordered data-table-striped" id="serviceDataTable">
 						<div class="row">

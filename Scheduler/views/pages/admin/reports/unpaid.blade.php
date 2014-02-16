@@ -33,8 +33,8 @@
 					<p class="text-danger"><strong>${{ $u->amount }}</strong></p>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-lg-4">
-					<p class="text-muted text-small">{{ $u->appointment->service->name }}</p>
-					<p class="text-muted text-small">{{ $u->appointment->start->format('l F jS, Y') }}
+					<p class="text-muted text-sm">{{ $u->appointment->service->name }}</p>
+					<p class="text-muted text-sm">{{ $u->appointment->start->format('l F jS, Y') }}
 				</div>
 				<div class="col-xs-12 col-sm-12 col-lg-3">
 					<div class="visible-lg">

@@ -28,7 +28,7 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-6">
 				<div class="form-group{{ ($errors->has('name')) ? ' has-error' : '' }}">
-					<label class="label-control">Name</label>
+					<label class="control-label">Name</label>
 					{{ Form::text('name', null, array('class' => 'form-control input-lg input-with-feedback')) }}
 					{{ $errors->first('name', '<p class="help-block">:message</p>') }}
 				</div>
@@ -38,7 +38,7 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-6">
 				<div class="form-group{{ ($errors->has('password')) ? ' has-error' : '' }}">
-					<label class="label-control">Password</label>
+					<label class="control-label">Password</label>
 					{{ Form::password('password', array('class' => 'form-control input-lg input-with-feedback')) }}
 					{{ $errors->first('password', '<p class="help-block">:message</p>') }}
 				</div>
@@ -48,7 +48,7 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-6">
 				<div class="form-group{{ ($errors->has('password_confirm')) ? ' has-error' : '' }}">
-					<label class="label-control">Confirm Password</label>
+					<label class="control-label">Confirm Password</label>
 					{{ Form::password('password_confirm', array('class' => 'form-control input-lg input-with-feedback')) }}
 					{{ $errors->first('password_confirm', '<p class="help-block">:message</p>') }}
 				</div>
@@ -58,7 +58,7 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-6">
 				<div class="form-group{{ ($errors->has('email')) ? ' has-error' : '' }}">
-					<label class="label-control">Email Address</label>
+					<label class="control-label">Email Address</label>
 					{{ Form::email('email', null, array('class' => 'form-control input-lg input-with-feedback')) }}
 					{{ $errors->first('email', '<p class="help-block">:message</p>') }}
 				</div>
@@ -68,7 +68,7 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-6">
 				<div class="form-group{{ ($errors->has('phone')) ? ' has-error' : '' }}">
-					<label class="label-control">Phone Number</label>
+					<label class="control-label">Phone Number</label>
 					{{ Form::text('phone', null, array('class' => 'form-control input-lg input-with-feedback')) }}
 					{{ $errors->first('phone', '<p class="help-block">:message</p>') }}
 				</div>
@@ -78,7 +78,7 @@
 		<div class="row">
 			<div class="col-md-8 col-lg-6">
 				<div class="form-group">
-					<label class="label-control">Address</label>
+					<label class="control-label">Address</label>
 					{{ Form::textarea('address', null, array('class' => 'form-control input-lg', 'rows' => 3)) }}
 				</div>
 			</div>

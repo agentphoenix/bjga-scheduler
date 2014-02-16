@@ -29,7 +29,7 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-4">
 					<div class="form-group{{ ($errors->has('user_id')) ? ' has-error' : '' }}">
-						<label class="label-control">User</label>
+						<label class="control-label">User</label>
 						{{ Form::select('user_id', $users, null, array('class' => 'form-control input-lg input-with-feedback')) }}
 						{{ $errors->first('user_id', '<p class="help-block">:message</p>') }}
 					</div>
@@ -39,7 +39,7 @@
 			<div class="row">
 				<div class="col-md-4 col-lg-2">
 					<div class="{{ ($errors->has('access')) ? 'form-group has-error' : '' }}">
-						<label class="label-control">Access Level</label>
+						<label class="control-label">Access Level</label>
 						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), 1, array('class' => 'form-control input-lg input-with-feedback')) }}
 						{{ $errors->first('access', '<p class="help-block">:message</p>') }}
 					</div>
@@ -54,7 +54,7 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-4">
 					<div class="form-group">
-						<label class="label-control">Title</label>
+						<label class="control-label">Title</label>
 						{{ Form::text('title', null, array('class' => 'form-control input-lg')) }}
 					</div>
 				</div>
@@ -63,10 +63,10 @@
 			<div class="row">
 				<div class="col-md-8 col-lg-4">
 					<div class="form-group">
-						<label class="label-control">Available for Instruction</label>
+						<label class="control-label">Available for Instruction</label>
 						<div>
-							<label class="radio-inline text-small">{{ Form::radio('instruction', (int) true) }} Yes</label>
-							<label class="radio-inline text-small">{{ Form::radio('instruction', (int) false) }} No</label>
+							<label class="radio-inline text-sm">{{ Form::radio('instruction', (int) true) }} Yes</label>
+							<label class="radio-inline text-sm">{{ Form::radio('instruction', (int) false) }} No</label>
 						</div>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="form-group">
-						<label class="label-control">Bio</label>
+						<label class="control-label">Bio</label>
 						{{ Form::textarea('bio', null, array('class' => 'form-control input-lg', 'rows' => 8)) }}
 					</div>
 				</div>

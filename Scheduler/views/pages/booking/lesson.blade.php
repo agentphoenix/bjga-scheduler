@@ -34,11 +34,11 @@
 		<div class="row">
 			<div class="col-lg-4">
 				<div class="form-group">
-					<div class="visible-lg">
-						<a href="{{ URL::to('ajax/availability') }}" class="btn btn-lg btn-primary" id="checkAvailability">Check Availability</a>
+					<div class="visible-md visible-lg">
+						<a class="btn btn-lg btn-primary js-check">Check Availability</a>
 					</div>
-					<div class="hidden-lg">
-						<p><a href="{{ URL::to('ajax/availability') }}" class="btn btn-lg btn-block btn-primary" id="checkAvailability">Check Availability</a></p>
+					<div class="visible-xs visible-sm">
+						<p><a class="btn btn-lg btn-block btn-primary js-check">Check Availability</a></p>
 					</div>
 				</div>
 			</div>
@@ -47,23 +47,25 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="form-group">
-					<div id="ajax-container"></div>
+					<div class="ajax-container"></div>
 				</div>
 			</div>
 		</div>
 
-		<div class="hide" id="bookingForm">
+		<div class="hide bookingForm">
 			<div class="row">
-				<div class="col-lg-2">
+				<div class="col-lg-12">
 					<div class="form-group">
 						<label class="control-label">Start Time</label>
-						<div class="controls">
-							<div class="input-group">
-								{{ Form::text('timeDisplay', null, array('class' => 'form-control', 'disabled' => 'disabled')) }}
-								{{ Form::hidden('time', null) }}
-								<span class="input-group-btn">
-									<button class="btn btn-sm btn-default js-change-time" type="button" style="padding-bottom:6px;">Change Time</button>
-								</span>
+						<div class="row">
+							<div class="col-xs-7 col-sm-3 col-md-2 col-lg-2">
+								<div class="controls">
+									{{ Form::text('timeDisplay', null, array('class' => 'form-control', 'disabled' => 'disabled')) }}
+									{{ Form::hidden('time', null) }}
+								</div>
+							</div>
+							<div class="col-xs-5 col-sm-9 col-md-10 col-lg-10">
+								<button class="btn btn-sm btn-default js-change-time" type="button" style="padding-bottom:6px;">Change Time</button>
 							</div>
 						</div>
 					</div>
@@ -90,14 +92,14 @@
 					<div class="form-group">
 						<label class="control-label">Do you have a gift certificate?</label>
 						<div class="controls">
-							<label class="radio-inline">{{ Form::radio('has_gift', 1) }} Yes</label>
-							<label class="radio-inline">{{ Form::radio('has_gift', 0) }} No</label>
+							<label class="radio-inline text-sm">{{ Form::radio('has_gift', 1) }} Yes</label>
+							<label class="radio-inline text-sm">{{ Form::radio('has_gift', 0) }} No</label>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div id="giftCertificateAmount" class="hide">
+			<div class="hide giftCertificateAmount">
 				<div class="row">
 					<div class="col-lg-2">
 						<div class="form-group">
@@ -115,13 +117,13 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="visible-lg">
+					<div class="visible-md visible-lg">
 						<p>
 							{{ Form::submit('Book Now', array('class' => 'btn btn-lg btn-primary')) }}
 							<a href="{{ URL::route('home') }}" class="btn btn-link">Cancel</a>
 						</p>
 					</div>
-					<div class="hidden-lg">
+					<div class="visible-xs visible-sm">
 						<p>{{ Form::submit('Book Now', array('class' => 'btn btn-block btn-lg btn-primary')) }}</p>
 						<p><a href="{{ URL::route('home') }}" class="btn btn-lg btn-block btn-default">Cancel</a></p>
 					</div>
@@ -135,12 +137,12 @@
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 	<script>
-		
-		$('#checkAvailability').on('click', function(e)
+
+		$(document).on('click', '.js-check', function(e)
 		{
 			e.preventDefault();
 
-			if ($('[name="service_id"] option:selected').val() == "")
+			if ($('[name="service_id"] option:selected').val() == "0")
 				alert("Please select a service");
 			else
 			{
@@ -149,10 +151,10 @@
 						'service': $('[name="service_id"] option:selected').val(),
 						'date': $('[name="date"]').val()
 					},
-					url: this.href,
+					url: "{{ URL::to('ajax/availability') }}",
 					success: function(data)
 					{
-						$('#ajax-container').html(data);
+						$('.ajax-container').html(data);
 					}
 				});
 			}
@@ -164,26 +166,28 @@
 
 			$('[name="time"]').val($(this).data('time'));
 			$('[name="timeDisplay"]').val($(this).data('time'));
-			$('#checkAvailability').closest('.row').addClass('hide');
-			$('#ajax-container').closest('.row').addClass('hide');
-			$('#bookingForm').removeClass('hide');
+			$('.js-check').closest('.row').addClass('hide');
+			$('.ajax-container').closest('.row').addClass('hide');
+			$('.bookingForm').removeClass('hide');
 		});
 
 		$('[name="has_gift"]').on('change', function(e)
 		{
-			var selected = $('[name="has_gift"]:checked').val();
-
-			if (selected == "1")
-				$('#giftCertificateAmount').removeClass('hide');
+			if ($section.find('[name="has_gift"]:checked').val() == "1")
+			{
+				$('.giftCertificateAmount').removeClass('hide');
+			}
 			else
-				$('#giftCertificateAmount').addClass('hide');
+			{
+				$('.giftCertificateAmount').addClass('hide');
+			}
 		});
 
 		$('.js-change-time').on('click', function(e)
 		{
-			$('#bookingForm').addClass('hide');
-			$('#ajax-container').html('').closest('.row').removeClass('hide');
-			$('#checkAvailability').closest('.row').removeClass('hide');
+			$('.bookingForm').addClass('hide');
+			$('.ajax-container').html('').closest('.row').removeClass('hide');
+			$('.js-check').closest('.row').removeClass('hide');
 		});
 
 		$(function()

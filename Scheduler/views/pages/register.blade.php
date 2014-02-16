@@ -72,7 +72,7 @@
 					<div class="col-lg-12">
 						<div class="form-group">
 							<div>
-								<label class="checkbox-inline text-small">
+								<label class="checkbox-inline text-sm">
 									{{ Form::checkbox('mailchimp_optin', 1, true) }} Sign up for our newsletter
 								</label>
 							</div>

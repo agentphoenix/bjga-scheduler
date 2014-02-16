@@ -39,13 +39,13 @@
 
 				<div class="row">
 					<div class="col-md-2 col-lg-2">
-						<p class="text-small"><strong>{{ $appt->start->format('g:ia') }} - {{ $appt->end->format('g:ia') }}</strong></p>
+						<p class="text-sm"><strong>{{ $appt->start->format('g:ia') }} - {{ $appt->end->format('g:ia') }}</strong></p>
 					</div>
 					<div class="col-md-6 col-lg-6">
 						<p class="lead">
 							<strong>
 								@if ($appt->service->isLesson())
-									{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-small">{{ trim($appt->service->name) }}</span>
+									{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
 								@else
 									{{ trim($appt->service->name) }}
 								@endif

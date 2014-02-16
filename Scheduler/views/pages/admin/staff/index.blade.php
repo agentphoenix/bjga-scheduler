@@ -24,7 +24,7 @@
 
 	<div class="row">
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-			{{ Form::text('search', null, array('placeholder' => 'Search for staff', 'class' => 'form-control input-lg search-control', 'id' => 'searchStaff')) }}
+			{{ Form::text('search', null, array('placeholder' => 'Search for staff', 'class' => 'form-control search-control', 'id' => 'searchStaff')) }}
 		</div>
 	</div>
 
@@ -33,7 +33,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-9">
 				<p><strong>{{ $s->user->name }}</strong></p>
-				<p class="text-muted text-small">{{ $s->user->email }}</p>
+				<p class="text-muted text-sm">{{ $s->user->email }}</p>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
 				<div class="visible-md visible-lg">
