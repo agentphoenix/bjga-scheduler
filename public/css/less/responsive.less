@@ -50,7 +50,7 @@
 	}
 
 	nav.nav-sub {
-		width: 93%;
+		width: 92%;
 		height: 100%;
 		position: fixed;
 		left: 0;
@@ -80,6 +80,12 @@
 				padding: 8px 0 8px @spacing;
 
 				border-bottom: 1px solid rgba(255, 255, 255, .05);
+
+				a {
+					display: block;
+
+					font-size: @font-size;
+				}
 			}
 
 			&.buttons {
@@ -167,19 +173,11 @@
 	}
 
 	section {
-		margin-right: 0;
-	}
-
-	#wrapper {
-		height: 100%;
-
-		> section {
-			min-height: 100%;
-		}
+		margin-left: -15px;
+		margin-right: -15px;
 	}
 
 	.content {
-		/* starting point */
 		-webkit-transform: translate3d(0,0,0);
 		-moz-transform: translate3d(0,0,0);
 		transform: translate3d(0,0,0);
@@ -239,6 +237,10 @@
 	@keyframes close {
 		0%       {transform: translate3d(240px,0,0);}
 		100%  {transform: translate3d(0,0,0);}
+	}
+
+	.col-xs-12, .col-sm-12 {
+		min-height: 0;
 	}
 }
  

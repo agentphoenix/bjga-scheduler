@@ -45,32 +45,19 @@
 	
 	@include('partials.nav-main')
 
-	<div id="wrapper" class="visible-xs visible-sm">
-		@include('partials.nav-sub')
-		
-		<section class="content slideRight">
-			@if (Session::has('message'))
-				<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
-			@endif
-			
-			@yield('content')
-		</section>
-	</div>
-	<div id="wrapper" class="visible-md visible-lg">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-3 col-lg-2">
-					@include('partials.nav-sub')
-				</div>
-				<div class="col-md-9 col-lg-10">
-					<section>
-						@if (Session::has('message'))
-							<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
-						@endif
-						
-						@yield('content')
-					</section>
-				</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+				@include('partials.nav-sub')
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-10 content slideRight">
+				<section>
+					@if (Session::has('message'))
+						<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
+					@endif
+					
+					@yield('content')
+				</section>
 			</div>
 		</div>
 	</div>
