@@ -16,7 +16,7 @@ class BookingController extends BaseController {
 	public function getLesson()
 	{
 		return View::make('pages.booking.lesson')
-			->withServices(array('' => "Please choose one") + $this->service->getValues('lesson', true));
+			->withServices(array('0' => "Please choose one") + $this->service->getValues('lesson', true));
 	}
 	public function postLesson()
 	{
