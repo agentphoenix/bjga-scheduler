@@ -132,24 +132,25 @@ class SchedulerServiceProvider extends ServiceProvider {
 			 * staff/block			POST	Create new block
 			 * staff/block/{id}		DELETE	Remove a block
 			 */
-			Route::get('staff/block', array(
-				'as'	=> 'admin.staff.block',
-				'uses'	=> 'Scheduler\Controllers\StaffController@block'));
-			Route::post('staff/block', array(
+			Route::post('staff/schedule/block', array(
 				'as'	=> 'admin.staff.block.store',
 				'uses'	=> 'Scheduler\Controllers\StaffController@storeBlock'));
-			Route::delete('staff/block/{id}', array(
+			Route::delete('staff/schedule/block/{id}', array(
 				'as'	=> 'admin.staff.block.destroy',
 				'uses'	=> 'Scheduler\Controllers\StaffController@destroyBlock'));
-			Route::get('staff/block/create', array(
+			Route::get('staff/schedule/block/create', array(
 				'as'	=> 'admin.staff.block.create',
 				'uses'	=> 'Scheduler\Controllers\StaffController@createBlock'));
-			Route::get("staff/block/delete/{id}", array(
+			Route::get("staff/schedule/block/delete/{id}", array(
 				'as'	=> 'admin.staff.block.delete',
 				'uses'	=> 'Scheduler\Controllers\StaffController@deleteBlock'));
+			Route::get('staff/schedule/edit/staff/{staffId}/day/{day}', 'Scheduler\Controllers\StaffController@editSchedule');
 			Route::get('staff/schedule/{id}', array(
 				'as'	=> 'admin.staff.schedule',
 				'uses'	=> 'Scheduler\Controllers\StaffController@schedule'));
+			Route::put('staff/schedule/edit/{id}', array(
+				'as'	=> 'admin.staff.schedule.update',
+				'uses'	=> 'Scheduler\Controllers\StaffController@updateSchedule'));
 
 			Route::get('reports', array(
 				'as'	=> 'admin.reports.index',

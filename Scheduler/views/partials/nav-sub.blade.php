@@ -31,7 +31,7 @@
 			<li><a href="{{ URL::route('book.program') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Enroll in Program</a></li>
 
 			@if ($_currentUser->isStaff())
-				<li><a href="{{ URL::route('admin.staff.block') }}"><span class="icn-size-16">{{ $_icons['reject'] }}</span>Block My Calendar</a></li>
+				<li><a href="{{ URL::route('admin.staff.schedule', array(Auth::user()->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage My Schedule</a></li>
 			@endif
 		</ul>
 	@endif

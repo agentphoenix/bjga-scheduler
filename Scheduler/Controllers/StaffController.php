@@ -100,9 +100,7 @@ class StaffController extends BaseController {
 					$this->currentUser->staff->id == $staff->id))
 		{
 			return View::make('pages.admin.staff.edit')
-				->withStaff($staff)
-				->withSchedule($staff->schedule)
-				->withDays(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'));
+				->withStaff($staff);
 		}
 		else
 		{
@@ -171,22 +169,6 @@ class StaffController extends BaseController {
 		}
 	}
 
-	public function block()
-	{
-		if ($this->currentUser->isStaff())
-		{
-			return View::make('pages.admin.staff.blocks')
-				->with('blocks', $this->staff->getBlocks($this->currentUser));
-		}
-		else
-		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("Only staff members can block their schedules!");
-		}
-	}
-
 	public function storeBlock()
 	{
 		if ($this->currentUser->isStaff())
@@ -226,7 +208,7 @@ class StaffController extends BaseController {
 				'end'	=> $date->copy()->hour($aEndHour)->minute($aEndMinute)->second(0),
 			));
 
-			return Redirect::route('admin.staff.block')
+			return Redirect::route('admin.staff.schedule', array(Input::get('staff_id')))
 				->with('message', "Schedule block was successfully entered.")
 				->with('messageStatus', 'success');
 		}
@@ -259,7 +241,7 @@ class StaffController extends BaseController {
 		// Fire the lesson booking event
 		Event::fire('book.block.created', array($this->currentUser, false));
 
-		return Redirect::route('admin.staff.block')
+		return Redirect::route('admin.staff.schedule', array($id))
 			->with('message', "Schedule block was successfully removed.")
 			->with('messageStatus', 'success');
 	}
@@ -278,9 +260,14 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			// Get the user record
+			$user = $this->user->find($id);
+
 			return View::make('pages.admin.staff.schedule')
-				->withStaff($this->staff->find($id))
-				->withSchedule($this->staff->getSchedule($id, 7));
+				->withStaff($user->staff)
+				->withBlocks($this->staff->getBlocks($user))
+				->withSchedule($user->staff->schedule)
+				->withDays(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'));
 		}
 		else
 		{
@@ -288,6 +275,48 @@ class StaffController extends BaseController {
 
 			return View::make('pages.admin.error')
 				->withError("Only staff members can view schedules!");
+		}
+	}
+
+	public function editSchedule($staffId, $day)
+	{
+		if ($this->currentUser->isStaff())
+		{
+			$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+
+			return partial('common/modal_content', array(
+				'modalHeader'	=> "Edit {$days[$day]} Schedule",
+				'modalBody'		=> View::make('pages.admin.staff.ajax.editSchedule')
+									->withStaff($this->staff->find($staffId))
+									->withDay($days[$day])
+									->withDaynum($day),
+				'modalFooter'	=> false,
+			));
+		}
+	}
+
+	public function updateSchedule($id)
+	{
+		if ($this->currentUser->isStaff())
+		{
+			$rawStart = str_replace(' AM', '', Input::get('start'));
+			$rawStart = str_replace(' PM', '', $rawStart);
+			$rawEnd = str_replace(' AM', '', Input::get('end'));
+			$rawEnd = str_replace(' PM', '', $rawEnd);
+
+			// Get the start
+			$start = Date::createFromFormat('H:i', $rawStart)->format('G:i');
+
+			// Get the end
+			$end = Date::createFromFormat('H:i', $rawEnd)->format('G:i');
+
+			$availability = "{$start}-{$end}";
+
+			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), $availability);
+
+			return Redirect::route('admin.staff.schedule', array($id))
+				->with('message', "Schedule was successfully updated.")
+				->with('messageStatus', 'success');
 		}
 	}
 

@@ -207,24 +207,25 @@ class StaffRepository implements StaffRepositoryInterface {
 		$staff = $this->find($id);
 
 		if ($staff)
-		{
-			// We're updating their schedule...
-			if (array_key_exists('schedule', $data))
-			{
-				for ($d = 0; $d <= 6; $d++)
-				{
-					// Get the day's schedule
-					$day = $staff->schedule->filter(function($s) use ($d)
-					{
-						return (int) $s->day === (int) $d;
-					})->first();
-
-					// Update the record
-					$day->update(array('availability' => $data['schedule'][$d]));
-				}
-			}
-
 			return $staff->fill($data)->save();
+
+		return false;
+	}
+
+	public function updateSchedule($staffId, $day, $availability)
+	{
+		// Get the staff member
+		$staff = $this->find($staffId);
+
+		if ($staff)
+		{
+			// Get the day
+			$daySchedule = $staff->schedule->filter(function($s) use ($day)
+			{
+				return (int) $s->day === (int) $day;
+			})->first();
+
+			return $daySchedule->update(array('availability' => $availability));
 		}
 
 		return false;
