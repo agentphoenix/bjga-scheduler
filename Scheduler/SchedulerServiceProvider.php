@@ -193,6 +193,9 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::get('service/getProgram', array(
 				'as'	=> 'ajax.getProgramService',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@getProgramDetails'));
+			Route::get('appointment/paid', array(
+				'as'	=> 'ajax.markAsPaid',
+				'uses'	=> 'Scheduler\Controllers\AjaxController@markAsPaid'));
 
 			Route::post('enroll', array(
 				'as' => 'ajax.enroll',

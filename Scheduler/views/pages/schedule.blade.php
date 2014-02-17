@@ -57,7 +57,7 @@
 							<div class="btn-toolbar pull-right">
 								@if ($appt->service->isProgram())
 									<div class="btn-group">
-										<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['info'] }}</a>
+										<a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['info'] }}</a>
 									</div>
 								@endif
 
@@ -68,12 +68,22 @@
 										</div>
 										
 										<div class="btn-group">
-											<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+											@if ($appt->service->isLesson())
+												<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+											@else
+												<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+											@endif
 										</div>
 
-										@if ($appt->userAppointments->count() === 1 and (bool) $appt->userAppointments->first()->paid === false)
+										@if ($appt->service->isLesson())
+											@if ((bool) $appt->userAppointments->first()->paid === false)
+												<div class="btn-group">
+													<a href="#" class="btn btn-sm btn-primary icn-size-16 js-markAsPaid" data-appt="{{ $appt->userAppointments->first()->id }}">{{ $_icons['check'] }}</a>
+												</div>
+											@endif
+										@else
 											<div class="btn-group">
-												<a href="#" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['check'] }}</a>
+												<a href="#" class="btn btn-sm btn-default icn-size-16 js-markAsPaid">{{ $_icons['users'] }}</a>
 											</div>
 										@endif
 
@@ -107,4 +117,12 @@
 	@else
 		{{ partial('common/alert', array('content' => "No upcoming appointments.")) }}
 	@endif
+@stop
+
+@section('modals')
+	{{ modal(array('id' => 'sendEmail', 'header' => "Send Email")) }}
+@stop
+
+@section('scripts')
+	{{ View::make('partials.jsMarkAsPaid') }}
 @stop

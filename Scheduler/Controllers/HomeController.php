@@ -134,9 +134,8 @@ class HomeController extends BaseController {
 		$appointment = $event->appointments->first();
 
 		return View::make('pages.event')
-			->with('event', $event)
-			->with('appointment', $appointment)
-			->with('currentUser', Auth::user());
+			->withEvent($event)
+			->withAppointment($appointment);
 	}
 
 }

@@ -1,9 +1,11 @@
 <?php namespace Scheduler\Controllers;
 
 use Date,
+	Mail,
 	View,
 	Input,
 	Config,
+	UserAppointmentModel,
 	ServiceOccurrenceModel,
 	UserRepositoryInterface,
 	StaffRepositoryInterface,
@@ -282,6 +284,42 @@ class AjaxController extends BaseController {
 			{
 				// Update the service
 				$this->service->update($value, array('order' => $key + 1));
+			}
+		}
+	}
+
+	public function markAsPaid()
+	{
+		if ($this->currentUser->isStaff())
+		{
+			// Get the appointment
+			$appointment = UserAppointmentModel::find(Input::get('appt'));
+
+			if ($appointment)
+				return $appointment->update(array('paid' => (int) true));
+
+			return false;
+		}
+	}
+
+	public function sendEmail()
+	{
+		if ($this->currentUser->isStaff())
+		{
+			// Get the service
+			$service = $this->service->find(Input::get('service'));
+
+			if ($service->isLesson())
+			{
+				// Send an email to just that user
+			}
+			else
+			{
+				// Send an email to all attendees
+				Mail::queue('emails.sendToUser', $emailData, function($msg)
+				{
+					//
+				});
 			}
 		}
 	}
