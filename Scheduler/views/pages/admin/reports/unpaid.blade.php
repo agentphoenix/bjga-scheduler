@@ -43,7 +43,7 @@
 								<a href="#" class="btn btn-sm btn-default icn-size-16 js-email" data-user="{{ $u->user->id }}">{{ $_icons['email'] }}</a>
 							</div>
 							<div class="btn-group">
-								<a href="#" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['check'] }}</a>
+								<a href="#" class="btn btn-sm btn-primary icn-size-16 js-markAsPaid" data-appt="{{ $u->id }}">{{ $_icons['check'] }}</a>
 							</div>
 						</div>
 					</div>
@@ -74,6 +74,7 @@
 @stop
 
 @section('scripts')
+	{{ View::make('partials.jsMarkAsPaid') }}
 	<script>
 
 		$('.js-email').on('click', function(e)
