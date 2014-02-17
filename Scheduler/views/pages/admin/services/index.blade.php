@@ -32,9 +32,15 @@
 		</div>
 	</div>
 
+	<ul class="nav nav-tabs">
+		<li><a href="#lesson" data-toggle="tab">Lessons</a></li>
+		<li><a href="#program" data-toggle="tab">Programs</a></li>
+	</ul>
+
+	<div class="tab-content">
 	@foreach ($categories as $category)
-		<h2>{{ ucfirst($category) }} Services</h2>
-		
+		<div class="tab-pane" id="{{ $category }}">
+
 		@if (count($services[$category]) > 0)
 			<div class="data-table data-table-striped data-table-bordered sortable">
 			@foreach ($services[$category] as $service)
@@ -96,7 +102,9 @@
 		@else
 			<div class="alert alert-warning">No {{ $category }} services found.</div>
 		@endif
+		</div>
 	@endforeach
+	</div>
 @stop
 
 @section('modals')
@@ -109,11 +117,12 @@
 	{{ HTML::script('js/jquery.ui.widget.min.js') }}
 	{{ HTML::script('js/jquery.ui.mouse.min.js') }}
 	{{ HTML::script('js/jquery.ui.sortable.min.js') }}
-	{{ HTML::script('js/touch-fix.js') }}
 	<script>
 
 		$(document).ready(function()
 		{
+			$('.nav-tabs a:first').tab('show');
+
 			// Makes the list sortable and update when the sort stops
 			$('.sortable').sortable({
 				stop: function(event, ui)
