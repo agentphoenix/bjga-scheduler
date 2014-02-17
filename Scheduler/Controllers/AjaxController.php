@@ -5,6 +5,7 @@ use Date,
 	View,
 	Input,
 	Config,
+	Redirect,
 	UserAppointmentModel,
 	ServiceOccurrenceModel,
 	UserRepositoryInterface,
@@ -302,25 +303,109 @@ class AjaxController extends BaseController {
 		}
 	}
 
-	public function sendEmail()
+	public function sendEmailFromService($serviceId, $apptId)
 	{
 		if ($this->currentUser->isStaff())
 		{
 			// Get the service
-			$service = $this->service->find(Input::get('service'));
+			$service = $this->service->find($serviceId);
+
+			// Get the appointment
+			$appointment = $this->appointment->find($apptId);
 
 			if ($service->isLesson())
 			{
-				// Send an email to just that user
+				$header = 'Email User';
+				$recipient = $appointment->userAppointments->first()->user->email;
 			}
 			else
 			{
-				// Send an email to all attendees
-				Mail::queue('emails.sendToUser', $emailData, function($msg)
+				$header = 'Email Attendees';
+
+				foreach ($appointment->userAppointments as $a)
 				{
-					//
-				});
+					$recipientArr[] = $a->user->email;
+				}
+
+				$recipient = implode(',', $recipientArr);
 			}
+
+			return partial('common/modal_content', array(
+				'modalHeader'	=> $header,
+				'modalBody'		=> View::make('pages.ajax.sendEmailService')
+									->withService($service)
+									->withAppointment($appointment)
+									->withRecipients($recipient)
+									->withRedirect('home'),
+				'modalFooter'	=> false,
+			));
+		}
+	}
+
+	public function sendEmailFromUser($userId)
+	{
+		if ($this->currentUser->isStaff())
+		{
+			// Get the user
+			$user = $this->user->find($userId);
+
+			if ($user)
+			{
+				return partial('common/modal_content', array(
+					'modalHeader'	=> "Email User",
+					'modalBody'		=> View::make('pages.ajax.sendEmailUser')
+										->withUser($user)
+										->withRedirect('admin.user.index'),
+					'modalFooter'	=> false,
+				));
+			}
+		}
+	}
+
+	public function sendEmailFromUnpaid($userId)
+	{
+		if ($this->currentUser->isStaff())
+		{
+			// Get the user
+			$user = $this->user->find($userId);
+
+			if ($user)
+			{
+				return partial('common/modal_content', array(
+					'modalHeader'	=> "Email User",
+					'modalBody'		=> View::make('pages.ajax.sendEmailUnpaid')
+										->withUser($user)
+										->withRedirect('admin.reports.unpaid'),
+					'modalFooter'	=> false,
+				));
+			}
+		}
+	}
+
+	public function sendEmail()
+	{
+		if ($this->currentUser->isStaff())
+		{
+			$emailData = array(
+				'subject'	=> Input::get('subject'),
+				'body'		=> Input::get('message'),
+			);
+
+
+			$input = Input::all();
+
+			Mail::queue('emails.sendToUser', $emailData, function($message) use ($input)
+			{
+				$message->subject("[Brian Jacobs Golf] {$input['subject']}");
+
+				$recipientArr = explode(',', $input['recipients']);
+
+				$message->to($recipientArr);
+			});
+
+			return Redirect::route(Input::get('redirect'))
+				->with('message', "Your email has been sent.")
+				->with('messageStatus', 'success');
 		}
 	}
 

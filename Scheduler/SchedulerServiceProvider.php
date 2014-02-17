@@ -175,8 +175,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 				'except' => array('show')));
 			Route::resource('staff', 'Scheduler\Controllers\StaffController', array(
 				'except' => array('show')));
-			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController', array(
-				'except' => array('create')));
+			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController');
 		});
 
 		// Ajax requests
@@ -215,6 +214,13 @@ class SchedulerServiceProvider extends ServiceProvider {
 			Route::post('service/reorder', array(
 				'as' => 'ajax.reorderService',
 				'uses' => 'Scheduler\Controllers\AjaxController@updateServiceOrder'));
+			
+			Route::get('user/email/service/{serviceId}/appt/{apptId}', 'Scheduler\Controllers\AjaxController@sendEmailFromService');
+			Route::get('user/email/user/{userId}', 'Scheduler\Controllers\AjaxController@sendEmailFromUser');
+			Route::get('user/email/unpaid/{userId}', 'Scheduler\Controllers\AjaxController@sendEmailFromUnpaid');
+			Route::post('user/email', array(
+				'as'	=> 'ajax.emailUser',
+				'uses'	=> 'Scheduler\Controllers\AjaxController@sendEmail'));
 		});
 	}
 

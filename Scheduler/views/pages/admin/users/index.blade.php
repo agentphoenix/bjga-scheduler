@@ -40,7 +40,7 @@
 					<div class="btn-toolbar pull-right">
 						@if ( ! empty($user->email))
 							<div class="btn-group">
-								<a href="tel:{{ $user->email }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['email'] }}</a>
+								<a href="#" class="btn btn-sm btn-default icn-size-16 js-email" data-user="{{ $user->id }}">{{ $_icons['email'] }}</a>
 							</div>
 						@endif
 
@@ -84,6 +84,7 @@
 
 @section('modals')
 	{{ modal(array('id' => 'deleteUser', 'header' => "Delete User")) }}
+	{{ modal(array('id' => 'emailUser', 'header' => "Email User")) }}
 @stop
 
 @section('scripts')
@@ -114,6 +115,17 @@
 					remote: "{{ URL::to('ajax/user/delete') }}/" + id
 				}).modal('show');
 			}
+		});
+
+		$('.js-email').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var id = $(this).data('user');
+
+			$('#emailUser').modal({
+				remote: "{{ URL::to('ajax/user/email/user') }}/" + id
+			}).modal('show');
 		});
 
 	</script>

@@ -38,10 +38,10 @@
 				@endif
 
 				<div class="row">
-					<div class="col-md-2 col-lg-2">
+					<div class="col-sm-3 col-md-2 col-lg-2">
 						<p class="text-sm"><strong>{{ $appt->start->format('g:ia') }} - {{ $appt->end->format('g:ia') }}</strong></p>
 					</div>
-					<div class="col-md-6 col-lg-6">
+					<div class="col-sm-9 col-md-6 col-lg-6">
 						<p class="lead">
 							<strong>
 								@if ($appt->service->isLesson())
@@ -52,7 +52,7 @@
 							</strong>
 						</p>
 					</div>
-					<div class="col-md-4 col-lg-4">
+					<div class="col-sm-12 col-md-4 col-lg-4">
 						<div class="visible-md visible-lg">
 							<div class="btn-toolbar pull-right">
 								@if ($appt->service->isProgram())
@@ -64,12 +64,12 @@
 								@if ($type == 'staff')
 									@if ($appt->service->isLesson() or $appt->service->isProgram())
 										<div class="btn-group">
-											<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['email'] }}</a>
+											<a href="#" class="btn btn-sm btn-default icn-size-16 js-email" data-service="{{ $appt->service->id }}" data-appt="{{ $appt->id }}">{{ $_icons['email'] }}</a>
 										</div>
 										
 										<div class="btn-group">
 											@if ($appt->service->isLesson())
-												<a href="#" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+												<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 											@else
 												<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 											@endif
@@ -102,12 +102,38 @@
 								@endif
 							</div>
 						</div>
-						<div class="hidden-lg">
+						<div class="visible-xs visible-sm">
 							@if ($appt->service->isProgram())
-								<p><a href="#" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['info'] }}</a></p>
+								<p><a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['info'] }}</a></p>
 							@endif
 
-							<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+							@if ($type == 'staff')
+								@if ($appt->service->isLesson() or $appt->service->isProgram())
+									<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email" data-service="{{ $appt->service->id }}" data-appt="{{ $appt->id }}">{{ $_icons['email'] }}</a></p>
+									
+									<p>
+										@if ($appt->service->isLesson())
+											<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+										@else
+											<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+										@endif
+									</p>
+
+									@if ($appt->service->isLesson())
+										@if ((bool) $appt->userAppointments->first()->paid === false)
+											<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16 js-markAsPaid" data-appt="{{ $appt->userAppointments->first()->id }}">{{ $_icons['check'] }}</a></p>
+										@endif
+									@else
+										<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-markAsPaid">{{ $_icons['users'] }}</a></p>
+									@endif
+
+									<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+								@else
+									<p><a href="{{ URL::route('admin.staff.block') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
+								@endif
+							@else
+								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+							@endif
 						</div>
 					</div>
 				</div>
@@ -115,7 +141,16 @@
 			</div>
 		@endforeach
 	@else
-		{{ partial('common/alert', array('content' => "No upcoming appointments.")) }}
+		{{ partial('common/alert', array('content' => "You don't have any upcoming appointments. Take this opportunity to book a lesson or enroll in a program today!")) }}
+
+		<div class="row">
+			<div class="col-sm-6 col-md-4 col-lg-3">
+				<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
+			</div>
+			<div class="col-sm-6 col-md-4 col-lg-3">
+				<p><a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-block btn-primary">Enroll in a Program</a></p>
+			</div>
+		</div>
 	@endif
 @stop
 
@@ -125,4 +160,19 @@
 
 @section('scripts')
 	{{ View::make('partials.jsMarkAsPaid') }}
+	<script>
+		
+		$('.js-email').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var service = $(this).data('service');
+			var appt = $(this).data('appt');
+
+			$('#sendEmail').modal({
+				remote: "{{ URL::to('ajax/user/email/service') }}/" + service + "/appt/" + appt
+			}).modal('show');
+		});
+
+	</script>
 @stop

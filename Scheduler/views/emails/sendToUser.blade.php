@@ -4,6 +4,8 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<p>{{ $message }}</p>
+		<h2>{{ $subject }}</h2>
+		
+		<p>{{ $body }}</p>
 	</body>
 </html>
