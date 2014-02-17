@@ -5,16 +5,20 @@ use View,
 	Input,
 	Redirect,
 	ServiceValidator,
-	ServiceRepositoryInterface;
+	ServiceRepositoryInterface,
+	StaffAppointmentRepositoryInterface;
 
 class AppointmentController extends BaseController {
 
+	protected $appts;
 	protected $service;
 
-	public function __construct(ServiceRepositoryInterface $service)
+	public function __construct(ServiceRepositoryInterface $service,
+			StaffAppointmentRepositoryInterface $appts)
 	{
 		parent::__construct();
 
+		$this->appts = $appts;
 		$this->service = $service;
 	}
 
@@ -73,7 +77,8 @@ class AppointmentController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		return View::make('pages.admin.appointments.edit')
+			->withAppointment($this->appts->find($id));
 	}
 
 	/**
