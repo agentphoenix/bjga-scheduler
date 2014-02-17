@@ -108,6 +108,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
 		'Scheduler\SchedulerServiceProvider',
+		'Scheduler\SchedulerRoutingServiceProvider',
 
 	),
 
