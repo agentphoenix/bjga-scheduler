@@ -9,7 +9,14 @@ return array(
 			'long' => "l",
 			'short' => "D",
 		),
+		'full' => "l M jS, Y, g:ia",
 		'time' => "g:ia",
+
+	),
+
+	'email' => array(
+
+		'subject' => "[Brian Jacobs Golf]",
 
 	),
 
