@@ -14,9 +14,9 @@
 			@elseif ($days === 1)
 				<h2>Tomorrow</h2>
 			@elseif ($days >= 2 and $days <= 6)
-				<h2>{{ Date::now()->addDays($days)->format('l') }}</h2>
+				<h2>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.day.long')) }}</h2>
 			@else
-				<h2>{{ Date::now()->addDays($days)->format('l F jS, Y') }}</h2>
+				<h2>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.date')) }}</h2>
 			@endif
 
 			<div class="data-table data-table-striped data-table-bordered">
@@ -39,7 +39,7 @@
 
 				<div class="row">
 					<div class="col-sm-3 col-md-2 col-lg-2">
-						<p class="text-sm"><strong>{{ $appt->start->format('g:ia') }} - {{ $appt->end->format('g:ia') }}</strong></p>
+						<p class="text-sm"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }} - {{ $appt->end->format(Config::get('bjga.dates.time')) }}</strong></p>
 					</div>
 					<div class="col-sm-9 col-md-6 col-lg-6">
 						<p class="lead">
@@ -52,7 +52,7 @@
 							</strong>
 						</p>
 					</div>
-					<div class="col-sm-12 col-md-4 col-lg-4">
+					<div class="col-md-4 col-lg-4">
 						<div class="visible-md visible-lg">
 							<div class="btn-toolbar pull-right">
 								@if ($appt->service->isProgram())

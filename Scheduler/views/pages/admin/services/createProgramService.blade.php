@@ -8,16 +8,16 @@
 	<h1>Create Program Service</h1>
 
 	@if ($_currentUser->access() > 1)
-		<div class="visible-lg">
+		<div class="visible-md visible-lg">
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<a href="{{ URL::route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 			</div>
 		</div>
-		<div class="hidden-lg">
+		<div class="visible-xs visible-sm">
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-xs-12 col-sm-3">
 					<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 				</div>
 			</div>

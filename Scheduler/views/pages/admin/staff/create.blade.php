@@ -27,20 +27,20 @@
 	@if (count($users) > 0)
 		{{ Form::open(array('route' => 'admin.staff.store')) }}
 			<div class="row">
-				<div class="col-md-8 col-lg-4">
+				<div class="col-sm-8 col-md-6 col-lg-4">
 					<div class="form-group{{ ($errors->has('user_id')) ? ' has-error' : '' }}">
 						<label class="control-label">User</label>
-						{{ Form::select('user_id', $users, null, array('class' => 'form-control input-lg input-with-feedback')) }}
+						{{ Form::select('user_id', $users, null, array('class' => 'form-control input-with-feedback')) }}
 						{{ $errors->first('user_id', '<p class="help-block">:message</p>') }}
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-md-4 col-lg-2">
+				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="{{ ($errors->has('access')) ? 'form-group has-error' : '' }}">
 						<label class="control-label">Access Level</label>
-						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), 1, array('class' => 'form-control input-lg input-with-feedback')) }}
+						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), 1, array('class' => 'form-control input-with-feedback')) }}
 						{{ $errors->first('access', '<p class="help-block">:message</p>') }}
 					</div>
 				</div>
@@ -52,16 +52,16 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-8 col-lg-4">
+				<div class="col-sm-8 col-md-6 col-lg-4">
 					<div class="form-group">
 						<label class="control-label">Title</label>
-						{{ Form::text('title', null, array('class' => 'form-control input-lg')) }}
+						{{ Form::text('title', null, array('class' => 'form-control')) }}
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-md-8 col-lg-4">
+				<div class="col-sm-8 col-md-6 col-lg-4">
 					<div class="form-group">
 						<label class="control-label">Available for Instruction</label>
 						<div>
@@ -73,10 +73,10 @@
 			</div>
 
 			<div class="row">
-				<div class="col-lg-8">
+				<div class="col-md-10 col-lg-8">
 					<div class="form-group">
 						<label class="control-label">Bio</label>
-						{{ Form::textarea('bio', null, array('class' => 'form-control input-lg', 'rows' => 8)) }}
+						{{ Form::textarea('bio', null, array('class' => 'form-control', 'rows' => 8)) }}
 					</div>
 				</div>
 			</div>

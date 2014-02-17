@@ -8,16 +8,16 @@
 	<h1>Edit Program Service <small>{{ $service->name }}</small></h1>
 
 	@if ($_currentUser->access() > 1)
-		<div class="visible-lg">
+		<div class="visible-md visible-lg">
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<a href="{{ URL::route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 			</div>
 		</div>
-		<div class="hidden-lg">
+		<div class="visible-xs visible-sm">
 			<div class="row">
-				<div class="col-xs-12 col-sm-6">
+				<div class="col-sm-3">
 					<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 				</div>
 			</div>
@@ -161,10 +161,10 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="visible-lg">
+				<div class="visible-md visible-lg">
 					{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 				</div>
-				<div class="hidden-lg">
+				<div class="visible-xs visible-sm">
 					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-block btn-primary')) }}
 				</div>
 			</div>

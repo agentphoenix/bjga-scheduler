@@ -23,7 +23,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+		<div class="col-sm-6 col-md-6 col-lg-4">
 			{{ Form::text('search', null, array('placeholder' => 'Search for users', 'class' => 'form-control search-control', 'id' => 'searchUsers')) }}
 		</div>
 	</div>
@@ -31,11 +31,11 @@
 	<div class="data-table data-table-striped data-table-bordered" id="usersTable">
 	@foreach ($users as $user)
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-8">
+			<div class="col-sm-6 col-md-6 col-lg-8">
 				<p><strong>{{ $user->name }}</strong></p>
 				<p class="text-muted text-sm">{{ $user->email }}</p>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+			<div class="col-sm-6 col-md-6 col-lg-4">
 				<div class="visible-md visible-lg">
 					<div class="btn-toolbar pull-right">
 						@if ( ! empty($user->email))
