@@ -10,15 +10,17 @@ class BookingController extends BaseController {
 
 	public function __construct(ServiceRepositoryInterface $service)
 	{
+		parent::__construct();
+
 		$this->service = $service;
 	}
 
-	public function getLesson()
+	public function lesson()
 	{
 		return View::make('pages.booking.lesson')
 			->withServices(array('0' => "Please choose one") + $this->service->getValues('lesson', true));
 	}
-	public function postLesson()
+	public function storeLesson()
 	{
 		Book::lesson(Input::all());
 
@@ -27,7 +29,7 @@ class BookingController extends BaseController {
 			->with('messageStatus', 'success');
 	}
 
-	public function getProgram()
+	public function program()
 	{
 		// Get the services for this category
 		$services = $this->service->allPrograms(90, true);
@@ -37,13 +39,31 @@ class BookingController extends BaseController {
 		return View::make('pages.booking.program')
 			->withServices($allServices);
 	}
-	public function postProgram()
+	public function storeProgram()
 	{
 		Book::program(Input::all());
 
 		return Redirect::route('home')
 			->with('message', "You've successfully enrolled in the program.")
 			->with('messageStatus', 'success');
+	}
+
+	public function withdraw()
+	{
+		Book::withdraw();
+	}
+
+	public function cancel()
+	{
+		if ($this->currentUser->isStaff())
+		{
+			// Cancel the appointment
+			Book::cancel(Input::get('appointment'), Input::get('reason'));
+
+			return Redirect::route('home')
+				->with('message', "Appointment was successfully cancelled. All attendees have been notified of the cancellation.")
+				->with('messageStatus', 'success');
+		}
 	}
 
 }

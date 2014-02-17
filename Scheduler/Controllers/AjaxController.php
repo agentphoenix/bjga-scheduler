@@ -297,9 +297,13 @@ class AjaxController extends BaseController {
 			$appointment = UserAppointmentModel::find(Input::get('appt'));
 
 			if ($appointment)
-				return $appointment->update(array('paid' => (int) true));
+			{
+				$appointment->update(array('paid' => (int) true));
 
-			return false;
+				return json_encode(array('code' => 1));
+			}
+
+			return json_encode(array('code' => 0));
 		}
 	}
 
@@ -407,6 +411,16 @@ class AjaxController extends BaseController {
 				->with('message', "Your email has been sent.")
 				->with('messageStatus', 'success');
 		}
+	}
+
+	public function cancelModal($id)
+	{
+		return partial('common/modal_content', array(
+			'modalHeader'	=> "Cancel Appointment",
+			'modalBody'		=> View::make('pages.ajax.cancel')
+								->withAppointment($this->appointment->find($id)),
+			'modalFooter'	=> false,
+		));
 	}
 
 }

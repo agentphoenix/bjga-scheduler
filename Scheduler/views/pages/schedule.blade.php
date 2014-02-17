@@ -52,7 +52,7 @@
 							</strong>
 						</p>
 					</div>
-					<div class="col-md-4 col-lg-4">
+					<div class="col-sm-12 col-md-4 col-lg-4">
 						<div class="visible-md visible-lg">
 							<div class="btn-toolbar pull-right">
 								@if ($appt->service->isProgram())
@@ -88,7 +88,7 @@
 										@endif
 
 										<div class="btn-group">
-											<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+											<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
 										</div>
 									@else
 										<div class="btn-group">
@@ -97,7 +97,7 @@
 									@endif
 								@else
 									<div class="btn-group">
-										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="user" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
 									</div>
 								@endif
 							</div>
@@ -127,12 +127,12 @@
 										<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-markAsPaid">{{ $_icons['users'] }}</a></p>
 									@endif
 
-									<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+									<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
 								@else
 									<p><a href="{{ URL::route('admin.staff.block') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
 								@endif
 							@else
-								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="user" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
 							@endif
 						</div>
 					</div>
@@ -156,6 +156,8 @@
 
 @section('modals')
 	{{ modal(array('id' => 'sendEmail', 'header' => "Send Email")) }}
+	{{ modal(array('id' => 'instructorCancel', 'header' => "Cancel Appointment")) }}
+	{{ modal(array('id' => 'studentWithdrawal', 'header' => "Withdraw from Appointment")) }}
 @stop
 
 @section('scripts')
@@ -172,6 +174,21 @@
 			$('#sendEmail').modal({
 				remote: "{{ URL::to('ajax/user/email/service') }}/" + service + "/appt/" + appt
 			}).modal('show');
+		});
+
+		$('.js-withdraw').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var id = $(this).data('appointment');
+			var type = $(this).data('type');
+
+			if (type == "staff")
+			{
+				$('#instructorCancel').modal({
+					remote: "{{ URL::to('ajax/cancel') }}/" + id
+				}).modal('show');
+			}
 		});
 
 	</script>

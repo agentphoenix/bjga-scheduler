@@ -194,9 +194,32 @@ class BookingService {
 			Event::fire('book.program.userCancelled', array($service, $user));
 	}
 
-	public function cancel()
+	public function cancel($appointmentId, $reason)
 	{
-		# code...
+		// Find the staff appointment
+		$appt = $staffAppt = StaffAppointmentModel::find($appointmentId);
+
+		if ($staffAppt)
+		{
+			if ($staffAppt->userAppointments->count() > 0)
+			{
+				$emails = array();
+
+				foreach ($staffAppt->userAppointments as $ua)
+				{
+					// Get the email address
+					$emails[] = $ua->user->email;
+
+					// Delete the appointment
+					$ua->delete();
+				}
+			}
+
+			// Remove the staff appointment
+			$staffAppt->delete();
+
+			Event::fire('book.instructorCancelled', array($staffAppt, $emails, $reason));
+		}
 	}
 
 }
