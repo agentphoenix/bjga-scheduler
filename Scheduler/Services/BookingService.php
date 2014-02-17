@@ -62,6 +62,10 @@ class BookingService {
 			'amount'		=> ($data['has_gift'] == 1) ? ($service->price - $data['gift_amount']) : $service->price,
 		);
 
+		// Automatically mark free services as paid
+		if ($userApptRecord['amount'] == 0)
+			$userApptRecord['paid'] = (int) true;
+
 		// Staff members get free lessons, so we need to take that into account
 		if ($user->isStaff())
 			$userApptRecord = array_merge($userApptRecord, array('paid' => (int) true, 'amount' => 0));
@@ -140,6 +144,10 @@ class BookingService {
 			'gift_amount'	=> ($data['has_gift'] == 1) ? (int) $data['gift_amount'] : 0,
 			'amount'		=> ($data['has_gift'] == 1) ? ($service->price - $data['gift_amount']) : $service->price,
 		);
+
+		// Automatically mark free services as paid
+		if ($userApptRecord['amount'] == 0)
+			$userApptRecord['paid'] = (int) true;
 
 		// Staff members get free lessons, so we need to take that into account
 		if ($user->isStaff())
