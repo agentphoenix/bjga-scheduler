@@ -121,9 +121,12 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('reports/unpaid', array(
 				'as'	=> 'admin.reports.unpaid',
 				'uses'	=> 'Scheduler\Controllers\ReportController@unpaid'));
-			Route::get('reports/monthly', array(
+			Route::get('reports/monthly/{date?}', array(
 				'as'	=> 'admin.reports.monthly',
 				'uses'	=> 'Scheduler\Controllers\ReportController@monthly'));
+			Route::post('reports/monthly', array(
+				'as'	=> 'admin.reports.monthly.update',
+				'uses'	=> 'Scheduler\Controllers\ReportController@updateMonthly'));
 
 			Route::get('appointment/attendees/{type}/{id}', array(
 				'as'	=> 'admin.appointment.attendees',
