@@ -169,9 +169,7 @@ class AjaxController extends BaseController {
 
 	public function getService()
 	{
-		$serviceId = Input::get('service');
-
-		$service = $this->service->find($serviceId);
+		$service = $this->service->find(Input::get('service'));
 
 		if ($service)
 		{
@@ -187,10 +185,10 @@ class AjaxController extends BaseController {
 				),
 				'appointment' => array(
 					'id'	=> (int) $appt->id,
-					'date'	=> (string) $appt->start->format('l F jS, Y'),
-					'start'	=> (string) $appt->start->format('g:ia'),
+					'date'	=> (string) $appt->start->format(Config::get('bjga.dates.date')),
+					'start'	=> (string) $appt->start->format(Config::get('bjga.dates.time')),
 				),
-				'enrolled' => (int) $service->appointments->last()->attendees->count(),
+				'enrolled' => (int) $service->attendees()->count(),
 			));
 		}
 

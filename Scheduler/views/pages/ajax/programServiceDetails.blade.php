@@ -5,13 +5,13 @@
 		<div class="col-lg-4">
 			<div class="form-group">
 				<label class="control-label">Price</label>
-				<div class="controls">
+				<h3 class="text-success price-details">
 					@if ($price > 0)
 						${{ $price }}
 					@else
 						Free
 					@endif
-				</div>
+				</h3>
 			</div>
 		</div>
 	</div>
@@ -21,11 +21,10 @@
 			<div class="form-group">
 				<label class="control-label">Date(s)</label>
 				<div class="controls">
+					<dl>
 					@foreach ($dates as $date)
-						<p>
-							<strong>{{ $date->start->format('l F jS, Y') }}</strong><br>
-							{{ $date->start->format('g:ia') }} - {{ $date->end->format('g:ia') }}
-						</p>
+						<dt>{{ $date->start->format('l F jS, Y') }}</dt>
+						<dd>{{ $date->start->format('g:ia') }} - {{ $date->end->format('g:ia') }}</dd>
 					@endforeach
 					</dl>
 				</div>
