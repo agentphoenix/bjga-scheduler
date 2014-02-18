@@ -125,6 +125,10 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'as'	=> 'admin.reports.monthly',
 				'uses'	=> 'Scheduler\Controllers\ReportController@monthly'));
 
+			Route::get('appointment/attendees/{type}/{id}', array(
+				'as'	=> 'admin.appointment.attendees',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@attendees'));
+
 			/**
 			 * Resourceful controllers.
 			 *

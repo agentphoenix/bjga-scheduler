@@ -41,7 +41,7 @@
 					<div class="col-sm-3 col-md-2 col-lg-2">
 						<p class="text-sm"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }} - {{ $appt->end->format(Config::get('bjga.dates.time')) }}</strong></p>
 					</div>
-					<div class="col-sm-9 col-md-6 col-lg-6">
+					<div class="col-sm-9 col-md-5 col-lg-6">
 						<p class="lead">
 							<strong>
 								@if ($appt->service->isLesson())
@@ -52,7 +52,7 @@
 							</strong>
 						</p>
 					</div>
-					<div class="col-sm-12 col-md-4 col-lg-4">
+					<div class="col-sm-12 col-md-5 col-lg-4">
 						<div class="visible-md visible-lg">
 							<div class="btn-toolbar pull-right">
 								@if ($appt->service->isProgram())
@@ -83,7 +83,7 @@
 											@endif
 										@else
 											<div class="btn-group">
-												<a href="#" class="btn btn-sm btn-default icn-size-16 js-markAsPaid">{{ $_icons['users'] }}</a>
+												<a href="#" class="btn btn-sm btn-default icn-size-16 js-attendees" data-id="{{ $appt->id }}">{{ $_icons['users'] }}</a>
 											</div>
 										@endif
 
@@ -124,7 +124,7 @@
 											<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16 js-markAsPaid" data-appt="{{ $appt->userAppointments->first()->id }}">{{ $_icons['check'] }}</a></p>
 										@endif
 									@else
-										<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-markAsPaid">{{ $_icons['users'] }}</a></p>
+										<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-attendees" data-id="{{ $appt->id }}">{{ $_icons['users'] }}</a></p>
 									@endif
 
 									<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
@@ -158,11 +158,23 @@
 	{{ modal(array('id' => 'sendEmail', 'header' => "Send Email")) }}
 	{{ modal(array('id' => 'instructorCancel', 'header' => "Cancel Appointment")) }}
 	{{ modal(array('id' => 'studentCancel', 'header' => "Cancel Appointment")) }}
+	{{ modal(array('id' => 'attendees', 'header' => "Attendees")) }}
 @stop
 
 @section('scripts')
 	{{ View::make('partials.jsMarkAsPaid') }}
 	<script>
+
+		$('.js-attendees').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var id = $(this).data('id');
+
+			$('#attendees').modal({
+				remote: "{{ URL::to('admin/appointment/attendees/appointment') }}/" + id
+			}).modal('show');
+		});
 		
 		$('.js-email').on('click', function(e)
 		{

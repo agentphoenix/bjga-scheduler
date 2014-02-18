@@ -103,4 +103,23 @@ class AppointmentController extends BaseController {
 		//
 	}
 
+	public function attendees($type, $id)
+	{
+		// Get the service
+		$service = $this->service->find($id);
+
+		// Get the attendees
+		$attendees = ($type == 'service')
+			? $this->service->getAttendees($id)
+			: $this->appts->getAttendees($id);
+
+		return partial('common/modal_content', array(
+			'modalHeader'	=> "Attendees",
+			'modalBody'		=> View::make('pages.admin.appointments.attendees')
+								->withService($service)
+								->withAttendees($attendees),
+			'modalFooter'	=> false,
+		));
+	}
+
 }

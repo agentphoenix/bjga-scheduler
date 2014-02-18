@@ -4,9 +4,21 @@ use Date,
 	ServiceModel,
 	StaffAppointmentModel,
 	StaffAppointmentRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface {
 
+	public function getAttendees($id)
+	{
+		// Get the appointment
+		$appointment = $this->find($id);
+
+		if ($appointment)
+			return $appointment->userAppointments;
+
+		return new Collection;
+	}
+	
 	/**
 	 * Get upcoming events (does not include lessons).
 	 *
