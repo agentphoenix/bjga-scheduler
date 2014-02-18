@@ -116,6 +116,8 @@ class AjaxController extends BaseController {
 		// Now find the available times
 		$availableTime = $this->schedule->findTimeBlock($availability, $service);
 
+		// If they're looking for something today, only show what's available
+		// in the future and not any available slots in the past
 		if ($date->startOfDay() == $today->copy()->startOfDay())
 		{
 			foreach ($availableTime as $key => $time)
