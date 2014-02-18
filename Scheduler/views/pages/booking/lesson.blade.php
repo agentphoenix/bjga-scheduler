@@ -9,7 +9,7 @@
 
 	{{ Form::open(array('route' => 'book.lesson.store')) }}
 		<div class="row">
-			<div class="col-lg-4">
+			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="form-group">
 					<label class="control-label">Service</label>
 					<div class="controls">
@@ -18,10 +18,13 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-sm-4 col-md-6 col-lg-8">
+				<div id="lessonServiceDetails"></div>
+			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-lg-2">
+			<div class="col-sm-4 col-md-3 col-lg-2">
 				<div class="form-group">
 					<label class="control-label">Date</label>
 					<div class="controls">
@@ -171,16 +174,24 @@
 			$('.bookingForm').removeClass('hide');
 		});
 
+		$('[name="service_id"]').on('change', function(e)
+		{
+			$.ajax({
+				url: "{{ URL::route('ajax.getLessonService') }}",
+				data: { service: $('[name="service_id"] option:selected').val() },
+				success: function(data)
+				{
+					$('#lessonServiceDetails').html(data);
+				}
+			});
+		});
+
 		$('[name="has_gift"]').on('change', function(e)
 		{
-			if ($section.find('[name="has_gift"]:checked').val() == "1")
-			{
+			if ($('[name="has_gift"]:checked').val() == "1")
 				$('.giftCertificateAmount').removeClass('hide');
-			}
 			else
-			{
 				$('.giftCertificateAmount').addClass('hide');
-			}
 		});
 
 		$('.js-change-time').on('click', function(e)

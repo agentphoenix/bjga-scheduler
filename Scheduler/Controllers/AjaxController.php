@@ -101,8 +101,11 @@ class AjaxController extends BaseController {
 
 	public function getAvailability()
 	{
-		// Get the data
+		// Get the date
 		$date = Date::createFromFormat("Y-m-d", Input::get('date'));
+
+		// Get today
+		$today = Date::now();
 
 		// Get the service
 		$service = $this->service->find(Input::get('service'));
@@ -112,6 +115,15 @@ class AjaxController extends BaseController {
 
 		// Now find the available times
 		$availableTime = $this->schedule->findTimeBlock($availability, $service);
+
+		if ($date->startOfDay() == $today->copy()->startOfDay())
+		{
+			foreach ($availableTime as $key => $time)
+			{
+				if ($today > $time)
+					unset($availableTime[$key]);
+			}
+		}
 
 		return View::make('pages.ajax.availability')
 			->with('availability', $availableTime)
@@ -129,6 +141,23 @@ class AjaxController extends BaseController {
 			return View::make('pages.ajax.programServiceDetails')
 				->withDates($service->serviceOccurrences->sortBy(function($s) { return $s->start; }))
 				->withPrice($service->price);
+		}
+
+		return View::make('partials.common.alert')
+			->withClass('alert-warning')
+			->withContent("No service found!");
+	}
+
+	public function getLessonDetails()
+	{
+		$serviceId = Input::get('service');
+
+		$service = $this->service->find($serviceId);
+
+		if ($service)
+		{
+			return View::make('pages.ajax.lessonServiceDetails')
+				->withService($service);
 		}
 
 		return View::make('partials.common.alert')
