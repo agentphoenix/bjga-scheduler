@@ -122,4 +122,27 @@ class AppointmentController extends BaseController {
 		));
 	}
 
+	public function removeAttendee()
+	{
+		if ($this->currentUser->isStaff())
+		{
+			// Get the appointment
+			$appointment = $this->appts->find(Input::get('appt'));
+
+			if ($appointment)
+			{
+				$user = Input::get('user');
+
+				// Get the user record for this appointment
+				$userAppt = $appointment->userAppointments->filter(function($a) use ($user)
+				{
+					return (int) $a->user_id === (int) $user;
+				})->first();
+
+				// Remove the user appointment
+				$userAppt->delete();
+			}
+		}
+	}
+
 }

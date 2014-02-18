@@ -128,6 +128,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('appointment/attendees/{type}/{id}', array(
 				'as'	=> 'admin.appointment.attendees',
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@attendees'));
+			Route::post('appointment/removeAttendee', array(
+				'as'	=> 'admin.appointment.removeAttendee',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@removeAttendee'));
 
 			/**
 			 * Resourceful controllers.
@@ -159,6 +162,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('service/get', array(
 				'as'	=> 'ajax.getService',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@getService'));
+			Route::get('service/getLesson', array(
+				'as'	=> 'ajax.getLessonService',
+				'uses'	=> 'Scheduler\Controllers\AjaxController@getLessonDetails'));
 			Route::get('service/getProgram', array(
 				'as'	=> 'ajax.getProgramService',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@getProgramDetails'));

@@ -1,3 +1,5 @@
+<p class="alert alert-warning"><strong>Warning:</strong> Removing an attendee from a recurring lesson service or a program can create discrepancies in the revenue report. Do so only if necessary!</p>
+
 <div class="row">
 	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 		<p><strong>Service</strong></p>

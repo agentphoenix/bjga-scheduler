@@ -1,3 +1,5 @@
+<p class="alert alert-warning"><strong>Warning:</strong> Removing an attendee from a recurring lesson service or a program can create discrepancies in the revenue report. Do so only if necessary!</p>
+
 @if ($attendees->count() > 0)
 	<div class="data-table data-table-striped data-table-bordered">
 	@foreach ($attendees as $a)
@@ -14,7 +16,7 @@
 							</div>
 						@endif
 						<div class="btn-group">
-							<a href="#" class="btn btn-sm btn-danger icn-size-16">{{ $_icons['reject'] }}</a>
+							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-removeAttendee" data-appt="{{ $a->appointment_id }}" data-user="{{ $a->user->id }}">{{ $_icons['reject'] }}</a>
 						</div>
 					</div>
 				</div>
@@ -28,7 +30,7 @@
 							@endif
 						</div>
 						<div class="col-xs-12 col-sm-6">
-							<p><a class="btn btn-lg btn-block btn-danger icn-size-16 js-appt-action">{{ $_icons['reject'] }}</a></p>
+							<p><a href="#" class="btn btn-sm btn-danger icn-size-16 js-removeAttendee" data-appt="{{ $a->appointment_id }}" data-user="{{ $a->user->id }}">{{ $_icons['reject'] }}</a></p>
 						</div>
 					</div>
 				</div>
@@ -43,19 +45,27 @@
 {{ View::make('partials.jsMarkAsPaid') }}
 <script>
 
-	$(document).on('click', '.js-service-action', function(e)
+	$(document).on('click', '.js-removeAttendee', function(e)
 	{
 		e.preventDefault();
 
-		var action = $(this).data('action');
-		var id = $(this).data('id');
+		var button = $(this);
 
-		if (action == 'delete')
-		{
-			$('#deleteService').modal({
-				remote: "{{ URL::to('ajax/service/delete') }}/" + id
-			}).modal('show');
-		}
+		$.ajax({
+			url: "{{ URL::to('admin/appointment/removeAttendee') }}",
+			type: "POST",
+			data: {
+				appt: $(this).data('appt'),
+				user: $(this).data('user')
+			},
+			success: function(data)
+			{
+				button.closest('.row').fadeOut('normal', function()
+				{
+					$(this).remove();
+				});
+			}
+		});
 	});
 
 </script>
