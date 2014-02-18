@@ -61,13 +61,13 @@
 					<div class="form-group">
 						<label class="control-label">Start Time</label>
 						<div class="row">
-							<div class="col-xs-7 col-sm-3 col-md-2 col-lg-2">
+							<div class="col-xs-7 col-sm-4 col-md-3 col-lg-2">
 								<div class="controls">
 									{{ Form::text('timeDisplay', null, array('class' => 'form-control', 'disabled' => 'disabled')) }}
 									{{ Form::hidden('time', null) }}
 								</div>
 							</div>
-							<div class="col-xs-5 col-sm-9 col-md-10 col-lg-10">
+							<div class="col-xs-5 col-sm-8 col-md-9 col-lg-10">
 								<button class="btn btn-sm btn-default js-change-time" type="button" style="padding-bottom:6px;">Change Time</button>
 							</div>
 						</div>
@@ -104,7 +104,7 @@
 
 			<div class="hide giftCertificateAmount">
 				<div class="row">
-					<div class="col-lg-2">
+					<div class="col-sm-3 col-md-3 col-lg-2">
 						<div class="form-group">
 							<label class="control-label">Amount</label>
 							<div class="controls">
@@ -168,7 +168,7 @@
 			e.preventDefault();
 
 			$('[name="time"]').val($(this).data('time'));
-			$('[name="timeDisplay"]').val($(this).data('time'));
+			$('[name="timeDisplay"]').val(moment($(this).data('time'), "HH:mm A").format("h:mm A"));
 			$('.js-check').closest('.row').addClass('hide');
 			$('.ajax-container').closest('.row').addClass('hide');
 			$('.bookingForm').removeClass('hide');
