@@ -22,6 +22,7 @@ class SchedulerCreateServices extends Migration {
 			$table->string('name');
 			$table->string('slug')->nullable()->unique();
 			$table->text('description')->nullable();
+			$table->text('location')->nullable();
 			$table->string('price')->nullable();
 			$table->integer('occurrences')->nullable();
 			$table->integer('occurrences_schedule')->default(0);
