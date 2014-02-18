@@ -179,25 +179,40 @@ class BookingService {
 		Event::fire('book.program.created', array($service, $bookUser));
 	}
 
-	public function withdraw($appointmentId, $user)
+	public function withdraw($appointmentId, $reason)
 	{
-		// Find the appointment
+		// Get the user
+		$user = Auth::user();
 
-		// If it's a lesson, get the user appointment record and remove it
-		// If it's a program, filter by the user and remove
+		// Find the staff appointment
+		$staffAppt = StaffAppointmentModel::find($appointmentId);
 
-		// Remove the staff appointment
+		if ($staffAppt)
+		{
+			if ($staffAppt->userAppointments->count() > 0)
+			{
+				// Get the user's appointment record
+				$userAppt = $staffAppt->userAppointments->filter(function($s) use ($user)
+				{
+					return (int) $s->user_id === (int) $user->id;
+				})->first();
 
-		if ($service->isLesson())
-			Event::fire('book.lesson.userCancelled', array($service, $user));
-		else
-			Event::fire('book.program.userCancelled', array($service, $user));
+				// Remove the appointment
+				$userAppt->delete();
+
+				// Remove the staff appointment if it's a lesson
+				if ($staffAppt->service->isLesson())
+					$staffAppt->delete();
+
+				Event::fire('book.cancel.student', array($staffAppt, $user, $reason));
+			}
+		}
 	}
 
 	public function cancel($appointmentId, $reason)
 	{
 		// Find the staff appointment
-		$appt = $staffAppt = StaffAppointmentModel::find($appointmentId);
+		$staffAppt = StaffAppointmentModel::find($appointmentId);
 
 		if ($staffAppt)
 		{
@@ -213,12 +228,13 @@ class BookingService {
 					// Delete the appointment
 					$ua->delete();
 				}
+
+				// Only cancel the staff appointment if it's a lesson
+				if ($staffAppt->service->isLesson())
+					$staffAppt->delete();
 			}
 
-			// Remove the staff appointment
-			$staffAppt->delete();
-
-			Event::fire('book.instructorCancelled', array($staffAppt, $emails, $reason));
+			Event::fire('book.cancel.instructor', array($staffAppt, $emails, $reason));
 		}
 	}
 

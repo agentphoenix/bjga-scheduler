@@ -77,9 +77,8 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Event::listen('book.block.created', 'Scheduler\Events\BookingEventHandler@createBlock');
 		Event::listen('book.lesson.created', 'Scheduler\Events\BookingEventHandler@createLesson');
 		Event::listen('book.program.created', 'Scheduler\Events\BookingEventHandler@createProgram');
-		Event::listen('book.lesson.cancelledUser', 'Scheduler\Events\BookingEventHandler@userCancelledLesson');
-		Event::listen('book.program.cancelledUser', 'Scheduler\Events\BookingEventHandler@userCancelledProgram');
-		Event::listen('book.instructorCancelled', 'Scheduler\Events\BookingEventHandler@instructorCancelled');
+		Event::listen('book.cancel.student', 'Scheduler\Events\BookingEventHandler@studentCancelled');
+		Event::listen('book.cancel.instructor', 'Scheduler\Events\BookingEventHandler@instructorCancelled');
 
 		Event::listen('service.created', 'Scheduler\Events\ServiceEventHandler@onCreated');
 		Event::listen('service.deleted', 'Scheduler\Events\ServiceEventHandler@onDeleted');

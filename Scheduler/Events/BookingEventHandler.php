@@ -18,16 +18,28 @@ class BookingEventHandler {
 
 	public function createProgram($service, $userAppt){}
 
-	public function userCancelledLesson($service, $user)
+	public function studentCancelled($staffAppt, $user, $reason)
 	{
-		// Send an email to the student
+		// Get the service
+		$service = $staffAppt->service;
 
-		// Send an email to the instructor
-	}
+		// Set the data
+		$data = array(
+			'student'	=> $user->name,
+			'service'	=> $service->name,
+			'date'		=> $staffAppt->start->format(Config::get('bjga.dates.date')),
+			'reason'	=> $reason,
+		);
 
-	public function userCancelledProgram($service, $user)
-	{
-		# code...
+		// Email the attendees
+		Mail::queue('emails.studentCancelled', $data, function($message) use ($service)
+		{
+			$message->to($service->staff->user->email)
+				->subject(Config::get('bjga.email.subject')." {$service->name} - Student Cancellation");
+		});
+
+		// Update the calendar
+		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
 	}
 
 	public function instructorCancelled($staffAppt, $emails, $reason)

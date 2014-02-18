@@ -132,7 +132,7 @@
 									<p><a href="{{ URL::route('admin.staff.block') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
 								@endif
 							@else
-								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="user" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="user" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
 							@endif
 						</div>
 					</div>
@@ -157,7 +157,7 @@
 @section('modals')
 	{{ modal(array('id' => 'sendEmail', 'header' => "Send Email")) }}
 	{{ modal(array('id' => 'instructorCancel', 'header' => "Cancel Appointment")) }}
-	{{ modal(array('id' => 'studentWithdrawal', 'header' => "Withdraw from Appointment")) }}
+	{{ modal(array('id' => 'studentCancel', 'header' => "Cancel Appointment")) }}
 @stop
 
 @section('scripts')
@@ -186,7 +186,13 @@
 			if (type == "staff")
 			{
 				$('#instructorCancel').modal({
-					remote: "{{ URL::to('ajax/cancel') }}/" + id
+					remote: "{{ URL::to('ajax/cancel/instructor') }}/" + id
+				}).modal('show');
+			}
+			else
+			{
+				$('#studentCancel').modal({
+					remote: "{{ URL::to('ajax/cancel/student') }}/" + id
 				}).modal('show');
 			}
 		});

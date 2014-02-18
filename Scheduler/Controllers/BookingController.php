@@ -50,7 +50,15 @@ class BookingController extends BaseController {
 
 	public function withdraw()
 	{
-		Book::withdraw();
+		if ($this->currentUser->isStaff())
+		{
+			// Cancel the appointment
+			Book::withdraw(Input::get('appointment'), Input::get('reason'));
+
+			return Redirect::route('home')
+				->with('message', "Appointment was successfully cancelled. The instructor has been notified of the cancellation.")
+				->with('messageStatus', 'success');
+		}
 	}
 
 	public function cancel()

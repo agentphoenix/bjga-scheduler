@@ -37,6 +37,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::post('book/cancel', array(
 			'as'	=> 'book.cancel',
 			'uses'	=> 'Scheduler\Controllers\BookingController@cancel'));
+		Route::post('book/withdraw', array(
+			'as'	=> 'book.withdraw',
+			'uses'	=> 'Scheduler\Controllers\BookingController@withdraw'));
 	}
 
 	protected function routes()
@@ -185,7 +188,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'as'	=> 'ajax.emailUser',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@sendEmail'));
 
-			Route::get('cancel/{id}', 'Scheduler\Controllers\AjaxController@cancelModal');
+			Route::get('cancel/{type}/{id}', 'Scheduler\Controllers\AjaxController@cancelModal');
 		});
 	}
 

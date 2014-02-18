@@ -413,12 +413,13 @@ class AjaxController extends BaseController {
 		}
 	}
 
-	public function cancelModal($id)
+	public function cancelModal($type, $id)
 	{
+		$view = ($type == 'staff') ? 'pages.ajax.cancelInstructor' : 'pages.ajax.cancelStudent';
+
 		return partial('common/modal_content', array(
 			'modalHeader'	=> "Cancel Appointment",
-			'modalBody'		=> View::make('pages.ajax.cancel')
-								->withAppointment($this->appointment->find($id)),
+			'modalBody'		=> View::make($view)->withAppointment($this->appointment->find($id)),
 			'modalFooter'	=> false,
 		));
 	}
