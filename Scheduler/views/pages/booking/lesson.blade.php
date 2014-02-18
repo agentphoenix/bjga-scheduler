@@ -201,6 +201,15 @@
 			$('.js-check').closest('.row').removeClass('hide');
 		});
 
+		$(document).on('change.dp', function()
+		{
+			$('[name="time"]').val('');
+			$('[name="timeDisplay"]').val('');
+			$('.bookingForm').addClass('hide');
+			$('.ajax-container').html('').closest('.row').removeClass('hide');
+			$('.js-check').closest('.row').removeClass('hide');
+		});
+
 		$(function()
 		{
 			var now = moment();
