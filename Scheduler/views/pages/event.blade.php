@@ -21,7 +21,7 @@
 
 			@if ($_currentUser->isAttending($appointment->id))
 				<div class="btn-group">
-					<a href="#" class="btn btn-danger icn-size-16 js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw</a>
+					<a href="#" class="btn btn-danger icn-size-16 js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a>
 				</div>
 			@endif
 		</div>
@@ -39,7 +39,7 @@
 
 			@if ($_currentUser->isAttending($appointment->id))
 				<div class="col-xs-12 col-sm-3">
-					<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw</a></p>
+					<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a></p>
 				</div>
 			@endif
 		</div>
@@ -59,39 +59,31 @@
 	@endif
 
 	<div class="row">
-		<div class="col-sm-8 col-md-8 col-lg-8">
-			<dl>
-				<dt>Date(s)</dt>
-				@foreach ($event->serviceOccurrences as $o)
-					<dd>{{ $o->start->format(Config::get('bjga.dates.date')) }}</dd>
-					<dd>{{ $o->start->format(Config::get('bjga.dates.time')) }} - {{ $o->end->format(Config::get('bjga.dates.time')) }}</dd>
-				@endforeach
-
-				<dt>Price</dt>
-				<dd>
-					@if ($event->price > 0)
-						${{ $event->price }}
+		<div class="col-sm-3 col-md-3 col-lg-3">
+			<h2>Price</h2>
+			<h3 class="text-success price-details">
+				@if ($event->price > 0)
+					@if ($event->occurrences > 1 and $event->isLesson())
+						${{ round(($event->price * $event->occurrences) / ($event->occurrences / 4), 2) }} <small>per month</small>
 					@else
-						Free
+						${{ $event->price }}
 					@endif
-				</dd>
-
-				<dt>Instructor</dt>
-				<dd>{{ $event->staff->user->name }}</dd>
-			</dl>
+				@else
+					Free
+				@endif
+			</h3>
 		</div>
+		<div class="col-sm-3 col-md-3 col-lg-3">
+			<h2>Instructor</h2>
+			<p>{{ $event->staff->user->name }}</p>
+		</div>
+		<div class="col-sm-6 col-md-6 col-lg-6">
+			<h2>Date(s)</h2>
 
-		@if ($_currentUser)
-			<div class="col-sm-4 col-md-4 col-lg-4">
-				@if ( ! $_currentUser->isAttending($appointment->id))
-					<p><a href="#" class="btn btn-lg btn-block btn-primary js-enroll" data-appointment="{{ $appointment->id }}">Enroll Now</a></p>
-				@endif
-
-				@if ($_currentUser->isAttending($appointment->id))
-					<a href="#" class="btn btn-lg btn-block btn-danger js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw</a>
-				@endif
-			</div>
-		@endif
+			@foreach ($event->serviceOccurrences as $o)
+				<p>{{ $o->start->format(Config::get('bjga.dates.date')) }}, {{ $o->start->format(Config::get('bjga.dates.time')) }} - {{ $o->end->format(Config::get('bjga.dates.time')) }}</p>
+			@endforeach
+		</div>
 	</div>
 @stop
 
