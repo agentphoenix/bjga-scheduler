@@ -19,6 +19,7 @@ return array(
 
 	'info' => '<span class="icn" data-icon="i"></span>',
 
+	'list' => '<span class="icn" data-icon="5"></span>',
 	'login' => '<span class="icn" data-icon="4"></span>',
 	'logout' => '<span class="icn" data-icon="x"></span>',
 
