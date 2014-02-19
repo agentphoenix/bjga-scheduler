@@ -5,6 +5,7 @@
 		<li class="visible-xs visible-sm"><a href="http://brianjacobsgolf.com">Brian Jacobs Golf Home</a></li>
 		@if (Auth::check())
 			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
+			<li class="{{ (Request::is('event*') ? 'active' : '') }}"><a href="{{ URL::route('events') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>Upcoming Events</a></li>
 			<li class="{{ (Request::is('admin/user/*') ? 'active' : '') }}"><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
 			<li><a href="{{ URL::route('logout') }}"><span class="icn-size-16">{{ $_icons['logout'] }}</span>Log Out</a></li>
 		@else
