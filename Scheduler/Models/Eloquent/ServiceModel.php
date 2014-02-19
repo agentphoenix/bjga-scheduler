@@ -111,5 +111,10 @@ class ServiceModel extends Model {
 	{
 		return (bool) ($this->user_limit > 1);
 	}
+
+	public function isRecurring()
+	{
+		return (bool) ($this->occurrences > 1);
+	}
 	
 }
