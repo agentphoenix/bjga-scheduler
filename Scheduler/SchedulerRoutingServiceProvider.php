@@ -134,6 +134,12 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::post('appointment/removeAttendee', array(
 				'as'	=> 'admin.appointment.removeAttendee',
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@removeAttendee'));
+			Route::get('appointment/user/{id?}', array(
+				'as'	=> 'admin.appointment.user',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@user'));
+			Route::get('appointment/history/user/{id}', array(
+				'as'	=> 'admin.appointment.history',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@history'));
 
 			/**
 			 * Resourceful controllers.
@@ -149,7 +155,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'except' => array('show')));
 			Route::resource('staff', 'Scheduler\Controllers\StaffController', array(
 				'except' => array('show')));
-			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController');
+			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController', array(
+				'except' => array('show', 'destroy')));
 		});
 	}
 

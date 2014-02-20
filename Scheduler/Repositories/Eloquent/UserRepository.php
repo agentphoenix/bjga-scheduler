@@ -203,5 +203,30 @@ class UserRepository implements UserRepositoryInterface {
 
 		return $schedule;
 	}
+
+	public function getScheduleHistory(UserModel $user)
+	{
+		// Start an array for holding everything
+		$schedule = array();
+
+		// Get today
+		$today = Date::now();
+
+		if ($user->appointments->count() > 0)
+		{
+			foreach ($user->appointments as $a)
+			{
+				// How many days until this appointment?
+				$timestamp = $a->appointment->start->copy()->format('U');
+
+				$schedule[$timestamp] = $a;
+			}
+		}
+
+		// Sort the array
+		ksort($schedule);
+
+		return $schedule;
+	}
 	
 }

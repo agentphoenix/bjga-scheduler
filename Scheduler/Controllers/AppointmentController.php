@@ -1,106 +1,96 @@
 <?php namespace Scheduler\Controllers;
 
-use View,
-	Event,
+use Book,
+	View,
 	Input,
 	Redirect,
 	ServiceValidator,
+	UserRepositoryInterface,
 	ServiceRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
 class AppointmentController extends BaseController {
 
+	protected $user;
 	protected $appts;
 	protected $service;
 
 	public function __construct(ServiceRepositoryInterface $service,
-			StaffAppointmentRepositoryInterface $appts)
+			StaffAppointmentRepositoryInterface $appts,
+			UserRepositoryInterface $user)
 	{
 		parent::__construct();
 
+		$this->user = $user;
 		$this->appts = $appts;
 		$this->service = $service;
 	}
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index()
 	{
-		//
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			return View::make('pages.admin.appointments.index');
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to manage appointments!");
+		}
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
 	public function create()
 	{
-		//
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			return View::make('pages.admin.appointments.create')
+				->withServices(array('0' => "Please choose one") + $this->service->getValues('lesson', true));
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to create appointments!");
+		}
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
 	public function store()
 	{
-		//
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			// Do the booking
+			Book::lesson(Input::all());
+
+			return Redirect::route('admin.appointment.index')
+				->with('message', 'Appointment was successfully created.')
+				->with('messageStatus', 'success');
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to create appointments!");
+		}
 	}
 
-	public function show($id)
-	{
-		// Get the service
-		$service = $this->service->find($id);
-
-		// Get the attendees
-		$attendees = $this->service->getAttendees($id);
-
-		return partial('common/modal_content', array(
-			'modalHeader'	=> "Attendees",
-			'modalBody'		=> View::make('pages.admin.appointments.show')
-								->withService($service)
-								->withAttendees($attendees),
-			'modalFooter'	=> false,
-		));
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function edit($id)
 	{
-		return View::make('pages.admin.appointments.edit')
-			->withAppointment($this->appts->find($id));
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			return View::make('pages.admin.appointments.edit')
+				->withAppointment($this->appts->find($id));
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to edit appointments!");
+		}
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function update($id)
 	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			//
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to update appointments!");
+		}
 	}
 
 	public function attendees($type, $id)
@@ -142,6 +132,48 @@ class AppointmentController extends BaseController {
 				// Remove the user appointment
 				$userAppt->delete();
 			}
+		}
+	}
+
+	public function user($id = false)
+	{
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			if ( ! $id)
+			{
+				return View::make('pages.admin.appointments.usersAll')
+					->withUsers($this->user->all());
+			}
+			else
+			{
+				// Get the user
+				$user = $this->user->find($id);
+
+				return View::make('pages.admin.appointments.usersAction')
+					->withUser($user)
+					->withSchedule($this->user->getSchedule($user));
+			}
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to manage users' appointments!");
+		}
+	}
+
+	public function history($id)
+	{
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			// Get the user
+			$user = $this->user->find($id);
+
+			return View::make('pages.admin.appointments.usersHistory')
+				->withUser($user)
+				->withHistory($this->user->getScheduleHistory($user));
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to manage users' appointments!");
 		}
 	}
 

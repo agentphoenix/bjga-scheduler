@@ -40,8 +40,18 @@ class BookingService {
 		// Get the service
 		$service = $this->service->find($data['service_id']);
 
-		// Build the date
-		$date = Date::createFromFormat('Y-m-d G:i', $data['date'].' '.$data['time']);
+		// Build the start date
+		$start = (array_key_exists('start', $data))
+			? Date::createFromFormat('Y-m-d H:i A', $data['date'].' '.$data['start'])
+			: Date::createFromFormat('Y-m-d G:i', $data['date'].' '.$data['time']);
+
+		// Build the end date
+		$end = (array_key_exists('end', $data))
+			? Date::createFromFormat('Y-m-d H:i A', $data['date'].' '.$data['end'])
+			: $start->copy()->addMinutes($service->duration);
+
+		// Build the price
+		$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
 
 		// Get the user
 		$user = $this->user->find((int) $data['user']);
@@ -50,14 +60,14 @@ class BookingService {
 		$apptRecord = array(
 			'staff_id'		=> $service->staff->id,
 			'service_id'	=> $service->id,
-			'start'			=> $date->toDateTimeString(),
-			'end'			=> $date->copy()->addMinutes($service->duration)->toDateTimeString(),
+			'start'			=> $start,
+			'end'			=> $end,
 		);
 
 		// Set the initial user appointment record
 		$userApptRecord = array(
 			'user_id'	=> $user->id,
-			'amount'	=> $service->price,
+			'amount'	=> $price,
 		);
 
 		// Automatically mark free services as paid
@@ -99,18 +109,18 @@ class BookingService {
 					'service_id'	=> $service->id,
 					'recur_id'		=> $recurItem->id,
 					'start'			=> ($service->occurrences_schedule > 0) 
-						? $newStartDate->addDays($service->occurrences_schedule)->toDateTimeString() : null,
+						? $newStartDate->addDays($service->occurrences_schedule) : null,
 					'end'			=> ($service->occurrences_schedule > 0) 
-						? $newEndDate->addDays($service->occurrences_schedule)->toDateTimeString() : null,
+						? $newEndDate->addDays($service->occurrences_schedule) : null,
 				));
 
 				// Create the user appointments
 				$ua = UserAppointmentModel::create(array(
 					'appointment_id'	=> $sa->id,
-					'user_id'			=> $data['user'],
+					'user_id'			=> $user->id,
 					'recur_id'			=> $recurItem->id,
-					'amount'			=> ($user->isStaff()) ? 0 : $service->price,
-					'paid'				=> ($user->isStaff() or $service->price == 0) ? (int) true : (int) false,
+					'amount'			=> ($user->isStaff()) ? 0 : $price,
+					'paid'				=> ($user->isStaff() or $price == 0) ? (int) true : (int) false,
 				));
 			}
 		}
