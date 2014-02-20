@@ -151,7 +151,7 @@ class AppointmentController extends BaseController {
 
 				return View::make('pages.admin.appointments.usersAction')
 					->withUser($user)
-					->withSchedule($this->user->getSchedule($user));
+					->withSchedule($this->user->getSchedule($user, false));
 			}
 		}
 		else

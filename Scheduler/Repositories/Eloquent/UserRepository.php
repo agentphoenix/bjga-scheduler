@@ -147,7 +147,7 @@ class UserRepository implements UserRepositoryInterface {
 		return $amount;
 	}
 
-	public function getSchedule(UserModel $user)
+	public function getSchedule(UserModel $user, $days = 90)
 	{
 		// Start an array for holding everything
 		$schedule = array();
@@ -156,9 +156,12 @@ class UserRepository implements UserRepositoryInterface {
 		$today = Date::now();
 
 		// Filter user appointments to only show today forward
-		$userAppointments = $user->appointments->filter(function($a) use ($today)
+		$userAppointments = $user->appointments->filter(function($a) use ($today, $days)
 		{
-			return $a->appointment->start->startOfDay() >= $today->startOfDay();
+			if ($days)
+				return $a->appointment->start->startOfDay() >= $today->startOfDay() and $a->appointment->start->endOfDay() <= $today->copy()->addDays($days)->endOfDay();
+			else
+				return $a->appointment->start->startOfDay() >= $today->startOfDay();
 		})->sortBy(function($x)
 		{
 			return $x->appointment->start;
@@ -178,9 +181,12 @@ class UserRepository implements UserRepositoryInterface {
 		if ($user->staff)
 		{
 			// Filter staff appointments to only show today forward
-			$staffAppointments = $user->staff->appointments->filter(function($s) use ($today)
+			$staffAppointments = $user->staff->appointments->filter(function($s) use ($today, $days)
 			{
-				return $s->start->startOfDay() >= $today->startOfDay();
+				if ($days)
+					return $s->start->startOfDay() >= $today->startOfDay() and $s->start->endOfDay() <= $today->copy()->addDays($days)->endOfDay();
+				else
+					return $s->start->startOfDay() >= $today->startOfDay();
 			})->sortBy(function($x)
 			{
 				return $x->start;

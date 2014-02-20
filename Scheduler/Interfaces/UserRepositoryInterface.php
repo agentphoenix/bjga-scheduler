@@ -12,7 +12,7 @@ interface UserRepositoryInterface {
 	public function getAccessLevel($id = false);
 	public function getAppointment($id, $user = false);
 	public function getNonStaff();
-	public function getSchedule(UserModel $user);
+	public function getSchedule(UserModel $user, $days = 90);
 	public function getScheduleHistory(UserModel $user);
 	public function getUnpaid();
 	public function getUnpaidAmount();
