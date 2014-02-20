@@ -19,7 +19,7 @@
 			<p>Admin</p>
 
 			<ul>
-				<li class="{{ (Request::is('admin/appointments*') ? 'active' : '') }}"><a href="#"><span class="icn-size-16">{{ $_icons['list'] }}</span>Appointments</a></li>
+				<li class="{{ (Request::is('admin/appointments*') ? 'active' : '') }}"><a href="{{ URL::route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
 				<li class="{{ (Request::is('admin/service*') ? 'active' : '') }}"><a href="{{ URL::route('admin.service.index') }}"><span class="icn-size-16">{{ $_icons['golf'] }}</span>Services</a></li>
 				<li class="{{ ((Request::is('admin/user*') and ! Request::is('admin/user/'.$_currentUser->id.'/edit')) ? 'active' : '') }}"><a href="{{ URL::route('admin.user.index') }}"><span class="icn-size-16">{{ $_icons['users'] }}</span>Users</a></li>
 				<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ URL::route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['school'] }}</span>Staff</a></li>

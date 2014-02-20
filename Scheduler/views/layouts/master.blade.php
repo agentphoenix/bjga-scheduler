@@ -91,6 +91,30 @@
 			$('.modal').removeData('bs.modal');
 		});
 
+		$(document).ready(function()
+		{
+			$('.js-tooltip-right').tooltip({
+				placement: 'right',
+				container: 'body',
+				html: true
+			});
+			$('.js-tooltip-left').tooltip({
+				placement: 'left',
+				container: 'body',
+				html: true
+			});
+			$('.js-tooltip-top').tooltip({
+				placement: 'top',
+				container: 'body',
+				html: true
+			});
+			$('.js-tooltip-bottom').tooltip({
+				placement: 'bottom',
+				container: 'body',
+				html: true
+			});
+		});
+
 	</script>
 	@yield('scripts')
 	
