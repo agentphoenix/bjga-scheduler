@@ -2,9 +2,9 @@
 
 {{ Form::open(array('route' => array('admin.user.destroy', $user->id), 'method' => 'delete')) }}
 	<div class="visible-lg">
-		{{ Form::button("Remove", array('type' => 'submit', 'class' => 'btn btn-danger')) }}
+		{{ Form::submit("Delete User", array('class' => 'btn btn-lg btn-danger')) }}
 	</div>
 	<div class="hidden-lg">
-		{{ Form::button("Remove", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-danger')) }}
+		{{ Form::submit("Delete User", array('class' => 'btn btn-lg btn-block btn-danger')) }}
 	</div>
 {{ Form::close() }}

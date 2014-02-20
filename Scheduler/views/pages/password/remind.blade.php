@@ -31,8 +31,8 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<p>{{ Form::submit("Reset", array('class' => 'btn btn-block btn-lg btn-primary')) }}</p>
-						<p><a href="{{ URL::route('home') }}" class="btn btn-block btn-link">Cancel</a></p>
+						<p>{{ Form::submit("Send Reset Confirmation", array('class' => 'btn btn-lg btn-blockbtn-primary')) }}</p>
+						<p><a href="{{ URL::route('home') }}" class="btn btn-link btn-block">Cancel</a></p>
 					</div>
 				</div>
 			{{ Form::close() }}

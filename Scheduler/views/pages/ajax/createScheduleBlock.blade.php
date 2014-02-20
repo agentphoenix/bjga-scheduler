@@ -45,10 +45,10 @@
 	{{ Form::hidden('staff_id', $user->staff->id) }}
 
 	<div class="visible-lg">
-		{{ Form::button("Submit", array('type' => 'submit', 'class' => 'btn btn-primary')) }}
+		{{ Form::submit("Create Block", array('class' => 'btn btn-lg btn-primary')) }}
 	</div>
 	<div class="hidden-lg">
-		{{ Form::button("Submit", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
+		{{ Form::submit("Create Block", array('class' => 'btn btn-lg btn-block btn-primary')) }}
 	</div>
 {{ Form::close() }}
 

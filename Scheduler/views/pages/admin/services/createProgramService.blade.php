@@ -139,10 +139,10 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-lg">
-					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-primary')) }}
+					{{ Form::submit('Create', array('class' => 'btn btn-lg btn-primary')) }}
 				</div>
 				<div class="hidden-lg">
-					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-block btn-primary')) }}
+					{{ Form::submit('Create', array('class' => 'btn btn-lg btn-block btn-primary')) }}
 				</div>
 			</div>
 		</div>

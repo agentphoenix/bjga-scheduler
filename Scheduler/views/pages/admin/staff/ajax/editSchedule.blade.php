@@ -29,10 +29,10 @@
 	{{ Form::hidden('dayNum', $daynum) }}
 
 	<div class="visible-md visible-lg">
-		{{ Form::button("Submit", array('type' => 'submit', 'class' => 'btn btn-lg btn-primary')) }}
+		{{ Form::submit("Update Schedule", array('class' => 'btn btn-lg btn-primary')) }}
 	</div>
 	<div class="visible-xs visible-sm">
-		{{ Form::button("Submit", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
+		{{ Form::submit("Update Schedule", array('class' => 'btn btn-lg btn-block btn-primary')) }}
 	</div>
 {{ Form::close() }}
 

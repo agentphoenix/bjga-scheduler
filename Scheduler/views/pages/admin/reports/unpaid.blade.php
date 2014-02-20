@@ -52,7 +52,7 @@
 							<div class="col-xs-12 col-sm-4">
 								<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email" data-user="{{ $u->user->id }}">{{ $_icons['email'] }}</a></p>
 							</div>
-							<div class="col-xs-12 col-sm-4">
+							<div class="col-xs-12 visible-xs">
 								<p><a href="tel:{{ $u->user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['phone'] }}</a></p>
 							</div>
 							<div class="col-xs-12 col-sm-4">

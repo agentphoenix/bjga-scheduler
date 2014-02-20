@@ -32,9 +32,9 @@
 	{{ Form::hidden('redirect', $redirect) }}
 
 	<div class="visible-lg">
-		{{ Form::button("Send", array('type' => 'submit', 'class' => 'btn btn-lg btn-primary')) }}
+		{{ Form::submit("Send Email", array('class' => 'btn btn-lg btn-primary')) }}
 	</div>
 	<div class="hidden-lg">
-		{{ Form::button("Send", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
+		{{ Form::submit("Send Email", array('class' => 'btn btn-lg btn-block btn-primary')) }}
 	</div>
 {{ Form::close() }}

@@ -28,10 +28,10 @@
 
 	{{ Form::hidden('formAction', 'password') }}
 
-	<div class="visible-lg">
-		{{ Form::button("Update", array('type' => 'submit', 'class' => 'btn btn-lg btn-primary')) }}
+	<div class="visible-md visible-lg">
+		{{ Form::submit("Update Password", array('class' => 'btn btn-lg btn-primary')) }}
 	</div>
-	<div class="hidden-lg">
-		{{ Form::button("Update", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}
+	<div class="visible-xs visible-sm">
+		{{ Form::submit("Update Password", array('class' => 'btn btn-lg btn-block btn-primary')) }}
 	</div>
 {{ Form::close() }}

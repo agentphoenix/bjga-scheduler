@@ -162,10 +162,10 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-md visible-lg">
-					{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
+					{{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
 				</div>
 				<div class="visible-xs visible-sm">
-					{{ Form::submit('Submit', array('class' => 'btn btn-lg btn-block btn-primary')) }}
+					{{ Form::submit('Update', array('class' => 'btn btn-lg btn-block btn-primary')) }}
 				</div>
 			</div>
 		</div>

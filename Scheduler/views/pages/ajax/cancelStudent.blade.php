@@ -38,9 +38,9 @@
 	{{ Form::hidden('appointment', $appointment->id) }}
 
 	<div class="visible-md visible-lg">
-		{{ Form::button("Cancel Appointment", array('type' => 'submit', 'class' => 'btn btn-lg btn-danger')) }}
+		{{ Form::submit("Cancel Appointment", array('class' => 'btn btn-lg btn-danger')) }}
 	</div>
 	<div class="visible-xs visible-sm">
-		{{ Form::button("Cancel Appointment", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-danger')) }}
+		{{ Form::submit("Cancel Appointment", array('class' => 'btn btn-lg btn-block btn-danger')) }}
 	</div>
 {{ Form::close() }}

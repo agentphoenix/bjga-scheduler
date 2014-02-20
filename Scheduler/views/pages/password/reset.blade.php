@@ -46,7 +46,7 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<p>{{ Form::submit("Reset", array('class' => 'btn btn-block btn-lg btn-primary')) }}</p>
+						<p>{{ Form::submit("Reset Password", array('class' => 'btn btn-lg btn-block btn-primary')) }}</p>
 					</div>
 				</div>
 			{{ Form::close() }}
