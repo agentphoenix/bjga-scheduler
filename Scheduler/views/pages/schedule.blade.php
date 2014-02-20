@@ -202,7 +202,7 @@
 			if (type == "staff")
 			{
 				$('#instructorCancel').modal({
-					remote: "{{ URL::to('ajax/cancel/instructor') }}/" + id
+					remote: "{{ URL::to('ajax/cancel/staff') }}/" + id
 				}).modal('show');
 			}
 			else

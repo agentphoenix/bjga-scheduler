@@ -189,6 +189,9 @@ class BookingService {
 
 		if ($staffAppt)
 		{
+			// Grab the service
+			$service = $staffAppt->service;
+
 			if ($staffAppt->userAppointments->count() > 0)
 			{
 				// Get the user's appointment record
@@ -197,12 +200,20 @@ class BookingService {
 					return (int) $s->user_id === (int) $user->id;
 				})->first();
 
-				// Remove the appointment
-				$userAppt->delete();
+				// Remove the user appointment
+				if ($service->isRecurring())
+					$userAppt->delete();
+				else
+					$userAppt->forceDelete();
 
 				// Remove the staff appointment if it's a lesson
-				if ($staffAppt->service->isLesson())
-					$staffAppt->delete();
+				if ($service->isLesson())
+				{
+					if ($service->isRecurring())
+						$staffAppt->delete();
+					else
+						$staffAppt->forceDelete();
+				}
 
 				Event::fire('book.cancel.student', array($staffAppt, $user, $reason));
 			}
@@ -216,6 +227,9 @@ class BookingService {
 
 		if ($staffAppt)
 		{
+			// Get the service
+			$service = $staffAppt->service;
+
 			if ($staffAppt->userAppointments->count() > 0)
 			{
 				$emails = array();
@@ -226,12 +240,20 @@ class BookingService {
 					$emails[] = $ua->user->email;
 
 					// Delete the appointment
-					$ua->delete();
+					if ($service->isRecurring())
+						$ua->delete();
+					else
+						$ua->forceDelete();
 				}
 
 				// Only cancel the staff appointment if it's a lesson
 				if ($staffAppt->service->isLesson())
-					$staffAppt->delete();
+				{
+					if ($service->isRecurring())
+						$staffAppt->delete();
+					else
+						$staffAppt->forceDelete();
+				}
 			}
 
 			Event::fire('book.cancel.instructor', array($staffAppt, $emails, $reason));

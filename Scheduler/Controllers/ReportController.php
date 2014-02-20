@@ -55,7 +55,12 @@ class ReportController extends BaseController {
 		krsort($dateOptions);
 
 		// Get all appointments for the month
-		$appointments = StaffAppointmentModel::where('start', '>=', $date->copy()->startOfMonth())
+		$appointments = StaffAppointmentModel::withTrashed()
+			->with(array('userAppointments' => function($query)
+			{
+				$query->withTrashed();
+			}))
+			->where('start', '>=', $date->copy()->startOfMonth())
 			->where('end', '<=', $date->copy()->endOfMonth())
 			->get();
 
@@ -85,7 +90,12 @@ class ReportController extends BaseController {
 		}
 
 		// Get all the appointments for the year
-		$yearAppointments = StaffAppointmentModel::where('start', '>=', $date->copy()->startOfYear())
+		$yearAppointments = StaffAppointmentModel::withTrashed()
+			->with(array('userAppointments' => function($query)
+			{
+				$query->withTrashed();
+			}))
+			->where('start', '>=', $date->copy()->startOfYear())
 			->where('end', '<=', $date->copy()->endOfYear())
 			->get();
 

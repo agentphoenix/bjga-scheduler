@@ -1,5 +1,3 @@
-<p class="alert alert-warning"><strong>Warning:</strong> Removing an attendee from a recurring lesson service or a program can create discrepancies in the revenue report. Do so only if necessary!</p>
-
 <div class="row">
 	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 		<p><strong>Service</strong></p>
@@ -52,9 +50,9 @@
 	{{ Form::hidden('appointment', $appointment->id) }}
 
 	<div class="visible-md visible-lg">
-		{{ Form::button("Cancel", array('type' => 'submit', 'class' => 'btn btn-lg btn-danger')) }}
+		{{ Form::button("Cancel Appointment", array('type' => 'submit', 'class' => 'btn btn-lg btn-danger')) }}
 	</div>
 	<div class="visible-xs visible-sm">
-		{{ Form::button("Cancel", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-danger')) }}
+		{{ Form::button("Cancel Appointment", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-danger')) }}
 	</div>
 {{ Form::close() }}
