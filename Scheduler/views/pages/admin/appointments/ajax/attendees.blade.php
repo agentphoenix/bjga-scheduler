@@ -1,5 +1,3 @@
-<p class="alert alert-warning"><strong>Warning:</strong> Removing an attendee from a recurring lesson service or a program can create discrepancies in the revenue report. Do so only if necessary!</p>
-
 @if ($attendees->count() > 0)
 	<div class="data-table data-table-striped data-table-bordered">
 	@foreach ($attendees as $a)

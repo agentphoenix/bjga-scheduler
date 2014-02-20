@@ -115,7 +115,7 @@ class AppointmentController extends BaseController {
 
 		return partial('common/modal_content', array(
 			'modalHeader'	=> "Attendees",
-			'modalBody'		=> View::make('pages.admin.appointments.attendees')
+			'modalBody'		=> View::make('pages.admin.appointments.ajax.attendees')
 								->withService($service)
 								->withAttendees($attendees),
 			'modalFooter'	=> false,
