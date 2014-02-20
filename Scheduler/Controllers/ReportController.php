@@ -69,8 +69,7 @@ class ReportController extends BaseController {
 		{
 			foreach ($appointments as $a)
 			{
-				// Lesson Hours
-				$lessonHours += $a->service->duration;
+				$lessonHoursCounted = false;
 
 				if ($a->userAppointments->count() > 0)
 				{
@@ -78,6 +77,13 @@ class ReportController extends BaseController {
 					{
 						if ( ! $u->user->isStaff())
 						{
+							// Lesson Hours
+							if ( ! $lessonHoursCounted)
+							{
+								$lessonHours += $a->service->duration;
+								$lessonHoursCounted = true;
+							}
+
 							// Students Seen
 							$students[$u->user->id] = $u->user;
 
@@ -103,8 +109,7 @@ class ReportController extends BaseController {
 		{
 			foreach ($yearAppointments as $a)
 			{
-				// Lesson Hours
-				$lessonHoursYTD += $a->service->duration;
+				$lessonHoursCounted = false;
 
 				if ($a->userAppointments->count() > 0)
 				{
@@ -112,6 +117,13 @@ class ReportController extends BaseController {
 					{
 						if ( ! $u->user->isStaff())
 						{
+							// Lesson Hours
+							if ( ! $lessonHoursCounted)
+							{
+								$lessonHoursYTD += $a->service->duration;
+								$lessonHoursCounted = true;
+							}
+
 							// Students Seen
 							$studentsYTD[$u->user->id] = $u->user;
 
