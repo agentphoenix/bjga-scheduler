@@ -56,10 +56,8 @@ class BookingService {
 
 		// Set the initial user appointment record
 		$userApptRecord = array(
-			'user_id'		=> $user->id,
-			'has_gift'		=> (int) $data['has_gift'],
-			'gift_amount'	=> ($data['has_gift'] == 1) ? (int) $data['gift_amount'] : 0,
-			'amount'		=> ($data['has_gift'] == 1) ? ($service->price - $data['gift_amount']) : $service->price,
+			'user_id'	=> $user->id,
+			'amount'	=> $service->price,
 		);
 
 		// Automatically mark free services as paid
@@ -111,7 +109,8 @@ class BookingService {
 					'appointment_id'	=> $sa->id,
 					'user_id'			=> $data['user'],
 					'recur_id'			=> $recurItem->id,
-					'amount'			=> $service->price,
+					'amount'			=> ($user->isStaff()) ? 0 : $service->price,
+					'paid'				=> ($user->isStaff() or $service->price == 0) ? (int) true : (int) false,
 				));
 			}
 		}
@@ -139,10 +138,8 @@ class BookingService {
 
 		// Set the initial user appointment record
 		$userApptRecord = array(
-			'user_id'		=> $user->id,
-			'has_gift'		=> (int) $data['has_gift'],
-			'gift_amount'	=> ($data['has_gift'] == 1) ? (int) $data['gift_amount'] : 0,
-			'amount'		=> ($data['has_gift'] == 1) ? ($service->price - $data['gift_amount']) : $service->price,
+			'user_id'	=> $user->id,
+			'amount'	=> $service->price,
 		);
 
 		// Automatically mark free services as paid

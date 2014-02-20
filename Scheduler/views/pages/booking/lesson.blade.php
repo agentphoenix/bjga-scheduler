@@ -90,7 +90,7 @@
 				{{ Form::hidden('user', $_currentUser->id) }}
 			@endif
 
-			<div class="row">
+			<!--<div class="row">
 				<div class="col-lg-4">
 					<div class="form-group">
 						<label class="control-label">Do you have a gift certificate?</label>
@@ -116,7 +116,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 
 			<div class="row">
 				<div class="col-lg-12">
