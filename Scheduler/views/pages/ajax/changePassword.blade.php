@@ -29,9 +29,9 @@
 	{{ Form::hidden('formAction', 'password') }}
 
 	<div class="visible-md visible-lg">
-		{{ Form::submit("Update Password", array('class' => 'btn btn-lg btn-primary')) }}
+		{{ Form::submit("Change Password", array('class' => 'btn btn-lg btn-primary')) }}
 	</div>
 	<div class="visible-xs visible-sm">
-		{{ Form::submit("Update Password", array('class' => 'btn btn-lg btn-block btn-primary')) }}
+		{{ Form::submit("Change Password", array('class' => 'btn btn-lg btn-block btn-primary')) }}
 	</div>
 {{ Form::close() }}

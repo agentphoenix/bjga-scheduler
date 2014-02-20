@@ -32,10 +32,10 @@
 	{{ Form::hidden('recipients', $user->email) }}
 	{{ Form::hidden('redirect', $redirect) }}
 
-	<div class="visible-lg">
+	<div class="visible-md visible-lg">
 		{{ Form::submit("Send Email", array('class' => 'btn btn-lg btn-primary')) }}
 	</div>
-	<div class="hidden-lg">
+	<div class="visible-xs visible-sm">
 		{{ Form::submit("Send Email", array('class' => 'btn btn-lg btn-block btn-primary')) }}
 	</div>
 {{ Form::close() }}

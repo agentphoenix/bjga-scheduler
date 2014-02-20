@@ -33,7 +33,7 @@
 			<div class="col-xs-5 col-sm-2 col-md-2 col-lg-2">
 				<div class="form-group">
 					<label class="control-label">&nbsp;</label>
-					{{ Form::button('Get Report', array('type' => 'submit', 'class' => 'btn btn-sm btn-block btn-primary')) }}
+					{{ Form::submit('Get Report', array('class' => 'btn btn-sm btn-block btn-primary')) }}
 				</div>
 			</div>
 		</div>

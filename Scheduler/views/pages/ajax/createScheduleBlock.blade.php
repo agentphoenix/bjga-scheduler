@@ -2,7 +2,7 @@
 
 {{ Form::open(array('route' => array('admin.staff.block.store', $user->staff->id))) }}
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-sm-4 col-md-4 col-lg-4">
 			<div class="form-group">
 				<label class="control-label">Date</label>
 				{{ Form::text('date', null, array('class' => 'form-control js-datepicker')) }}
@@ -11,9 +11,9 @@
 	</div>
 
 	<div class="row">
-		<div class="col-lg-4">
+		<div class="col-sm-4 col-md-4 col-lg-4">
 			<div class="form-group">
-				<div class="checkbox">
+				<div class="checkbox text-sm">
 					<label>
 						{{ Form::checkbox('all_day', 1, true) }} Block full schedule
 					</label>
@@ -24,16 +24,13 @@
 
 	<div class="hide" id="blockTimes">
 		<div class="row">
-			<div class="col-lg-4">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
 					<label class="control-label">Start Time</label>
 					{{ Form::text('start', null, array('class' => 'form-control js-timepicker-start')) }}
 				</div>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-4">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 				<div class="form-group">
 					<label class="control-label">End Time</label>
 					{{ Form::text('end', null, array('class' => 'form-control js-timepicker-end')) }}
@@ -44,11 +41,11 @@
 
 	{{ Form::hidden('staff_id', $user->staff->id) }}
 
-	<div class="visible-lg">
-		{{ Form::submit("Create Block", array('class' => 'btn btn-lg btn-primary')) }}
+	<div class="visible-md visible-lg">
+		{{ Form::submit("Block Schedule", array('class' => 'btn btn-lg btn-primary')) }}
 	</div>
-	<div class="hidden-lg">
-		{{ Form::submit("Create Block", array('class' => 'btn btn-lg btn-block btn-primary')) }}
+	<div class="visible-xs visible-sm">
+		{{ Form::submit("Block Schedule", array('class' => 'btn btn-lg btn-block btn-primary')) }}
 	</div>
 {{ Form::close() }}
 

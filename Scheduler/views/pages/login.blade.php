@@ -36,7 +36,7 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<p>{{ Form::button("Log In", array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}</p>
+						<p>{{ Form::submit("Log In", array('class' => 'btn btn-lg btn-block btn-primary')) }}</p>
 
 						<div class="row">
 							<div class="col-sm-6 col-md-6 col-lg-6">

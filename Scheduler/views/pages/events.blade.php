@@ -49,7 +49,7 @@
 			<dd><p class="help-block">{{ $event->service->description }}</p></dd>
 
 			<dd>
-				<div class="visible-lg">
+				<div class="visible-md visible-lg">
 					<div class="btn-toolbar">
 						<div class="btn-group">
 							<a href="{{ URL::route('event', array($event->service->slug)) }}" class="btn btn-sm btn-default">More Info</a>
@@ -68,7 +68,7 @@
 						@endif
 					</div>
 				</div>
-				<div class="hidden-lg">
+				<div class="visible-xs visible-sm">
 					<p><a href="{{ URL::route('event', array($event->service->slug)) }}" class="btn btn-block btn-lg btn-default">More Info</a></p>
 
 					@if (Auth::check() and $hasOpenings and ! Auth::user()->isAttending($event->id))

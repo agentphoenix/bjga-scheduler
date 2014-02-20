@@ -39,22 +39,22 @@
 				<div class="data-table data-table-striped data-table-bordered">
 				@foreach ($blocks as $b)
 					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-lg-9">
+						<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 							<p><strong>{{ $b->start->format(Config::get('bjga.dates.date')) }}</strong></p>
 							<p class="text-muted text-sm">{{ $b->start->format(Config::get('bjga.dates.time')) }} - {{ $b->end->format(Config::get('bjga.dates.time')) }}</p>
 						</div>
-						<div class="col-xs-12 col-sm-12 col-lg-3">
-							<div class="visible-lg">
+						<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+							<div class="visible-md visible-lg">
 								<div class="btn-toolbar pull-right">
 									<div class="btn-group">
-										<a href="#" class="btn btn-small btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $b->id }}">{{ $_icons['remove'] }}</a>
+										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $b->id }}">{{ $_icons['remove'] }}</a>
 									</div>
 								</div>
 							</div>
-							<div class="hidden-lg">
+							<div class="visible-xs visible-sm">
 								<div class="row">
 									<div class="col-xs-12 col-sm-12">
-										<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $b->id }}">{{ $_icons['remove'] }}</a></p>
+										<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $b->id }}">{{ $_icons['remove'] }}</a></p>
 									</div>
 								</div>
 							</div>
