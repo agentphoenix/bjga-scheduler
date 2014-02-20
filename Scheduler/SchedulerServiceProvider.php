@@ -95,6 +95,9 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Event::listen('user.registered', 'Scheduler\Events\UserEventHandler@onUserRegistered');
 		Event::listen('user.updated', 'Scheduler\Events\UserEventHandler@onUserUpdated');
 
+		Event::listen('appointment.created', 'Scheduler\Events\AppointmentEventHandler@onCreated');
+		Event::listen('appointment.updated', 'Scheduler\Events\AppointmentEventHandler@onUpdated');
+
 		Queue::failing(function($job, $data)
 		{
 			$emailData = array('job' => $job, 'data' => $data);

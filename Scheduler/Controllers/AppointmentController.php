@@ -2,9 +2,12 @@
 
 use Book,
 	View,
+	Event,
 	Input,
 	Redirect,
 	ServiceValidator,
+	UserAppointmentModel,
+	StaffAppointmentModel,
 	UserRepositoryInterface,
 	ServiceRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
@@ -85,7 +88,20 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
-			//
+			// Update the staff appointment
+			$sa = StaffAppointmentModel::find(Input::get('staff_appointment_id'));
+			$sa->update(Input::get('staff'));
+
+			// Update the user appointment
+			$ua = UserAppointmentModel::find(Input::get('user_appointment_id'));
+			$ua->update(Input::get('user'));
+
+			// Fire the event
+			Event::fire('appointment.updated', array($sa, $ua));
+
+			return Redirect::route('admin.appointment.edit', array($id))
+				->with('message', "Appointment was successfully updated.")
+				->with('messageStatus', 'success');
 		}
 		else
 		{

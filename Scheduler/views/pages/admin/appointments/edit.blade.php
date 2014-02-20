@@ -27,27 +27,27 @@
 	</div>
 
 	{{ Form::model($appointment, array('route' => array('admin.appointment.update', $appointment->id), 'method' => 'put')) }}
-		<div class="row">
+		<!--<div class="row">
 			<div class="col-md-10 col-lg-8">
 				<div class="form-group">
 					<label class="control-label">Notes</label>
 					{{ Form::textarea('notes', null, array('class' => 'form-control', 'rows' => 5)) }}
 				</div>
 			</div>
-		</div>
+		</div>-->
 
 		<div class="row">
 			<div class="col-sm-6 col-md-5 col-lg-4">
 				<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
 					<label class="control-label">Start</label>
-					{{ Form::text('start', null, array('class' => 'form-control input-with-feedback')) }}
+					{{ Form::text('staff[start]', $appointment->start, array('class' => 'form-control js-datepicker')) }}
 					{{ $errors->first('start', '<p class="help-block">:message</p>') }}
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-5 col-lg-4">
 				<div class="form-group{{ ($errors->has('end')) ? ' has-error' : '' }}">
 					<label class="control-label">End</label>
-					{{ Form::text('end', null, array('class' => 'form-control input-with-feedback')) }}
+					{{ Form::text('staff[end]', $appointment->end, array('class' => 'form-control js-datepicker')) }}
 					{{ $errors->first('end', '<p class="help-block">:message</p>') }}
 				</div>
 			</div>
@@ -80,7 +80,7 @@
 					<label class="control-label">Total Due</label>
 					<div class="input-group">
 						<span class="input-group-addon"><strong>$</strong></span>
-						{{ Form::text('amount', $appointment->userAppointments->first()->amount, array('class' => 'form-control')) }}
+						{{ Form::text('user[amount]', $appointment->userAppointments->first()->amount, array('class' => 'form-control')) }}
 					</div>
 				</div>
 			</div>
@@ -89,12 +89,15 @@
 				<div class="form-group">
 					<label class="control-label">Paid?</label>
 					<div class="controls">
-						<label class="radio-inline text-sm">{{ Form::radio('paid', 1, ($appointment->userAppointments->first()->paid === 1)) }} Yes</label>
-						<label class="radio-inline text-sm">{{ Form::radio('paid', 0, ($appointment->userAppointments->first()->paid === 0)) }} No</label>
+						<label class="radio-inline text-sm">{{ Form::radio('user[paid]', 1, ($appointment->userAppointments->first()->paid === 1)) }} Yes</label>
+						<label class="radio-inline text-sm">{{ Form::radio('user[paid]', 0, ($appointment->userAppointments->first()->paid === 0)) }} No</label>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		{{ Form::hidden('staff_appointment_id', $appointment->id) }}
+		{{ Form::hidden('user_appointment_id', $appointment->userAppointments->first()->id) }}
 
 		<div class="row">
 			<div class="col-lg-12">
@@ -109,26 +112,18 @@
 	{{ Form::close() }}
 @stop
 
-@section('modals')
-	{{ modal(array('id' => 'changePassword', 'header' => "Change Password")) }}
-@stop
-
 @section('scripts')
-	<script type="text/javascript">
+	{{ HTML::script('js/moment.min.js') }}
+	{{ HTML::script('js/bootstrap-datetimepicker.min.js') }}
+	<script>
 		
-		$('.js-user-action').on('click', function(e)
+		$(function()
 		{
-			e.preventDefault();
-
-			var action = $(this).data('action');
-			var id = $(this).data('id');
-
-			if (action == 'password')
-			{
-				$('#changePassword').modal({
-					remote: "{{ URL::to('ajax/user/password') }}/" + id
-				}).modal('show');
-			}
+			$('.js-datepicker').datetimepicker({
+				format: "YYYY-MM-DD HH:mm:ss",
+				minuteStepping: 15,
+				defaultDate: moment($(this).val(), "HH:mm:ss")
+			});
 		});
 
 	</script>
