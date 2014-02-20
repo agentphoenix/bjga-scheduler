@@ -188,18 +188,6 @@ return array(
 		'ServiceFullException'		=> "Scheduler\Exceptions\ServiceFullException",
 
 		/**
-		 * Services
-		 */
-		'BookingService'			=> 'Scheduler\Services\BookingService',
-
-		/**
-		 * Event Handlers
-		 */
-		'AppointmentEventHandler'	=> 'Scheduler\Events\AppointmentEventHandler',
-		'ServiceEventHandler'		=> 'Scheduler\Events\ServiceEventHandler',
-		'UserEventHandler'			=> 'Scheduler\Events\UserEventHandler',
-
-		/**
 		 * Validators
 		 */
 		'AppointmentValidator'	=> 'Scheduler\Validators\AppointmentValidator',
