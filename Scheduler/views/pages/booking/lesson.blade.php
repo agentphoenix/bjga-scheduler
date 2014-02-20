@@ -201,7 +201,7 @@
 			$('.js-check').closest('.row').removeClass('hide');
 		});
 
-		$(document).on('change.dp', function()
+		$(document).on('show.dp', function()
 		{
 			$('[name="time"]').val('');
 			$('[name="timeDisplay"]').val('');
