@@ -59,7 +59,7 @@
 							<div class="btn-toolbar pull-right">
 								@if ($service->isProgram())
 									<div class="btn-group">
-										<a href="{{ URL::route('admin.appointment.show', array($service->id)) }}" class="btn btn-sm btn-default icn-size-16" data-toggle="modal" data-target="#serviceAttendees">{{ $_icons['users'] }}</a>
+										<a href="{{ URL::route('admin.appointment.attendees', array('service', $service->id)) }}" class="btn btn-sm btn-default icn-size-16" data-toggle="modal" data-target="#serviceAttendees">{{ $_icons['users'] }}</a>
 									</div>
 								@endif
 
@@ -153,7 +153,7 @@
 			if (action == 'attendees')
 			{
 				$('#serviceAttendees').modal({
-					remote: "{{ URL::to('ajax/appointment/show') }}/" + id
+					remote: "{{ URL::to('ajax/appointment/attendees/service') }}/" + id
 				}).modal('show');
 			}
 		});
