@@ -28,50 +28,46 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 	public function getUpcomingEvents($days = 90)
 	{
 		// Setup the variables
-		$categoryIds = array();
 		$serviceIds = array();
-		$date = Date::now()->startOfDay();
+		$today = Date::now()->startOfDay();
 
-		// Get the categories we're looking for
-		$categories = Category::where('name', 'Programs')
-			->orWhere('name', 'Events')
-			->get();
-
-		// Make sure we have categories
-		if ($categories->count() > 0)
-		{
-			foreach ($categories as $category)
+		return ServiceModel::getCategory('program')
+			->with(array('appointments' => function($q) use ($today, $days)
 			{
-				$categoryIds[] = $category->id;
-			}
-
-			// Get all the services in the categories
-			$services = ServiceModel::whereIn('category_id', $categoryIds)->get();
-
-			// Make sure we have services
-			if ($services->count() > 0)
-			{
-				foreach ($services as $service)
-				{
-					$serviceIds[] = $service->id;
-				}
-
-				$appointments = StaffAppointmentModel::whereIn('service_id', $serviceIds)
-					->where('date', '>=', $date->format('Y-m-d'));
+				$q->where('start', '>=', $today);
 
 				if ($days > 0)
-				{
-					// Set the future date
-					$futureDate = $date->copy()->addDays($days)->format('Y-m-d');
+					$q->where('start', '<=', $today->copy()->addDays($days));
+			}))->get()->sortBy(function($x)
+			{
+				return $x->appointments->first()->start;
+			});
 
-					$appointments = $appointments->where('date', '<=', $futureDate);
-				}
+		// Get all the services in the categories
+		$services = ServiceModel::getCategory('program')->get();
 
-				return $appointments->get();
+		// Make sure we have services
+		if ($services->count() > 0)
+		{
+			// Get the service IDs we're looking for
+			foreach ($services as $service)
+			{
+				$serviceIds[] = $service->id;
 			}
+
+			// Start to grab the appointments
+			$appointments = StaffAppointmentModel::whereIn('service_id', $serviceIds)
+				->where('start', '>=', $today);
+
+			// If we have a limit on the number of days, take that into account
+			if ($days > 0)
+				$appointments = $appointments->where('start', '<=', $today->copy()->addDays($days));
+
+			// Get the results and return them
+			return $appointments->get();
 		}
 
-		return array();
+		return new Collection;
 	}
 
 	/**
