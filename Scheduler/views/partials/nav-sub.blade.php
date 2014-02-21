@@ -1,6 +1,5 @@
 <nav class="nav-sub slideRight">
 	<p>Menu</p>
-
 	<ul>
 		<li class="visible-xs visible-sm"><a href="http://brianjacobsgolf.com">Brian Jacobs Golf Home</a></li>
 		@if (Auth::check())
@@ -17,7 +16,6 @@
 	@if (Auth::check())
 		@if ($_currentUser->isStaff())
 			<p>Admin</p>
-
 			<ul>
 				<li class="{{ (Request::is('admin/appointments*') ? 'active' : '') }}"><a href="{{ URL::route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
 				<li class="{{ (Request::is('admin/service*') ? 'active' : '') }}"><a href="{{ URL::route('admin.service.index') }}"><span class="icn-size-16">{{ $_icons['golf'] }}</span>Services</a></li>
@@ -30,6 +28,7 @@
 		<ul class="buttons">
 			<li><a href="{{ URL::route('book.lesson') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Book a Lesson</a></li>
 			<li><a href="{{ URL::route('book.program') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Enroll in Program</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#reportProblem"><span class="icn-size-16">{{ $_icons['warning'] }}</span>Report a Problem</a></li>
 
 			@if ($_currentUser->isStaff())
 				<li><a href="{{ URL::route('admin.staff.schedule', array(Auth::user()->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage My Schedule</a></li>

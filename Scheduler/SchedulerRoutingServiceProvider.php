@@ -67,6 +67,11 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::get('event/{slug}', array(
 			'as'	=> 'event',
 			'uses'	=> 'Scheduler\Controllers\HomeController@getEvent'));
+
+		// Report a problem
+		Route::post('report', array(
+			'as'	=> 'report',
+			'uses'	=> 'Scheduler\Controllers\HomeController@report'));
 	}
 
 	protected function adminRoutes()

@@ -62,6 +62,7 @@
 		</div>
 	</div>
 
+	@include('partials.report-problem')
 	@yield('modals')
 
 	@if (App::environment() == 'production')

@@ -1,9 +1,11 @@
 <?php namespace Scheduler\Controllers;
 
 use Auth,
+	Mail,
 	View,
 	Event,
 	Input,
+	Config,
 	Session,
 	Redirect,
 	Validator,
@@ -136,6 +138,30 @@ class HomeController extends BaseController {
 		return View::make('pages.event')
 			->withEvent($event)
 			->withAppointment($appointment);
+	}
+
+	public function report()
+	{
+		// Get the user
+		$user = $this->currentUser;
+
+		// Set the data
+		$data = array(
+			'user'		=> $this->currentUser,
+			'content'	=> Input::get('content'),
+		);
+
+		// Send the email
+		Mail::queue('emails.system.reportProblem', $data, function($msg) use ($user)
+		{
+			$msg->to('david.vanscott@gmail.com', 'David VanScott')
+				->from($user->email, $user->name)
+				->subject(Config::get('bjga.email.subject').' Scheduler Problem Report');
+		});
+
+		return Redirect::route('home')
+			->with('message', "Thanks for your feedback. We'll begin looking into the issue and contact you if we need more information.")
+			->with('messageStatus', 'success');
 	}
 
 }
