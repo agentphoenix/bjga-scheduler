@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-	Event Details - {{ $event->name }}
+	Program Details - {{ $event->name }}
 @stop
 
 @section('content')
@@ -13,13 +13,13 @@
 				<a href="{{ URL::route('events') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 
-			@if ( ! $_currentUser->isAttending($appointment->id))
+			@if ( ! $_currentUser->isAttending($event->id))
 				<div class="btn-group">
-					<a href="#" class="btn btn-primary icn-size-16 js-enroll" data-appointment="{{ $appointment->id }}">Enroll Now</a>
+					<a href="#" class="btn btn-primary icn-size-16 js-enroll" data-service="{{ $event->id }}">Enroll Now</a>
 				</div>
 			@endif
 
-			@if ($_currentUser->isAttending($appointment->id))
+			@if ($_currentUser->isAttending($event->id))
 				<div class="btn-group">
 					<a href="#" class="btn btn-danger icn-size-16 js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a>
 				</div>
@@ -28,17 +28,17 @@
 	</div>
 	<div class="visible-xs visible-sm">
 		<div class="row">
-			<div class="col-xs-12 col-sm-3">
+			<div class="col-xs-6 col-sm-3">
 				<p><a href="{{ URL::route('events') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 			</div>
-			@if ( ! $_currentUser->isAttending($appointment->id))
-				<div class="col-xs-12 col-sm-3">
-					<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16 js-enroll" data-appointment="{{ $appointment->id }}">Enroll Now</a></p>
+			@if ( ! $_currentUser->isAttending($event->id))
+				<div class="col-xs-6 col-sm-3">
+					<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16 js-enroll" data-service="{{ $event->id }}">Enroll Now</a></p>
 				</div>
 			@endif
 
-			@if ($_currentUser->isAttending($appointment->id))
-				<div class="col-xs-12 col-sm-3">
+			@if ($_currentUser->isAttending($event->id))
+				<div class="col-xs-6 col-sm-3">
 					<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a></p>
 				</div>
 			@endif
@@ -59,7 +59,7 @@
 	@endif
 
 	<div class="row">
-		<div class="col-sm-3 col-md-3 col-lg-3">
+		<div class="col-sm-2 col-md-2 col-lg-2">
 			<h2>Price</h2>
 			<h3 class="text-success price-details">
 				@if ($event->price > 0)
@@ -77,7 +77,7 @@
 			<h2>Instructor</h2>
 			<p>{{ $event->staff->user->name }}</p>
 		</div>
-		<div class="col-sm-6 col-md-6 col-lg-6">
+		<div class="col-sm-7 col-md-7 col-lg-7">
 			<h2>Date(s)</h2>
 
 			@foreach ($event->serviceOccurrences as $o)
@@ -88,18 +88,16 @@
 @stop
 
 @section('scripts')
-	<script type="text/javascript">
+	<script>
 		
 		$(document).on('click', '.js-enroll', function(e)
 		{
 			e.preventDefault();
 
 			$.ajax({
+				url: "{{ URL::route('book.enroll') }}",
 				type: "POST",
-				data: {
-					'appointment': $(this).data('appointment')
-				},
-				url: "{{ URL::route('ajax.enroll') }}",
+				data: { service: $(this).data('service') },
 				success: function(data)
 				{
 					location.reload();
