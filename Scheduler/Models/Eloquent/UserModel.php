@@ -73,16 +73,31 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 	*/
 
 	/**
-	 * Is the user attending an appointment?
+	 * Is the user attending a service?
 	 *
-	 * @param	int		$id		Appointment ID
+	 * @param	int		$id		Service ID
 	 * @return	bool
 	 */
 	public function isAttending($id)
 	{
-		$appointment = $this->getAppointment($id);
+		// Get the service
+		$service = ServiceModel::find($id);
 
-		return (bool) ($appointment->count() > 0);
+		if ($service)
+		{
+			// Get the current object
+			$user = $this;
+
+			// Filter the attendees
+			$attendees = $service->attendees()->filter(function($a) use ($user)
+			{
+				return (int) $a->id === (int) $user->id;
+			});
+
+			return (bool) ($attendees->count() > 0);
+		}
+
+		return false;
 	}
 
 	/**
