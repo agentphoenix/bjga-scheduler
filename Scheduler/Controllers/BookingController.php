@@ -41,11 +41,20 @@ class BookingController extends BaseController {
 	}
 	public function storeProgram()
 	{
-		Book::program(Input::all());
+		if ( ! $this->currentUser->isAttending(Input::get('service_id')))
+		{
+			Book::program(Input::all());
 
-		return Redirect::route('home')
-			->with('message', "You've successfully enrolled in the program.")
-			->with('messageStatus', 'success');
+			return Redirect::route('home')
+				->with('message', "You've successfully enrolled in the program.")
+				->with('messageStatus', 'success');
+		}
+		else
+		{
+			return Redirect::back()
+				->with('message', "You're already enrolled in this program!")
+				->with('messageStatus', 'warning');
+		}
 	}
 
 	public function withdraw()
