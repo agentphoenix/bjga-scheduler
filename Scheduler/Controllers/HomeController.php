@@ -116,10 +116,10 @@ class HomeController extends BaseController {
 	/**
 	 * Show all events.
 	 */
-	public function getAllEvents()
+	public function events()
 	{
 		return View::make('pages.events')
-			->with('events', $this->appointment->getUpcomingEvents(0));
+			->withEvents($this->appointment->getUpcomingEvents(0));
 	}
 
 	/**
