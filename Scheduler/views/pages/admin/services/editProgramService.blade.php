@@ -46,6 +46,16 @@
 		</div>
 
 		<div class="row">
+			<div class="col-lg-4">
+				<div class="form-group{{ ($errors->has('slug')) ? ' has-error' : '' }}">
+					<label class="control-label">Slug</label>
+					{{ Form::text('slug', null, array('class' => 'form-control input-with-feedback')) }}
+					{{ $errors->first('slug', '<p class="help-block">:message</p>') }}
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-lg-6">
 				<div class="form-group">
 					<label class="control-label">Description</label>
@@ -162,7 +172,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="visible-md visible-lg">
-					{{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
+					{{ Form::submit('Update', array('class' => 'btn btn-lg btn-primary')) }}
 				</div>
 				<div class="visible-xs visible-sm">
 					{{ Form::submit('Update', array('class' => 'btn btn-lg btn-block btn-primary')) }}
