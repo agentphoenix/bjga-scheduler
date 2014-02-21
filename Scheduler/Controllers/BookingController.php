@@ -74,4 +74,29 @@ class BookingController extends BaseController {
 		}
 	}
 
+	public function enroll()
+	{
+		// Get the service
+		$service = $this->service->find(Input::get('service'));
+
+		// Figure out how we should book this
+		if ($service->isProgram())
+		{
+			Book::program(array(
+				'user'			=> $this->currentUser->id,
+				'service_id'	=> $service->id,
+			));
+
+			return Redirect::route('home')
+				->with('message', "You've been successfully enrolled in {$service->name}.")
+				->with('messageStatus', 'success');
+		}
+		else
+		{
+			return Redirect::back()
+				->with('message', "You've attempted to enroll a lesson service. This feature is only available for enrolling in programs. Please use the booking page to book a lesson service.")
+				->with('messageStatus', 'danger');
+		}
+	}
+
 }

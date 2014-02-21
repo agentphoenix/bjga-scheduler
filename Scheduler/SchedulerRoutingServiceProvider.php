@@ -40,6 +40,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::post('book/withdraw', array(
 			'as'	=> 'book.withdraw',
 			'uses'	=> 'Scheduler\Controllers\BookingController@withdraw'));
+		Route::post('book/enroll', array(
+			'as'	=> 'book.enroll',
+			'uses'	=> 'Scheduler\Controllers\BookingController@enroll'));
 	}
 
 	protected function routes()
@@ -60,7 +63,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		// Events
 		Route::get('events', array(
 			'as'	=> 'events',
-			'uses'	=> 'Scheduler\Controllers\HomeController@getAllEvents'));
+			'uses'	=> 'Scheduler\Controllers\HomeController@events'));
 		Route::get('event/{slug}', array(
 			'as'	=> 'event',
 			'uses'	=> 'Scheduler\Controllers\HomeController@getEvent'));
