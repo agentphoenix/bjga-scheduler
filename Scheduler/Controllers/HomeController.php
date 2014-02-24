@@ -71,11 +71,17 @@ class HomeController extends BaseController {
 		return Redirect::route('home');
 	}
 
-	public function getRegister()
+	public function register()
 	{
-		return View::make('pages.register');
+		// Generate a random number
+		$random = mt_rand(1, 99);
+
+		// Put the number into the session
+		Session::flash('confirmNumber', $random);
+
+		return View::make('pages.register')->with('confirmNumber', $random);
 	}
-	public function postRegister()
+	public function doRegistration()
 	{
 		// Setup the validator
 		$validator = Validator::make(Input::all(), array(
@@ -84,15 +90,26 @@ class HomeController extends BaseController {
 			'password'			=> 'required',
 			'password_confirm'	=> 'required|same:password',
 			'phone'				=> 'required',
+			'confirm'			=> 'required'
 		));
 
-		// Validate the data
+		// Validator failed
 		if ( ! $validator->passes())
 		{
 			// Flash the session
 			Session::flash('registerMessage', "Your information couldn't be validated. Please correct the issues and try again.");
 
-			return Redirect::back()->withInput()->withErrors($validator->errors());
+			return Redirect::route('register')
+				->withInput()
+				->withErrors($validator->errors());
+		}
+
+		// Make sure the confirmation number matches
+		if (Input::get('confirm') != Session::get('confirmNumber'))
+		{
+			return Redirect::route('register')
+				->with('message', "Registration failed due to incorrect anti-spam confirmation number.")
+				->with('messageStatus', 'danger');
 		}
 
 		// Create the user
@@ -100,18 +117,21 @@ class HomeController extends BaseController {
 
 		if ($user)
 		{
+			// Log the user in
 			Auth::login($user, true);
 
-			Event::fire('scheduler.user.registered', array($user));
+			// Fire the registration event
+			Event::fire('user.registered', array($user, Input::all()));
 
-			return Redirect::route('home');
+			return Redirect::route('home')
+				->with('message', "Welcome to the Brian Jacobs Golf scheduler! From here, you can book lessons with a Brian Jacobs Golf instructor and enroll in any of our programs. Get started today by booking a lesson or joining a program.")
+				->with('messageStatus', 'success');
 		}
 		else
 		{
-			// Flash the session
-			Session::flash('registerMessage', "There was an error creating your account. Please try again!");
-
-			return Redirect::back()->withInput();
+			return Redirect::route('register')
+				->withInput()
+				->with('registerMessage', "There was an error creating your account. Please try again!");
 		}
 	}
 

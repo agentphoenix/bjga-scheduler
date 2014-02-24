@@ -55,9 +55,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			'uses'	=> 'Scheduler\Controllers\HomeController@getLogout'));
 		Route::get('register', array(
 			'as'	=> 'register',
-			'uses'	=> 'Scheduler\Controllers\HomeController@getRegister'));
+			'uses'	=> 'Scheduler\Controllers\HomeController@register'));
 		Route::post('login', 'Scheduler\Controllers\HomeController@postLogin');
-		Route::post('register', 'Scheduler\Controllers\HomeController@postRegister');
+		Route::post('register', 'Scheduler\Controllers\HomeController@doRegistration');
 		Route::controller('password', 'Scheduler\Controllers\RemindersController');
 
 		// Events
