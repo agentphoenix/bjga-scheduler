@@ -222,14 +222,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 
 	protected function pushQueueRoutes()
 	{
-		Route::post('queue/writeCalendar', function()
+		Route::post('queue/receive', function()
 		{
-			Queue::marshal();
-		});
-
-		Route::post('queue/sendEmail', function()
-		{
-			Queue::marshal();
+			return Queue::marshal();
 		});
 	}
 
