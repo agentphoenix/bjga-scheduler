@@ -17,12 +17,45 @@ class BookingEventHandler {
 		// Update the calendar
 		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
 
-		// Notify the user they've booked
+		// Set the data
+		$data = array(
+			'service'		=> $service->name,
+			'date'			=> $staffAppt->start->format(Config::get('bjga.dates.date')),
+			'start'			=> $staffAppt->start->format(Config::get('bjga.dates.time')),
+			'end'			=> $staffAppt->end->format(Config::get('bjga.dates.time')),
+			'recurring' 	=> (bool) $service->isRecurring(),
+			'additional'	=> $service->occurrences - 1,
+			'days'			=> $service->occurrences_schedule,
+		);
+
+		// Get the user
+		$user = $userAppt->user;
+
+		// Email the attendees
+		Mail::queue('emails.bookedLesson', $data, function($message) use ($user)
+		{
+			$message->to($user->email)
+				->subject(Config::get('bjga.email.subject')." {$service->name} Booked");
+		});
 	}
 
 	public function createProgram($service, $userAppt)
 	{
-		// Notify the user they've enrolled
+		// Set the data
+		$data = array(
+			'service'	=> $service->name,
+			'schedule'	=> $service->serviceOccurrences->sortBy(function($s){ return $s->start; }),
+		);
+
+		// Get the user
+		$user = $userAppt->user;
+
+		// Email the attendees
+		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user)
+		{
+			$msg->to($user->email)
+				->subject(Config::get('bjga.email.subject')." {$service->name} Enrollment");
+		});
 	}
 
 	public function studentCancelled($staffAppt, $user, $reason)
