@@ -75,7 +75,6 @@ class SchedulerServiceProvider extends ServiceProvider {
 	protected function setupEventListeners()
 	{
 		Event::listen('book.block.created', 'Scheduler\Events\BookingEventHandler@createBlock');
-		Event::listen('book.block.deleted', 'Scheduler\Events\BookingEventHandler@deleteBlock');
 		Event::listen('book.lesson.created', 'Scheduler\Events\BookingEventHandler@createLesson');
 		Event::listen('book.program.created', 'Scheduler\Events\BookingEventHandler@createProgram');
 		Event::listen('book.cancel.student', 'Scheduler\Events\BookingEventHandler@studentCancelled');
@@ -108,7 +107,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 			$emailData = array('job' => $job, 'data' => $data);
 
 			// Send the email
-			Mail::queue('emails.system.failedQueueJob', $emailData, function($message)
+			Mail::queue('emails.failedQueueJob', $emailData, function($message)
 			{
 				$message->to(Config::get('bjga.email.adminAddress'))
 					->subject(Config::get('bjga.email.subject').' Scheduler Queue Job Failed');

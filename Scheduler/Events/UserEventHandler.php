@@ -2,6 +2,7 @@
 
 use App,
 	Mail,
+	Config,
 	Request;
 
 class UserEventHandler {
@@ -17,16 +18,14 @@ class UserEventHandler {
 		);
 
 		// Send the email
-		Mail::queue('emails.users.created', $data, function($msg) use ($user)
+		Mail::queue('emails.userCreated', $data, function($msg) use ($user)
 		{
-			$msg->to($user->email)->subject("Welcome to Brian Jacobs Golf!");
+			$msg->to($user->email)
+				->subject(Config::get('bjga.email.subject')." Welcome to Brian Jacobs Golf!");
 		});
 	}
 
-	public function onUserDeleted($user)
-	{
-		// Unsubscribe the member from the MailChimp list
-	}
+	public function onUserDeleted($user){}
 
 	public function onUserPasswordReminder($data){}
 
@@ -72,22 +71,40 @@ class UserEventHandler {
 		);
 
 		// Send the email
-		Mail::queue('emails.users.registered', $data, function($msg) use ($user)
+		Mail::queue('emails.userRegistered', $data, function($msg) use ($user)
 		{
-			$msg->to($user->email)->subject("Welcome to Brian Jacobs Golf!");
+			$msg->to($user->email)
+				->subject(Config::get('bjga.email.subject')." Welcome to Brian Jacobs Golf!");
 		});
 	}
 
-	public function onUserUpdated($user, $input)
-	{
-		// Update the user's MailChimp subscription status
+	public function onUserUpdated($user, $input){}
 
-		// Update the user's MailChimp info
+	public function onStaffCreated($staff)
+	{
+		// Set the email data
+		$data = array('name' => $staff->user->name);
+
+		// Send the email
+		Mail::queue('emails.staffCreated', $data, function($msg) use ($staff)
+		{
+			$msg->to($staff->user->email)
+				->subject(Config::get('bjga.email.subject')." Staff Account Created");
+		});
 	}
 
-	public function onStaffCreated($staff){}
+	public function onStaffDeleted($staff)
+	{
+		// Set the email data
+		$data = array('name' => $staff->user->name);
 
-	public function onStaffDeleted($staff){}
+		// Send the email
+		Mail::queue('emails.staffDeleted', $data, function($msg) use ($staff)
+		{
+			$msg->to($staff->user->email)
+				->subject(Config::get('bjga.email.subject')." Staff Account Deleted");
+		});
+	}
 
 	public function onStaffUpdated($item){}
 

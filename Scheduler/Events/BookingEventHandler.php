@@ -8,15 +8,22 @@ class BookingEventHandler {
 
 	public function createBlock($user, $appt)
 	{
+		// Update the calendar
 		Queue::push('Scheduler\Services\CalendarService', array('model' => $user));
 	}
 
 	public function createLesson($service, $staffAppt, $userAppt)
 	{
+		// Update the calendar
 		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
+
+		// Notify the user they've booked
 	}
 
-	public function createProgram($service, $userAppt){}
+	public function createProgram($service, $userAppt)
+	{
+		// Notify the user they've enrolled
+	}
 
 	public function studentCancelled($staffAppt, $user, $reason)
 	{

@@ -1,6 +1,8 @@
 <?php namespace Scheduler\Events;
 
-use Mail, Queue;
+use Mail,
+	Queue,
+	Config;
 
 class ServiceEventHandler {
 
@@ -21,18 +23,16 @@ class ServiceEventHandler {
 			Queue::push('Scheduler\Services\CalendarService', array('model' => $service));
 
 			// Set the data for the email
-			$data = array(
-				'service' => $service
-			);
+			$data = array('service' => $service);
 
 			// Set the recipients
 			$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
 
 			// Email the attendees
-			Mail::queue('emails.services.deleted', $data, function($message) use ($recipients, $service)
+			Mail::queue('emails.serviceDeleted', $data, function($message) use ($recipients, $service)
 			{
 				$message->to($recipients)
-					->subject("[Brian Jacobs Golf] {$service->name} Has Been Cancelled");
+					->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Cancelled");
 			});
 		}
 	}
@@ -54,10 +54,10 @@ class ServiceEventHandler {
 			$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
 
 			// Email the attendees
-			Mail::queue('emails.services.updated', $data, function($message) use ($recipients, $service)
+			Mail::queue('emails.serviceUpdated', $data, function($message) use ($recipients, $service)
 			{
 				$message->to($recipients)
-					->subject("[Brian Jacobs Golf] {$service->name} Has Been Updated");
+					->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Updated");
 			});
 		}
 	}
