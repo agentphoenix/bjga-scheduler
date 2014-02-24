@@ -174,7 +174,7 @@ class HomeController extends BaseController {
 		// Send the email
 		Mail::queue('emails.system.reportProblem', $data, function($msg) use ($user)
 		{
-			$msg->to('david.vanscott@gmail.com', 'David VanScott')
+			$msg->to(Config::get('bjga.email.adminAddress'))
 				->from($user->email, $user->name)
 				->subject(Config::get('bjga.email.subject').' Scheduler Problem Report');
 		});

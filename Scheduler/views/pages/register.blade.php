@@ -2,7 +2,7 @@
 
 @section('title')
 	Register
-@endsection
+@stop
 
 @section('content')
 	<div class="row">
@@ -100,4 +100,4 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-@endsection
+@stop

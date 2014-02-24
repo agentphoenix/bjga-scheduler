@@ -99,14 +99,19 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Event::listen('appointment.created', 'Scheduler\Events\AppointmentEventHandler@onCreated');
 		Event::listen('appointment.updated', 'Scheduler\Events\AppointmentEventHandler@onUpdated');
 
+		/**
+		 * If a queue item fails, send an email.
+		 */
 		Queue::failing(function($job, $data)
 		{
+			// Set the data to be used in the email
 			$emailData = array('job' => $job, 'data' => $data);
 
+			// Send the email
 			Mail::queue('emails.system.failedQueueJob', $emailData, function($message)
 			{
-				$message->to('david.vanscott@gmail.com')
-					->subject('[Brian Jacobs Golf - Scheduler] Queue Job Failed');
+				$message->to(Config::get('bjga.email.adminAddress'))
+					->subject(Config::get('bjga.email.subject').' Scheduler Queue Job Failed');
 			});
 		});
 	}
