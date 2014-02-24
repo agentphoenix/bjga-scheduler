@@ -31,11 +31,14 @@ class BookingService {
 			'end'			=> $data['end'],
 		));
 
+		// Get the current user
+		$user = Auth::user();
+
 		// Fire the lesson booking event
-		Event::fire('book.block.created', array(Auth::user(), $block));
+		Event::fire('book.block.created', array($user, $block));
 	}
 
-	public function lesson(array $data)
+	public function lesson(array $data, $staffCreated = false)
 	{
 		// Get the service
 		$service = $this->service->find($data['service_id']);
@@ -135,7 +138,14 @@ class BookingService {
 		}
 
 		// Fire the lesson booking event
-		Event::fire('book.lesson.created', array($service, $bookStaff, $bookUser));
+		if ($staffCreated)
+		{
+			Event::fire('appointment.created', array($service, $bookStaff, $bookUser));
+		}
+		else
+		{
+			Event::fire('book.lesson.created', array($service, $bookStaff, $bookUser));
+		}
 	}
 
 	public function program(array $data)
@@ -227,15 +237,77 @@ class BookingService {
 		}
 	}
 
-	public function cancel($appointmentId, $reason)
+	/**
+	 * @param	string	$type			Who is taking the action (student, instructor)
+	 * @param	int		$appointmentId	Staff appointment ID
+	 * @param	string	$reason			The reason the appointment is being cancelled
+	 */
+	public function cancel($type, $appointmentId, $reason)
 	{
 		// Find the staff appointment
 		$staffAppt = StaffAppointmentModel::find($appointmentId);
+
+		// Get the current user
+		$user = Auth::user();
 
 		if ($staffAppt)
 		{
 			// Get the service
 			$service = $staffAppt->service;
+
+			// Start an array for holding email addresses
+			$emails = array();
+
+			/**
+			 * Recurring lesson.
+			 */
+			if ($service->isLesson() and $service->isRecurring() and $type == 'instructor')
+			{
+				//
+			}
+
+			/**
+			 * Non-recurring lesson.
+			 */
+			if ($service->isLesson() and ! $service->isRecurring())
+			{
+				// Get the user appointment
+				$userAppt = $staffAppt->userAppointments->first();
+
+				// Send the email to...
+				$emails[] = $userAppt->user->email;
+
+				// Delete the user appointment record
+				$userAppt->forceDelete();
+
+				// Delete the staff appointment
+				$staffAppt->forceDelete();
+			}
+
+			/**
+			 * Program.
+			 */
+			if ($service->isProgram())
+			{
+				foreach ($staffAppt->userAppointments as $ua)
+				{
+					// Get the email addresses
+					$emails[] = $ua->user->email;
+
+					// Delete the user appointment
+					if ($service->isRecurring())
+					{
+						$ua->delete();
+					}
+					else
+					{
+						$ua->forceDelete();
+					}
+				}
+
+				// Delete the staff appointment
+				$staffAppt->delete();
+			}
 
 			if ($staffAppt->userAppointments->count() > 0)
 			{
