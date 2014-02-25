@@ -47,10 +47,28 @@
 			</div>
 		</div>
 
+		<div class="row hide">
+			<div class="col-lg-12">
+				<div class="alert alert-warning">
+					<p>You have 3 minutes to select a time for your lesson. If you don't select a time within 3 minutes, you will have to check availability again.</p>
+					<p class="text-lg" id="availabilityCountdown"></p>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="form-group">
 					<div class="ajax-container"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row hide">
+			<div class="col-lg-12">
+				<div class="alert alert-warning">
+					<p>Your selections have been made. You have 3 minutes to book your lesson for the selected date and time. If you don't book within 3 minutes, you will have to check availability again.</p>
+					<p class="text-lg" id="finalCountdown"></p>
 				</div>
 			</div>
 		</div>
@@ -137,8 +155,10 @@
 @stop
 
 @section('scripts')
-	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+	{{ HTML::script('js/moment.min.js') }}
+	{{ HTML::script('js/bootstrap-datetimepicker.min.js') }}
+	{{ HTML::script('js/jquery.plugin.min.js') }}
+	{{ HTML::script('js/jquery.countdown.min.js') }}
 	<script>
 
 		$(document).on('click', '.js-check', function(e)
@@ -158,6 +178,19 @@
 					success: function(data)
 					{
 						$('.ajax-container').html(data);
+
+						// Start the countdown
+						$('#availabilityCountdown').countdown({
+							until: moment().add('minutes', 3).toDate(),
+							compact: true, 
+							layout: "{mnn}{sep}{snn}"
+						});
+
+						// Show the timer
+						$('#availabilityCountdown').closest('.row').removeClass('hide');
+
+						// 3 minutes... GO!
+						setTimeout("resetOptions()", 180000);
 					}
 				});
 			}
@@ -172,6 +205,20 @@
 			$('.js-check').closest('.row').addClass('hide');
 			$('.ajax-container').closest('.row').addClass('hide');
 			$('.bookingForm').removeClass('hide');
+			$('#availabilityCountdown').closest('.row').addClass('hide');
+
+			// Start the countdown
+			$('#finalCountdown').countdown({
+				until: moment().add('minutes', 3).toDate(),
+				compact: true, 
+				layout: "{mnn}{sep}{snn}"
+			});
+
+			// Show the timer
+			$('#finalCountdown').closest('.row').removeClass('hide');
+
+			// 3 minutes... GO!
+			setTimeout("resetOptions()", 180000);
 		});
 
 		$('[name="service_id"]').on('change', function(e)
@@ -208,6 +255,7 @@
 			$('.bookingForm').addClass('hide');
 			$('.ajax-container').html('').closest('.row').removeClass('hide');
 			$('.js-check').closest('.row').removeClass('hide');
+			$('#availabilityCountdown').closest('.row').addClass('hide');
 		});
 
 		$(function()
@@ -221,6 +269,17 @@
 				startDate: now
 			});
 		});
+
+		function resetOptions()
+		{
+			$('#lessonServiceDetails').addClass('hide');
+			$('.ajax-container').html('').closest('.row').removeClass('hide');
+			$('#availabilityCountdown').closest('.row').addClass('hide');
+			$('[name="time"]').val('');
+			$('[name="timeDisplay"]').val('');
+			$('.bookingForm').addClass('hide');
+			$('.js-check').closest('.row').removeClass('hide');
+		}
 
 	</script>
 @stop
