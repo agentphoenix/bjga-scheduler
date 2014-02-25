@@ -8,6 +8,7 @@ use App,
 	Queue,
 	Config;
 use Drewm\MailChimp;
+use Ikimea\Browser\Browser;
 use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 use Scheduler\Services\BookingService,
@@ -19,10 +20,12 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->setupMarkdown();
 		$this->setupMailchimp();
+		//$this->setupBrowser();
 	}
 
 	public function boot()
 	{
+		//$this->browserCheck();
 		$this->setupBindings();
 		$this->setupEventListeners();
 		$this->setupBooking();
@@ -52,6 +55,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->app['scheduler.mailchimp'] = $this->app->share(function($app)
 		{
 			return new MailChimp('f04794d1de4fc62cf6ec66f764edc967-us3');
+		});
+	}
+
+	protected function setupBrowser()
+	{
+		$this->app['scheduler.browser'] = $this->app->share(function($app)
+		{
+			return new Browser;
 		});
 	}
 
@@ -112,6 +123,22 @@ class SchedulerServiceProvider extends ServiceProvider {
 				$message->to(Config::get('bjga.email.adminAddress'))
 					->subject(Config::get('bjga.email.subject').' Scheduler Queue Job Failed');
 			});
+		});
+	}
+
+	protected function browserCheck()
+	{
+		$this->app->before(function($request)
+		{
+			// Get the browser object
+			$browser = App::make('scheduler.browser');
+
+			// Anything below IE 9 and we're gonna say no
+			if ($browser->getBrowser() == Browser::BROWSER_IE and $browser->getVersion() < 9)
+			{
+				header("Location: browser.php");
+				die();
+			}
 		});
 	}
 
