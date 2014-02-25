@@ -37,8 +37,13 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 				$q->where('start', '>=', $today);
 
 				if ($days > 0)
+				{
 					$q->where('start', '<=', $today->copy()->addDays($days));
-			}))->get()->sortBy(function($x)
+				}
+			}))->get()->filter(function($f)
+			{
+				return $f->appointments->count() > 0;
+			})->sortBy(function($x)
 			{
 				return $x->appointments->first()->start;
 			});
