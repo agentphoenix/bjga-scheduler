@@ -14,8 +14,8 @@
 	<![endif]-->
 
 	@if (App::environment() == 'production')
-		<link href="http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600,700" rel="stylesheet">
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,600" rel="stylesheet">
+		<link href="http://fonts.googleapis.com/css?family=Exo+2:400,500,500italic,600" rel="stylesheet">
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
 		<link href="http://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet">
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	@else
