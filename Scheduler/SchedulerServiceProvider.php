@@ -133,8 +133,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 			// Get the browser object
 			$browser = App::make('scheduler.browser');
 
-			// Anything below IE 9 and we're gonna say no
-			if ($browser->getBrowser() == Browser::BROWSER_IE and $browser->getVersion() < 9)
+			$supported = array(
+				Browser::BROWSER_IE			=> 9,
+				Browser::BROWSER_CHROME		=> 26,
+				Browser::BROWSER_FIREFOX	=> 20,
+			);
+
+			if (array_key_exists($browser->getBrowser(), $supported) 
+					and $browser->getVersion() < $supported[$browser->getBrowser()])
 			{
 				header("Location: browser.php");
 				die();
