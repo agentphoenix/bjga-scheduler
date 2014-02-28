@@ -99,10 +99,16 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			{
 				if ($s->appointments)
 				{
+					// Get today
+					$today = Date::now();
+
+					// Build the start date
 					$startDate = $s->appointments->first()->start;
+
+					// Build the end date
 					$endDate = $startDate->copy()->addDays($timeframe)->endOfDay();
 
-					return $startDate->lte($endDate);
+					return $startDate >= $today and $startDate <= $endDate;
 				}
 			});
 		}
