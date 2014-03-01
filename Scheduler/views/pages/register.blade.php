@@ -2,7 +2,7 @@
 
 @section('title')
 	Register
-@endsection
+@stop
 
 @section('content')
 	<div class="row">
@@ -70,6 +70,17 @@
 
 				<div class="row">
 					<div class="col-lg-12">
+						<div class="form-group{{ ($errors->has('confirm')) ? ' has-error' : '' }}">
+							<label class="control-label">Anti-Spam Confirmation</label>
+							<p>In order to prevent spam, please type in the following number to the field below: <strong>{{ $confirmNumber }}</strong>.</p>
+							{{ Form::text('confirm', null, array('class' => 'form-control input-lg')) }}
+							{{ $errors->first('confirm', '<p class="help-block">:message</p>') }}
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
 						<div class="form-group">
 							<div>
 								<label class="checkbox-inline text-sm">
@@ -89,4 +100,4 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-@endsection
+@stop

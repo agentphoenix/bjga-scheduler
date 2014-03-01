@@ -8,6 +8,7 @@ use App,
 	Queue,
 	Config;
 use Drewm\MailChimp;
+use Ikimea\Browser\Browser;
 use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 use Scheduler\Services\BookingService,
@@ -19,10 +20,12 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->setupMarkdown();
 		$this->setupMailchimp();
+		//$this->setupBrowser();
 	}
 
 	public function boot()
 	{
+		//$this->browserCheck();
 		$this->setupBindings();
 		$this->setupEventListeners();
 		$this->setupBooking();
@@ -52,6 +55,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->app['scheduler.mailchimp'] = $this->app->share(function($app)
 		{
 			return new MailChimp('f04794d1de4fc62cf6ec66f764edc967-us3');
+		});
+	}
+
+	protected function setupBrowser()
+	{
+		$this->app['scheduler.browser'] = $this->app->share(function($app)
+		{
+			return new Browser;
 		});
 	}
 
@@ -98,15 +109,42 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Event::listen('appointment.created', 'Scheduler\Events\AppointmentEventHandler@onCreated');
 		Event::listen('appointment.updated', 'Scheduler\Events\AppointmentEventHandler@onUpdated');
 
+		/**
+		 * If a queue item fails, send an email.
+		 */
 		Queue::failing(function($job, $data)
 		{
+			// Set the data to be used in the email
 			$emailData = array('job' => $job, 'data' => $data);
 
-			Mail::queue('emails.system.failedQueueJob', $emailData, function($message)
+			// Send the email
+			Mail::queue('emails.failedQueueJob', $emailData, function($message)
 			{
-				$message->to('david.vanscott@gmail.com')
-					->subject('[Brian Jacobs Golf - Scheduler] Queue Job Failed');
+				$message->to(Config::get('bjga.email.adminAddress'))
+					->subject(Config::get('bjga.email.subject').' Scheduler Queue Job Failed');
 			});
+		});
+	}
+
+	protected function browserCheck()
+	{
+		$this->app->before(function($request)
+		{
+			// Get the browser object
+			$browser = App::make('scheduler.browser');
+
+			$supported = array(
+				Browser::BROWSER_IE			=> 9,
+				Browser::BROWSER_CHROME		=> 26,
+				Browser::BROWSER_FIREFOX	=> 20,
+			);
+
+			if (array_key_exists($browser->getBrowser(), $supported) 
+					and $browser->getVersion() < $supported[$browser->getBrowser()])
+			{
+				header("Location: browser.php");
+				die();
+			}
 		});
 	}
 

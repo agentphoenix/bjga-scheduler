@@ -16,6 +16,7 @@ return array(
 
 	'email' => array(
 
+		'adminAddress' => "admin@brianjacobsgolf.com",
 		'subject' => "[Brian Jacobs Golf]",
 
 	),

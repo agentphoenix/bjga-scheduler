@@ -145,8 +145,8 @@
 			</div>
 		@endforeach
 	@else
-		{{ partial('common/alert', array('content' => "You don't have any upcoming appointments. Take this opportunity to book a lesson or enroll in a program today!")) }}
-
+		{{ partial('common/alert', array('content' => "No upcoming appointments.")) }}
+		
 		<div class="row">
 			<div class="col-sm-6 col-md-4 col-lg-3">
 				<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>

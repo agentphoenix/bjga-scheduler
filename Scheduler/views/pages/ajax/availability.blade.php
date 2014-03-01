@@ -2,8 +2,7 @@
 
 @section('content')
 	<?php $avail = count($availability);?>
-	<hr>
-
+	
 	<h3>Available Times</h3>
 
 	<div class="row">
@@ -22,4 +21,9 @@
 	@if ($avail === 0)
 		<p class="alert alert-warning">We're sorry, but we couldn't find enough available time for that service on {{ $date->format(Config::get('bjga.dates.date')) }}. Please choose a different date and try again.</p>
 	@endif
+@stop
+
+@section('scripts')
+	{{ HTML::script('js/jquery.plugin.min.js') }}
+	{{ HTML::script('js/jquery.countdown.min.js') }}
 @stop

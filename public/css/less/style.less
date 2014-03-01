@@ -63,9 +63,9 @@ header {
 					padding: 5px;
 		
 					color: @color-success-dark;
-					font-weight: 600;
+					font-weight: 500;
 					font-size: 18px;
-					font-family: @font-titillium;
+					font-family: @font-exo;
 					border: 1px solid transparent;
 					letter-spacing: .02em;
 					
@@ -95,8 +95,9 @@ nav.nav-sub {
 		color: rgba(255, 255, 255, .4);
 		text-transform: uppercase;
 		font-size: @font-size;
-		font-weight: 600;
-		font-family: @font-titillium;
+		font-weight: 500;
+		font-family: @font-exo;
+		font-style: italic;
 		letter-spacing: .02em;
 	}
 
@@ -130,6 +131,7 @@ nav.nav-sub {
 			&.active {
 				a {
 					color: @color-white;
+					letter-spacing: .01em;
 					text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
 				}
 			}
@@ -154,8 +156,10 @@ section {
 	h2, h3, h4 {
 		margin: @spacing 0;
 		
-		font-family: @font-titillium;
+		font-family: @font-exo;
 		color: @color-gray-dark;
+		font-weight: 500;
+		font-style: italic;
 	}
 	h4 {
 		margin: 12px 0;
@@ -206,7 +210,7 @@ section {
 }
 
 .btn {
-	font-family: @font-titillium;
+	font-family: @font-exo;
 	font-weight: 600;
 	font-size: @font-size;
 	background: transparent;
@@ -302,7 +306,7 @@ section {
 form {
 	.control-label {
 		font-weight: 600;
-		font-family: @font-titillium;
+		font-family: @font-exo;
 		color: @color-gray-dark;
 		font-size: @font-size;
 	}
@@ -372,8 +376,8 @@ select {
 }
 
 .alert {
-	font-family: @font-titillium;
-	font-weight: 600;
+	font-family: @font-exo;
+	font-weight: 500;
 	font-size: @font-size;
 
 	.alert-variant(rgb(251, 246, 217), rgb(218, 208, 139), rgb(146, 131, 50));
@@ -633,7 +637,7 @@ dl {
 		margin-top: 10px;
 		line-height: @line-height;
 
-		font-family: @font-titillium;
+		font-family: @font-exo;
 		font-size: @font-size;
 		font-weight: 600;
 	}

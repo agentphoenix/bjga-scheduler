@@ -6,7 +6,7 @@
 	<body>
 		<h2>Service Update: {{ $service->name }}</h2>
 
-		<p>{{ $service->name }} has recently been updated. We've included updated information about the service below for your convenience. Please verify the information and ensure you've taken note of any changes to the schedule. If you have questions, please contact us.</p>
+		<p>{{ $service->name }} has recently been updated. We've included updated information about the service below for your convenience. Please verify the information and ensure you've taken note of any changes to the schedule. If you have questions, please contact us (contact@brianjacobsgolf.com).</p>
 
 		<p>Thank you, we look forward to serving you.</p>
 

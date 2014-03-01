@@ -9,7 +9,7 @@
 
 	{{ Form::open(array('route' => 'book.program.store')) }}
 		<div class="row">
-			<div class="col-lg-4">
+			<div class="col-lg-6">
 				<div class="form-group">
 					<label class="control-label">Service</label>
 					<div class="controls">

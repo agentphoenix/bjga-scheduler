@@ -12,3 +12,5 @@
 	- https://github.com/moment/moment
 - Trunk.js
 	- http://www.roblukedesign.com/trunk/trunk.html
+- jQuery Countdown 2.0
+	- http://keith-wood.name/countdown.html

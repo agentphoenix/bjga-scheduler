@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "89462e694d0a91bd9fc1e8fcc429bd6e",
+    "hash": "fb60109c0da220cc76bd8dfcabe64799",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -234,6 +234,55 @@
             "time": "2013-12-04 14:19:30"
         },
         {
+            "name": "ikimea/browser",
+            "version": "1.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ikimea/Browser.git",
+                "reference": "0c18f3c4ba6db77d7ad6fab7348d3354b69239bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ikimea/Browser/zipball/0c18f3c4ba6db77d7ad6fab7348d3354b69239bd",
+                "reference": "0c18f3c4ba6db77d7ad6fab7348d3354b69239bd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Ikimea\\Browser\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ikimea",
+                    "homepage": "http://www.ikimea.com"
+                },
+                {
+                    "name": "Chris Schuld",
+                    "email": "chris@chrisschuld.com",
+                    "homepage": "http://chrisschuld.com"
+                },
+                {
+                    "name": "Gary White",
+                    "homepage": "http://www.apptools.com/phptools/browser/"
+                }
+            ],
+            "description": "Detecting the user’s browser",
+            "homepage": "http://www.ikimea.com",
+            "keywords": [
+                "browser"
+            ],
+            "time": "2013-08-18 10:17:54"
+        },
+        {
             "name": "ircmaxell/password-compat",
             "version": "1.0.3",
             "source": {
@@ -416,16 +465,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.1.22",
+            "version": "v4.1.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a18a892c9d768464249baa1d16117fe52e0a7004"
+                "reference": "054c1a29aaf537c6c6ca7e7804375c671eddcaaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a18a892c9d768464249baa1d16117fe52e0a7004",
-                "reference": "a18a892c9d768464249baa1d16117fe52e0a7004",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/054c1a29aaf537c6c6ca7e7804375c671eddcaaf",
+                "reference": "054c1a29aaf537c6c6ca7e7804375c671eddcaaf",
                 "shasum": ""
             },
             "require": {
@@ -529,7 +578,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-02-20 15:13:32"
+            "time": "2014-02-28 22:07:47"
         },
         {
             "name": "monolog/monolog",
@@ -741,25 +790,28 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "0.3.5",
+            "version": "0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "fe3765fe1773c9d62985d05d5b5da24c921c4bd0"
+                "reference": "76c9692908a6c25601df2db373043fcbb335332e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/fe3765fe1773c9d62985d05d5b5da24c921c4bd0",
-                "reference": "fe3765fe1773c9d62985d05d5b5da24c921c4bd0",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/76c9692908a6c25601df2db373043fcbb335332e",
+                "reference": "76c9692908a6c25601df2db373043fcbb335332e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.0.0"
             },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "1.*"
+            },
             "suggest": {
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
-                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP >= 4.3.3."
+                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 4.3.3."
             },
             "type": "library",
             "extra": {
@@ -790,6 +842,21 @@
                     "name": "Jim Wigginton",
                     "email": "terrafrost@php.net",
                     "role": "Lead Developer"
+                },
+                {
+                    "name": "Patrick Monnerat",
+                    "email": "pm@datasphere.ch",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andreas Fischer",
+                    "email": "bantu@phpbb.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Hans-Jürgen Petrich",
+                    "email": "petrich@tronic-media.com",
+                    "role": "Developer"
                 }
             ],
             "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
@@ -799,6 +866,7 @@
                 "aes",
                 "asn.1",
                 "asn1",
+                "blowfish",
                 "crypto",
                 "cryptography",
                 "encryption",
@@ -808,10 +876,11 @@
                 "signature",
                 "signing",
                 "ssh",
+                "twofish",
                 "x.509",
                 "x509"
             ],
-            "time": "2013-06-08 17:40:39"
+            "time": "2014-02-23 01:03:22"
         },
         {
             "name": "predis/predis",

@@ -2,12 +2,10 @@ composer.phar
 .DS_Store
 
 .env.local.php
-.env.production.php
-app/config/local/database.php
+.env.php
 bootstrap/compiled.php
 vendor
-public/calendars/BrianJacobs.ics
-public/calendars/DavidVanScott.ics
+public/calendars/*.ics
 
-bjga-scheduler.sublime-project
-bjga-scheduler.sublime-workspace
+*.sublime-project
+*.sublime-workspace
