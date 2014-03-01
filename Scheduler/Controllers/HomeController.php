@@ -102,7 +102,7 @@ class HomeController extends BaseController {
 		{
 			Auth::login($user, true);
 
-			Event::fire('scheduler.user.registered', array($user));
+			Event::fire('user.registered', array($user, Input::all()));
 
 			return Redirect::route('home');
 		}

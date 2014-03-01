@@ -23,10 +23,7 @@ class UserEventHandler {
 		});
 	}
 
-	public function onUserDeleted($user)
-	{
-		// Unsubscribe the member from the MailChimp list
-	}
+	public function onUserDeleted($user){}
 
 	public function onUserPasswordReminder($data){}
 
@@ -34,21 +31,21 @@ class UserEventHandler {
 
 	public function onUserRegistered($user, $input)
 	{
-		if (App::environment() == 'production')
+		if (App::environment() == 'production' or App::environment() == 'local')
 		{
 			// Subscribe the user to the mailchimp list
 			if (isset($input['mailchimp_optin']) and $input['mailchimp_optin'] == '1')
 			{
+				// Break the user name out
+				$name = explode(' ', $input['name']);
+				$firstName = (isset($name[0])) ? $name[0] : false;
+				$lastName = (isset($name[1])) ? $name[1] : false;
+
 				// Get the MailChimp instance
 				$mailchimp = App::make('scheduler.mailchimp');
 
 				// Get the list
 				$list = $mailchimp->call('lists/list', array('list_name' => 'Subscribers'));
-
-				// Break the user name out
-				$name = explode(' ', $input['name']);
-				$firstName = (isset($name[0])) ? $name[0] : false;
-				$lastName = (isset($name[1])) ? $name[1] : false;
 
 				// Subscribe the user
 				$result = $mailchimp->call('lists/subscribe', array(
@@ -78,12 +75,7 @@ class UserEventHandler {
 		});
 	}
 
-	public function onUserUpdated($user, $input)
-	{
-		// Update the user's MailChimp subscription status
-
-		// Update the user's MailChimp info
-	}
+	public function onUserUpdated($user, $input){}
 
 	public function onStaffCreated($staff){}
 
