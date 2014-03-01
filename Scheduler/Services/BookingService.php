@@ -339,4 +339,284 @@ class BookingService {
 		}
 	}
 
+	public function doCancel($type, $appointmentId, $reason, $cancelAll = false)
+	{
+		// Get the staff appointment
+		$staffAppt = StaffAppointmentModel::find($appointmentId);
+
+		if ($staffAppt)
+		{
+			// Get the current user
+			$user = Auth::user();
+
+			// Start an array for holding email addresses
+			$emails = array();
+
+			if ($type == 'instructor')
+			{
+				$emails = $this->cancelByInstructor($staffAppt, $user);
+			}
+
+			if ($type == 'student')
+			{
+				$emails = $this->cancelByStudent($staffAppt, $user);
+			}
+
+			// Fire the event
+			Event::fire("book.cancel.{$type}", array($staffAppt, $user, $emails, $reason));
+		}
+	}
+
+	protected function cancelByInstructor($staffAppt, $user)
+	{
+		// Get the service
+		$service = $staffAppt->service;
+
+		// Array of email addresses
+		$emails = array();
+
+		/**
+		 * Non-recurring lesson.
+		 */
+		if ($service->isLesson() and ! $service->isRecurring())
+		{
+			// Get the user appointment
+			$userAppt = $staffAppt->userAppointments->first();
+
+			// Get the student's email address
+			$emails[] = $userAppt->user->email;
+
+			// Delete the user appointment record
+			$userAppt->forceDelete();
+
+			// Delete the staff appointment
+			$staffAppt->forceDelete();
+		}
+
+		/**
+		 * Recurring lesson.
+		 */
+		if ($service->isLesson() and $service->isRecurring())
+		{
+			if ($cancelAll)
+			{
+				// Get the entire collection of staff appointments
+				$staffSeries = $staffAppt->recur->staffAppointments;
+
+				foreach ($staffSeries as $seriesItem)
+				{
+					// Get the user appointment
+					$userAppt = $seriesItem->userAppointments->first();
+
+					// Get the student email address
+					$emails[] = $userAppt->user->email;
+
+					// Delete the user appointment
+					$userAppt->delete();
+
+					// Delete the staff appointment
+					$seriesItem->delete();
+				}
+			}
+			else
+			{
+				// Get the user appointment
+				$userAppt = $staffAppt->userAppointments->first();
+
+				// Get the student's email address
+				$emails[] = $userAppt->user->email;
+
+				// Delete the user appointment
+				$userAppt->delete();
+
+				// Delete the staff appointment
+				$staffAppt->delete();
+			}
+		}
+
+		/**
+		 * Non-recurring program.
+		 */
+		if ($service->isProgram() and ! $service->isRecurring())
+		{
+			foreach ($staffAppt->userAppointments as $userAppt)
+			{
+				// Get the attendee email addresses
+				$emails[] = $userAppt->user->email;
+
+				// Delete the user appointment
+				$userAppt->forceDelete();
+
+				// Delete the staff appointment
+				$staffAppt->delete();
+			}
+		}
+
+		/**
+		 * Recurring program.
+		 */
+		if ($service->isProgram() and $service->isRecurring())
+		{
+			if ($cancelAll)
+			{
+				foreach ($service->appointments as $sa)
+				{
+					foreach ($sa->userAppointments as $userAppt)
+					{
+						// Get the student email addresses
+						$emails[] = $userAppt->user->email;
+
+						// Delete the user appointment
+						$userAppt->delete();
+					}
+					
+					// Delete the staff appointments
+					$sa->delete();
+				}
+			}
+			else
+			{
+				foreach ($staffAppt->userAppointments as $userAppt)
+				{
+					// Get the student's email addresses
+					$emails[] = $userAppt->user->email;
+
+					// Delete the user appointment
+					$userAppt->delete();
+
+					// Delete the staff appointment
+					$staffAppt->delete();
+				}
+			}
+		}
+
+		return array_unique($emails);
+	}
+
+	protected function cancelByStudent($staffAppt, $user)
+	{
+		// Get the service
+		$service = $staffAppt->service;
+
+		/**
+		 * Recurring lesson.
+		 */
+		if ($service->isLesson() and $service->isRecurring())
+		{
+			if ($cancelAll)
+			{
+				// Get the entire collection of user appointments
+				$userSeries = $staffAppt->recur->userAppointments->filter(function($u) use ($user)
+				{
+					return (int) $u->user_id === (int) $user->id;
+				});
+
+				foreach ($userSeries as $userAppt)
+				{
+					// Get the instructor email address
+					$instructorEmail = $staffAppt->staff->user->email;
+
+					// Delete the user appointment
+					$userAppt->delete();
+
+					// Delete the staff appointment
+					$staffAppt->delete();
+				}
+
+				// Make sure our emails are unique
+				$emails = array_unique($emails);
+			}
+			else
+			{
+				// Get the user appointment
+				$userAppt = $staffAppt->userAppointments->first();
+
+				// Get the instructor's email address
+				$instructorEmail = $staffAppt->staff->user->email;
+
+				// Delete the user appointment
+				$userAppt->delete();
+
+				// Delete the staff appointment
+				$staffAppt->delete();
+			}
+		}
+
+		/**
+		 * Non-recurring lesson.
+		 */
+		if ($service->isLesson() and ! $service->isRecurring())
+		{
+			// Get the user appointment
+			$userAppt = $staffAppt->userAppointments->first();
+
+			// Get the student's email address
+			$instructorEmail = $staffAppt->staff->user->email;
+
+			// Delete the user appointment record
+			$userAppt->forceDelete();
+
+			// Delete the staff appointment
+			$staffAppt->forceDelete();
+		}
+
+		/**
+		 * Recurring program.
+		 */
+		if ($service->isProgram() and $service->isRecurring())
+		{
+			if ($cancelAll)
+			{
+				// Get the entire collection of user appointments
+				$userSeries = $staffAppt->recur->userAppointments;
+
+				foreach ($userSeries as $userAppt)
+				{
+					if ((int) $userAppt->user->id === (int) $user->id)
+					{
+						// Delete the user appointment
+						$userAppt->delete();
+					}
+				}
+
+				// Get the instructor email address
+				$instructorEmail = $staffAppt->staff->user->email;
+			}
+			else
+			{
+				// Get the user's appointment record
+				$userAppt = $staffAppt->userAppointments->filter(function($u) use ($user)
+				{
+					return (int) $u->user_id === (int) $user->id;
+				})->first();
+
+				// Delete the user appointment
+				$userAppt->delete();
+
+				// Get the instructor's email address
+				$instructorEmail = $staffAppt->staff->user->email;
+			}
+		}
+
+		/**
+		 * Non-recurring program.
+		 */
+		if ($service->isProgram() and ! $service->isRecurring())
+		{
+			// Get this user's appointment record
+			$userAppt = $staffAppt->userAppointments->filter(function($u) use ($user)
+			{
+				return (int) $u->user_id === (int) $user->id;
+			})->first();
+
+			// Delete the user appointment
+			$userAppt->forceDelete();
+
+			// Get the instructor email address
+			$instructorEmail = $staffAppt->staff->user->email;
+		}
+
+		return array($instructorEmail);
+	}
+
 }

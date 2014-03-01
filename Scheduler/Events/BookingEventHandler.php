@@ -32,9 +32,9 @@ class BookingEventHandler {
 		$user = $userAppt->user;
 
 		// Email the attendees
-		Mail::queue('emails.bookedLesson', $data, function($message) use ($user)
+		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user, $service)
 		{
-			$message->to($user->email)
+			$msg->to($user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Booked");
 		});
 	}
@@ -51,14 +51,14 @@ class BookingEventHandler {
 		$user = $userAppt->user;
 
 		// Email the attendees
-		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user)
+		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user, $service)
 		{
 			$msg->to($user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Enrollment");
 		});
 	}
 
-	public function studentCancelled($staffAppt, $user, $reason)
+	public function studentCancelled($staffAppt, $user, $emails, $reason)
 	{
 		// Get the service
 		$service = $staffAppt->service;
@@ -72,9 +72,9 @@ class BookingEventHandler {
 		);
 
 		// Email the attendees
-		Mail::queue('emails.studentCancelled', $data, function($message) use ($service)
+		Mail::queue('emails.studentCancelled', $data, function($message) use ($emails, $service)
 		{
-			$message->to($service->staff->user->email)
+			$message->to($emails)
 				->subject(Config::get('bjga.email.subject')." {$service->name} - Student Cancellation");
 		});
 
@@ -82,7 +82,7 @@ class BookingEventHandler {
 		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
 	}
 
-	public function instructorCancelled($staffAppt, $emails, $reason)
+	public function instructorCancelled($staffAppt, $user, $emails, $reason)
 	{
 		// Get the service
 		$service = $staffAppt->service;
