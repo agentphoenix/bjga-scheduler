@@ -1,4 +1,4 @@
-- Laravel 4.1.22
+- Laravel 4.1.23
 	- http://laravel.com
 - jQuery 2.1.0 (version 1.11.0 for less than IE 9)
 	- http://jquery.com
