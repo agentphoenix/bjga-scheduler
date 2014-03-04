@@ -242,7 +242,7 @@ class BookingService {
 	 * @param	int		$appointmentId	Staff appointment ID
 	 * @param	string	$reason			The reason the appointment is being cancelled
 	 */
-	public function cancel($type, $appointmentId, $reason)
+	public function old_cancel($type, $appointmentId, $reason)
 	{
 		// Find the staff appointment
 		$staffAppt = StaffAppointmentModel::find($appointmentId);
@@ -339,7 +339,7 @@ class BookingService {
 		}
 	}
 
-	public function doCancel($type, $appointmentId, $reason, $cancelAll = false)
+	public function cancel($type, $appointmentId, $reason, $cancelAll = false)
 	{
 		// Get the staff appointment
 		$staffAppt = StaffAppointmentModel::find($appointmentId);

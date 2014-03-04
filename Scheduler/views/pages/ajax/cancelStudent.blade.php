@@ -26,11 +26,30 @@
 <hr>
 
 {{ Form::open(array('route' => array('book.withdraw'))) }}
+	@if ($appointment->service->isRecurring())
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="form-group">
+					<div>
+						<label class="checkbox-inline text-sm">
+							{{ Form::checkbox('cancel_all', 1, false) }}
+							@if ($appointment->service->isLesson())
+								Withdraw from the entire series
+							@else
+								Withdraw from the entire program
+							@endif
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	@endif
+
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="form-group">
 				<label class="control-label">Please provide a brief explanation for the cancellation</label>
-				{{ Form::textarea('reason', null, array('class' => 'form-control')) }}
+				{{ Form::textarea('reason', null, array('class' => 'form-control', 'rows' => 8)) }}
 			</div>
 		</div>
 	</div>

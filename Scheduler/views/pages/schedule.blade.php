@@ -96,11 +96,9 @@
 										</div>
 									@endif
 								@else
-									@if ( ! $appt->service->isRecurring())
-										<div class="btn-group">
-											<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="user" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
-										</div>
-									@endif
+									<div class="btn-group">
+										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+									</div>
 								@endif
 							</div>
 						</div>
@@ -134,9 +132,7 @@
 									<p><a href="{{ URL::route('admin.staff.block') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
 								@endif
 							@else
-								@if ( ! $appt->service->isRecurring())
-									<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="user" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
-								@endif
+								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
 							@endif
 						</div>
 					</div>
