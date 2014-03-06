@@ -354,20 +354,22 @@ class BookingService {
 
 			if ($type == 'instructor')
 			{
-				$emails = $this->cancelByInstructor($staffAppt, $user);
+				$emails = $this->cancelByInstructor($staffAppt, $user, $cancelAll);
 			}
 
 			if ($type == 'student')
 			{
-				$emails = $this->cancelByStudent($staffAppt, $user);
+				$emails = $this->cancelByStudent($staffAppt, $user, $cancelAll);
 			}
+
+			\Log::info("Emails: ".implode(',', $emails));
 
 			// Fire the event
 			Event::fire("book.cancel.{$type}", array($staffAppt, $user, $emails, $reason));
 		}
 	}
 
-	protected function cancelByInstructor($staffAppt, $user)
+	protected function cancelByInstructor($staffAppt, $user, $cancelAll)
 	{
 		// Get the service
 		$service = $staffAppt->service;
@@ -391,6 +393,8 @@ class BookingService {
 
 			// Delete the staff appointment
 			$staffAppt->forceDelete();
+
+			\Log::info('instructor.lesson.nonrecurring');
 		}
 
 		/**
@@ -400,6 +404,15 @@ class BookingService {
 		{
 			if ($cancelAll)
 			{
+				// Get today
+				$now = Date::now();
+
+				// Get the start date for the series
+				$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
+				{
+					return $s->start;
+				})->first()->start;
+
 				// Get the entire collection of staff appointments
 				$staffSeries = $staffAppt->recur->staffAppointments;
 
@@ -411,11 +424,24 @@ class BookingService {
 					// Get the student email address
 					$emails[] = $userAppt->user->email;
 
-					// Delete the user appointment
-					$userAppt->delete();
+					if ($now > $seriesStart)
+					{
+						// Delete the user appointment
+						$userAppt->delete();
 
-					// Delete the staff appointment
-					$seriesItem->delete();
+						// Delete the staff appointment
+						$seriesItem->delete();
+					}
+					else
+					{
+						// Delete the user appointment
+						$userAppt->forceDelete();
+
+						// Delete the staff appointment
+						$seriesItem->forceDelete();
+					}
+
+					\Log::info('instructor.lesson.recurring.all');
 				}
 			}
 			else
@@ -431,6 +457,8 @@ class BookingService {
 
 				// Delete the staff appointment
 				$staffAppt->delete();
+
+				\Log::info('instructor.lesson.recurring.instance');
 			}
 		}
 
@@ -450,6 +478,8 @@ class BookingService {
 				// Delete the staff appointment
 				$staffAppt->delete();
 			}
+
+			\Log::info('instructor.program.nonrecurring');
 		}
 
 		/**
@@ -473,6 +503,8 @@ class BookingService {
 					// Delete the staff appointments
 					$sa->delete();
 				}
+
+				\Log::info('instructor.program.recurring.all');
 			}
 			else
 			{
@@ -487,13 +519,15 @@ class BookingService {
 					// Delete the staff appointment
 					$staffAppt->delete();
 				}
+
+				\Log::info('instructor.program.recurring.instance');
 			}
 		}
 
 		return array_unique($emails);
 	}
 
-	protected function cancelByStudent($staffAppt, $user)
+	protected function cancelByStudent($staffAppt, $user, $cancelAll)
 	{
 		// Get the service
 		$service = $staffAppt->service;
@@ -505,6 +539,15 @@ class BookingService {
 		{
 			if ($cancelAll)
 			{
+				// Get today
+				$now = Date::now();
+
+				// Get the start date for the series
+				$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
+				{
+					return $s->start;
+				})->first()->start;
+
 				// Get the entire collection of user appointments
 				$userSeries = $staffAppt->recur->userAppointments->filter(function($u) use ($user)
 				{
@@ -516,15 +559,26 @@ class BookingService {
 					// Get the instructor email address
 					$instructorEmail = $staffAppt->staff->user->email;
 
-					// Delete the user appointment
-					$userAppt->delete();
+					// The series has already started
+					if ($now > $seriesStart)
+					{
+						// Delete the user appointment
+						$userAppt->delete();
 
-					// Delete the staff appointment
-					$staffAppt->delete();
+						// Delete the staff appointment
+						$userAppt->appointment->delete();
+					}
+					else
+					{
+						// Delete the user appointment
+						$userAppt->forceDelete();
+
+						// Delete the staff appointment
+						$userAppt->appointment->forceDelete();
+					}
 				}
 
-				// Make sure our emails are unique
-				$emails = array_unique($emails);
+				\Log::info('student.lesson.recurring.all');
 			}
 			else
 			{
@@ -539,6 +593,8 @@ class BookingService {
 
 				// Delete the staff appointment
 				$staffAppt->delete();
+
+				\Log::info('student.lesson.recurring.instance');
 			}
 		}
 
@@ -558,6 +614,8 @@ class BookingService {
 
 			// Delete the staff appointment
 			$staffAppt->forceDelete();
+
+			\Log::info('student.lesson.nonrecurring');
 		}
 
 		/**
@@ -567,6 +625,15 @@ class BookingService {
 		{
 			if ($cancelAll)
 			{
+				// Get today
+				$now = Date::now();
+
+				// Get the start date for the series
+				$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
+				{
+					return $s->start;
+				})->first()->start;
+
 				// Get the entire collection of user appointments
 				$userSeries = $staffAppt->recur->userAppointments;
 
@@ -581,6 +648,8 @@ class BookingService {
 
 				// Get the instructor email address
 				$instructorEmail = $staffAppt->staff->user->email;
+
+				\Log::info('student.program.recurring.all');
 			}
 			else
 			{
@@ -595,6 +664,8 @@ class BookingService {
 
 				// Get the instructor's email address
 				$instructorEmail = $staffAppt->staff->user->email;
+
+				\Log::info('student.program.recurring.instance');
 			}
 		}
 
@@ -614,6 +685,8 @@ class BookingService {
 
 			// Get the instructor email address
 			$instructorEmail = $staffAppt->staff->user->email;
+
+			\Log::info('student.program.nonrecurring');
 		}
 
 		return array($instructorEmail);
