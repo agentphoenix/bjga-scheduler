@@ -18,12 +18,12 @@ class StaffAppointmentRecurModel extends Model {
 	
 	public function staffAppointments()
 	{
-		return $this->hasMany('StaffAppointmentModel');
+		return $this->hasMany('StaffAppointmentModel', 'recur_id');
 	}
 
 	public function userAppointments()
 	{
-		return $this->hasMany('UserAppointmentModel');
+		return $this->hasMany('UserAppointmentModel', 'recur_id');
 	}
 
 	/*
