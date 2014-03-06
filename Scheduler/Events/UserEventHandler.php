@@ -33,7 +33,7 @@ class UserEventHandler {
 
 	public function onUserRegistered($user, $input)
 	{
-		if (App::environment() == 'production' or App::environment() == 'local')
+		if (App::environment() == 'production')
 		{
 			// Subscribe the user to the mailchimp list
 			if (isset($input['mailchimp_optin']) and $input['mailchimp_optin'] == '1')
@@ -47,7 +47,7 @@ class UserEventHandler {
 				$mailchimp = App::make('scheduler.mailchimp');
 
 				// Get the list
-				$list = $mailchimp->call('lists/list', array('list_name' => 'Subscribers'));
+				$list = $mailchimp->call('lists/list', array('list_name' => 'Members'));
 
 				// Subscribe the user
 				$result = $mailchimp->call('lists/subscribe', array(
