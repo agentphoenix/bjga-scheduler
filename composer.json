@@ -5,7 +5,8 @@
 		"iron-io/iron_mq": "1.4.*",
 		"sabre/vobject" : "3.1.*",
 		"drewm/mailchimp-api": "*",
-		"ikimea/browser": "1.*"
+		"ikimea/browser": "1.*",
+		"indatus/dispatcher": "1.0.*"
 	},
 	
 	"require-dev": {
