@@ -59,7 +59,7 @@ class BookingEventHandler {
 		$user = $userAppt->user;
 
 		// Email the attendees
-		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user, $service)
+		Mail::queue('emails.bookedProgram', $data, function($msg) use ($user, $service)
 		{
 			$msg->to($user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Enrollment");
