@@ -13,16 +13,18 @@
 				<a href="{{ URL::route('events') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 
-			@if ( ! $_currentUser->isAttending($event->id))
-				<div class="btn-group">
-					<a href="#" class="btn btn-primary icn-size-16 js-enroll icn-size-16-with-text" data-service="{{ $event->id }}">Enroll Now</a>
-				</div>
-			@endif
+			@if (Auth::check())
+				@if ( ! $_currentUser->isAttending($event->id))
+					<div class="btn-group">
+						<a href="#" class="btn btn-primary icn-size-16 js-enroll icn-size-16-with-text" data-service="{{ $event->id }}">Enroll Now</a>
+					</div>
+				@endif
 
-			@if ($_currentUser->isAttending($event->id))
-				<div class="btn-group">
-					<a href="#" class="btn btn-danger icn-size-16 js-withdraw icn-size-16-with-text" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a>
-				</div>
+				@if ($_currentUser->isAttending($event->id))
+					<div class="btn-group">
+						<a href="#" class="btn btn-danger icn-size-16 js-withdraw icn-size-16-with-text" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a>
+					</div>
+				@endif
 			@endif
 		</div>
 	</div>
@@ -31,19 +33,26 @@
 			<div class="col-xs-6 col-sm-3">
 				<p><a href="{{ URL::route('events') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 			</div>
-			@if ( ! $_currentUser->isAttending($event->id))
-				<div class="col-xs-6 col-sm-3">
-					<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16-with-text js-enroll" data-service="{{ $event->id }}">Enroll Now</a></p>
-				</div>
-			@endif
 
-			@if ($_currentUser->isAttending($event->id))
-				<div class="col-xs-6 col-sm-3">
-					<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16-with-text js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a></p>
-				</div>
+			@if (Auth::check())
+				@if ( ! $_currentUser->isAttending($event->id))
+					<div class="col-xs-6 col-sm-3">
+						<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16-with-text js-enroll" data-service="{{ $event->id }}">Enroll Now</a></p>
+					</div>
+				@endif
+
+				@if ($_currentUser->isAttending($event->id))
+					<div class="col-xs-6 col-sm-3">
+						<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16-with-text js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a></p>
+					</div>
+				@endif
 			@endif
 		</div>
 	</div>
+
+	@if ( ! Auth::check())
+		{{ partial('common/alert', array('class' => ' alert-warning', 'content' => "Log in or register to enroll in this program!")) }}
+	@endif
 
 	<p>{{ $event->description }}</p>
 
