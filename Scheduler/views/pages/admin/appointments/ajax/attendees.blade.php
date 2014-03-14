@@ -28,7 +28,7 @@
 							@endif
 						</div>
 						<div class="col-xs-12 col-sm-6">
-							<p><a href="#" class="btn btn-sm btn-danger icn-size-16 js-removeAttendee" data-appt="{{ $a->appointment_id }}" data-user="{{ $a->user->id }}">{{ $_icons['reject'] }}</a></p>
+							<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-removeAttendee" data-appt="{{ $a->appointment_id }}" data-user="{{ $a->user->id }}">{{ $_icons['reject'] }}</a></p>
 						</div>
 					</div>
 				</div>
