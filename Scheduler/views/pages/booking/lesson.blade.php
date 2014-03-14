@@ -108,34 +108,6 @@
 				{{ Form::hidden('user', $_currentUser->id) }}
 			@endif
 
-			<!--<div class="row">
-				<div class="col-lg-4">
-					<div class="form-group">
-						<label class="control-label">Do you have a gift certificate?</label>
-						<div class="controls">
-							<label class="radio-inline text-sm">{{ Form::radio('has_gift', 1) }} Yes</label>
-							<label class="radio-inline text-sm">{{ Form::radio('has_gift', 0) }} No</label>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="hide giftCertificateAmount">
-				<div class="row">
-					<div class="col-sm-3 col-md-3 col-lg-2">
-						<div class="form-group">
-							<label class="control-label">Amount</label>
-							<div class="controls">
-								<div class="input-group">
-  									<span class="input-group-addon"><strong>$</strong></span>
-									{{ Form::text('gift_amount', null, array('class' => 'form-control')) }}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>-->
-
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="visible-md visible-lg">
@@ -161,12 +133,16 @@
 	{{ HTML::script('js/jquery.countdown.min.js') }}
 	<script>
 
+		var timer;
+
 		$(document).on('click', '.js-check', function(e)
 		{
 			e.preventDefault();
 
 			if ($('[name="service_id"] option:selected').val() == "0")
+			{
 				alert("Please select a service");
+			}
 			else
 			{
 				$.ajax({
@@ -190,7 +166,7 @@
 						$('#availabilityCountdown').closest('.row').removeClass('hide');
 
 						// 3 minutes... GO!
-						setTimeout("resetOptions()", 180000);
+						timer = setTimeout("resetOptions()", 180000);
 					}
 				});
 			}
@@ -218,11 +194,13 @@
 			$('#finalCountdown').closest('.row').removeClass('hide');
 
 			// 3 minutes... GO!
-			setTimeout("resetOptions()", 180000);
+			timer = setTimeout("resetOptions()", 180000);
 		});
 
 		$('[name="service_id"]').on('change', function(e)
 		{
+			resetOptions();
+
 			$.ajax({
 				url: "{{ URL::route('ajax.getLessonService') }}",
 				data: { service: $('[name="service_id"] option:selected').val() },
@@ -231,14 +209,6 @@
 					$('#lessonServiceDetails').html(data);
 				}
 			});
-		});
-
-		$('[name="has_gift"]').on('change', function(e)
-		{
-			if ($('[name="has_gift"]:checked').val() == "1")
-				$('.giftCertificateAmount').removeClass('hide');
-			else
-				$('.giftCertificateAmount').addClass('hide');
 		});
 
 		$('.js-change-time').on('click', function(e)
@@ -255,6 +225,8 @@
 			$('.bookingForm').addClass('hide');
 			$('.ajax-container').html('').closest('.row').removeClass('hide');
 			$('.js-check').closest('.row').removeClass('hide');
+
+			$('#availabilityCountdown').countdown('destroy');
 			$('#availabilityCountdown').closest('.row').addClass('hide');
 		});
 
@@ -272,6 +244,8 @@
 
 		function resetOptions()
 		{
+			clearTimeout(timer);
+
 			$('#lessonServiceDetails').addClass('hide');
 			$('.ajax-container').html('').closest('.row').removeClass('hide');
 			$('#availabilityCountdown').closest('.row').addClass('hide');
@@ -279,6 +253,12 @@
 			$('[name="timeDisplay"]').val('');
 			$('.bookingForm').addClass('hide');
 			$('.js-check').closest('.row').removeClass('hide');
+
+			$('#availabilityCountdown').countdown('destroy');
+			$('#finalCountdown').countdown('destroy');
+
+			$('#availabilityCountdown').closest('.row').addClass('hide');
+			$('#finalCountdown').closest('.row').addClass('hide');
 		}
 
 	</script>
