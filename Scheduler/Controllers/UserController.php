@@ -52,7 +52,7 @@ class UserController extends BaseController {
 
 	public function store()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 2)
 		{
 			$validator = new UserValidator;
 
@@ -165,7 +165,7 @@ class UserController extends BaseController {
 
 	public function destroy($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 2)
 		{
 			// Delete the user
 			$user = $this->user->delete($id);
