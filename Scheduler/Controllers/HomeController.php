@@ -91,6 +91,8 @@ class HomeController extends BaseController {
 			'password_confirm'	=> 'required|same:password',
 			'phone'				=> 'required',
 			'confirm'			=> 'required'
+		), array(
+			'email.unique'		=> "The email address you entered is already registered. You can <a href='".\URL::route('home')."'>log in</a>, or, if you've forgotten your password, you can reset it from the <a href='".\URL::to('password/remind')."'>Reset Password</a> page.",
 		));
 
 		// Validator failed
