@@ -17,6 +17,9 @@ class BookingEventHandler {
 		// Update the calendar
 		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
 
+		// Get the user
+		$user = $userAppt->user;
+
 		// Set the data
 		$data = array(
 			'service'		=> $service->name,
@@ -26,15 +29,20 @@ class BookingEventHandler {
 			'recurring' 	=> (bool) $service->isRecurring(),
 			'additional'	=> $service->occurrences - 1,
 			'days'			=> $service->occurrences_schedule,
+			'user'			=> $user,
 		);
-
-		// Get the user
-		$user = $userAppt->user;
 
 		// Email the attendees
 		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user, $service)
 		{
 			$msg->to($user->email)
+				->subject(Config::get('bjga.email.subject')." {$service->name} Booked");
+		});
+
+		// Email the instructor
+		Mail::queue('emails.bookedLessonInstructor', $data, function($msg) use ($user, $service)
+		{
+			$msg->to($service->staff->user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Booked");
 		});
 	}
