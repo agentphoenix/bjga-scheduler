@@ -92,7 +92,7 @@
 										</div>
 									@else
 										<div class="btn-group">
-											<a href="{{ URL::route('admin.staff.block') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
+											<a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
 										</div>
 									@endif
 								@else
@@ -129,7 +129,7 @@
 
 									<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
 								@else
-									<p><a href="{{ URL::route('admin.staff.block') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
+									<p><a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
 								@endif
 							@else
 								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
