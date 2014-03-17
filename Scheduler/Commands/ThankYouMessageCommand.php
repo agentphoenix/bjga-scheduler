@@ -32,17 +32,21 @@ class ThankYouMessageCommand extends ScheduledCommand {
 
 	public function schedule(Schedulable $scheduler)
 	{
-		return $scheduler->daily()->hours(22)->minutes(15);
+		return $scheduler->hourly();
 	}
 
 	public function fire()
 	{
-		// Get today
-		$today = Date::now();
+		// Get now
+		$now = Date::now();
+
+		// Set the target times
+		$target = $now->copy()->minute(0)->second(0)->subHours(12);
+		$targetEnd = $target->copy()->addHour();
 
 		// Get all appointments for today
-		$appointments = StaffAppointmentModel::where('start', '>=', $today->startOfDay())
-			->where('end', '<=', $today->endOfDay())->get();
+		$appointments = StaffAppointmentModel::where('start', '>=', $target)
+			->where('end', '<', $targetEnd)->get();
 
 		foreach ($appointments as $sa)
 		{
@@ -70,8 +74,6 @@ class ThankYouMessageCommand extends ScheduledCommand {
 					->subject(Config::get('bjga.email.subject').' Thank You for Choosing Brian Jacobs Golf');
 			});
 		}
-
-		$this->info("\nThank you emails have been sent!");
 	}
 
 }
