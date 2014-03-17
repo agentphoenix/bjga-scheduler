@@ -32,17 +32,21 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 
 	public function schedule(Schedulable $scheduler)
 	{
-		return $scheduler->daily()->hours(3)->minutes(15);
+		return $scheduler->hourly();
 	}
 
 	public function fire()
 	{
-		// Get today
-		$today = Date::now();
+		// Get right now
+		$now = Date::now();
 
-		// Get all appointments for today
-		$appointments = StaffAppointmentModel::where('start', '>=', $today->startOfDay())
-			->where('end', '<=', $today->endOfDay())->get();
+		// Set the target dates
+		$target = $now->copy()->minute(0)->second(0)->addDay();
+		$targetEnd = $target->copy()->addHour();
+
+		// Get all appointments for the hour
+		$appointments = StaffAppointmentModel::where('start', '>=', $target)
+			->where('end', '<', $targetEnd)->get();
 
 		foreach ($appointments as $sa)
 		{
@@ -72,8 +76,6 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 					->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder');
 			});
 		}
-
-		$this->info("\nReminder emails have been sent!");
 	}
 
 }
