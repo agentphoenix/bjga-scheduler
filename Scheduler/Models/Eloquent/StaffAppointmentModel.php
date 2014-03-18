@@ -1,6 +1,6 @@
 <?php namespace Scheduler\Models\Eloquent;
 
-use Model;
+use Date, Model;
 
 class StaffAppointmentModel extends Model {
 
@@ -76,6 +76,35 @@ class StaffAppointmentModel extends Model {
 		}
 
 		return $collection;
+	}
+
+	public function hasStarted()
+	{
+		// Get right now
+		$now = Date::now();
+
+		if ($this->service->isRecurring())
+		{
+			// Get the first appointment
+			$firstAppt = $this->recur->staffAppointments->sortBy(function($s)
+			{
+				return $s->start;
+			})->first();
+
+			if ($now > $firstAppt->start)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if ($now > $this->start)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 }
