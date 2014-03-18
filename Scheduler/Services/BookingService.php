@@ -38,7 +38,7 @@ class BookingService {
 		Event::fire('book.block.created', array($user, $block));
 	}
 
-	public function lesson(array $data, $staffCreated = false)
+	public function lesson(array $data, $staffCreated = false, $sendEmail = true)
 	{
 		// Get the service
 		$service = $this->service->find($data['service_id']);
@@ -140,7 +140,7 @@ class BookingService {
 		// Fire the lesson booking event
 		if ($staffCreated)
 		{
-			Event::fire('appointment.created', array($service, $bookStaff, $bookUser));
+			Event::fire('appointment.created', array($service, $bookStaff, $bookUser, $sendEmail));
 		}
 		else
 		{

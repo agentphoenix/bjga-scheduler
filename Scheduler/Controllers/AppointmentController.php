@@ -59,7 +59,7 @@ class AppointmentController extends BaseController {
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
 			// Do the booking
-			Book::lesson(Input::all(), true);
+			Book::lesson(Input::all(), true, (bool) Input::get('email_student', 0));
 
 			return Redirect::route('admin.appointment.index')
 				->with('message', 'Appointment was successfully created.')

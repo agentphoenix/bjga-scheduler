@@ -95,6 +95,18 @@
 
 		<div class="row">
 			<div class="col-lg-12">
+				<div class="form-group">
+					<div>
+						<label class="checkbox-inline text-sm">
+							{{ Form::checkbox('email_student', 1, true) }} Notify the student of the appointment
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
 				<div class="visible-md visible-lg">
 					<p>{{ Form::submit('Add Appointment', array('class' => 'btn btn-lg btn-primary')) }}</p>
 				</div>
