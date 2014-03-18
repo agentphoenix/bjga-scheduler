@@ -212,6 +212,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('user/email/service/{serviceId}/appt/{apptId}', 'Scheduler\Controllers\AjaxController@sendEmailFromService');
 			Route::get('user/email/user/{userId}', 'Scheduler\Controllers\AjaxController@sendEmailFromUser');
 			Route::get('user/email/unpaid/{userId}', 'Scheduler\Controllers\AjaxController@sendEmailFromUnpaid');
+			Route::get('user/email/instructor/appt/{apptId}', 'Scheduler\Controllers\AjaxController@sendEmailToInstructor');
 			Route::post('user/email', array(
 				'as'	=> 'ajax.emailUser',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@sendEmail'));

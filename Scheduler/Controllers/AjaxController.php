@@ -415,31 +415,45 @@ class AjaxController extends BaseController {
 		}
 	}
 
+	public function sendEmailToInstructor($apptId)
+	{
+		// Get the appointment
+		$appointment = $this->appointment->find($apptId);
+
+		if ($appointment)
+		{
+			return partial('common/modal_content', array(
+				'modalHeader'	=> "Email Instructor",
+				'modalBody'		=> View::make('pages.ajax.sendEmailInstructor')
+									->withStaff($appointment->staff)
+									->withRedirect('home'),
+				'modalFooter'	=> false,
+			));
+		}
+	}
+
 	public function sendEmail()
 	{
-		if ($this->currentUser->isStaff())
+		$emailData = array(
+			'subject'	=> Input::get('subject'),
+			'body'		=> Input::get('message'),
+		);
+
+
+		$input = Input::all();
+
+		Mail::queue('emails.sendToUser', $emailData, function($message) use ($input)
 		{
-			$emailData = array(
-				'subject'	=> Input::get('subject'),
-				'body'		=> Input::get('message'),
-			);
+			$message->subject("[Brian Jacobs Golf] {$input['subject']}");
 
+			$recipientArr = explode(',', $input['recipients']);
 
-			$input = Input::all();
+			$message->to($recipientArr);
+		});
 
-			Mail::queue('emails.sendToUser', $emailData, function($message) use ($input)
-			{
-				$message->subject("[Brian Jacobs Golf] {$input['subject']}");
-
-				$recipientArr = explode(',', $input['recipients']);
-
-				$message->to($recipientArr);
-			});
-
-			return Redirect::route(Input::get('redirect'))
-				->with('message', "Your email has been sent.")
-				->with('messageStatus', 'success');
-		}
+		return Redirect::route(Input::get('redirect'))
+			->with('message', "Your email has been sent.")
+			->with('messageStatus', 'success');
 	}
 
 	public function cancelModal($type, $id)

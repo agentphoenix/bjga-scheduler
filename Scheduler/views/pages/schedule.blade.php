@@ -97,8 +97,14 @@
 									@endif
 								@else
 									<div class="btn-group">
-										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+										<a href="#" class="btn btn-sm btn-default icn-size-16 js-email-instructor" data-appt="{{ $appt->id }}">{{ $_icons['email'] }}</a>
 									</div>
+
+									@if ( ! $appt->hasStarted())
+										<div class="btn-group">
+											<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+										</div>
+									@endif
 								@endif
 							</div>
 						</div>
@@ -132,7 +138,11 @@
 									<p><a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
 								@endif
 							@else
-								<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+								<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email-instructor" data-appt="{{ $appt->id }}">{{ $_icons['email'] }}</a></p>
+
+								@if ( ! $appt->hasStarted())
+									<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+								@endif
 							@endif
 						</div>
 					</div>
@@ -185,6 +195,17 @@
 
 			$('#sendEmail').modal({
 				remote: "{{ URL::to('ajax/user/email/service') }}/" + service + "/appt/" + appt
+			}).modal('show');
+		});
+
+		$('.js-email-instructor').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var appt = $(this).data('appt');
+
+			$('#sendEmail').modal({
+				remote: "{{ URL::to('ajax/user/email/instructor') }}/appt/" + appt
 			}).modal('show');
 		});
 
