@@ -45,7 +45,7 @@ class ThankYouMessageCommand extends ScheduledCommand {
 		$targetEnd = $target->copy()->addHour();
 
 		// Get all appointments for today
-		$appointments = StaffAppointmentModel::where('start', '>=', $target)
+		$appointments = StaffAppointmentModel::where('end', '>=', $target)
 			->where('end', '<', $targetEnd)->get();
 
 		foreach ($appointments as $sa)

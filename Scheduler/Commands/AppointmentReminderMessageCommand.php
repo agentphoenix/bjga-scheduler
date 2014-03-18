@@ -46,7 +46,7 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 
 		// Get all appointments for the hour
 		$appointments = StaffAppointmentModel::where('start', '>=', $target)
-			->where('end', '<', $targetEnd)->get();
+			->where('start', '<', $targetEnd)->get();
 
 		foreach ($appointments as $sa)
 		{
