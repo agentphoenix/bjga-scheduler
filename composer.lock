@@ -558,16 +558,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.1.23",
+            "version": "v4.1.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "054c1a29aaf537c6c6ca7e7804375c671eddcaaf"
+                "reference": "4f69e545e0ca19b54010ca4c68a66ba6de6e853c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/054c1a29aaf537c6c6ca7e7804375c671eddcaaf",
-                "reference": "054c1a29aaf537c6c6ca7e7804375c671eddcaaf",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4f69e545e0ca19b54010ca4c68a66ba6de6e853c",
+                "reference": "4f69e545e0ca19b54010ca4c68a66ba6de6e853c",
                 "shasum": ""
             },
             "require": {
@@ -630,7 +630,7 @@
                 "iron-io/iron_mq": "1.5.*",
                 "mockery/mockery": "0.9.*",
                 "pda/pheanstalk": "2.1.*",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.0.*"
             },
             "suggest": {
                 "doctrine/dbal": "Allow renaming columns and dropping SQLite columns."
@@ -671,7 +671,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-02-28 22:07:47"
+            "time": "2014-03-17 15:49:21"
         },
         {
             "name": "monolog/monolog",
