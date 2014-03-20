@@ -69,11 +69,22 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 				'end'		=> $sa->end->format(Config::get('bjga.dates.time')),
 			);
 
+			// Get the service
+			$service = $sa->service;
+
 			// Send the email
-			Mail::queue('emails.appointmentReminder', $data, function($msg) use ($emailsFinal)
+			Mail::queue('emails.appointmentReminder', $data, function($msg) use ($emailsFinal, $service)
 			{
-				$msg->to($emailsFinal)
-					->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder');
+				if ($service->isLesson())
+				{
+					$msg->to($emailsFinal);
+				}
+				else
+				{
+					$msg->bcc($emailsFinal);
+				}
+				
+				$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder');
 			});
 		}
 	}
