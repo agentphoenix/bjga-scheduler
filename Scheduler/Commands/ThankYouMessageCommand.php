@@ -65,13 +65,28 @@ class ThankYouMessageCommand extends ScheduledCommand {
 			// Build the data to be used in the email
 			$data = array(
 				'service' => $sa->service->name,
+				'type' => $sa->service->category,
 			);
 
+			// Get a random number
+			$number = mt_rand(1, 5);
+
+			// Get the service
+			$service = $sa->service;
+
 			// Send the email
-			Mail::queue('emails.appointmentReminder', $data, function($msg) use ($emailsFinal)
+			Mail::queue("emails.appointmentThankYou{$number}", $data, function($msg) use ($emailsFinal, $service)
 			{
-				$msg->to($emailsFinal)
-					->subject(Config::get('bjga.email.subject').' Thank You for Choosing Brian Jacobs Golf');
+				if ($service->isLesson())
+				{
+					$msg->to($emailsFinal);
+				}
+				else
+				{
+					$msg->bcc($emailsFinal);
+				}
+
+				$msg->subject(Config::get('bjga.email.subject').' Thank You for Choosing Brian Jacobs Golf');
 			});
 		}
 	}
