@@ -232,13 +232,11 @@
 
 		$(function()
 		{
-			var newDate = moment().add('days', 1);
-
 			$('.js-datepicker').datetimepicker({
 				pickTime: false,
 				format: "YYYY-MM-DD",
-				defaultDate: newDate,
-				startDate: newDate
+				defaultDate: moment().add('days', 1),
+				minDate: moment()
 			});
 		});
 

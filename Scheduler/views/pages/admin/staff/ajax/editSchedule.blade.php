@@ -43,12 +43,14 @@
 	{
 		$('.js-timepicker-start').datetimepicker({
 			pickDate: false,
-			format: "HH:mm A"
+			format: "HH:mm A",
+			useSeconds: false
 		});
 
 		$('.js-timepicker-end').datetimepicker({
 			pickDate: false,
-			format: "HH:mm A"
+			format: "HH:mm A",
+			useSeconds: false
 		});
 	});
 </script>

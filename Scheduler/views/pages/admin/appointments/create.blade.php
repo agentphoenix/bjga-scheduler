@@ -138,19 +138,17 @@
 
 		$(function()
 		{
-			var now = moment();
-
 			$('.js-datepicker').datetimepicker({
 				pickTime: false,
 				format: "YYYY-MM-DD",
-				defaultDate: now,
-				startDate: now
+				defaultDate: moment()
 			});
 
 			$('.js-timepicker').datetimepicker({
 				pickDate: false,
 				format: "HH:mm A",
-				minuteStepping: 15
+				minuteStepping: 15,
+				useSeconds: false
 			});
 		});
 

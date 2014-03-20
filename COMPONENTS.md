@@ -1,4 +1,4 @@
-- Laravel 4.1.23
+- Laravel 4.1.24
 	- http://laravel.com
 - jQuery 2.1.0 (version 1.11.0 for less than IE 9)
 	- http://jquery.com
@@ -6,7 +6,7 @@
 	- http://jqueryui.com
 - Bootstrap 3.1.1
 	- http://getbootstrap.com/
-- DateTimePicker 2.1.30
+- DateTimePicker 3.0.0
 	- https://github.com/Eonasdan/bootstrap-datetimepicker
 - Moment 2.5.1
 	- https://github.com/moment/moment

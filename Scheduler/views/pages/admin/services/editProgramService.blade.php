@@ -197,8 +197,7 @@
 				{
 					$(this).val('').datetimepicker({
 						pickTime: false,
-						format: "YYYY-MM-DD",
-						minuteStepping: 15
+						format: "YYYY-MM-DD"
 					});
 				}
 				else
@@ -206,7 +205,8 @@
 					$(this).datetimepicker({
 						pickDate: false,
 						format: "HH:mm A",
-						minuteStepping: 15
+						minuteStepping: 15,
+						useSeconds: false
 					});
 				}
 			}).end().appendTo('#serviceScheduleTable');
@@ -245,20 +245,21 @@
 					pickDate: false,
 					format: "HH:mm A",
 					minuteStepping: 15,
-					defaultDate: moment($(this).val(), "HH:mm:ss")
+					defaultDate: moment($(this).val(), "HH:mm:ss"),
+					useSeconds: false
 				});
 			});
 
 			$('.js-datepicker').datetimepicker({
 				pickTime: false,
-				format: "YYYY-MM-DD",
-				minuteStepping: 15
+				format: "YYYY-MM-DD"
 			});
 
 			$('.js-timepicker').datetimepicker({
 				pickDate: false,
 				format: "HH:mm A",
-				minuteStepping: 15
+				minuteStepping: 15,
+				useSeconds: false
 			});
 		});
 

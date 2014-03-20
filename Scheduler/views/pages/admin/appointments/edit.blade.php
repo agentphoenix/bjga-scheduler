@@ -122,7 +122,9 @@
 			$('.js-datepicker').datetimepicker({
 				format: "YYYY-MM-DD HH:mm:ss",
 				minuteStepping: 15,
-				defaultDate: moment($(this).val(), "HH:mm:ss")
+				defaultDate: moment($(this).val(), "HH:mm:ss"),
+				sideBySide: true,
+				useSeconds: false
 			});
 		});
 

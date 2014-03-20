@@ -173,7 +173,8 @@
 					$(this).datetimepicker({
 						pickDate: false,
 						format: "HH:mm A",
-						minuteStepping: 15
+						minuteStepping: 15,
+						useSeconds: false
 					});
 				}
 			}).end().appendTo('#serviceScheduleTable');
@@ -190,7 +191,8 @@
 			$('.js-timepicker').datetimepicker({
 				pickDate: false,
 				format: "HH:mm A",
-				minuteStepping: 15
+				minuteStepping: 15,
+				useSeconds: false
 			});
 		});
 
