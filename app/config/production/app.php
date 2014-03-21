@@ -4,6 +4,6 @@ return array(
 
 	'debug' => false,
 
-	'url' => 'http://localhost',
+	'url' => 'http://book.brianjacobsgolf.com',
 
 );

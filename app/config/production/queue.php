@@ -2,6 +2,6 @@
 
 return array(
 
-	'default' => 'sync',
+	'default' => 'iron',
 
 );

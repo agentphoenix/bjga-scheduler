@@ -181,11 +181,6 @@ return array(
 		'MailChimp'		=> 'Scheduler\Facades\MailChimp',
 		'Markdown'		=> 'Scheduler\Facades\Markdown',
 		'Model'			=> 'Scheduler\Extensions\Laravel\Database\Eloquent\Model',
-		
-		/**
-		 * Exceptions
-		 */
-		'ServiceFullException'		=> "Scheduler\Exceptions\ServiceFullException",
 
 		/**
 		 * Validators
