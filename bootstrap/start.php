@@ -26,8 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('HRS-M-2JH1K', 'IT-M-50T88', 'Whistler.local'),
-	//'foo' => array('dev.*', 'localhost'),
+	'local' => array('IT-M-50T88', 'Whistler.local'),
 
 ));
 
