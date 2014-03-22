@@ -107,6 +107,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
+		'Indatus\Dispatcher\ServiceProvider',
 		'Scheduler\SchedulerServiceProvider',
 		'Scheduler\SchedulerRoutingServiceProvider',
 
