@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1f4a3f88c78aec1fce086398c30a111e",
+    "hash": "b845d2a709b8e2c90e707e802d17d608",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -284,16 +284,16 @@
         },
         {
             "name": "indatus/dispatcher",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Indatus/dispatcher.git",
-                "reference": "6a3469c387c425fc29d16e80168933035a674152"
+                "reference": "e2c2f3100ccf9f0fdc460d2c320399045ed7252c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Indatus/dispatcher/zipball/6a3469c387c425fc29d16e80168933035a674152",
-                "reference": "6a3469c387c425fc29d16e80168933035a674152",
+                "url": "https://api.github.com/repos/Indatus/dispatcher/zipball/e2c2f3100ccf9f0fdc460d2c320399045ed7252c",
+                "reference": "e2c2f3100ccf9f0fdc460d2c320399045ed7252c",
                 "shasum": ""
             },
             "require": {
@@ -328,7 +328,7 @@
             "keywords": [
                 "laravel"
             ],
-            "time": "2014-03-08 04:29:59"
+            "time": "2014-03-21 02:59:52"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -420,16 +420,16 @@
         },
         {
             "name": "iron-io/iron_mq",
-            "version": "1.4.8",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iron-io/iron_mq_php.git",
-                "reference": "05a4b53cb0579822495325d5bcf05556fce9f8b0"
+                "reference": "82dde27337801a914a5ac88cd5f1ba7739f85f19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iron-io/iron_mq_php/zipball/05a4b53cb0579822495325d5bcf05556fce9f8b0",
-                "reference": "05a4b53cb0579822495325d5bcf05556fce9f8b0",
+                "url": "https://api.github.com/repos/iron-io/iron_mq_php/zipball/82dde27337801a914a5ac88cd5f1ba7739f85f19",
+                "reference": "82dde27337801a914a5ac88cd5f1ba7739f85f19",
                 "shasum": ""
             },
             "require": {
@@ -461,7 +461,7 @@
                 "iron",
                 "iron_mq"
             ],
-            "time": "2013-09-07 15:06:30"
+            "time": "2014-02-19 14:02:39"
         },
         {
             "name": "jeremeamia/SuperClosure",
