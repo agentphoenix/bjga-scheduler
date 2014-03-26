@@ -84,8 +84,6 @@ class BookingEventHandler {
 		{
 			$message->to($emails)
 				->subject(Config::get('bjga.email.subject')." {$service->name} - Student Cancellation");
-
-			\Log::info(Config::get('bjga.email.subject')." {$service->name} - Student Cancellation");
 		});
 
 		// Update the calendar
@@ -110,8 +108,6 @@ class BookingEventHandler {
 		{
 			$message->to($emails)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Schedule Change");
-
-			\Log::info(Config::get('bjga.email.subject')." {$service->name} Schedule Change");
 		});
 
 		// Update the calendar

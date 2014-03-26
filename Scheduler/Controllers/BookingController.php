@@ -75,7 +75,7 @@ class BookingController extends BaseController {
 				$cancelAll = (Input::get('cancel_all', false) == '1') ? true : false;
 
 				// Cancel the appointment
-				Book::cancel('student', Input::get('appointment'), Input::get('reason'), $cancelAll);
+				Book::cancel(Input::get('appointment'), Input::get('reason'), $cancelAll);
 
 				return Redirect::route('home')
 					->with('message', "Appointment was successfully cancelled. The instructor has been notified of the cancellation.")
@@ -104,7 +104,7 @@ class BookingController extends BaseController {
 			$cancelAll = (Input::get('cancel_all', false) == '1') ? true : false;
 
 			// Cancel the appointment
-			Book::cancel('instructor', Input::get('appointment'), Input::get('reason'), $cancelAll);
+			Book::cancel(Input::get('appointment'), Input::get('reason'), $cancelAll);
 
 			return Redirect::route('home')
 				->with('message', "Appointment was successfully cancelled. All attendees have been notified of the cancellation.")
