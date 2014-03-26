@@ -148,7 +148,7 @@ class AppointmentController extends BaseController {
 				})->first();
 
 				// Remove the user appointment
-				$userAppt->delete();
+				$userAppt->forceDelete();
 			}
 		}
 	}
