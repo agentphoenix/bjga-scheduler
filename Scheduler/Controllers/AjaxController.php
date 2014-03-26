@@ -123,13 +123,15 @@ class AjaxController extends BaseController {
 			foreach ($availableTime as $key => $time)
 			{
 				if ($today > $time)
+				{
 					unset($availableTime[$key]);
+				}
 			}
 		}
 
 		return View::make('pages.ajax.availability')
-			->with('availability', $availableTime)
-			->with('date', $date);
+			->withAvailability($availableTime)
+			->withDate($date);
 	}
 
 	public function getProgramDetails()
