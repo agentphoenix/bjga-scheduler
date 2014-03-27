@@ -88,7 +88,9 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			->orderBy('order', 'asc');
 
 		if ($onlyActive)
+		{
 			$query = $query->where('status', (int) true);
+		}
 
 		$services = $query->get();
 
@@ -97,13 +99,16 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			// Filter by the timeframe
 			return $services->filter(function($s) use ($timeframe)
 			{
-				if ($s->appointments)
+				if ($s->appointments->count() > 0)
 				{
 					// Get today
 					$today = Date::now();
 
 					// Build the start date
-					$startDate = $s->appointments->first()->start;
+					$startDate = $s->appointments->sortBy(function($a)
+					{
+						return $a->start;
+					})->first()->start;
 
 					// Build the end date
 					$endDate = $startDate->copy()->addDays($timeframe)->endOfDay();
