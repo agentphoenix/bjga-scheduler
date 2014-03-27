@@ -65,7 +65,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
-				<p class="help-block">If the service is free, enter zero.</p>
+				<p class="help-block">If the service is free, enter zero. Enter the price <em>per instance</em>!</p>
 			</div>
 		</div>
 
