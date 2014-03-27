@@ -177,7 +177,7 @@
 			e.preventDefault();
 
 			$('[name="time"]').val($(this).data('time'));
-			$('[name="timeDisplay"]').val(moment($(this).data('time'), "HH:mm A").format("h:mm A"));
+			$('[name="timeDisplay"]').val(moment($(this).data('time'), "HH:mm").format("h:mm A"));
 			$('.js-check').closest('.row').addClass('hide');
 			$('.ajax-container').closest('.row').addClass('hide');
 			$('.bookingForm').removeClass('hide');
@@ -213,9 +213,7 @@
 
 		$('.js-change-time').on('click', function(e)
 		{
-			$('.bookingForm').addClass('hide');
-			$('.ajax-container').html('').closest('.row').removeClass('hide');
-			$('.js-check').closest('.row').removeClass('hide');
+			resetOptions();
 		});
 
 		$(document).on('show.dp', function()
