@@ -36,7 +36,7 @@ class UserEventHandler {
 		if (App::environment() == 'production')
 		{
 			// Subscribe the user to the mailchimp list
-			if (isset($input['mailchimp_optin']) and $input['mailchimp_optin'] == '1')
+			if (isset($input['newsletter_optin']) and $input['newsletter_optin'] == '1')
 			{
 				// Break the user name out
 				$name = explode(' ', $input['name']);
@@ -58,6 +58,17 @@ class UserEventHandler {
 					'update_existing'	=> true,
 					'replace_interests'	=> false,
 					'send_welcome'		=> false,
+				));
+
+				// Get the BombBomb instance
+				$bombbomb = App::make('scheduler.bombbomb');
+
+				// Subscribe the user
+				$result = $bombbomb->addContact(array(
+					'eml'		=> $input['email'],
+					'firstname'	=> $firstName,
+					'lastname'	=> $lastName,
+					'listlist'	=> 'aef90e71-ce28-71ad-e82d-54ec9958961f',
 				));
 			}
 		}

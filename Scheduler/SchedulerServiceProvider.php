@@ -12,6 +12,7 @@ use Ikimea\Browser\Browser;
 use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 use Scheduler\Services\BookingService,
+	Scheduler\Services\BombBombService,
 	Scheduler\Services\MarkdownService;
 
 class SchedulerServiceProvider extends ServiceProvider {
@@ -20,6 +21,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->setupMarkdown();
 		$this->setupMailchimp();
+		$this->setupBombBomb();
 		//$this->setupBrowser();
 	}
 
@@ -50,11 +52,19 @@ class SchedulerServiceProvider extends ServiceProvider {
 		});
 	}
 
-	public function setupMailchimp()
+	protected function setupMailchimp()
 	{
 		$this->app['scheduler.mailchimp'] = $this->app->share(function($app)
 		{
 			return new MailChimp('f04794d1de4fc62cf6ec66f764edc967-us3');
+		});
+	}
+
+	protected function setupBombBomb()
+	{
+		$this->app['scheduler.bombbomb'] = $this->app->share(function($app)
+		{
+			return new BombBombService;
 		});
 	}
 
