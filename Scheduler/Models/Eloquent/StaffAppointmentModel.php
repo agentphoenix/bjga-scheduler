@@ -85,11 +85,23 @@ class StaffAppointmentModel extends Model {
 
 		if ($this->service->isRecurring())
 		{
-			// Get the first appointment
-			$firstAppt = $this->recur->staffAppointments->sortBy(function($s)
+			if ($this->service->isLesson())
 			{
-				return $s->start;
-			})->first();
+				// Get the first appointment
+				$firstAppt = $this->recur->staffAppointments->sortBy(function($s)
+				{
+					return $s->start;
+				})->first();
+			}
+
+			if ($this->service->isProgram())
+			{
+				// Get the first appointment
+				$firstAppt = $this->occurrence->staffAppointments->sortBy(function($s)
+				{
+					return $s->start;
+				})->first();
+			}
 
 			if ($now > $firstAppt->start)
 			{
