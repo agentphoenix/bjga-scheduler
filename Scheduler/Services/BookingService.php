@@ -271,11 +271,11 @@ class BookingService {
 				})->first()->start;
 
 				// Get the entire collection of staff appointments
-				$staffSeries = $staffAppt->recur->staffAppointments;
+				$staffSeries = $staffAppt->recur->staffAppointments()->withTrashed()->get();
 
 				foreach ($staffSeries as $seriesItem)
 				{
-					foreach ($seriesItem->userAppointments as $userAppt)
+					foreach ($seriesItem->userAppointments()->withTrashed()->get() as $userAppt)
 					{
 						// Get the student email addresses
 						$emails[] = $userAppt->user->email;
@@ -331,11 +331,15 @@ class BookingService {
 		 */
 		if ( ! $service->isRecurring())
 		{
-			foreach ($staffAppt->userAppointments as $userAppt)
-			{
-				// Get the attendee email addresses
-				$emails[] = $userAppt->user->email;
+			$userAppointments = ($service->isLesson()) 
+				? $staffAppt->userAppointments
+				: $staffAppt->userAppointments->filter(function($u) use ($user)
+					{
+						return (int) $u->user_id === (int) $user->id;
+					});
 
+			foreach ($userAppointments as $userAppt)
+			{
 				// Delete the user appointment
 				$userAppt->forceDelete();
 
@@ -357,217 +361,79 @@ class BookingService {
 				// Get today
 				$now = Date::now();
 
-				// Get the start date for the series
-				$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
+				if ($service->isLesson())
 				{
-					return $s->start;
-				})->first()->start;
+					// Get the start date for the series
+					$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
+					{
+						return $s->start;
+					})->first()->start;
 
-				// Get the entire collection of staff appointments
-				$staffSeries = $staffAppt->recur->staffAppointments;
+					// Get the entire collection of staff appointments
+					$staffSeries = $staffAppt->recur->staffAppointments()->withTrashed()->get();
+				}
+
+				if ($service->isProgram())
+				{
+					// Get the start date for the series
+					$seriesStart = $staffAppt->occurrence->staffAppointments->sortBy(function($s)
+					{
+						return $s->start;
+					})->first()->start;
+
+					// Get the entire collection of staff appointments
+					$staffSeries = $service->appointments()->withTrashed()->get();
+				}
 
 				foreach ($staffSeries as $seriesItem)
 				{
-					foreach ($seriesItem->userAppointments as $userAppt)
+					$userAppointments = ($service->isLesson()) 
+						? $seriesItem->userAppointments()->withTrashed()->get()
+						: $seriesItem->userAppointments()->withTrashed()->get()->filter(function($u) use ($user)
+							{
+								return (int) $u->user_id === (int) $user->id;
+							});
+
+					foreach ($userAppointments as $userAppt)
 					{
-						// Get the student email addresses
-						$emails[] = $userAppt->user->email;
-
-						if ($now > $seriesStart)
-						{
-							// Delete the user appointment
-							$userAppt->delete();
-
-							// Delete the staff appointment
-							$seriesItem->delete();
-						}
-						else
+						if ($now < $seriesStart)
 						{
 							// Delete the user appointment
 							$userAppt->forceDelete();
 
 							// Delete the staff appointment
-							$seriesItem->forceDelete();
+							if ($service->isLesson())
+							{
+								$seriesItem->delete();
+							}
 						}
 					}
 				}
 			}
 			else
 			{
-				foreach ($staffAppt->userAppointments as $userAppt)
-				{
-					// Get the student's email addresses
-					$emails[] = $userAppt->user->email;
+				$userAppointments = ($service->isLesson()) 
+					? $staffAppt->userAppointments
+					: $staffAppt->userAppointments->filter(function($u) use ($user)
+						{
+							return (int) $u->user_id === (int) $user->id;
+						});
 
+				foreach ($userAppointments as $userAppt)
+				{
 					// Delete the user appointment
 					$userAppt->delete();
 
 					// Delete the staff appointment
-					$staffAppt->delete();
-				}
-			}
-		}
-
-		/////////////////////////////////////////////////
-
-		/**
-		 * Recurring lesson.
-		 */
-		if ($service->isLesson() and $service->isRecurring())
-		{
-			if ($cancelAll)
-			{
-				// Get today
-				$now = Date::now();
-
-				// Get the start date for the series
-				$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
-				{
-					return $s->start;
-				})->first()->start;
-
-				// Get the entire collection of user appointments
-				$userSeries = $staffAppt->recur->userAppointments->filter(function($u) use ($user)
-				{
-					return (int) $u->user_id === (int) $user->id;
-				});
-
-				foreach ($userSeries as $userAppt)
-				{
-					// Get the instructor email address
-					$instructorEmail = $staffAppt->staff->user->email;
-
-					// The series has already started
-					if ($now > $seriesStart)
+					if ($service->isLesson())
 					{
-						// Delete the user appointment
-						$userAppt->delete();
-
-						// Delete the staff appointment
-						$userAppt->appointment->delete();
-					}
-					else
-					{
-						// Delete the user appointment
-						$userAppt->forceDelete();
-
-						// Delete the staff appointment
-						$userAppt->appointment->forceDelete();
+						$staffAppt->delete();
 					}
 				}
-
-				\Log::info('student.lesson.recurring.all');
-			}
-			else
-			{
-				// Get the user appointment
-				$userAppt = $staffAppt->userAppointments->first();
-
-				// Get the instructor's email address
-				$instructorEmail = $staffAppt->staff->user->email;
-
-				// Delete the user appointment
-				$userAppt->delete();
-
-				// Delete the staff appointment
-				$staffAppt->delete();
-
-				\Log::info('student.lesson.recurring.instance');
 			}
 		}
 
-		/**
-		 * Non-recurring lesson.
-		 */
-		if ($service->isLesson() and ! $service->isRecurring())
-		{
-			// Get the user appointment
-			$userAppt = $staffAppt->userAppointments->first();
-
-			// Get the student's email address
-			$instructorEmail = $staffAppt->staff->user->email;
-
-			// Delete the user appointment record
-			$userAppt->forceDelete();
-
-			// Delete the staff appointment
-			$staffAppt->forceDelete();
-
-			\Log::info('student.lesson.nonrecurring');
-		}
-
-		/**
-		 * Recurring program.
-		 */
-		if ($service->isProgram() and $service->isRecurring())
-		{
-			if ($cancelAll)
-			{
-				// Get today
-				$now = Date::now();
-
-				// Get the start date for the series
-				$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
-				{
-					return $s->start;
-				})->first()->start;
-
-				// Get the entire collection of user appointments
-				$userSeries = $staffAppt->recur->userAppointments;
-
-				foreach ($userSeries as $userAppt)
-				{
-					if ((int) $userAppt->user->id === (int) $user->id)
-					{
-						// Delete the user appointment
-						$userAppt->delete();
-					}
-				}
-
-				// Get the instructor email address
-				$instructorEmail = $staffAppt->staff->user->email;
-
-				\Log::info('student.program.recurring.all');
-			}
-			else
-			{
-				// Get the user's appointment record
-				$userAppt = $staffAppt->userAppointments->filter(function($u) use ($user)
-				{
-					return (int) $u->user_id === (int) $user->id;
-				})->first();
-
-				// Delete the user appointment
-				$userAppt->delete();
-
-				// Get the instructor's email address
-				$instructorEmail = $staffAppt->staff->user->email;
-
-				\Log::info('student.program.recurring.instance');
-			}
-		}
-
-		/**
-		 * Non-recurring program.
-		 */
-		if ($service->isProgram() and ! $service->isRecurring())
-		{
-			// Get this user's appointment record
-			$userAppt = $staffAppt->userAppointments->filter(function($u) use ($user)
-			{
-				return (int) $u->user_id === (int) $user->id;
-			})->first();
-
-			// Delete the user appointment
-			$userAppt->forceDelete();
-
-			// Get the instructor email address
-			$instructorEmail = $staffAppt->staff->user->email;
-
-			\Log::info('student.program.nonrecurring');
-		}
-
-		return array($instructorEmail);
+		return array($staffAppt->staff->user->email);
 	}
 
 }
