@@ -44,10 +44,14 @@
 					<div class="col-sm-9 col-md-5 col-lg-6">
 						<p class="lead">
 							<strong>
-								@if ($appt->service->isLesson())
-									{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
-								@else
+								@if ($type == 'user')
 									{{ trim($appt->service->name) }}
+								@else
+									@if ($appt->service->isLesson())
+										{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
+									@else
+										{{ trim($appt->service->name) }}
+									@endif
 								@endif
 							</strong>
 						</p>
