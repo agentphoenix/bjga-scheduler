@@ -28,6 +28,7 @@ return array(
 
 	'phone' => '<span class="icn" data-icon="p"></span>',
 
+	'recur' => '<span class="icn" data-icon="6"></span>',
 	'reject' => '<span class="icn" data-icon="b"></span>',
 	'remove' => '<span class="icn" data-icon="-"></span>',
 	'report' => '<span class="icn" data-icon="r"></span>',
