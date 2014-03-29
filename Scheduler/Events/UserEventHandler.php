@@ -1,9 +1,11 @@
 <?php namespace Scheduler\Events;
 
 use App,
+	File,
 	Mail,
 	Config,
 	Request;
+use Sabre\VObject\Component\VCalendar;
 
 class UserEventHandler {
 
@@ -93,6 +95,15 @@ class UserEventHandler {
 
 	public function onStaffCreated($staff)
 	{
+		// Set the calendar we're creating
+		$calendarName = str_replace(' ', '', $staff->user->name).'.ics';
+
+		// Get the calendar
+		$calendar = new VCalendar;
+
+		// Create the calendar file
+		File::put(App::make('path.public')."/calendars/{$calendarName}", $calendar->serialize());
+
 		// Set the email data
 		$data = array('name' => $staff->user->name);
 
@@ -106,6 +117,12 @@ class UserEventHandler {
 
 	public function onStaffDeleted($staff)
 	{
+		// Set the calendar we're dealing with
+		$calendarName = str_replace(' ', '', $staff->user->name).'.ics';
+
+		// Remove the calendar file
+		File::delete(App::make('path.public')."/calendars/{$calendarName}");
+
 		// Set the email data
 		$data = array('name' => $staff->user->name);
 
