@@ -28,6 +28,7 @@ class SchedulerCreateServices extends Migration {
 			$table->integer('occurrences_schedule')->default(0);
 			$table->integer('duration')->nullable();
 			$table->integer('user_limit')->nullable();
+			$table->boolean('loyalty')->default(0);
 			$table->timestamps();
 			$table->softDeletes();
 		});

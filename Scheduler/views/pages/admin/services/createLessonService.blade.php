@@ -106,6 +106,18 @@
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="control-label">Loyalty Program?</label>
+					<div>
+						<label class="radio-inline text-sm">{{ Form::radio('loyalty', (int) true, true) }} Yes</label>
+						<label class="radio-inline text-sm">{{ Form::radio('loyalty', (int) false) }} No</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		{{ Form::hidden('category', 'lesson') }}
 		{{ Form::hidden('user_limit', 1) }}
 

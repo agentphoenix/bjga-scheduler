@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Repositories\Eloquent;
 
-use Date,
+use Auth,
+	Date,
 	ServiceModel,
 	UserAppointmentModel,
 	StaffAppointmentModel,
@@ -90,6 +91,11 @@ class ServiceRepository implements ServiceRepositoryInterface {
 		if ($onlyActive)
 		{
 			$query = $query->where('status', (int) true);
+		}
+
+		if ( ! Auth::user()->isStaff())
+		{
+			$query = $query->where('loyalty', (int) false);
 		}
 
 		$services = $query->get();
@@ -287,7 +293,14 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			->orderBy('order', 'asc');
 
 		if ($onlyActive)
+		{
 			$query = $query->where('status', (int) true);
+		}
+
+		if ( ! Auth::user()->isStaff())
+		{
+			$query = $query->where('loyalty', (int) false);
+		}
 
 		$services = $query->get();
 
