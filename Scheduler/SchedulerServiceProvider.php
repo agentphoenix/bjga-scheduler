@@ -20,14 +20,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->setupMarkdown();
-		$this->setupMailchimp();
+		//$this->setupMailchimp();
 		$this->setupBombBomb();
-		//$this->setupBrowser();
+		$this->setupBrowser();
 	}
 
 	public function boot()
 	{
-		//$this->browserCheck();
+		$this->browserCheck();
 		$this->setupBindings();
 		$this->setupEventListeners();
 		$this->setupBooking();
