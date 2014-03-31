@@ -45,7 +45,11 @@ class ServiceController extends BaseController {
 			if ( ! $validator->passes())
 			{
 				return Redirect::back()
-					->withInput()
+					->withInput(Input::except(array(
+						'service_dates',
+						'service_times_start',
+						'service_times_end'
+					)))
 					->withErrors($validator->getErrors())
 					->with('message', 'Service could not be created because of errors. Please correct and try again.')
 					->with('messageStatus', 'danger');
@@ -112,7 +116,11 @@ class ServiceController extends BaseController {
 			if ( ! $validator->passes())
 			{
 				return Redirect::back()
-					->withInput()
+					->withInput(Input::except(array(
+						'service_dates',
+						'service_times_start',
+						'service_times_end'
+					)))
 					->withErrors($validator->getErrors())
 					->with('message', 'Service could not be updated because of errors. Please correct and try again.')
 					->with('messageStatus', 'danger');

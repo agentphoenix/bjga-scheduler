@@ -5,7 +5,7 @@ class ServiceValidator extends BaseValidator {
 	public static $rules = array(
 		'category'		=> 'required',
 		'staff_id'		=> 'required',
-		'name'			=> 'required',
+		'name'			=> 'required|unique:services,name',
 		'user_limit'	=> 'required|integer',
 		'occurrences'	=> 'required|integer',
 	);
@@ -14,6 +14,7 @@ class ServiceValidator extends BaseValidator {
 		'category.required'		=> "Select a category",
 		'staff_id.required'		=> "Select a staff member",
 		'name.required'			=> "Enter a name for the service",
+		'name.unique'			=> "Service names cannot be duplicated",
 		'user_limit.required'	=> "Enter the number of users allowed for this service",
 		'user_limit.integer'	=> "User limit must be a number",
 		'occurrences.required'	=> "Enter the number of occurrences for this service",
