@@ -68,29 +68,33 @@
 		</div>
 
 		<div id="schedule" class="tab-pane">
-			<div class="data-table data-table-striped data-table-bordered">
-			@for ($d = 0; $d <=6; $d++)
-				<div class="row">
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<p><strong>{{ $days[$d] }}</strong></p>
-					</div>
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<p>{{ $schedule->filter(function($s) use ($d){ return $s->day == $d; })->first()->availability }}</p>
-					</div>
-					<div class="col-xs-12 col-sm-4 col-md-6 col-lg-8">
-						<div class="visible-md visible-lg">
-							<div class="btn-toolbar pull-right">
-								<div class="btn-group">
-									<a href="#" class="btn btn-sm btn-default icn-size-16 js-staff-action" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">{{ $_icons['edit'] }}</a>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="data-table data-table-striped data-table-bordered">
+					@for ($d = 0; $d <=6; $d++)
+						<div class="row">
+							<div class="col-xs-6 col-sm-4 col-md-3 col-lg-4">
+								<p><strong>{{ $days[$d] }}</strong></p>
+							</div>
+							<div class="col-xs-6 col-sm-4 col-md-3 col-lg-4">
+								<p>{{ $schedule->filter(function($s) use ($d){ return $s->day == $d; })->first()->availability }}</p>
+							</div>
+							<div class="col-xs-12 col-sm-4 col-md-6 col-lg-4">
+								<div class="visible-md visible-lg">
+									<div class="btn-toolbar pull-right">
+										<div class="btn-group">
+											<a href="#" class="btn btn-sm btn-default icn-size-16 js-staff-action" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">{{ $_icons['edit'] }}</a>
+										</div>
+									</div>
+								</div>
+								<div class="visible-xs visible-sm">
+									<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-staff-action" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">{{ $_icons['edit'] }}</a></p>
 								</div>
 							</div>
 						</div>
-						<div class="visible-xs visible-sm">
-							<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-staff-action" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">{{ $_icons['edit'] }}</a></p>
-						</div>
+					@endfor
 					</div>
 				</div>
-			@endfor
 			</div>
 		</div>
 	</div>
