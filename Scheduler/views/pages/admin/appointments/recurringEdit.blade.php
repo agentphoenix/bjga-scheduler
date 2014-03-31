@@ -31,7 +31,7 @@
 
 	<p>The new date you select will be used for the next appointment in the series. All appointments beyond that will be shifted accordingly. <strong class="text-danger">This will not take instructor availability into account, so make sure you have verified the time is available.</strong></p>
 
-	{{ Form::open(array('route' => array('admin.appointment.recurring.store', $recurring->id))) }}
+	{{ Form::open(array('route' => array('admin.appointment.recurring.update', $recurring->id))) }}
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="form-group">
