@@ -148,6 +148,15 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('appointment/history/user/{id}', array(
 				'as'	=> 'admin.appointment.history',
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@history'));
+			Route::get('appointment/recurring', array(
+				'as'	=> 'admin.appointment.recurring.index',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@recurring'));
+			Route::get('appointment/recurring/{id}', array(
+				'as'	=> 'admin.appointment.recurring.edit',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@editRecurring'));
+			Route::post('appointment/recurring/{id}', array(
+				'as'	=> 'admin.appointment.recurring.store',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@storeRecurring'));
 
 			/**
 			 * Resourceful controllers.

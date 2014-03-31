@@ -18,7 +18,7 @@
 		</div>
 		<div class="col-sm-4 col-md-4 col-lg-4">
 			<div class="text-center text-success icn-size-96">{{ $_icons['recur'] }}</div>
-			<p><a href="{{ URL::route('admin.appointment.user') }}" class="btn btn-lg btn-primary btn-block">Recurring Lessons</a></p>
+			<p><a href="{{ URL::route('admin.appointment.recurring.index') }}" class="btn btn-lg btn-primary btn-block">Recurring Lessons</a></p>
 		</div>
 	</div>
 @stop

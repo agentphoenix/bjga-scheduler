@@ -195,4 +195,19 @@ class AppointmentController extends BaseController {
 		}
 	}
 
+	public function recurring()
+	{
+		# code...
+	}
+
+	public function editRecurring($id)
+	{
+		# code...
+	}
+
+	public function storeRecurring($id)
+	{
+		return Redirect::route('admin.appointment.recurring.index');
+	}
+
 }
