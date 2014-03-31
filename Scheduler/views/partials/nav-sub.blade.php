@@ -10,6 +10,11 @@
 
 		@if (Auth::check())
 			<li class="{{ (Request::is('admin/user/'.$_currentUser->id.'/edit') ? 'active' : '') }}"><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
+
+			@if ($_currentUser->isStaff())
+				<li><a href="{{ URL::route('admin.staff.schedule', array(Auth::user()->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage My Schedule</a></li>
+			@endif
+			
 			<li><a href="{{ URL::route('logout') }}"><span class="icn-size-16">{{ $_icons['logout'] }}</span>Log Out</a></li>
 		@else
 			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['login'] }}</span>Log In</a></li>
@@ -33,10 +38,6 @@
 			<li><a href="{{ URL::route('book.lesson') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Book a Lesson</a></li>
 			<li><a href="{{ URL::route('book.program') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Enroll in Program</a></li>
 			<li><a href="#" data-toggle="modal" data-target="#reportProblem"><span class="icn-size-16">{{ $_icons['warning'] }}</span>Report a Problem</a></li>
-
-			@if ($_currentUser->isStaff())
-				<li><a href="{{ URL::route('admin.staff.schedule', array(Auth::user()->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage My Schedule</a></li>
-			@endif
 		</ul>
 	@endif
 
