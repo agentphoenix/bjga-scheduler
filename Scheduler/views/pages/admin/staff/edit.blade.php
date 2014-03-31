@@ -17,7 +17,7 @@
 					<a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-default icn-size-16-with-text">Edit My User Account</a>
 				</div>
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.staff.schedule') }}" class="btn btn-default icn-size-16-with-text">Manage My Schedule</a>
+					<a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-default icn-size-16-with-text">Manage My Schedule</a>
 				</div>
 			</div>
 		</div>
