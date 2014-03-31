@@ -1,11 +1,11 @@
 <?php namespace Scheduler\Models\Eloquent;
 
 use Str, Model;
-//use Laracasts\Presenter\PresentableTrait;
+use Laracasts\Presenter\PresentableTrait;
 
 class ServiceModel extends Model {
 
-	//use PresentableTrait;
+	use PresentableTrait;
 
 	protected $table = 'services';
 

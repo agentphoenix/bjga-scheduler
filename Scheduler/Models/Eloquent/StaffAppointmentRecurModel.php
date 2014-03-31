@@ -1,8 +1,7 @@
 <?php namespace Scheduler\Models\Eloquent;
 
 use Model;
-use Scheduler\Presenter\PresentableTrait;
-//use Laracasts\Presenter\PresentableTrait;
+use Laracasts\Presenter\PresentableTrait;
 
 class StaffAppointmentRecurModel extends Model {
 
@@ -16,7 +15,7 @@ class StaffAppointmentRecurModel extends Model {
 
 	protected $dates = array('start', 'end');
 
-	protected $presenter = 'Scheduler\Presenter\Presenter\StaffAppointmentRecurPresenter';
+	protected $presenter = 'Scheduler\Presenters\StaffAppointmentRecurPresenter';
 
 	/*
 	|--------------------------------------------------------------------------
