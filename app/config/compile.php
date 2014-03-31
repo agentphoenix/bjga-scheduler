@@ -13,9 +13,14 @@ return array(
 	|
 	*/
 
+	__DIR__.'/../../Scheduler/Extensions/Laravel/Database/Eloquent/Collection.php',
+	__DIR__.'/../../Scheduler/Extensions/Laravel/Database/Eloquent/Model.php',
+
+	__DIR__.'/../../Scheduler/Services/BombBombService.php',
 	__DIR__.'/../../Scheduler/Services/BookingService.php',
 	__DIR__.'/../../Scheduler/Services/CalendarService.php',
-	__DIR__.'/../../Scheduler/Services/MailChimpService.php',
 	__DIR__.'/../../Scheduler/Services/MarkdownService.php',
+
+	__DIR__.'/../../vendor/ikimea/browser/lib/Ikimea/Browser/Browser.php',
 
 );
