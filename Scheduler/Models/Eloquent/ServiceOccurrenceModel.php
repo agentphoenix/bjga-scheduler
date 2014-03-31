@@ -10,6 +10,8 @@ class ServiceOccurrenceModel extends Model {
 
 	protected $softDelete = true;
 
+	protected $dates = array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
+
 	/*
 	|--------------------------------------------------------------------------
 	| Relationships
@@ -29,17 +31,6 @@ class ServiceOccurrenceModel extends Model {
 	public function userAppointments()
 	{
 		return $this->hasMany('UserAppointmentModel', 'occurrence_id');
-	}
-
-	/*
-	|--------------------------------------------------------------------------
-	| Getters/Setters
-	|--------------------------------------------------------------------------
-	*/
-
-	public function getDates()
-	{
-		return array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
 	}
 	
 }

@@ -14,6 +14,8 @@ class StaffAppointmentRecurModel extends Model {
 
 	protected $fillable = array('staff_id', 'service_id', 'start', 'end');
 
+	protected $dates = array('start', 'end');
+
 	protected $presenter = 'Scheduler\Presenter\Presenter\StaffAppointmentRecurPresenter';
 
 	/*
@@ -30,17 +32,6 @@ class StaffAppointmentRecurModel extends Model {
 	public function userAppointments()
 	{
 		return $this->hasMany('UserAppointmentModel', 'recur_id');
-	}
-
-	/*
-	|--------------------------------------------------------------------------
-	| Getters/Setters
-	|--------------------------------------------------------------------------
-	*/
-
-	public function getDates()
-	{
-		return array('start', 'end');
 	}
 
 }

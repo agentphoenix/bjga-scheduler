@@ -1,8 +1,11 @@
 <?php namespace Scheduler\Models\Eloquent;
 
 use Str, Model;
+//use Laracasts\Presenter\PresentableTrait;
 
 class ServiceModel extends Model {
+
+	//use PresentableTrait;
 
 	protected $table = 'services';
 
@@ -15,6 +18,8 @@ class ServiceModel extends Model {
 	protected $softDelete = true;
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+
+	protected $presenter = 'Scheduler\Presenters\ServicePresenter';
 
 	/*
 	|--------------------------------------------------------------------------

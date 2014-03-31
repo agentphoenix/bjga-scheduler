@@ -17,6 +17,8 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 
 	protected $hashableAttributes = array('password');
 
+	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+
 	/*
 	|--------------------------------------------------------------------------
 	| Relationships
@@ -38,11 +40,6 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 	| Getters/Setters
 	|--------------------------------------------------------------------------
 	*/
-
-	public function getDates()
-	{
-		return array('created_at', 'updated_at', 'deleted_at');
-	}
 
 	/**
 	 * Make sure the password is hashed.

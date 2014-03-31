@@ -17,6 +17,8 @@ class StaffAppointmentModel extends Model {
 
 	protected $softDelete = true;
 
+	protected $dates = array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
+
 	protected $presenter = 'Scheduler\Presenter\Presenter\StaffAppointmentPresenter';
 
 	/*
@@ -48,17 +50,6 @@ class StaffAppointmentModel extends Model {
 	public function occurrence()
 	{
 		return $this->belongsTo('ServiceOccurrenceModel', 'occurrence_id');
-	}
-
-	/*
-	|--------------------------------------------------------------------------
-	| Getters/Setters
-	|--------------------------------------------------------------------------
-	*/
-
-	public function getDates()
-	{
-		return array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
 	}
 
 	/*
