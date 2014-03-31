@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Repositories\Eloquent;
 
 use Date,
+	Event,
 	ServiceModel,
 	StaffAppointmentModel,
 	StaffAppointmentRecurModel,
@@ -129,6 +130,8 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 				// Add to the new date
 				$newDate->addDays($service->occurrences_schedule);
 			}
+
+			Event::fire('appointment.updated', array($item, $item->userAppointments->first()));
 		}
 
 		return false;
