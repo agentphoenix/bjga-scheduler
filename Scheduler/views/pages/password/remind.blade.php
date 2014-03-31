@@ -2,7 +2,7 @@
 
 @section('title')
 	Reset Password
-@endsection
+@stop
 
 @section('content')
 	<div class="row">
@@ -10,9 +10,9 @@
 			@if (Session::has('error'))
 				<br>
 				<div class="alert alert-danger">{{ trans(Session::get('reason')) }}</div>
-			@elseif (Session::has('success'))
+			@elseif (Session::has('status'))
 				<br>
-				<div class="alert alert-success">An email with the password reset has been sent.</div>
+				<div class="alert alert-success">An email with the password reset link has been sent.</div>
 			@endif
 
 			<h1>Reset Password</h1>
