@@ -70,17 +70,7 @@
 	<div class="row">
 		<div class="col-sm-2 col-md-2 col-lg-2">
 			<h2>Price</h2>
-			<h3 class="text-success price-details">
-				@if ($event->price > 0)
-					@if ($event->occurrences > 1 and $event->isLesson())
-						${{ round(($event->price * $event->occurrences) / ($event->occurrences / 4), 2) }} <small>per month</small>
-					@else
-						${{ $event->price }}
-					@endif
-				@else
-					Free
-				@endif
-			</h3>
+			<h3 class="text-success price-details">{{ $event->present()->price }}</h3>
 		</div>
 		<div class="col-sm-3 col-md-3 col-lg-3">
 			<h2>Instructor</h2>

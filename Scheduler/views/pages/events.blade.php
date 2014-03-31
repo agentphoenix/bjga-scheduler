@@ -43,13 +43,7 @@
 					<h3>
 						{{ $event->name }}
 
-						<small>
-							@if (Str::lower($event->price) > 0)
-								${{ $event->price }}
-							@else
-								Free
-							@endif
-						</small>
+						<small>{{ $event->present()->price }}</small>
 					</h3>
 
 					<div class="row">
