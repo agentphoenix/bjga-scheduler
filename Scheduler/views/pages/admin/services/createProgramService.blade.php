@@ -98,8 +98,8 @@
 				<div class="form-group">
 					<label class="control-label">Loyalty Program?</label>
 					<div>
-						<label class="radio-inline text-sm">{{ Form::radio('loyalty', (int) true, true) }} Yes</label>
-						<label class="radio-inline text-sm">{{ Form::radio('loyalty', (int) false) }} No</label>
+						<label class="radio-inline text-sm">{{ Form::radio('loyalty', (int) true) }} Yes</label>
+						<label class="radio-inline text-sm">{{ Form::radio('loyalty', (int) false, true) }} No</label>
 					</div>
 				</div>
 			</div>
