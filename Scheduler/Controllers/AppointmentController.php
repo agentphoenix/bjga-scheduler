@@ -223,7 +223,7 @@ class AppointmentController extends BaseController {
 		}
 	}
 
-	public function storeRecurring($id)
+	public function updateRecurring($id)
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
