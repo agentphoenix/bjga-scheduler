@@ -45,7 +45,18 @@ class UserEventHandler {
 				$firstName = (isset($name[0])) ? $name[0] : false;
 				$lastName = (isset($name[1])) ? $name[1] : false;
 
-				// Get the MailChimp instance
+				// Get the BombBomb instance
+				$bombbomb = App::make('scheduler.bombbomb');
+
+				// Subscribe the user
+				$result = $bombbomb->addContact(array(
+					'eml'		=> $input['email'],
+					'firstname'	=> $firstName,
+					'lastname'	=> $lastName,
+					'listlist'	=> 'aef90e71-ce28-71ad-e82d-54ec9958961f',
+				));
+
+				/*// Get the MailChimp instance
 				$mailchimp = App::make('scheduler.mailchimp');
 
 				// Get the list
@@ -60,18 +71,7 @@ class UserEventHandler {
 					'update_existing'	=> true,
 					'replace_interests'	=> false,
 					'send_welcome'		=> false,
-				));
-
-				// Get the BombBomb instance
-				$bombbomb = App::make('scheduler.bombbomb');
-
-				// Subscribe the user
-				$result = $bombbomb->addContact(array(
-					'eml'		=> $input['email'],
-					'firstname'	=> $firstName,
-					'lastname'	=> $lastName,
-					'listlist'	=> 'aef90e71-ce28-71ad-e82d-54ec9958961f',
-				));
+				));*/
 			}
 		}
 
