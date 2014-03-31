@@ -1,14 +1,19 @@
 <?php namespace Scheduler\Models\Eloquent;
 
 use Model;
+use Scheduler\Presenter\PresentableTrait;
 
 class StaffAppointmentRecurModel extends Model {
+
+	use PresentableTrait;
 
 	protected $table = 'staff_appointments_recurring';
 
 	public $timestamps = false;
 
 	protected $fillable = array('staff_id', 'service_id', 'start', 'end');
+
+	protected $presenter = 'Scheduler\Presenter\Presenter\StaffAppointmentRecurPresenter';
 
 	/*
 	|--------------------------------------------------------------------------

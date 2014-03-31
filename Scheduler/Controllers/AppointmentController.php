@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Controllers;
 
 use Book,
+	Date,
 	View,
 	Event,
 	Input,
@@ -197,17 +198,45 @@ class AppointmentController extends BaseController {
 
 	public function recurring()
 	{
-		# code...
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			return View::make('pages.admin.appointments.recurring')
+				->withRecurring($this->appts->getRecurringLessons());
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to manage recurring appointments!");
+		}
 	}
 
 	public function editRecurring($id)
 	{
-		# code...
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			return View::make('pages.admin.appointments.recurringEdit')
+				->withRecurring($this->appts->getRecurringLessons($id))
+				->withToday(Date::now()->startOfDay());
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to edit recurring appointments!");
+		}
 	}
 
 	public function storeRecurring($id)
 	{
-		return Redirect::route('admin.appointment.recurring.index');
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		{
+			$this->appts->updateRecurringLesson($id, Input::all());
+
+			return Redirect::route('admin.appointment.recurring.edit', array($id))
+				->with('message', "Recurring appointment series was successfully updated.")
+				->with('messageStatus', 'success');;
+		}
+		else
+		{
+			$this->unauthorized("You do not have permission to edit recurring appointments!");
+		}
 	}
 
 }

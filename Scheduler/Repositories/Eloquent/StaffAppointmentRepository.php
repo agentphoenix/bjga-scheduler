@@ -3,6 +3,7 @@
 use Date,
 	ServiceModel,
 	StaffAppointmentModel,
+	StaffAppointmentRecurModel,
 	StaffAppointmentRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -17,6 +18,16 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 			return $appointment->userAppointments;
 
 		return new Collection;
+	}
+
+	public function getRecurringLessons($id = false)
+	{
+		if ($id)
+		{
+			return StaffAppointmentRecurModel::find($id);
+		}
+
+		return StaffAppointmentRecurModel::where('start', '>', Date::now()->startOfDay())->get();
 	}
 	
 	/**
@@ -84,6 +95,43 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 	public function find($id)
 	{
 		return StaffAppointmentModel::find($id);
+	}
+
+	public function updateRecurringLesson($id, array $data)
+	{
+		// Get the recur record
+		$recur = StaffAppointmentRecurModel::find($id);
+
+		// Get today
+		$today = Date::now()->startOfDay();
+
+		if ($recur)
+		{
+			// Get the service
+			$service = $recur->staffAppointments->first()->service;
+
+			// Make sure we're dealing with only appointments from today forward
+			$series = $recur->staffAppointments->filter(function($s) use ($today)
+			{
+				return $s->start >= $today;
+			});
+
+			// Start building the new date
+			$newDate = Date::createFromFormat('Y-m-d H:i', $data['newDate']);
+
+			foreach ($series as $item)
+			{
+				$item->update(array(
+					'start'	=> $newDate,
+					'end'	=> $newDate->copy()->addMinutes($service->duration),
+				));
+
+				// Add to the new date
+				$newDate->addDays($service->occurrences_schedule);
+			}
+		}
+
+		return false;
 	}
 
 }

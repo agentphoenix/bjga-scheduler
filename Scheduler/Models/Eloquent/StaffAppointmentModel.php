@@ -1,8 +1,11 @@
 <?php namespace Scheduler\Models\Eloquent;
 
 use Date, Model;
+use Scheduler\Presenter\PresentableTrait;
 
 class StaffAppointmentModel extends Model {
+
+	use PresentableTrait;
 
 	protected $table = 'staff_appointments';
 
@@ -12,6 +15,8 @@ class StaffAppointmentModel extends Model {
 	);
 
 	protected $softDelete = true;
+
+	protected $presenter = 'Scheduler\Presenter\Presenter\StaffAppointmentPresenter';
 
 	/*
 	|--------------------------------------------------------------------------
