@@ -9,6 +9,7 @@ class ServiceModel extends Model {
 	protected $fillable = array(
 		'category', 'staff_id', 'name', 'slug', 'description', 'price', 
 		'occurrences', 'duration', 'user_limit', 'order', 'status', 'loyalty',
+		'occurrences_schedule',
 	);
 
 	protected $softDelete = true;
