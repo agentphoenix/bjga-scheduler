@@ -2,6 +2,7 @@
 
 use Date, Model;
 use Scheduler\Presenter\PresentableTrait;
+//use Laracasts\Presenter\PresentableTrait;
 
 class StaffAppointmentModel extends Model {
 

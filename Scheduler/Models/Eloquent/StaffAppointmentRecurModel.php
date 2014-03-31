@@ -2,6 +2,7 @@
 
 use Model;
 use Scheduler\Presenter\PresentableTrait;
+//use Laracasts\Presenter\PresentableTrait;
 
 class StaffAppointmentRecurModel extends Model {
 
