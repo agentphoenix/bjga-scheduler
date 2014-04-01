@@ -53,7 +53,7 @@ class UserEventHandler {
 					'eml'		=> $input['email'],
 					'firstname'	=> $firstName,
 					'lastname'	=> $lastName,
-					'listlist'	=> 'aef90e71-ce28-71ad-e82d-54ec9958961f',
+					'listlist'	=> '8334abc4-dd51-dbec-233f-517b664913f3',
 				));
 
 				/*// Get the MailChimp instance
