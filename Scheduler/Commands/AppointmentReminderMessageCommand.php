@@ -37,12 +37,18 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 
 	public function fire()
 	{
+		\Log::info("==================");
+		\Log::info("Reminder job started");
+
 		// Get right now
 		$now = Date::now();
 
 		// Set the target dates
 		$target = $now->copy()->minute(0)->second(0)->addDay();
 		$targetEnd = $target->copy()->addHour();
+
+		\Log::info("Target start: {$target}");
+		\Log::info("Target end: {$targetEnd}");
 
 		// Get all appointments for the hour
 		$appointments = StaffAppointmentModel::where('start', '>=', $target)
@@ -87,6 +93,9 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 				$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder');
 			});
 		}
+
+		\Log::info("Reminder job ended");
+		\Log::info("==================");
 	}
 
 }
