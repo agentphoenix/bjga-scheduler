@@ -169,7 +169,7 @@ class HomeController extends BaseController {
 
 		// Set the data
 		$data = array(
-			'user'		=> $this->currentUser,
+			'user'		=> $user->name,
 			'content'	=> Input::get('content'),
 		);
 
