@@ -93,7 +93,7 @@ class RemindersController extends Controller {
 
 			case Password::PASSWORD_RESET:
 				return Redirect::route('home')
-					->with('message', "Password has been reset")
+					->with('message', "Password has been reset!")
 					->with('messageStatus', 'success');
 			break;
 		}
