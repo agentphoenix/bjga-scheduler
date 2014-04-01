@@ -16,3 +16,10 @@ Route::get('lists', function()
 
 	s($b->lists());
 });
+
+Route::get('calendar', function()
+{
+	$sa = StaffAppointmentModel::find(1);
+
+	Queue::push('Scheduler\Services\CalendarService', array('model' => $sa));
+});
