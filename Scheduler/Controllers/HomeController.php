@@ -126,7 +126,7 @@ class HomeController extends BaseController {
 			Event::fire('user.registered', array($user, Input::all()));
 
 			return Redirect::route('home')
-				->with('message', "Welcome to the Brian Jacobs Golf scheduler! From here, you can book lessons with a Brian Jacobs Golf instructor and enroll in any of our programs. Get started today by booking a lesson or joining a program.")
+				->with('message', "Welcome to the Brian Jacobs Golf scheduler! An email has been sent with the log in information you entered during registration. If you don't see the email, make sure to check your spam folder. From the scheduler, you can book lessons with a Brian Jacobs Golf instructor and enroll in any of our programs. Get started today by booking a lesson or enrolling in a program!")
 				->with('messageStatus', 'success');
 		}
 		else
