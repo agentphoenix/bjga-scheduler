@@ -9,13 +9,13 @@ class BookingEventHandler {
 	public function createBlock($user, $appt)
 	{
 		// Update the calendar
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $user));
+		Queue::push('Scheduler\Services\CalendarService', array('staff' => $user->staff->id));
 	}
 
 	public function createLesson($service, $staffAppt, $userAppt)
 	{
 		// Update the calendar
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
+		Queue::push('Scheduler\Services\CalendarService', array('staff' => $staffAppt->staff->id));
 
 		// Get the user
 		$user = $userAppt->user;
@@ -87,7 +87,7 @@ class BookingEventHandler {
 		});
 
 		// Update the calendar
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
+		Queue::push('Scheduler\Services\CalendarService', array('staff' => $staffAppt->staff->id));
 	}
 
 	public function instructorCancelled($staffAppt, $user, $emails, $reason)
@@ -111,7 +111,7 @@ class BookingEventHandler {
 		});
 
 		// Update the calendar
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
+		Queue::push('Scheduler\Services\CalendarService', array('staff' => $staffAppt->staff->id));
 	}
 
 }

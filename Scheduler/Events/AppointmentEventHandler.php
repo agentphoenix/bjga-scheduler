@@ -9,7 +9,7 @@ class AppointmentEventHandler {
 	public function onCreated($service, $staffAppt, $userAppt, $sendEmail)
 	{
 		// Update the calendar
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
+		Queue::push('Scheduler\Services\CalendarService', array('staff' => $staffAppt->staff->id));
 
 		if ($sendEmail)
 		{
@@ -36,7 +36,7 @@ class AppointmentEventHandler {
 	public function onUpdated($staffAppt, $userAppt)
 	{
 		// Update the calendar
-		Queue::push('Scheduler\Services\CalendarService', array('model' => $staffAppt));
+		Queue::push('Scheduler\Services\CalendarService', array('staff' => $staffAppt->staff->id));
 
 		// Set the data
 		$data = array(

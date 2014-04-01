@@ -1,6 +1,8 @@
 <?php namespace Scheduler\Services;
 
-use App, File;
+use App,
+	File,
+	StaffModel;
 use DateTime, DateTimeZone;
 use Sabre\VObject\Component\VEvent,
 	Sabre\VObject\Component\VCalendar;
@@ -9,16 +11,8 @@ class CalendarService {
 
 	public function fire($job, $data)
 	{
-		// Don't do anything because it's broken on production
-	}
-
-	public function old_fire($job, $data)
-	{
-		// Get the appointment
-		$model = $data['model'];
-
 		// Get the staff member
-		$staff = $model->staff;
+		$staff = StaffModel::find($data['staff']);
 
 		// Set the calendar we're using
 		$calendarName = str_replace(' ', '', $staff->user->name).'.ics';
