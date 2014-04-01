@@ -43,7 +43,7 @@ class BookingEventHandler {
 		Mail::queue('emails.bookedLessonInstructor', $data, function($msg) use ($service)
 		{
 			$msg->to($service->staff->user->email)
-				->subject(Config::get('bjga.email.subject')." {$service->name} Booked");
+				->subject(Config::get('bjga.email.subject')." {$service->name} Booking Notification");
 		});
 	}
 
