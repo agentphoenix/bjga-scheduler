@@ -5,6 +5,8 @@
 	</head>
 	<body>
 		<h2>{{ $subject }}</h2>
+
+		<h4>{{ $from }}</h4>
 		
 		<p>{{ $body }}</p>
 	</body>

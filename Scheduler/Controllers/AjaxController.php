@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Controllers;
 
-use Date,
+use Auth,
+	Date,
 	Mail,
 	View,
 	Input,
@@ -15,6 +16,13 @@ use Date,
 	StaffAppointmentRepositoryInterface;
 
 class AjaxController extends BaseController {
+
+	protected $schedule;
+	protected $service;
+	protected $user;
+	protected $appointment;
+	protected $staff;
+	protected $icons;
 
 	public function __construct(StaffScheduleRepositoryInterface $schedule,
 			ServiceRepositoryInterface $service,
@@ -439,6 +447,7 @@ class AjaxController extends BaseController {
 		$emailData = array(
 			'subject'	=> Input::get('subject'),
 			'body'		=> Input::get('message'),
+			'from'		=> Auth::user()->name,
 		);
 
 
