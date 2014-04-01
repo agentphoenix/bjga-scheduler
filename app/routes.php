@@ -21,5 +21,7 @@ Route::get('calendar', function()
 {
 	$sa = StaffAppointmentModel::find(1);
 
+	s($sa);
+
 	Queue::push('Scheduler\Services\CalendarService', array('model' => $sa));
 });
