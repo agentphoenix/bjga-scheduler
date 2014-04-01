@@ -15,6 +15,7 @@ class CalendarService {
 		echo '<pre>';
 		var_dump($model);
 		echo '</pre>';
+		exit;
 
 		// Get the staff member
 		$staff = $model->staff;
