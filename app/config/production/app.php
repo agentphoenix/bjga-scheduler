@@ -2,8 +2,8 @@
 
 return array(
 
-	'debug' => false,
+	'debug' => true,
 
-	'url' => 'http://book.brianjacobsgolf.com',
+	'url' => 'http://booknow.brianjacobsgolf.com',
 
 );
