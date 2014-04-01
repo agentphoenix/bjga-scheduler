@@ -12,10 +12,7 @@ class CalendarService {
 		// Get the appointment
 		$model = $data['model'];
 
-		echo '<pre>';
-		var_dump($model);
-		echo '</pre>';
-		exit;
+		sd($data);
 
 		// Get the staff member
 		$staff = $model->staff;
