@@ -9,3 +9,10 @@ Route::get('conflicts', function()
 	$a = new Scheduler\Services\AvailabilityService;
 	s($a->find($user, $date, $service));
 });
+
+Route::get('lists', function()
+{
+	$b = App::make('scheduler.bombbomb');
+
+	s($b->lists());
+});
