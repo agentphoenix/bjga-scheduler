@@ -7,7 +7,8 @@
 		"drewm/mailchimp-api": "*",
 		"ikimea/browser": "~1.0",
 		"indatus/dispatcher": "~1.0",
-		"laracasts/presenter": "~0.1"
+		"laracasts/presenter": "~0.1",
+		"raveren/kint": "dev-master"
 	},
 	
 	"require-dev": {
