@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Services;
 
 use App,
+	Date,
 	File,
 	StaffModel;
 use DateTime, DateTimeZone;
@@ -23,7 +24,16 @@ class CalendarService {
 		// Create a new event
 		$event = array();
 
-		foreach ($staff->appointments as $a)
+		// Get a subset of the staff member's appointments
+		$series = $staff->appointments->filter(function($a)
+		{
+			// Get 14 days prior
+			$targetDate = Date::now()->subDays(14)->startOfDay();
+
+			return $a->start >= $targetDate;
+		});
+
+		foreach ($series as $a)
 		{
 			// Set the summary
 			$event['SUMMARY'] = ($a->service->isLesson())
