@@ -7,11 +7,6 @@
 @section('content')
 	<div class="row">
 		<div class="col-lg-6 col-lg-offset-3">
-			@if (Session::has('error'))
-				<br>
-				<div class="alert alert-danger">{{ trans(Session::get('reason')) }}</div>
-			@endif
-
 			<h1>Reset Password</h1>
 
 			{{ Form::open(array('url' => "password/reset/{$token}")) }}

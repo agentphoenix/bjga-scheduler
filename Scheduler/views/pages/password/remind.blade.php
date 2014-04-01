@@ -7,14 +7,6 @@
 @section('content')
 	<div class="row">
 		<div class="col-lg-6 col-lg-offset-3">
-			@if (Session::has('error'))
-				<br>
-				<div class="alert alert-danger">{{ trans(Session::get('reason')) }}</div>
-			@elseif (Session::has('status'))
-				<br>
-				<div class="alert alert-success">An email with the password reset link has been sent.</div>
-			@endif
-
 			<h1>Reset Password</h1>
 
 			<p>To reset your password, enter your email address below. You'll be sent an email with a confirmation link where you'll be able to set your new password.</p>
