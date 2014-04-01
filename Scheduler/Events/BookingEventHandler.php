@@ -29,7 +29,7 @@ class BookingEventHandler {
 			'recurring' 	=> (bool) $service->isRecurring(),
 			'additional'	=> $service->occurrences - 1,
 			'days'			=> $service->occurrences_schedule,
-			'user'			=> $user,
+			'user'			=> $user->name,
 		);
 
 		// Email the attendees
@@ -40,7 +40,7 @@ class BookingEventHandler {
 		});
 
 		// Email the instructor
-		Mail::queue('emails.bookedLessonInstructor', $data, function($msg) use ($user, $service)
+		Mail::queue('emails.bookedLessonInstructor', $data, function($msg) use ($service)
 		{
 			$msg->to($service->staff->user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Booked");
