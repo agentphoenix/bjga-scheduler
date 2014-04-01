@@ -9,8 +9,11 @@ class CalendarService {
 
 	public function fire($job, $data)
 	{
-		return $data;
-		
+		// Don't do anything because it's broken on production
+	}
+
+	public function old_fire($job, $data)
+	{
 		// Get the appointment
 		$model = $data['model'];
 
