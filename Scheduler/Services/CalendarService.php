@@ -9,10 +9,10 @@ class CalendarService {
 
 	public function fire($job, $data)
 	{
+		return $data;
+		
 		// Get the appointment
 		$model = $data['model'];
-
-		sd($data);
 
 		// Get the staff member
 		$staff = $model->staff;

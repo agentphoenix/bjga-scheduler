@@ -23,5 +23,7 @@ Route::get('calendar', function()
 
 	s($sa);
 
-	Queue::push('Scheduler\Services\CalendarService', array('model' => $sa));
+	$q = Queue::push('Scheduler\Services\CalendarService', array('model' => $sa));
+
+	s($q);
 });
