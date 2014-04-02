@@ -279,13 +279,13 @@ class BookingService {
 				else
 				{
 					// Get the start date for the series
-					$seriesStart = $staffAppt->occurrence->staffAppointments->sortBy(function($s)
+					$seriesStart = $staffAppt->service->appointments->sortBy(function($s)
 					{
 						return $s->start;
 					})->first()->start;
 
 					// Get the entire collection of staff appointments
-					$staffSeries = $staffAppt->occurrence->staffAppointments()->withTrashed()->get();
+					$staffSeries = $staffAppt->service->appointments()->withTrashed()->get();
 				}
 
 				foreach ($staffSeries as $seriesItem)
@@ -301,7 +301,7 @@ class BookingService {
 							$userAppt->delete();
 
 							// Delete the staff appointment
-							$seriesItem->delete();
+							//$seriesItem->delete();
 						}
 						else
 						{
@@ -309,8 +309,19 @@ class BookingService {
 							$userAppt->forceDelete();
 
 							// Delete the staff appointment
-							$seriesItem->forceDelete();
+							//$seriesItem->forceDelete();
 						}
+					}
+
+					if ($now > $seriesStart)
+					{
+						// Delete the staff appointment
+						$seriesItem->delete();
+					}
+					else
+					{
+						// Delete the staff appointment
+						$seriesItem->forceDelete();
 					}
 				}
 			}
