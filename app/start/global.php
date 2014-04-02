@@ -47,7 +47,7 @@ App::error(function(Exception $exception, $code)
 
 	$emailData = array(
 		'user'		=> "Scheduler",
-		'content'	=> $exception->getMessage()."\r\n\r\n".$exception->getFile().":".$exception->getLine(),
+		'content'	=> nl2br($exception->getMessage()."\r\n\r\n".$exception->getFile().":".$exception->getLine()."\r\n\r\n".$exception->getTraceAsString()),
 	);
 
 	Mail::send('emails.reportProblem', $emailData, function($msg)
