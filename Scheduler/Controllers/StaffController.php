@@ -302,9 +302,9 @@ class StaffController extends BaseController {
 			$availability = "";
 
 			// Get the start value
-			$start = Input::get('start', false);
+			$start = Input::get('start');
 
-			if ($start !== false)
+			if ($start !== null)
 			{
 				$rawStart = str_replace(' AM', '', $start);
 				$rawStart = str_replace(' PM', '', $rawStart);
