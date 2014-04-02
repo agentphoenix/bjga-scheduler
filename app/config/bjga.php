@@ -5,6 +5,7 @@ return array(
 	'dates' => array(
 
 		'date' => "l M jS, Y",
+		'dateNoDay' => "M jS, Y",
 		'day' => array(
 			'long' => "l",
 			'short' => "D",

@@ -10,11 +10,11 @@
 	@if (count($schedule) > 0)
 		@foreach ($schedule as $days => $appointments)
 			@if ($days === 0)
-				<h2>Today <small>{{ Date::now()->format(Config::get('bjga.dates.date')) }}</small></h2>
+				<h2>Today <small>{{ Date::now()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@elseif ($days === 1)
-				<h2>Tomorrow <small>{{ Date::now()->addDay()->format(Config::get('bjga.dates.date')) }}</small></h2>
+				<h2>Tomorrow <small>{{ Date::now()->addDay()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@elseif ($days >= 2 and $days <= 6)
-				<h2>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.date')) }}</small></h2>
+				<h2>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@else
 				<h2>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.date')) }}</h2>
 			@endif
