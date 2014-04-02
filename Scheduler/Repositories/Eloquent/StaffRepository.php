@@ -159,7 +159,7 @@ class StaffRepository implements StaffRepositoryInterface {
 
 				return $staff->appointments->filter(function($a) use ($today)
 				{
-					return $a->service_id === 1 and $a->start->startOfDay() >= $today->startOfDay();
+					return (int) $a->service_id === 1 and $a->start->startOfDay() >= $today->startOfDay();
 				})->sortBy(function($a)
 				{
 					return $a->start;
