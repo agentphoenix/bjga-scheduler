@@ -18,6 +18,12 @@ class ServicePresenter extends Presenter {
 				
 				$output = "$".round($perMonth, 2)." <small>per month</small>";
 			}
+			elseif ($entity->occurrences > 1 and $entity->isProgram())
+			{
+				$total = ($entity->price * $entity->occurrences);
+
+				$output = "$".round($total, 2);
+			}
 			else
 			{
 				$output = "${$entity->price}";
