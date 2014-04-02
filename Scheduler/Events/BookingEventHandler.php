@@ -52,8 +52,18 @@ class BookingEventHandler {
 		// Set the data
 		$data = array(
 			'service'	=> $service->name,
-			'schedule'	=> $service->serviceOccurrences->sortBy(function($s){ return $s->start; })->toArray(),
+			'schedule'	=> array(),
 		);
+
+		$occurrences = $service->serviceOccurrences->sortBy(function($s){ return $s->start; });
+
+		foreach ($occurrences as $o)
+		{
+			$data['schedule'][] = array(
+				'start'	=> $o->start->format('l F jS, Y, g:ia'),
+				'end'	=> $o->end->format('g:ia'),
+			);
+		}
 
 		// Get the user
 		$user = $userAppt->user;

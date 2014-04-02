@@ -12,7 +12,7 @@
 
 		<ul>
 		@foreach ($schedule as $s)
-			<li>{{ $s['start']->format('l F jS, Y') }}, {{ $s['start']->format('g:ia') }} - {{ $s['end']->format('g:ia') }}</li>
+			<li>{{ $s['start'] }} - {{ $s['end'] }}</li>
 		@endforeach
 		</ul>
 	</body>
