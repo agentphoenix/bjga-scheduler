@@ -7,8 +7,7 @@ class UserAppointmentModel extends Model {
 	protected $table = 'users_appointments';
 
 	protected $fillable = array(
-		'appointment_id', 'recur_id', 'occurrence_id', 'user_id', 'has_gift', 
-		'gift_amount', 'paid', 'amount',
+		'appointment_id', 'recur_id', 'occurrence_id', 'user_id', 'paid', 'amount',
 	);
 
 	protected $softDelete = true;

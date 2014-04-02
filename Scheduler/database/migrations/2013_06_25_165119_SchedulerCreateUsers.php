@@ -31,10 +31,8 @@ class SchedulerCreateUsers extends Migration {
 			$table->bigInteger('recur_id')->unsigned()->nullable();
 			$table->bigInteger('occurrence_id')->unsigned()->nullable();
 			$table->integer('user_id')->unsigned();
-			$table->boolean('has_gift')->default(0);
-			$table->integer('gift_amount')->default(0);
 			$table->boolean('paid')->default(0);
-			$table->integer('amount');
+			$table->string('amount');
 			$table->timestamps();
 			$table->softDeletes();
 		});
