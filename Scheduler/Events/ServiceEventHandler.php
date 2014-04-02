@@ -25,15 +25,18 @@ class ServiceEventHandler {
 			// Set the data for the email
 			$data = array('service' => $service->toArray());
 
-			// Set the recipients
-			$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
-
-			// Email the attendees
-			Mail::queue('emails.serviceDeleted', $data, function($message) use ($recipients, $service)
+			if ($service->attendees()->count() > 0)
 			{
-				$message->bcc($recipients)
-					->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Cancelled");
-			});
+				// Set the recipients
+				$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
+
+				// Email the attendees
+				Mail::queue('emails.serviceDeleted', $data, function($message) use ($recipients, $service)
+				{
+					$message->bcc($recipients)
+						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Cancelled");
+				});
+			}
 		}
 	}
 
@@ -65,15 +68,18 @@ class ServiceEventHandler {
 				);
 			}
 
-			// Set the recipients
-			$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
-
-			// Email the attendees
-			Mail::queue('emails.serviceUpdated', $data, function($message) use ($recipients, $service)
+			if ($service->attendees()->count() > 0)
 			{
-				$message->bcc($recipients)
-					->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Updated");
-			});
+				// Set the recipients
+				$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
+
+				// Email the attendees
+				Mail::queue('emails.serviceUpdated', $data, function($message) use ($recipients, $service)
+				{
+					$message->bcc($recipients)
+						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Updated");
+				});
+			}
 		}
 	}
 
