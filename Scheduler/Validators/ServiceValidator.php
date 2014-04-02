@@ -5,7 +5,7 @@ class ServiceValidator extends BaseValidator {
 	public static $rules = array(
 		'category'		=> 'required',
 		'staff_id'		=> 'required',
-		'name'			=> 'required|unique:services,name',
+		'name'			=> 'required',
 		'user_limit'	=> 'required|integer',
 		'occurrences'	=> 'required|integer',
 	);
