@@ -32,7 +32,7 @@ class SchedulerCreateUsers extends Migration {
 			$table->bigInteger('occurrence_id')->unsigned()->nullable();
 			$table->integer('user_id')->unsigned();
 			$table->boolean('paid')->default(0);
-			$table->string('amount');
+			$table->string('amount', 10);
 			$table->timestamps();
 			$table->softDeletes();
 		});
