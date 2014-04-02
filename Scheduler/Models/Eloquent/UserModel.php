@@ -109,7 +109,7 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 
 	public function getAppointment($id)
 	{
-		return $this->appointments->filter(function($a) use($id)
+		return $this->appointments->filter(function($a) use ($id)
 		{
 			return $a->appointment_id == $id;
 		});
@@ -118,7 +118,9 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 	public function access()
 	{
 		if ($this->isStaff())
+		{
 			return (int) $this->staff->access;
+		}
 
 		return false;
 	}
