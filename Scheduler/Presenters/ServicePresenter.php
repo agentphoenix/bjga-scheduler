@@ -26,7 +26,7 @@ class ServicePresenter extends Presenter {
 			}
 			else
 			{
-				$output = "${$entity->price}";
+				$output = "$".$entity->price;
 			}
 		}
 		else
