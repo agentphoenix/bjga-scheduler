@@ -164,11 +164,15 @@ class BookingService {
 
 		// Automatically mark free services as paid
 		if ($userApptRecord['amount'] == 0)
+		{
 			$userApptRecord['paid'] = (int) true;
+		}
 
 		// Staff members get free lessons, so we need to take that into account
 		if ($user->isStaff())
+		{
 			$userApptRecord = array_merge($userApptRecord, array('paid' => (int) true, 'amount' => 0));
+		}
 
 		if ($service->appointments->count() > 1)
 		{
