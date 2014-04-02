@@ -125,7 +125,7 @@ class UserRepository implements UserRepositoryInterface {
 	{
 		return UserAppointmentModel::date(Date::now()->startOfDay(), '<')
 			->where('paid', (int) false)
-			->orderBy('created_at', 'asc')
+			->orderBy('user_appointments.created_at', 'asc')
 			->get();
 	}
 
