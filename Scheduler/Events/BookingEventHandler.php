@@ -52,7 +52,7 @@ class BookingEventHandler {
 		// Set the data
 		$data = array(
 			'service'	=> $service->name,
-			'schedule'	=> $service->serviceOccurrences->sortBy(function($s){ return $s->start; }),
+			'schedule'	=> $service->serviceOccurrences->sortBy(function($s){ return $s->start; })->toArray(),
 		);
 
 		// Get the user
