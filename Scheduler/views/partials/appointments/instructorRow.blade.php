@@ -18,43 +18,45 @@
 			<div class="btn-toolbar pull-right">
 				@if ($appt->service->isProgram())
 					<div class="btn-group">
-						<a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['info'] }}</a>
+						<a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="More Info">{{ $_icons['info'] }}</a>
 					</div>
 				@endif
 
 				@if ($appt->service->isLesson() or $appt->service->isProgram())
 					<div class="btn-group">
-						<a href="#" class="btn btn-sm btn-default icn-size-16 js-email" data-service="{{ $appt->service->id }}" data-appt="{{ $appt->id }}">{{ $_icons['email'] }}</a>
+						<a href="#" class="btn btn-sm btn-default icn-size-16 js-email js-tooltip-top" data-service="{{ $appt->service->id }}" data-appt="{{ $appt->id }}" data-title="Email Attendees">{{ $_icons['email'] }}</a>
 					</div>
 					
 					<div class="btn-group">
 						@if ($appt->service->isLesson())
-							<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+							@if ( ! $appt->hasStarted())
+								<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Appointment">{{ $_icons['edit'] }}</a>
+							@endif
 						@else
-							<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+							<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Service">{{ $_icons['edit'] }}</a>
 						@endif
 					</div>
 
 					@if ($appt->service->isLesson())
 						@if ((bool) $appt->userAppointments->first()->paid === false)
 							<div class="btn-group">
-								<a href="#" class="btn btn-sm btn-primary icn-size-16 js-markAsPaid" data-appt="{{ $appt->userAppointments->first()->id }}">{{ $_icons['check'] }}</a>
+								<a href="#" class="btn btn-sm btn-primary icn-size-16 js-markAsPaid js-tooltip-top" data-appt="{{ $appt->userAppointments->first()->id }}" data-title="Mark as Paid">{{ $_icons['check'] }}</a>
 							</div>
 						@endif
 					@else
 						<div class="btn-group">
-							<a href="#" class="btn btn-sm btn-default icn-size-16 js-attendees" data-id="{{ $appt->id }}">{{ $_icons['users'] }}</a>
+							<a href="#" class="btn btn-sm btn-default icn-size-16 js-attendees js-tooltip-top" data-id="{{ $appt->id }}" data-title="See All Attendees">{{ $_icons['users'] }}</a>
 						</div>
 					@endif
 
 					@if ( ! $appt->hasStarted())
 						<div class="btn-group">
-							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw js-tooltip-top" data-type="staff" data-appointment="{{ $appt->id }}" data-title="Cancel Appointment">{{ $_icons['reject'] }}</a>
 						</div>
 					@endif
 				@else
 					<div class="btn-group">
-						<a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
+						<a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="View Schedule">{{ $_icons['calendar'] }}</a>
 					</div>
 				@endif
 			</div>

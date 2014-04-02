@@ -12,17 +12,17 @@
 			<div class="btn-toolbar pull-right">
 				@if ($appt->service->isProgram())
 					<div class="btn-group">
-						<a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['info'] }}</a>
+						<a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="More Info">{{ $_icons['info'] }}</a>
 					</div>
 				@endif
 
 				<div class="btn-group">
-					<a href="#" class="btn btn-sm btn-default icn-size-16 js-email-instructor" data-appt="{{ $appt->id }}">{{ $_icons['email'] }}</a>
+					<a href="#" class="btn btn-sm btn-default icn-size-16 js-email-instructor js-tooltip-top" data-appt="{{ $appt->id }}" data-title="Email Instructor">{{ $_icons['email'] }}</a>
 				</div>
 
 				@if ( ! $appt->hasStarted())
 					<div class="btn-group">
-						<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a>
+						<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw js-tooltip-top" data-type="student" data-appointment="{{ $appt->id }}" data-title="Cancel Appointment">{{ $_icons['reject'] }}</a>
 					</div>
 				@endif
 			</div>
