@@ -46,10 +46,10 @@ class UserAppointmentModel extends Model {
 	|--------------------------------------------------------------------------
 	*/
 
-	public function scopeDate($query, $date)
+	public function scopeDate($query, $date, $equality = '>=')
 	{
 		$query->join('staff_appointments', 'users_appointments.appointment_id', '=', 'staff_appointments.id')
-			->where('start', '>=', $date->toDateTimeString());
+			->where('start', $equality, $date);
 	}
 
 	public function scopeAttendee($query, $user)

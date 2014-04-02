@@ -123,7 +123,8 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function getUnpaid()
 	{
-		return UserAppointmentModel::where('paid', (int) false)
+		return UserAppointmentModel::date(Date::now()->startOfDay(), '<')
+			->where('paid', (int) false)
 			->orderBy('created_at', 'asc')
 			->get();
 	}
