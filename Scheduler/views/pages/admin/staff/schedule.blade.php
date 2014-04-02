@@ -77,7 +77,7 @@
 								<p><strong>{{ $days[$d] }}</strong></p>
 							</div>
 							<div class="col-xs-6 col-sm-4 col-md-3 col-lg-4">
-								<p>{{ $schedule->filter(function($s) use ($d){ return $s->day == $d; })->first()->availability }}</p>
+								<p>{{ $schedule->filter(function($s) use ($d){ return $s->day == $d; })->first()->availability or '<span class="text-info">No availability</span>' }}</p>
 							</div>
 							<div class="col-xs-12 col-sm-4 col-md-6 col-lg-4">
 								<div class="visible-md visible-lg">
