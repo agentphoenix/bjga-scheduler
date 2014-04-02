@@ -23,7 +23,7 @@ class ServiceEventHandler {
 			Queue::push('Scheduler\Services\CalendarService', array('staff' => $service->staff->id));
 
 			// Set the data for the email
-			$data = array('service' => $service);
+			$data = array('service' => $service->toArray());
 
 			// Set the recipients
 			$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
@@ -31,7 +31,7 @@ class ServiceEventHandler {
 			// Email the attendees
 			Mail::queue('emails.serviceDeleted', $data, function($message) use ($recipients, $service)
 			{
-				$message->to($recipients)
+				$message->bcc($recipients)
 					->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Cancelled");
 			});
 		}
@@ -46,9 +46,24 @@ class ServiceEventHandler {
 
 			// Set the data for the email
 			$data = array(
-				'service' => $service,
-				'schedule' => $service->serviceOccurrences,
+				'name' => $service->name,
+				'description' => $service->description,
+				'price' => $service->present()->price,
+				'schedule' => array(),
 			);
+
+			$occurrences = $service->serviceOccurrences->sortBy(function($s)
+			{
+				return $s->start;
+			});
+
+			foreach ($occurrences as $o)
+			{
+				$data['schedule'][] = array(
+					'start'	=> $o->start->format('l F jS, Y, g:ia'),
+					'end'	=> $o->end->format('g:ia'),
+				);
+			}
 
 			// Set the recipients
 			$recipients = implode(',', $service->attendees()->toSimpleArray('id', 'email'));
@@ -56,7 +71,7 @@ class ServiceEventHandler {
 			// Email the attendees
 			Mail::queue('emails.serviceUpdated', $data, function($message) use ($recipients, $service)
 			{
-				$message->to($recipients)
+				$message->bcc($recipients)
 					->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Updated");
 			});
 		}
