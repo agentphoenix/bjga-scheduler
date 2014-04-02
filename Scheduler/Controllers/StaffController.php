@@ -306,7 +306,7 @@ class StaffController extends BaseController {
 
 			\Log::info(var_export($start, true));
 
-			if ($start !== null)
+			if ($start)
 			{
 				$rawStart = str_replace(' AM', '', $start);
 				$rawStart = str_replace(' PM', '', $rawStart);
