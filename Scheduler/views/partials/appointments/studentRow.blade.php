@@ -32,10 +32,10 @@
 				<p><a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['info'] }}</a></p>
 			@endif
 
-			<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email-instructor" data-appt="{{ $appt->id }}">{{ $_icons['email'] }}</a></p>
+			<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email-instructor" data-appt="{{ $appt->id }}">Email Instructor</a></p>
 
 			@if ( ! $appt->hasStarted())
-				<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">{{ $_icons['reject'] }}</a></p>
+				<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
 			@endif
 		</div>
 	</div>
