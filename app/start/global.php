@@ -46,7 +46,7 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 
 	$emailData = array(
-		'user'		=> "Scheduler",
+		'user'		=> "the Scheduler",
 		'content'	=> nl2br($exception->getMessage()."\r\n\r\n".$exception->getFile().":".$exception->getLine()."\r\n\r\n".$exception->getTraceAsString()),
 	);
 
@@ -57,7 +57,7 @@ App::error(function(Exception $exception, $code)
 	});
 
 	return View::make('pages.admin.error')
-		->withError("Uh-oh! It looks like you stumbled across an error. We apologize for the issue. The problem has been automatically reported to the developers.");
+		->withError("Uh-oh! It looks like you stumbled across an error. We apologize for the issue. The problem has been automatically reported to Brian Jacobs Golf. If you continue to have trouble, email admin@brianjacobsgolf.com for more help.");
 });
 
 App::fatal(function($exception)
