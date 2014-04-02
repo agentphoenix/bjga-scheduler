@@ -186,21 +186,26 @@ class AjaxController extends BaseController {
 		{
 			$appt = $service->appointments->last();
 
-			return json_encode(array(
-				'service' => array(
-					'id'			=> (int) $service->id,
-					'name'			=> (string) $service->name,
-					'description'	=> (string) $service->description,
-					'price'			=> (string) $service->present()->price,
-					'user_limit'	=> (int) $service->user_limit,
-				),
-				'appointment' => array(
+			$output = array();
+			$output['service'] = array(
+				'id'			=> (int) $service->id,
+				'name'			=> (string) $service->name,
+				'description'	=> (string) $service->description,
+				'price'			=> (string) $service->present()->price,
+				'user_limit'	=> (int) $service->user_limit,
+			);
+			$output['enrolled'] = (int) $service->attendees()->count();
+
+			if ($appt)
+			{
+				$output['appointment'] = array(
 					'id'	=> (int) $appt->id,
 					'date'	=> (string) $appt->start->format(Config::get('bjga.dates.date')),
 					'start'	=> (string) $appt->start->format(Config::get('bjga.dates.time')),
-				),
-				'enrolled' => (int) $service->attendees()->count(),
-			));
+				);
+			}
+
+			return json_encode($output);
 		}
 
 		return json_encode(array());
