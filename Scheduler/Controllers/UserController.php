@@ -111,8 +111,8 @@ class UserController extends BaseController {
 		$user = $this->user->find($id);
 
 		if (($user->isStaff() and $user->access() > 1) 
-				or ($user->isStaff() and $user->access == 1 and $user == $this->currentUser)
-				or ( ! $user->isStaff() and $user == $this->currentUser))
+				or ($user->isStaff() and $user->access == 1 and $user->id == $this->currentUser->id)
+				or ( ! $user->isStaff() and $user->id == $this->currentUser->id))
 		{
 			$validator = new UserValidator;
 
