@@ -220,9 +220,6 @@ class BookingService {
 				$type = 'student';
 			}
 
-			\Log::info("Cancelled by {$type}");
-			\Log::info("Reason: {$reason}");
-
 			// Fire the event
 			Event::fire("book.cancel.{$type}", array($staffAppt, $user, $emails, $reason));
 		}
