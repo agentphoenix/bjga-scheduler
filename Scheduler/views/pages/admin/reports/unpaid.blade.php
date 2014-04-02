@@ -34,7 +34,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 					<p class="text-muted text-sm">{{ $u->appointment->service->name }}</p>
-					<p class="text-muted text-sm">{{ $u->appointment->start->format(Config::get('bjga.dates.long')) }}
+					<p class="text-muted text-sm">{{ $u->appointment->start->format(Config::get('bjga.dates.full')) }}
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 					<div class="visible-md visible-lg">
