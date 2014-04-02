@@ -241,7 +241,7 @@ class StaffController extends BaseController {
 		// Fire the lesson booking event
 		Event::fire('book.block.created', array($this->currentUser, false));
 
-		return Redirect::route('admin.staff.schedule', array($id))
+		return Redirect::route('admin.staff.schedule', array($this->currentUser->staff->id))
 			->with('message', "Schedule block was successfully removed.")
 			->with('messageStatus', 'success');
 	}
