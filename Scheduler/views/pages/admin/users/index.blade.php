@@ -42,17 +42,17 @@
 					<div class="btn-toolbar pull-right">
 						@if ( ! empty($user->email))
 							<div class="btn-group">
-								<a href="#" class="btn btn-sm btn-default icn-size-16 js-email" data-user="{{ $user->id }}">{{ $_icons['email'] }}</a>
+								<a href="#" class="btn btn-sm btn-default icn-size-16 js-email js-tooltip-top" data-title="Email Student" data-user="{{ $user->id }}">{{ $_icons['email'] }}</a>
 							</div>
 						@endif
 
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+							<a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Student">{{ $_icons['edit'] }}</a>
 						</div>
 
 						@if ($_currentUser->access() > 2)
 							<div class="btn-group">
-								<a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-sm btn-danger icn-size-16 js-user-action" data-action="delete" data-id="{{ $user->id }}">{{ $_icons['remove'] }}</a>
+								<a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-sm btn-danger icn-size-16 js-user-action js-tooltip-top" data-title="Remove Student" data-action="delete" data-id="{{ $user->id }}">{{ $_icons['remove'] }}</a>
 							</div>
 						@endif
 					</div>
@@ -61,23 +61,23 @@
 					<div class="row">
 						@if ( ! empty($user->phone))
 							<div class="visible-xs col-xs-12">
-								<p><a href="tel:{{ $user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['phone'] }}</a></p>
+								<p><a href="tel:{{ $user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">Call Student</a></p>
 							</div>
 						@endif
 
 						@if ( ! empty($user->email))
 							<div class="visible-xs col-xs-12">
-								<p><a href="tel:{{ $user->email }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['email'] }}</a></p>
+								<p><a href="tel:{{ $user->email }}" class="btn btn-block btn-lg btn-default icn-size-16">Email Student</a></p>
 							</div>
 						@endif
 
 						<div class="col-xs-12 col-sm-6">
-							<p><a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
+							<p><a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit Student</a></p>
 						</div>
 
 						@if ($_currentUser->access() > 2)
 							<div class="col-xs-12 col-sm-6">
-								<p><a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-user-action" data-action="delete" data-id="{{ $user->id }}">{{ $_icons['remove'] }}</a></p>
+								<p><a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-user-action" data-action="delete" data-id="{{ $user->id }}">Remove Student</a></p>
 							</div>
 						@endif
 					</div>

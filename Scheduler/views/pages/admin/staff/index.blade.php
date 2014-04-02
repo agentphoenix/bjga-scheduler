@@ -39,7 +39,7 @@
 				<div class="visible-md visible-lg">
 					<div class="btn-toolbar pull-right">
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Schedule">{{ $_icons['calendar'] }}</a>
+							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Staff Schedule">{{ $_icons['calendar'] }}</a>
 						</div>
 						<div class="btn-group">
 							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Staff Member">{{ $_icons['edit'] }}</a>
@@ -52,7 +52,7 @@
 				<div class="visible-xs visible-sm">
 					<div class="row">
 						<div class="col-sm-4">
-							<p><a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Schedule</a></p>
+							<p><a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Staff Schedule</a></p>
 						</div>
 						<div class="col-sm-4">
 							<p><a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit Staff Member</a></p>
