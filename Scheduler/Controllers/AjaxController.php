@@ -190,7 +190,7 @@ class AjaxController extends BaseController {
 					'id'			=> (int) $service->id,
 					'name'			=> (string) $service->name,
 					'description'	=> (string) $service->description,
-					'price'			=> (string) $service->price,
+					'price'			=> (string) $service->present()->price,
 					'user_limit'	=> (int) $service->user_limit,
 				),
 				'appointment' => array(

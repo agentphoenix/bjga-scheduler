@@ -5,13 +5,7 @@
 		<div class="col-lg-2">
 			<div class="form-group">
 				<label class="control-label">Price</label>
-				<h3 class="text-success price-details">
-					@if ($price > 0)
-						${{ $price }}
-					@else
-						Free
-					@endif
-				</h3>
+				<h3 class="text-success price-details">{{ $price }}</h3>
 			</div>
 		</div>
 
