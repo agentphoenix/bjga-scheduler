@@ -111,8 +111,7 @@
 			$.ajax({
 				type: "POST",
 				data: { appointment: $(this).data('appointment') },
-				//url: "{{ URL::route('ajax.withdraw') }}",
-				url: "{{ URL::route('book.withdraw') }}",
+				url: "{{ URL::route('ajax.withdraw') }}",
 				success: function(data)
 				{
 					location.reload();
