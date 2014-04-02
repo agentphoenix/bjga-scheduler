@@ -307,9 +307,10 @@ class AjaxController extends BaseController {
 		// Get the user appointment object
 		$appointment = $this->user->getAppointment($id);
 
-		$appointment->withdraw();
+		// Cancel the appointment
+		Book::cancel($appointment->appointment->id, false);
 
-		Session::flash('message', "Appointment has been successfully removed.");
+		Session::flash('message', "You've successfully canceled the appointment.");
 		Session::flash('messageStatus', "success");
 	}
 
