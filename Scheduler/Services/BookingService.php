@@ -43,15 +43,29 @@ class BookingService {
 		// Get the service
 		$service = $this->service->find($data['service_id']);
 
-		// Build the start date
-		$start = (array_key_exists('start', $data))
-			? Date::createFromFormat('Y-m-d H:i A', $data['date'].' '.$data['start'])
-			: Date::createFromFormat('Y-m-d G:i', $data['date'].' '.$data['time']);
+		if (array_key_exists('start', $data))
+		{
+			$rawStart = str_replace(' AM', '', $data['start']);
+			$rawStart = str_replace(' PM', '', $rawStart);
 
-		// Build the end date
-		$end = (array_key_exists('end', $data))
-			? Date::createFromFormat('Y-m-d H:i A', $data['date'].' '.$data['end'])
-			: $start->copy()->addMinutes($service->duration);
+			$start = Date::createFromFormat('Y-m-d H:i', $data['date'].' '.$rawStart);
+		}
+		else
+		{
+			$start = Date::createFromFormat('Y-m-d G:i', $data['date'].' '.$data['time']);
+		}
+
+		if (array_key_exists('end', $data))
+		{
+			$rawEnd = str_replace(' AM', '', $data['end']);
+			$rawEnd = str_replace(' PM', '', $rawEnd);
+
+			$end = Date::createFromFormat('Y-m-d H:i', $data['date'].' '.$rawEnd);
+		}
+		else
+		{
+			$end = $start->copy()->addMinutes($service->duration);
+		}
 
 		// Build the price
 		$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
