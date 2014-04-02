@@ -45,14 +45,14 @@
 						<div class="visible-md visible-lg">
 							<div class="btn-toolbar pull-right">
 								<div class="btn-group">
-									<a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+									<a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit">{{ $_icons['edit'] }}</a>
 								</div>
 							</div>
 						</div>
 						<div class="visible-xs visible-sm">
 							<div class="row">
 								<div class="col-sm-3">
-									<p><a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
+									<p><a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit</a></p>
 								</div>
 							</div>
 						</div>

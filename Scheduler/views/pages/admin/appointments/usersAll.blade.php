@@ -40,20 +40,20 @@
 					<div class="visible-md visible-lg">
 						<div class="btn-toolbar pull-right">
 							<div class="btn-group">
-								<a href="{{ URL::route('admin.appointment.history', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['schedule'] }}</a>
+								<a href="{{ URL::route('admin.appointment.history', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Student History">{{ $_icons['schedule'] }}</a>
 							</div>
 							<div class="btn-group">
-								<a href="{{ URL::route('admin.appointment.user', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
+								<a href="{{ URL::route('admin.appointment.user', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Student's Schedule">{{ $_icons['calendar'] }}</a>
 							</div>
 						</div>
 					</div>
 					<div class="visible-xs visible-sm">
 						<div class="row">
 							<div class="col-sm-6">
-								<p><a href="{{ URL::route('admin.appointment.history', array($user->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['schedule'] }}</a></p>
+								<p><a href="{{ URL::route('admin.appointment.history', array($user->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">History</a></p>
 							</div>
 							<div class="col-sm-6">
-								<p><a href="{{ URL::route('admin.appointment.user', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
+								<p><a href="{{ URL::route('admin.appointment.user', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Student's Schedule</a></p>
 							</div>
 						</div>
 					</div>
