@@ -299,18 +299,26 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$rawStart = str_replace(' AM', '', Input::get('start'));
-			$rawStart = str_replace(' PM', '', $rawStart);
-			$rawEnd = str_replace(' AM', '', Input::get('end'));
-			$rawEnd = str_replace(' PM', '', $rawEnd);
+			$availability = "";
 
-			// Get the start
-			$start = Date::createFromFormat('H:i', $rawStart)->format('G:i');
+			// Get the start value
+			$start = Input::get('start', false);
 
-			// Get the end
-			$end = Date::createFromFormat('H:i', $rawEnd)->format('G:i');
+			if ($start !== false)
+			{
+				$rawStart = str_replace(' AM', '', $start);
+				$rawStart = str_replace(' PM', '', $rawStart);
+				$rawEnd = str_replace(' AM', '', Input::get('end'));
+				$rawEnd = str_replace(' PM', '', $rawEnd);
 
-			$availability = "{$start}-{$end}";
+				// Get the start
+				$start = Date::createFromFormat('H:i', $rawStart)->format('G:i');
+
+				// Get the end
+				$end = Date::createFromFormat('H:i', $rawEnd)->format('G:i');
+
+				$availability = "{$start}-{$end}";
+			}
 
 			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), $availability);
 
