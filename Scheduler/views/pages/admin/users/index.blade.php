@@ -67,7 +67,7 @@
 
 						@if ( ! empty($user->email))
 							<div class="visible-xs col-xs-12">
-								<p><a href="tel:{{ $user->email }}" class="btn btn-block btn-lg btn-default icn-size-16">Email Student</a></p>
+								<p><a href="#" class="btn btn-block btn-lg btn-default icn-size-16 js-email" data-user="{{ $user->id }}">Email Student</a></p>
 							</div>
 						@endif
 
