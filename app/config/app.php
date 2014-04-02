@@ -179,7 +179,6 @@ return array(
 
 		'Book'			=> 'Scheduler\Facades\Book',
 		'Date'			=> 'Carbon\Carbon',
-		'MailChimp'		=> 'Scheduler\Facades\MailChimp',
 		'Markdown'		=> 'Scheduler\Facades\Markdown',
 		'Model'			=> 'Scheduler\Extensions\Laravel\Database\Eloquent\Model',
 
