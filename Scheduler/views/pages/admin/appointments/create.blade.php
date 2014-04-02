@@ -131,7 +131,10 @@
 				success: function(data)
 				{
 					var obj = $.parseJSON(data);
-					$('[name="price"]').val(obj.service.price);
+					var price = obj.service.price;
+					price = price.replace("$", "");
+
+					$('[name="price"]').val(price);
 				}
 			});
 		});
