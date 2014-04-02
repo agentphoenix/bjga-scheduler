@@ -41,18 +41,32 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 |
 */
 
-echo htmlentities(array());
-
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+
+	$emailData = array(
+		'user'		=> "Scheduler",
+		'content'	=> $exception->getMessage(),
+	);
+
+	Mail::send('emails.reportProblem', $emailData, function($msg)
+	{
+		$msg->to('admin@brianjacobsgolf.com')
+			->subject("[Brian Jacobs Golf] Exception Thrown!");
+	});
+
+	return View::make('pages.admin.error')
+		->withError("Uh-oh! It looks like you stumbled across an error. We apologize for the issue. The problem has been automatically reported to the developers.");
 });
 
 App::fatal(function($exception)
 {
 	return View::make('pages.admin.error')
-		->withError("An error occurred.");
+		->withError("A fatal error occurred.");
 });
+
+echo htmlentities(array());
 
 /*
 |--------------------------------------------------------------------------
