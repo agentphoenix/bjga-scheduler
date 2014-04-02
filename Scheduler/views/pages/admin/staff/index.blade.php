@@ -39,26 +39,26 @@
 				<div class="visible-md visible-lg">
 					<div class="btn-toolbar pull-right">
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['calendar'] }}</a>
+							<a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Schedule">{{ $_icons['calendar'] }}</a>
 						</div>
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
+							<a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Staff Member">{{ $_icons['edit'] }}</a>
 						</div>
 						<div class="btn-group">
-							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
+							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-staff-action js-tooltip-top" data-title="Remove Staff Member" data-action="delete" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
 						</div>
 					</div>
 				</div>
 				<div class="visible-xs visible-sm">
 					<div class="row">
 						<div class="col-sm-4">
-							<p><a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['calendar'] }}</a></p>
+							<p><a href="{{ URL::route('admin.staff.schedule', array($s->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Schedule</a></p>
 						</div>
 						<div class="col-sm-4">
-							<p><a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['edit'] }}</a></p>
+							<p><a href="{{ URL::route('admin.staff.edit', array($s->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit Staff Member</a></p>
 						</div>
 						<div class="col-sm-4">
-							<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a></p>
+							<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $s->id }}">Remove Staff Member</a></p>
 						</div>
 					</div>
 				</div>

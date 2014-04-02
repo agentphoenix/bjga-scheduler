@@ -17,7 +17,7 @@
 		</div>
 		<div class="visible-xs visible-sm">
 			<div class="row">
-				<div class="col-xs-12 col-sm-3">
+				<div class="col-xs-6 col-sm-3">
 					<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 				</div>
 			</div>

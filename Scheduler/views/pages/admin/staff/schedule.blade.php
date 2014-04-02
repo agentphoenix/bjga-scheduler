@@ -47,14 +47,14 @@
 							<div class="visible-md visible-lg">
 								<div class="btn-toolbar pull-right">
 									<div class="btn-group">
-										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $b->id }}">{{ $_icons['remove'] }}</a>
+										<a href="#" class="btn btn-sm btn-danger icn-size-16 js-staff-action js-tooltip-top" data-title="Remove Block" data-action="delete" data-id="{{ $b->id }}">{{ $_icons['remove'] }}</a>
 									</div>
 								</div>
 							</div>
 							<div class="visible-xs visible-sm">
 								<div class="row">
 									<div class="col-xs-12 col-sm-12">
-										<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $b->id }}">{{ $_icons['remove'] }}</a></p>
+										<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $b->id }}">Remove Block</a></p>
 									</div>
 								</div>
 							</div>
@@ -83,12 +83,12 @@
 								<div class="visible-md visible-lg">
 									<div class="btn-toolbar pull-right">
 										<div class="btn-group">
-											<a href="#" class="btn btn-sm btn-default icn-size-16 js-staff-action" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">{{ $_icons['edit'] }}</a>
+											<a href="#" class="btn btn-sm btn-default icn-size-16 js-staff-action js-tooltip-top" data-title="Edit Day's Schedule" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">{{ $_icons['edit'] }}</a>
 										</div>
 									</div>
 								</div>
 								<div class="visible-xs visible-sm">
-									<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-staff-action" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">{{ $_icons['edit'] }}</a></p>
+									<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-staff-action" data-action="edit" data-id="{{ $staff->user->id }}" data-day="{{ $d }}">Edit Day's Schedule</a></p>
 								</div>
 							</div>
 						</div>
