@@ -50,7 +50,7 @@
 					<div class="visible-xs visible-sm">
 						<div class="row">
 							<div class="col-sm-6">
-								<p><a href="{{ URL::route('admin.appointment.history', array($user->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">History</a></p>
+								<p><a href="{{ URL::route('admin.appointment.history', array($user->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Student History</a></p>
 							</div>
 							<div class="col-sm-6">
 								<p><a href="{{ URL::route('admin.appointment.user', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Student's Schedule</a></p>

@@ -40,23 +40,23 @@
 					<div class="visible-md visible-lg">
 						<div class="btn-toolbar pull-right">
 							<div class="btn-group">
-								<a href="#" class="btn btn-sm btn-default icn-size-16 js-email" data-user="{{ $u->user->id }}">{{ $_icons['email'] }}</a>
+								<a href="#" class="btn btn-sm btn-default icn-size-16 js-email js-tooltip-top" data-title="Email Student" data-user="{{ $u->user->id }}">{{ $_icons['email'] }}</a>
 							</div>
 							<div class="btn-group">
-								<a href="#" class="btn btn-sm btn-primary icn-size-16 js-markAsPaid" data-appt="{{ $u->id }}">{{ $_icons['check'] }}</a>
+								<a href="#" class="btn btn-sm btn-primary icn-size-16 js-markAsPaid js-tooltip-top" data-title="Mark as Paid" data-appt="{{ $u->id }}">{{ $_icons['check'] }}</a>
 							</div>
 						</div>
 					</div>
 					<div class="visible-xs visible-sm">
 						<div class="row">
 							<div class="col-xs-12 col-sm-4">
-								<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email" data-user="{{ $u->user->id }}">{{ $_icons['email'] }}</a></p>
+								<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email" data-user="{{ $u->user->id }}">Email Student</a></p>
 							</div>
 							<div class="col-xs-12 visible-xs">
-								<p><a href="tel:{{ $u->user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['phone'] }}</a></p>
+								<p><a href="tel:{{ $u->user->phone }}" class="btn btn-block btn-lg btn-default icn-size-16">Call Student</a></p>
 							</div>
 							<div class="col-xs-12 col-sm-4">
-								<p><a href="#" class="btn btn-block btn-lg btn-primary icn-size-16">{{ $_icons['check'] }}</a></p>
+								<p><a href="#" class="btn btn-block btn-lg btn-primary icn-size-16">Mark as Paid</a></p>
 							</div>
 						</div>
 					</div>
