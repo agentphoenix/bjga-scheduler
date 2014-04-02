@@ -265,14 +265,28 @@ class BookingService {
 				// Get today
 				$now = Date::now();
 
-				// Get the start date for the series
-				$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
+				if ($service->isLesson())
 				{
-					return $s->start;
-				})->first()->start;
+					// Get the start date for the series
+					$seriesStart = $staffAppt->recur->staffAppointments->sortBy(function($s)
+					{
+						return $s->start;
+					})->first()->start;
 
-				// Get the entire collection of staff appointments
-				$staffSeries = $staffAppt->recur->staffAppointments()->withTrashed()->get();
+					// Get the entire collection of staff appointments
+					$staffSeries = $staffAppt->recur->staffAppointments()->withTrashed()->get();
+				}
+				else
+				{
+					// Get the start date for the series
+					$seriesStart = $staffAppt->occurrence->staffAppointments->sortBy(function($s)
+					{
+						return $s->start;
+					})->first()->start;
+
+					// Get the entire collection of staff appointments
+					$staffSeries = $staffAppt->occurrence->staffAppointments()->withTrashed()->get();
+				}
 
 				foreach ($staffSeries as $seriesItem)
 				{
