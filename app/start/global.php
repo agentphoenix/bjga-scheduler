@@ -41,9 +41,17 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 |
 */
 
+echo htmlentities(array());
+
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+});
+
+App::fatal(function($exception)
+{
+	return View::make('pages.admin.error')
+		->withError("An error occurred.");
 });
 
 /*
