@@ -242,7 +242,7 @@
 		{
 			clearTimeout(timer);
 
-			$('#lessonServiceDetails').addClass('hide');
+			$('#lessonServiceDetails').html('');
 			$('.ajax-container').html('').closest('.row').removeClass('hide');
 			$('#availabilityCountdown').closest('.row').addClass('hide');
 			$('[name="time"]').val('');
