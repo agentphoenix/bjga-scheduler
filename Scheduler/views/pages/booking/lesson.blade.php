@@ -206,7 +206,7 @@
 				data: { service: $('[name="service_id"] option:selected').val() },
 				success: function(data)
 				{
-					$('#lessonServiceDetails').html(data);
+					$('#lessonServiceDetails').html(data).removeClass('hide');
 				}
 			});
 		});
