@@ -14,12 +14,24 @@ class ServicePresenter extends Presenter {
 		{
 			if ($entity->occurrences > 1 and $entity->isLesson())
 			{
-				$month = ($entity->price * $entity->occurrences) / ($entity->occurrences / 4);
+				if ($entity->occurrences % 4 != 0)
+				{
+					$total = ($entity->price * $entity->occurrences);
 
-				$formattedTotal = money_format('%i', $month);
-				$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
-				
-				$output = "$".$finalTotal." <small>per month</small>";
+					$formattedTotal = money_format('%i', $total);
+					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
+
+					$output = "$".$finalTotal;
+				}
+				else
+				{
+					$month = ($entity->price * $entity->occurrences) / ($entity->occurrences / 4);
+
+					$formattedTotal = money_format('%i', $month);
+					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
+					
+					$output = "$".$finalTotal." <small>per month</small>";
+				}
 			}
 			elseif ($entity->occurrences > 1 and $entity->isProgram())
 			{
