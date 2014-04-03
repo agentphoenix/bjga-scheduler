@@ -16,7 +16,7 @@ class ServicePresenter extends Presenter {
 			{
 				$month = ($entity->price * $entity->occurrences) / ($entity->occurrences / 4);
 				
-				$output = "$".money_format('%.2i', $perMonth)." <small>per month</small>";
+				$output = "$".money_format('%.2i', $month)." <small>per month</small>";
 			}
 			elseif ($entity->occurrences > 1 and $entity->isProgram())
 			{
