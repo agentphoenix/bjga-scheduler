@@ -206,7 +206,7 @@
 				data: { service: $('[name="service_id"] option:selected').val() },
 				success: function(data)
 				{
-					$('#lessonServiceDetails').html(data).removeClass('hide');
+					$('#lessonServiceDetails').html(data);
 				}
 			});
 		});
@@ -249,6 +249,8 @@
 			$('[name="timeDisplay"]').val('');
 			$('.bookingForm').addClass('hide');
 			$('.js-check').closest('.row').removeClass('hide');
+
+			console.log($('#availabilityCountdown').countdown());
 
 			$('#availabilityCountdown').countdown('destroy');
 			$('#finalCountdown').countdown('destroy');
