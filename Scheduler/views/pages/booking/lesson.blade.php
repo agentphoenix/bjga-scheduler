@@ -238,29 +238,27 @@
 			});
 		});
 
-		$(document).ready(function()
+		function resetOptions()
 		{
-			function resetOptions()
+			clearTimeout(timer);
+
+			$('#lessonServiceDetails').html('');
+			$('.ajax-container').html('').closest('.row').removeClass('hide');
+			$('#availabilityCountdown').closest('.row').addClass('hide');
+			$('[name="time"]').val('');
+			$('[name="timeDisplay"]').val('');
+			$('.bookingForm').addClass('hide');
+			$('.js-check').closest('.row').removeClass('hide');
+
+			if ($.isFunction($.countdown))
 			{
-				clearTimeout(timer);
-
-				$('#lessonServiceDetails').html('');
-				$('.ajax-container').html('').closest('.row').removeClass('hide');
-				$('#availabilityCountdown').closest('.row').addClass('hide');
-				$('[name="time"]').val('');
-				$('[name="timeDisplay"]').val('');
-				$('.bookingForm').addClass('hide');
-				$('.js-check').closest('.row').removeClass('hide');
-
-				console.log($('#availabilityCountdown').countdown());
-
 				$('#availabilityCountdown').countdown('destroy');
 				$('#finalCountdown').countdown('destroy');
-
-				$('#availabilityCountdown').closest('.row').addClass('hide');
-				$('#finalCountdown').closest('.row').addClass('hide');
 			}
-		});
+
+			$('#availabilityCountdown').closest('.row').addClass('hide');
+			$('#finalCountdown').closest('.row').addClass('hide');
+		}
 
 	</script>
 @stop
