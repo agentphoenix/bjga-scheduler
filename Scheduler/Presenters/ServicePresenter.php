@@ -16,17 +16,17 @@ class ServicePresenter extends Presenter {
 			{
 				$month = ($entity->price * $entity->occurrences) / ($entity->occurrences / 4);
 				
-				$output = "$".money_format(round($perMonth, 2))." <small>per month</small>";
+				$output = "$".money_format('%i', $perMonth)." <small>per month</small>";
 			}
 			elseif ($entity->occurrences > 1 and $entity->isProgram())
 			{
 				$total = ($entity->price * $entity->occurrences);
 
-				$output = "$".money_format(round($total, 2));
+				$output = "$".money_format('%i', $total);
 			}
 			else
 			{
-				$output = "$".money_format($entity->price);
+				$output = "$".money_format('%i', $entity->price);
 			}
 		}
 		else
