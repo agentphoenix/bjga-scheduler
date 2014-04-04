@@ -56,7 +56,14 @@ class HomeController extends BaseController {
 
 		if (Auth::attempt(array('email' => $email, 'password' => $password), true))
 		{
-			return Redirect::route('home');
+			if (Session::has('url.intended'))
+			{
+				return Redirect::intended('home');
+			}
+			else
+			{
+				return Redirect::route('home');
+			}
 		}
 
 		Session::flash('loginMessage', "Either your email address or password were incorrect. Please try again.");

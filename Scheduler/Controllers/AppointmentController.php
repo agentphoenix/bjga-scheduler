@@ -28,6 +28,19 @@ class AppointmentController extends BaseController {
 		$this->user = $user;
 		$this->appts = $appts;
 		$this->service = $service;
+
+		$this->beforeFilter(function()
+		{
+			if (\Auth::user() === null)
+			{
+				// Push the intended URL into the session
+				\Session::put('url.intended', \URL::full());
+
+				return Redirect::route('home')
+					->with('message', "You must be logged in to continue.")
+					->with('messageStatus', 'danger');
+			}
+		});
 	}
 
 	public function index()

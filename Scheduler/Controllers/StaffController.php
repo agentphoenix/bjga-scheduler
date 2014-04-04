@@ -22,6 +22,19 @@ class StaffController extends BaseController {
 
 		$this->staff = $staff;
 		$this->user = $user;
+
+		$this->beforeFilter(function()
+		{
+			if (\Auth::user() === null)
+			{
+				// Push the intended URL into the session
+				\Session::put('url.intended', \URL::full());
+
+				return Redirect::route('home')
+					->with('message', "You must be logged in to continue.")
+					->with('messageStatus', 'danger');
+			}
+		});
 	}
 
 	public function index()
