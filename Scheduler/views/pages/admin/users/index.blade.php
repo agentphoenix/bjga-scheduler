@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-	<h1>Users <small>{{ $users->count() }}</small></h1>
+	<h1>Users <small>{{ $users->count() }} users</small></h1>
 
 	@if ($_currentUser->access() > 2)
 		<div class="visible-md visible-lg">
