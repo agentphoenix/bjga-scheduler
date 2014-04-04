@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-	<h1>Staff</h1>
+	<h1>Staff <small>{{ $staff->count() }} staff members</small></h1>
 
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
