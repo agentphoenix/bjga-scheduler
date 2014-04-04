@@ -2,17 +2,15 @@
 	"require": {
 		"laravel/framework": "4.1.*",
 		"dflydev/markdown": "~1.0",
-		"iron-io/iron_mq": "~1.4",
-		"sabre/vobject" : "~3.1",
-		"drewm/mailchimp-api": "*",
+		"iron-io/iron_mq": "1.5.*",
+		"sabre/vobject" : "3.1.*",
 		"ikimea/browser": "~1.0",
 		"indatus/dispatcher": "~1.0",
-		"laracasts/presenter": "~0.1",
+		"laracasts/presenter": "0.1.*",
 		"raveren/kint": "dev-master"
 	},
 	
 	"require-dev": {
-		"raveren/kint": "dev-master",
 		"fzaninotto/faker": "~1.0"
 	},
 	

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e34bcd3449797fde8c66d7b2b49c17cb",
+    "hash": "448b3de3fc33994dca02ec816c4a741d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -144,43 +144,6 @@
                 "markdown"
             ],
             "time": "2013-09-23 12:00:18"
-        },
-        {
-            "name": "drewm/mailchimp-api",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/drewm/mailchimp-api.git",
-                "reference": "5f61461306a86c32af01a40e45a3b5e0ee014eba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drewm/mailchimp-api/zipball/5f61461306a86c32af01a40e45a3b5e0ee014eba",
-                "reference": "5f61461306a86c32af01a40e45a3b5e0ee014eba",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Drewm": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Drew McLellan",
-                    "homepage": "http://allinthehead.com/"
-                }
-            ],
-            "description": "Super-simple, minimum abstraction MailChimp API v2 wrapper",
-            "homepage": "https://github.com/drewm/mailchimp-api",
-            "time": "2014-03-01 22:43:32"
         },
         {
             "name": "filp/whoops",
