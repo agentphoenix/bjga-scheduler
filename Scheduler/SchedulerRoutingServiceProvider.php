@@ -78,10 +78,6 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 	{
 		Route::group(array('prefix' => 'admin'), function()
 		{
-			Route::get('/', array(
-				'as'	=> 'admin',
-				'uses'	=> 'Scheduler\Controllers\AdminController@index'));
-
 			/**
 			 * Lesson and program service creation routes.
 			 *
