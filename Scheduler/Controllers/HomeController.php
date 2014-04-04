@@ -30,8 +30,11 @@ class HomeController extends BaseController {
 	{
 		if (Auth::check())
 		{
+			// Staff should only show 90 days
+			$days = ($this->currentUser->isStaff()) ? 90 : false;
+
 			return View::make('pages.schedule')
-				->withSchedule($this->user->getSchedule($this->currentUser));
+				->withSchedule($this->user->getSchedule($this->currentUser, $days));
 		}
 
 		return View::make('pages.login');

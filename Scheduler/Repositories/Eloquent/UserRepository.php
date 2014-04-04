@@ -160,9 +160,13 @@ class UserRepository implements UserRepositoryInterface {
 		$userAppointments = $user->appointments->filter(function($a) use ($today, $days)
 		{
 			if ($days)
+			{
 				return $a->appointment->start->startOfDay() >= $today->startOfDay() and $a->appointment->start->endOfDay() <= $today->copy()->addDays($days)->endOfDay();
+			}
 			else
+			{
 				return $a->appointment->start->startOfDay() >= $today->startOfDay();
+			}
 		})->sortBy(function($x)
 		{
 			return $x->appointment->start;
