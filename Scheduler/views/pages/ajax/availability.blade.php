@@ -24,6 +24,8 @@
 @stop
 
 @section('scripts')
+	{{ HTML::script('js/moment.min.js') }}
+	{{ HTML::script('js/bootstrap-datetimepicker.min.js') }}
 	{{ HTML::script('js/jquery.plugin.min.js') }}
 	{{ HTML::script('js/jquery.countdown.min.js') }}
 @stop
