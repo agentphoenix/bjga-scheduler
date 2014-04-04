@@ -133,8 +133,6 @@ class AppointmentController extends BaseController {
 			? $this->service->getAttendees($id)
 			: $this->appts->getAttendees($id);
 
-		//sd($attendees);
-
 		return partial('common/modal_content', array(
 			'modalHeader'	=> "Attendees",
 			'modalBody'		=> View::make('pages.admin.appointments.ajax.attendees')
