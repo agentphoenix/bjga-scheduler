@@ -155,18 +155,23 @@
 					{
 						$('.ajax-container').html(data);
 
-						// Start the countdown
-						$('#availabilityCountdown').countdown({
-							until: moment().add('minutes', 3).toDate(),
-							compact: true, 
-							layout: "{mnn}{sep}{snn}"
-						});
+						var hasAvailability = $('.ajax-container:has(p.alert)').length;
 
-						// Show the timer
-						$('#availabilityCountdown').closest('.row').removeClass('hide');
+						if (hasAvailability == 0)
+						{
+							// Start the countdown
+							$('#availabilityCountdown').countdown({
+								until: moment().add('minutes', 3).toDate(),
+								compact: true, 
+								layout: "{mnn}{sep}{snn}"
+							});
 
-						// 3 minutes... GO!
-						timer = setTimeout("resetOptions()", 180000);
+							// Show the timer
+							$('#availabilityCountdown').closest('.row').removeClass('hide');
+
+							// 3 minutes... GO!
+							timer = setTimeout("resetOptions()", 180000);
+						}
 					}
 				});
 			}
