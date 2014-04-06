@@ -86,7 +86,8 @@ class ThankYouMessageCommand extends ScheduledCommand {
 					$msg->bcc($emailsFinal);
 				}
 
-				$msg->subject(Config::get('bjga.email.subject').' Thank You for Choosing Brian Jacobs Golf');
+				$msg->subject(Config::get('bjga.email.subject').' Thank You for Choosing Brian Jacobs Golf')
+					->replyTo($service->staff->user->email);
 			});
 		}
 	}

@@ -36,14 +36,16 @@ class BookingEventHandler {
 		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user, $service)
 		{
 			$msg->to($user->email)
-				->subject(Config::get('bjga.email.subject')." {$service->name} Booked");
+				->subject(Config::get('bjga.email.subject')." {$service->name} Booked")
+				->replyTo($service->staff->user->email);
 		});
 
 		// Email the instructor
-		Mail::queue('emails.bookedLessonInstructor', $data, function($msg) use ($service)
+		Mail::queue('emails.bookedLessonInstructor', $data, function($msg) use ($service, $staffAppt)
 		{
 			$msg->to($service->staff->user->email)
-				->subject(Config::get('bjga.email.subject')." {$service->name} Booking Notification");
+				->subject(Config::get('bjga.email.subject')." {$service->name} Booking Notification")
+				->replyTo($staffAppt->userAppointments->first()->user->email);
 		});
 	}
 
@@ -72,7 +74,8 @@ class BookingEventHandler {
 		Mail::queue('emails.bookedProgram', $data, function($msg) use ($user, $service)
 		{
 			$msg->to($user->email)
-				->subject(Config::get('bjga.email.subject')." {$service->name} Enrollment");
+				->subject(Config::get('bjga.email.subject')." {$service->name} Enrollment")
+				->replyTo($service->staff->user->email);
 		});
 	}
 
@@ -90,10 +93,11 @@ class BookingEventHandler {
 		);
 
 		// Email the attendees
-		Mail::queue('emails.studentCancelled', $data, function($message) use ($emails, $service)
+		Mail::queue('emails.studentCancelled', $data, function($message) use ($emails, $service, $user)
 		{
 			$message->to($emails)
-				->subject(Config::get('bjga.email.subject')." {$service->name} - Student Cancellation");
+				->subject(Config::get('bjga.email.subject')." {$service->name} - Student Cancellation")
+				->replyTo($user->email);
 		});
 
 		// Update the calendar
@@ -117,7 +121,8 @@ class BookingEventHandler {
 		Mail::queue('emails.instructorCancelled', $data, function($message) use ($emails, $service)
 		{
 			$message->to($emails)
-				->subject(Config::get('bjga.email.subject')." {$service->name} Schedule Change");
+				->subject(Config::get('bjga.email.subject')." {$service->name} Schedule Change")
+				->replyTo($service->staff->user->email);
 		});
 
 		// Update the calendar

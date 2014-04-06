@@ -23,7 +23,8 @@ class UserEventHandler {
 		Mail::queue('emails.userCreated', $data, function($msg) use ($user)
 		{
 			$msg->to($user->email)
-				->subject(Config::get('bjga.email.subject')." Welcome to Brian Jacobs Golf!");
+				->subject(Config::get('bjga.email.subject')." Welcome to Brian Jacobs Golf!")
+				->replyTo(Config::get('bjga.email.contact'));
 		});
 	}
 
@@ -87,7 +88,8 @@ class UserEventHandler {
 		Mail::queue('emails.userRegistered', $data, function($msg) use ($user)
 		{
 			$msg->to($user->email)
-				->subject(Config::get('bjga.email.subject')." Welcome to Brian Jacobs Golf!");
+				->subject(Config::get('bjga.email.subject')." Welcome to Brian Jacobs Golf!")
+				->replyTo(Config::get('bjga.email.contact'));
 		});
 	}
 
@@ -111,7 +113,8 @@ class UserEventHandler {
 		Mail::queue('emails.staffCreated', $data, function($msg) use ($staff)
 		{
 			$msg->to($staff->user->email)
-				->subject(Config::get('bjga.email.subject')." Staff Account Created");
+				->subject(Config::get('bjga.email.subject')." Staff Account Created")
+				->replyTo(Config::get('bjga.email.contact'));
 		});
 	}
 
@@ -130,7 +133,8 @@ class UserEventHandler {
 		Mail::queue('emails.staffDeleted', $data, function($msg) use ($staff)
 		{
 			$msg->to($staff->user->email)
-				->subject(Config::get('bjga.email.subject')." Staff Account Deleted");
+				->subject(Config::get('bjga.email.subject')." Staff Account Deleted")
+				->replyTo(Config::get('bjga.email.contact'));
 		});
 	}
 
