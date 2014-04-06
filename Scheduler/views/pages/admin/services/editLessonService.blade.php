@@ -49,7 +49,7 @@
 			<div class="col-lg-6">
 				<div class="form-group">
 					<label class="control-label">Description</label>
-					{{ Form::textarea('description', null, array('class' => 'form-control', 'rows' => 3)) }}
+					{{ Form::textarea('description', null, array('class' => 'form-control', 'rows' => 8)) }}
 				</div>
 			</div>
 		</div>
