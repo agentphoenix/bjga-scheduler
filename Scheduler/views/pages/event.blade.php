@@ -54,7 +54,7 @@
 		{{ partial('common/alert', array('class' => ' alert-warning', 'content' => "Log in or register to enroll in this program!")) }}
 	@endif
 
-	<p>{{ $event->description }}</p>
+	{{ $event->transform()->description }}
 
 	@if ( ! empty($appointment->notes) and $_currentUser and $_currentUser->isStaff())
 		<div class="panel panel-warning">

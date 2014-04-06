@@ -190,7 +190,7 @@ class AjaxController extends BaseController {
 			$output['service'] = array(
 				'id'			=> (int) $service->id,
 				'name'			=> (string) $service->name,
-				'description'	=> (string) $service->description,
+				'description'	=> (string) $service->present()->description,
 				'price'			=> (string) $service->present()->price,
 				'user_limit'	=> (int) $service->user_limit,
 			);
@@ -454,19 +454,22 @@ class AjaxController extends BaseController {
 		$emailData = array(
 			'subject'	=> Input::get('subject'),
 			'body'		=> Input::get('message'),
-			'from'		=> Auth::user()->name,
+			'from'		=> $this->currentUser->name,
 		);
 
-
+		// Get the input
 		$input = Input::all();
 
-		Mail::queue('emails.sendToUser', $emailData, function($message) use ($input)
-		{
-			$message->subject("[Brian Jacobs Golf] {$input['subject']}");
+		// Get the current user
+		$user = $this->currentUser;
 
+		Mail::queue('emails.sendToUser', $emailData, function($msg) use ($input, $user)
+		{
 			$recipientArr = explode(',', $input['recipients']);
 
-			$message->to($recipientArr);
+			$msg->subject(Config::get('bjga.email.subject')" {$input['subject']}")
+				->to($recipientArr)
+				->from($user->email, $user->name);
 		});
 
 		return Redirect::route(Input::get('redirect'))

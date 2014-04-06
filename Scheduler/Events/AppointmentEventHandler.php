@@ -25,10 +25,11 @@ class AppointmentEventHandler {
 			$user = $userAppt->user;
 
 			// Email the attendees
-			Mail::queue('emails.appointmentCreated', $data, function($message) use ($user)
+			Mail::queue('emails.appointmentCreated', $data, function($message) use ($user, $service)
 			{
 				$message->to($user->email)
-					->subject(Config::get('bjga.email.subject')." Appointment Created");
+					->subject(Config::get('bjga.email.subject')." Appointment Created")
+					->replyTo($service->staff->user->email);
 			});
 		}
 	}
@@ -50,10 +51,11 @@ class AppointmentEventHandler {
 		$user = $userAppt->user;
 
 		// Email the attendees
-		Mail::queue('emails.appointmentUpdated', $data, function($message) use ($user)
+		Mail::queue('emails.appointmentUpdated', $data, function($message) use ($user, $service)
 		{
 			$message->to($user->email)
-				->subject(Config::get('bjga.email.subject')." Appointment Updated");
+				->subject(Config::get('bjga.email.subject')." Appointment Updated")
+				->replyTo($service->staff->user->email);
 		});
 	}
 

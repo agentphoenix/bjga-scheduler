@@ -54,6 +54,11 @@ App::error(function(Exception $exception, $code)
 	{
 		$msg->to('admin@brianjacobsgolf.com')
 			->subject("[Brian Jacobs Golf] Exception Thrown!");
+
+		if (Auth::check())
+		{
+			$msg->from(Auth::user()->email, Auth::user()->name);
+		}
 	});
 
 	return View::make('pages.admin.error')

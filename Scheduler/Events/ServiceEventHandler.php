@@ -34,7 +34,8 @@ class ServiceEventHandler {
 				Mail::queue('emails.serviceDeleted', $data, function($message) use ($recipients, $service)
 				{
 					$message->bcc($recipients)
-						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Cancelled");
+						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Cancelled")
+						->replyTo($service->staff->user->email);
 				});
 			}
 		}
@@ -77,7 +78,8 @@ class ServiceEventHandler {
 				Mail::queue('emails.serviceUpdated', $data, function($message) use ($recipients, $service)
 				{
 					$message->bcc($recipients)
-						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Updated");
+						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Updated")
+						->replyTo($service->staff->user->email);
 				});
 			}
 		}

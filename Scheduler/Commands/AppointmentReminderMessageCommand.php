@@ -82,7 +82,8 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 					$msg->bcc($emailsFinal);
 				}
 				
-				$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder');
+				$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder')
+					->replyTo($service->staff->user->email);
 			});
 		}
 	}

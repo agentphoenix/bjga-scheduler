@@ -1,9 +1,14 @@
 <?php namespace Scheduler\Presenters;
 
-use Config;
+use Config, Markdown;
 use Laracasts\Presenter\Presenter;
 
 class ServicePresenter extends Presenter {
+
+	public function description()
+	{
+		return Markdown::parse($this->entity->description);
+	}
 
 	public function price()
 	{
