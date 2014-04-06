@@ -467,7 +467,7 @@ class AjaxController extends BaseController {
 		{
 			$recipientArr = explode(',', $input['recipients']);
 
-			$msg->subject(Config::get('bjga.email.subject')" {$input['subject']}")
+			$msg->subject(Config::get('bjga.email.subject')." {$input['subject']}")
 				->to($recipientArr)
 				->from($user->email, $user->name);
 		});
