@@ -250,7 +250,7 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 */
 	public function findBySlug($slug)
 	{
-		return ServiceModel::where('slug', 'like', "%{$slug}%")->get()->first();
+		return ServiceModel::where('slug', 'like', "%{$slug}%")->first();
 	}
 
 	/**
