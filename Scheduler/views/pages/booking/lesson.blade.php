@@ -143,6 +143,10 @@
 			{
 				alert("Please select a service");
 			}
+			else if ($('[name="date"]').val() == "")
+			{
+				alert("Please select a date");
+			}
 			else
 			{
 				$.ajax({
