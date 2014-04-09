@@ -50,6 +50,9 @@ class AppointmentEventHandler {
 		// Get the user
 		$user = $userAppt->user;
 
+		// Get the service
+		$service = $staffAppt->service;
+
 		// Email the attendees
 		Mail::queue('emails.appointmentUpdated', $data, function($message) use ($user, $service)
 		{

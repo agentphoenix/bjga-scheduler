@@ -14,11 +14,12 @@
 					<label class="control-label">Service</label>
 					<div class="controls">
 						{{ Form::select('service_id', $services, null, array('class' => 'form-control')) }}
-						<p class="help-block" id="serviceDescription"></p>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<div id="serviceDescription"></div>
 
 		<div id="programServiceDetails"></div>
 
