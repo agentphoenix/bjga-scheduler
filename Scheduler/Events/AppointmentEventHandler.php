@@ -27,6 +27,8 @@ class AppointmentEventHandler {
 			// Email the attendees
 			Mail::queue('emails.appointmentCreated', $data, function($message) use ($user, $service)
 			{
+				\Log::info('emails.appointmentCreated');
+
 				$message->to($user->email)
 					->subject(Config::get('bjga.email.subject')." Appointment Created")
 					->replyTo($service->staff->user->email);
@@ -56,6 +58,8 @@ class AppointmentEventHandler {
 		// Email the attendees
 		Mail::queue('emails.appointmentUpdated', $data, function($message) use ($user, $service)
 		{
+			\Log::info('emails.appointmentUpdated');
+
 			$message->to($user->email)
 				->subject(Config::get('bjga.email.subject')." Appointment Updated")
 				->replyTo($service->staff->user->email);
