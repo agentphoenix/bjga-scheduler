@@ -4,12 +4,11 @@ use Date,
 	Mail,
 	Config,
 	StaffAppointmentModel;
-use Indatus\Dispatcher\Schedulable,
-	Indatus\Dispatcher\ScheduledCommand;
+use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class ThankYouMessageCommand extends ScheduledCommand {
+class ThankYouMessageCommand extends Command {
 
 	/**
 	 * The console command name.
@@ -30,13 +29,10 @@ class ThankYouMessageCommand extends ScheduledCommand {
 		parent::__construct();
 	}
 
-	public function schedule(Schedulable $scheduler)
-	{
-		return $scheduler->hourly();
-	}
-
 	public function fire()
 	{
+		\Log::info("Appointment thank you command");
+
 		// Get now
 		$now = Date::now();
 
@@ -48,47 +44,57 @@ class ThankYouMessageCommand extends ScheduledCommand {
 		$appointments = StaffAppointmentModel::where('end', '>=', $target)
 			->where('end', '<', $targetEnd)->get();
 
-		foreach ($appointments as $sa)
+		if ($appointments->count() > 0)
 		{
-			// Start an array for holding email address
-			$emails = array();
-
-			foreach ($sa->userAppointments as $ua)
+			foreach ($appointments as $sa)
 			{
-				// Get the email address
-				$emails[] = $ua->user->email;
+				// Start an array for holding email address
+				$emails = array();
+
+				foreach ($sa->userAppointments as $ua)
+				{
+					// Get the email address
+					$emails[] = $ua->user->email;
+				}
+
+				// Make sure we have a unique list of addresses
+				$emailsFinal = array_unique($emails);
+
+				// Build the data to be used in the email
+				$data = array(
+					'service' => $sa->service->name,
+					'type' => $sa->service->category,
+				);
+
+				// Get the service
+				$service = $sa->service;
+
+				// Get a random number
+				$number = mt_rand(1, 5);
+
+				// Set the view
+				$view = "emails.appointmentThankYou{$number}";
+
+				// Send the email
+				Mail::send($view, $data, function($message) use ($emailsFinal, $service)
+				{
+					if ($service->isLesson())
+					{
+						$message->to($emailsFinal);
+					}
+					else
+					{
+						$message->bcc($emailsFinal);
+					}
+
+					// Set the subject
+					$subject = Config::get('bjga.email.subject');
+					$subject.= ' Thank You for Choosing Brian Jacobs Golf';
+
+					$message->subject($subject)
+						->replyTo($service->staff->user->email);
+				});
 			}
-
-			// Make sure we have a unique list of addresses
-			$emailsFinal = array_unique($emails);
-
-			// Build the data to be used in the email
-			$data = array(
-				'service' => $sa->service->name,
-				'type' => $sa->service->category,
-			);
-
-			// Get a random number
-			$number = mt_rand(1, 5);
-
-			// Get the service
-			$service = $sa->service;
-
-			// Send the email
-			Mail::queue("emails.appointmentThankYou{$number}", $data, function($msg) use ($emailsFinal, $service)
-			{
-				if ($service->isLesson())
-				{
-					$msg->to($emailsFinal);
-				}
-				else
-				{
-					$msg->bcc($emailsFinal);
-				}
-
-				$msg->subject(Config::get('bjga.email.subject').' Thank You for Choosing Brian Jacobs Golf')
-					->replyTo($service->staff->user->email);
-			});
 		}
 	}
 
