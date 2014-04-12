@@ -4,10 +4,9 @@ use Date,
 	Mail,
 	Config,
 	StaffAppointmentModel;
-use Indatus\Dispatcher\Schedulable,
-	Indatus\Dispatcher\ScheduledCommand;
+use Illuminate\Console\Command;
 
-class AppointmentReminderMessageCommand extends ScheduledCommand {
+class AppointmentReminderMessageCommand extends Command {
 
 	/**
 	 * The console command name.
@@ -28,13 +27,10 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 		parent::__construct();
 	}
 
-	public function schedule(Schedulable $scheduler)
-	{
-		return $scheduler->hourly();
-	}
-
 	public function fire()
 	{
+		\Log::info("Appointment reminder command");
+
 		// Get right now
 		$now = Date::now();
 
@@ -46,45 +42,48 @@ class AppointmentReminderMessageCommand extends ScheduledCommand {
 		$appointments = StaffAppointmentModel::where('start', '>=', $target)
 			->where('start', '<', $targetEnd)->get();
 
-		foreach ($appointments as $sa)
+		if ($appointments->count() > 0)
 		{
-			// Start an array for holding email address
-			$emails = array();
-
-			foreach ($sa->userAppointments as $ua)
+			foreach ($appointments as $sa)
 			{
-				// Get the email address
-				$emails[] = $ua->user->email;
+				// Start an array for holding email address
+				$emails = array();
+
+				foreach ($sa->userAppointments as $ua)
+				{
+					// Get the email address
+					$emails[] = $ua->user->email;
+				}
+
+				// Make sure we have a unique list of addresses
+				$emailsFinal = array_unique($emails);
+
+				// Build the data to be used in the email
+				$data = array(
+					'service'	=> $sa->service->name,
+					'start'		=> $sa->start->format(Config::get('bjga.dates.time')),
+					'end'		=> $sa->end->format(Config::get('bjga.dates.time')),
+				);
+
+				// Get the service
+				$service = $sa->service;
+
+				// Send the email
+				Mail::send('emails.appointmentReminder', $data, function($msg) use ($emailsFinal, $service)
+				{
+					if ($service->isLesson())
+					{
+						$msg->to($emailsFinal);
+					}
+					else
+					{
+						$msg->bcc($emailsFinal);
+					}
+					
+					$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder')
+						->replyTo($service->staff->user->email);
+				});
 			}
-
-			// Make sure we have a unique list of addresses
-			$emailsFinal = array_unique($emails);
-
-			// Build the data to be used in the email
-			$data = array(
-				'service'	=> $sa->service->name,
-				'start'		=> $sa->start->format(Config::get('bjga.dates.time')),
-				'end'		=> $sa->end->format(Config::get('bjga.dates.time')),
-			);
-
-			// Get the service
-			$service = $sa->service;
-
-			// Send the email
-			Mail::queue('emails.appointmentReminder', $data, function($msg) use ($emailsFinal, $service)
-			{
-				if ($service->isLesson())
-				{
-					$msg->to($emailsFinal);
-				}
-				else
-				{
-					$msg->bcc($emailsFinal);
-				}
-				
-				$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder')
-					->replyTo($service->staff->user->email);
-			});
 		}
 	}
 
