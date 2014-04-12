@@ -29,8 +29,6 @@ class AppointmentReminderMessageCommand extends Command {
 
 	public function fire()
 	{
-		\Log::info("Appointment reminder command");
-
 		// Get right now
 		$now = Date::now();
 
@@ -46,43 +44,50 @@ class AppointmentReminderMessageCommand extends Command {
 		{
 			foreach ($appointments as $sa)
 			{
-				// Start an array for holding email address
-				$emails = array();
-
-				foreach ($sa->userAppointments as $ua)
-				{
-					// Get the email address
-					$emails[] = $ua->user->email;
-				}
-
-				// Make sure we have a unique list of addresses
-				$emailsFinal = array_unique($emails);
-
-				// Build the data to be used in the email
-				$data = array(
-					'service'	=> $sa->service->name,
-					'start'		=> $sa->start->format(Config::get('bjga.dates.time')),
-					'end'		=> $sa->end->format(Config::get('bjga.dates.time')),
-				);
-
 				// Get the service
 				$service = $sa->service;
 
-				// Send the email
-				Mail::send('emails.appointmentReminder', $data, function($msg) use ($emailsFinal, $service)
+				// Make sure it's a lesson or service
+				if ($service->isLesson() or $service->isProgram())
 				{
-					if ($service->isLesson())
+					// Start an array for holding email address
+					$emails = array();
+
+					foreach ($sa->userAppointments as $ua)
 					{
-						$msg->to($emailsFinal);
+						// Get the email address
+						$emails[] = $ua->user->email;
 					}
-					else
+
+					// Make sure we have a unique list of addresses
+					$emailsFinal = array_unique($emails);
+
+					// Build the data to be used in the email
+					$data = array(
+						'service'	=> $service->name,
+						'start'		=> $sa->start->format(Config::get('bjga.dates.time')),
+						'end'		=> $sa->end->format(Config::get('bjga.dates.time')),
+					);
+
+					// Set the view
+					$view = 'emails.appointmentReminder';
+
+					// Send the email
+					Mail::send($view, $data, function($msg) use ($emailsFinal, $service)
 					{
-						$msg->bcc($emailsFinal);
-					}
-					
-					$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder')
-						->replyTo($service->staff->user->email);
-				});
+						if ($service->isLesson())
+						{
+							$msg->to($emailsFinal);
+						}
+						else
+						{
+							$msg->bcc($emailsFinal);
+						}
+						
+						$msg->subject(Config::get('bjga.email.subject').' Upcoming Appointment Reminder')
+							->replyTo($service->staff->user->email);
+					});
+				}
 			}
 		}
 	}

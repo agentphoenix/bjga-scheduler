@@ -31,8 +31,6 @@ class ThankYouMessageCommand extends Command {
 
 	public function fire()
 	{
-		\Log::info("Appointment thank you command");
-
 		// Get now
 		$now = Date::now();
 
@@ -48,52 +46,55 @@ class ThankYouMessageCommand extends Command {
 		{
 			foreach ($appointments as $sa)
 			{
-				// Start an array for holding email address
-				$emails = array();
-
-				foreach ($sa->userAppointments as $ua)
-				{
-					// Get the email address
-					$emails[] = $ua->user->email;
-				}
-
-				// Make sure we have a unique list of addresses
-				$emailsFinal = array_unique($emails);
-
-				// Build the data to be used in the email
-				$data = array(
-					'service' => $sa->service->name,
-					'type' => $sa->service->category,
-				);
-
 				// Get the service
 				$service = $sa->service;
 
-				// Get a random number
-				$number = mt_rand(1, 5);
-
-				// Set the view
-				$view = "emails.appointmentThankYou{$number}";
-
-				// Send the email
-				Mail::send($view, $data, function($message) use ($emailsFinal, $service)
+				if ($service->isLesson() or $service->isProgram())
 				{
-					if ($service->isLesson())
+					// Start an array for holding email address
+					$emails = array();
+
+					foreach ($sa->userAppointments as $ua)
 					{
-						$message->to($emailsFinal);
-					}
-					else
-					{
-						$message->bcc($emailsFinal);
+						// Get the email address
+						$emails[] = $ua->user->email;
 					}
 
-					// Set the subject
-					$subject = Config::get('bjga.email.subject');
-					$subject.= ' Thank You for Choosing Brian Jacobs Golf';
+					// Make sure we have a unique list of addresses
+					$emailsFinal = array_unique($emails);
 
-					$message->subject($subject)
-						->replyTo($service->staff->user->email);
-				});
+					// Build the data to be used in the email
+					$data = array(
+						'service' => $service->name,
+						'type' => $service->category,
+					);
+
+					// Get a random number
+					$number = mt_rand(1, 5);
+
+					// Set the view
+					$view = "emails.appointmentThankYou{$number}";
+
+					// Send the email
+					Mail::send($view, $data, function($message) use ($emailsFinal, $service)
+					{
+						if ($service->isLesson())
+						{
+							$message->to($emailsFinal);
+						}
+						else
+						{
+							$message->bcc($emailsFinal);
+						}
+
+						// Set the subject
+						$subject = Config::get('bjga.email.subject');
+						$subject.= ' Thank You for Choosing Brian Jacobs Golf';
+
+						$message->subject($subject)
+							->replyTo($service->staff->user->email);
+					});
+				}
 			}
 		}
 	}
