@@ -11,9 +11,10 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 
 	protected $softDelete = true;
 
-	protected $fillable = array('name', 'email', 'password', 'phone', 'address');
+	protected $fillable = array('name', 'email', 'password', 'phone', 'address',
+		'remember_token');
 
-	protected $hidden = array('password');
+	protected $hidden = array('password', 'remember_token');
 
 	protected $hashableAttributes = array('password');
 
@@ -149,6 +150,21 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 	public function getAuthPassword()
 	{
 		return $this->password;
+	}
+
+	public function getRememberToken()
+	{
+		return $this->remember_token;
+	}
+
+	public function setRememberToken($value)
+	{
+		$this->remember_token = $value;
+	}
+
+	public function getRememberTokenName()
+	{
+		return 'remember_token';
 	}
 
 	/*

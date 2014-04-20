@@ -5,8 +5,6 @@ use Date,
 	Config,
 	StaffAppointmentModel;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 
 class ThankYouMessageCommand extends Command {
 
