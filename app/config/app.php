@@ -109,6 +109,7 @@ return array(
 
 		'Scheduler\SchedulerServiceProvider',
 		'Scheduler\SchedulerRoutingServiceProvider',
+		'Scheduler\Api\SchedulerApiServiceProvider',
 
 	),
 
