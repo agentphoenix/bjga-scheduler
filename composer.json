@@ -6,7 +6,8 @@
 		"sabre/vobject" : "3.1.*",
 		"ikimea/browser": "~1.0",
 		"laracasts/presenter": "0.1.*",
-		"raveren/kint": "dev-master"
+		"raveren/kint": "dev-master",
+		"league/fractal": "0.7.*"
 	},
 	
 	"require-dev": {
@@ -20,7 +21,8 @@
 		],
 		
 		"psr-4": {
-			"Scheduler\\": "Scheduler"
+			"Scheduler\\": "Scheduler",
+			"Scheduler\\Api\\": "Api"
 		}
 	},
 	
