@@ -29,9 +29,10 @@ class ServiceTransformer extends TransformerAbstract {
 			'staffName'		=> $service->present()->staffName,
 			'staffEmail'	=> $service->present()->staffEmail,
 			'occurrences'	=> (int) $service->occurrences,
+			'loyalty'		=> (bool) $service->loyalty,
 			'active'		=> (bool) $service->status,
-			'start'			=> $appts->first()->start->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')),
-			'end'			=> $appts->last()->end->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')),
+			'start'			=> ($service->isProgram()) ? $appts->first()->start->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
+			'end'			=> ($service->isProgram()) ? $appts->last()->end->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
 		);
 	}
 
