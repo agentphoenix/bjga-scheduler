@@ -164,17 +164,17 @@
 						if (hasAvailability == 0)
 						{
 							// Start the countdown
-							$('#availabilityCountdown').countdown({
+							/*$('#availabilityCountdown').countdown({
 								until: moment().add('minutes', 3).toDate(),
 								compact: true, 
 								layout: "{mnn}{sep}{snn}"
 							});
 
 							// Show the timer
-							$('#availabilityCountdown').closest('.row').removeClass('hide');
+							$('#availabilityCountdown').closest('.row').removeClass('hide');*/
 
-							// 3 minutes... GO!
-							timer = setTimeout("resetOptions()", 180000);
+							// 5 minutes... GO!
+							timer = setTimeout("resetOptions()", 300000);
 						}
 					}
 				});
@@ -190,20 +190,20 @@
 			$('.js-check').closest('.row').addClass('hide');
 			$('.ajax-container').closest('.row').addClass('hide');
 			$('.bookingForm').removeClass('hide');
-			$('#availabilityCountdown').closest('.row').addClass('hide');
+			//$('#availabilityCountdown').closest('.row').addClass('hide');
 
 			// Start the countdown
-			$('#finalCountdown').countdown({
+			/*$('#finalCountdown').countdown({
 				until: moment().add('minutes', 3).toDate(),
 				compact: true, 
 				layout: "{mnn}{sep}{snn}"
 			});
 
 			// Show the timer
-			$('#finalCountdown').closest('.row').removeClass('hide');
+			$('#finalCountdown').closest('.row').removeClass('hide');*/
 
-			// 3 minutes... GO!
-			timer = setTimeout("resetOptions()", 180000);
+			// 5 minutes... GO!
+			timer = setTimeout("resetOptions()", 300000);
 		});
 
 		$('[name="service_id"]').on('change', function(e)
@@ -225,7 +225,7 @@
 			resetOptions();
 		});
 
-		$(document).on('show.dp', function()
+		$(document).on('dp.show', function()
 		{
 			$('[name="time"]').val('');
 			$('[name="timeDisplay"]').val('');
@@ -233,8 +233,11 @@
 			$('.ajax-container').html('').closest('.row').removeClass('hide');
 			$('.js-check').closest('.row').removeClass('hide');
 
-			$('#availabilityCountdown').countdown('destroy');
-			$('#availabilityCountdown').closest('.row').addClass('hide');
+			/*if ($.isFunction($.countdown))
+			{
+				$('#availabilityCountdown').countdown('destroy');
+				$('#availabilityCountdown').closest('.row').addClass('hide');
+			}*/
 		});
 
 		$(function()
@@ -253,20 +256,20 @@
 
 			$('#lessonServiceDetails').html('');
 			$('.ajax-container').html('').closest('.row').removeClass('hide');
-			$('#availabilityCountdown').closest('.row').addClass('hide');
+			//$('#availabilityCountdown').closest('.row').addClass('hide');
 			$('[name="time"]').val('');
 			$('[name="timeDisplay"]').val('');
 			$('.bookingForm').addClass('hide');
 			$('.js-check').closest('.row').removeClass('hide');
 
-			if ($.isFunction($.countdown))
+			/*if ($.isFunction($.countdown))
 			{
 				$('#availabilityCountdown').countdown('destroy');
 				$('#finalCountdown').countdown('destroy');
 			}
 
 			$('#availabilityCountdown').closest('.row').addClass('hide');
-			$('#finalCountdown').closest('.row').addClass('hide');
+			$('#finalCountdown').closest('.row').addClass('hide');*/
 		}
 
 	</script>
