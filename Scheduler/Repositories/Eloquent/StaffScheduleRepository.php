@@ -77,7 +77,8 @@ class StaffScheduleRepository implements StaffScheduleRepositoryInterface {
 			// Get the keys
 			$sliceKeys = array_keys($freshSlice);
 
-			if ((reset($sliceKeys) + $timeBlocks - 1) != end($sliceKeys))
+			//if ((reset($sliceKeys) + $timeBlocks - 1) != end($sliceKeys))
+			if (count($freshSlice) < $timeBlocks)
 			{
 				$availability[$key] = false;
 			}
