@@ -23,7 +23,8 @@ class ServicePresenter extends Presenter {
 				{
 					$total = ($entity->price * $entity->occurrences);
 
-					$formattedTotal = money_format('%i', $total);
+					//$formattedTotal = money_format('%i', $total);
+					$formattedTotal = sprintf('%01.2f', $total);
 					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
 
 					$output = "$".$finalTotal;
@@ -32,7 +33,8 @@ class ServicePresenter extends Presenter {
 				{
 					$month = ($entity->price * $entity->occurrences) / ($entity->occurrences / 4);
 
-					$formattedTotal = money_format('%i', $month);
+					//$formattedTotal = money_format('%i', $month);
+					$formattedTotal = sprintf('%01.2f', $month);
 					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
 					
 					$output = "$".$finalTotal." <small>per month</small>";
@@ -42,14 +44,16 @@ class ServicePresenter extends Presenter {
 			{
 				$total = ($entity->price * $entity->occurrences);
 
-				$formattedTotal = money_format('%i', $total);
+				//$formattedTotal = money_format('%i', $total);
+				$formattedTotal = sprintf('%01.2f', $total);
 				$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
 
 				$output = "$".$finalTotal;
 			}
 			else
 			{
-				$formattedTotal = money_format('%i', $entity->price);
+				//$formattedTotal = money_format('%i', $entity->price);
+				$formattedTotal = sprintf('%01.2f', $entity->price);
 				$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
 
 				$output = "$".$finalTotal;
@@ -65,12 +69,22 @@ class ServicePresenter extends Presenter {
 
 	public function staffName()
 	{
-		return $this->entity->user->name;
+		if ($this->entity->staff)
+		{
+			return $this->entity->staff->user->name;
+		}
+
+		return false;
 	}
 
 	public function staffEmail()
 	{
-		return $this->entity->user->email;
+		if ($this->entity->staff)
+		{
+			return $this->entity->staff->user->email;
+		}
+
+		return false;
 	}
 
 }

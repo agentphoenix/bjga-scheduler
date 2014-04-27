@@ -46,6 +46,16 @@
 		</div>
 
 		<div class="row">
+			<div class="col-lg-4">
+				<div class="form-group{{ ($errors->has('slug')) ? ' has-error' : '' }}">
+					<label class="control-label">Slug</label>
+					{{ Form::text('slug', null, array('class' => 'form-control input-with-feedback')) }}
+					{{ $errors->first('slug', '<p class="help-block">:message</p>') }}
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-lg-6">
 				<div class="form-group">
 					<label class="control-label">Description</label>

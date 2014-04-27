@@ -1,8 +1,10 @@
 <?php namespace Scheduler\Services;
 
-use Auth,
+use App,
+	Auth,
 	Date,
 	Event,
+	BookingMetaModel,
 	UserAppointmentModel,
 	StaffAppointmentModel,
 	UserRepositoryInterface,
@@ -95,6 +97,9 @@ class BookingService {
 		if ($user->isStaff())
 			$userApptRecord = array_merge($userApptRecord, array('paid' => (int) true, 'amount' => 0));
 
+		$bookStaffIds = array();
+		$bookUserIds = array();
+
 		// If we have multiple occurrences, we need to make sure everything is
 		// created properly
 		if ($service->occurrences > 1)
@@ -105,6 +110,7 @@ class BookingService {
 			// Book the staff member
 			$bookApptArr = array_merge($apptRecord, array('recur_id' => $recurItem->id));
 			$bookStaff = StaffAppointmentModel::create($bookApptArr);
+			$bookStaffIds[] = $bookStaff->id;
 
 			// Book the user
 			$userApptArr = array_merge(
@@ -112,6 +118,7 @@ class BookingService {
 				array('appointment_id' => $bookStaff->id, 'recur_id' => $recurItem->id)
 			);
 			$bookUser = UserAppointmentModel::create($userApptArr);
+			$bookUserIds[] = $bookUser->id;
 
 			// Grab a copy of the start and end times so we can add days
 			$newStartDate = $recurItem->start->copy();
@@ -130,6 +137,7 @@ class BookingService {
 					'end'			=> ($service->occurrences_schedule > 0) 
 						? $newEndDate->addDays($service->occurrences_schedule) : null,
 				));
+				$bookStaffIds[] = $sa->id;
 
 				// Create the user appointments
 				$ua = UserAppointmentModel::create(array(
@@ -139,17 +147,33 @@ class BookingService {
 					'amount'			=> ($user->isStaff()) ? 0 : $price,
 					'paid'				=> ($user->isStaff() or $price == 0) ? (int) true : (int) false,
 				));
+				$bookUserIds[] = $ua->id;
 			}
 		}
 		else
 		{
 			// Book the staff appointment
 			$bookStaff = StaffAppointmentModel::create($apptRecord);
+			$bookStaffIds[] = $bookStaff->id;
 
 			// Book the user appointment
 			$userApptArr = array_merge($userApptRecord, array('appointment_id' => $bookStaff->id));
 			$bookUser = UserAppointmentModel::create($userApptArr);
+			$bookUserIds[] = $bookUser->id;
 		}
+
+		// Get the browser object
+		$browser = App::make('scheduler.browser');
+
+		// Create the meta record
+		BookingMetaModel::create(array(
+			'user_id'				=> $user->id,
+			'user_name'				=> $user->name,
+			'staff_appointment_ids'	=> implode(',', $bookStaffIds),
+			'user_appointment_ids'	=> implode(',', $bookUserIds),
+			'os'					=> $browser->getPlatform(),
+			'browser'				=> $browser->getBrowser().' '.$browser->getVersion(),
+		));
 
 		// Fire the lesson booking event
 		if ($staffCreated)

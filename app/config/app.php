@@ -109,6 +109,7 @@ return array(
 
 		'Scheduler\SchedulerServiceProvider',
 		'Scheduler\SchedulerRoutingServiceProvider',
+		'Scheduler\Api\SchedulerApiServiceProvider',
 
 	),
 
@@ -192,6 +193,7 @@ return array(
 		/**
 		 * Models
 		 */
+		'BookingMetaModel'				=> 'Scheduler\Models\Eloquent\BookingMetaModel',
 		'ServiceModel'					=> 'Scheduler\Models\Eloquent\ServiceModel',
 		'ServiceOccurrenceModel'		=> 'Scheduler\Models\Eloquent\ServiceOccurrenceModel',
 		'StaffModel'					=> 'Scheduler\Models\Eloquent\StaffModel',

@@ -120,6 +120,7 @@
 
 		{{ Form::hidden('category', 'lesson') }}
 		{{ Form::hidden('user_limit', 1) }}
+		{{ Form::hidden('slug', '') }}
 
 		<div class="row">
 			<div class="col-lg-12">
