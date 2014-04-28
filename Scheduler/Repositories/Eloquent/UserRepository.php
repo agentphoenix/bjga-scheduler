@@ -70,7 +70,7 @@ class UserRepository implements UserRepositoryInterface {
 		return $users->filter(function($u)
 		{
 			return ( ! $u->isStaff());
-		})->toSimpleArray('id', 'name');
+		})->lists('name', 'id');
 	}
 
 	public function getUnscheduledAppointments($id = false)
