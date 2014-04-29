@@ -29,13 +29,17 @@
 					
 					<div class="btn-group">
 						@if ($appt->service->isLesson())
-							@if ( ! $appt->hasStarted())
-								<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Appointment">{{ $_icons['edit'] }}</a>
-							@endif
+							<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Appointment">{{ $_icons['edit'] }}</a>
 						@else
 							<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Service">{{ $_icons['edit'] }}</a>
 						@endif
 					</div>
+
+					@if ($appt->service->isRecurring())
+						<div class="btn-group">
+							<a href="{{ URL::route('admin.appointment.recurring.edit', array($appt->recur_id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Series">{{ $_icons['recur'] }}</a>
+						</div>
+					@endif
 
 					@if ($appt->service->isLesson())
 						@if ((bool) $appt->userAppointments->first()->paid === false)
@@ -71,13 +75,15 @@
 				
 				<p>
 					@if ($appt->service->isLesson())
-						@if ( ! $appt->hasStarted())
-							<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Appointment</a>
-						@endif
+						<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Appointment</a>
 					@else
 						<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Service</a>
 					@endif
 				</p>
+
+				@if ($appt->service->isRecurring())
+					<p><a href="{{ URL::route('admin.appointment.recurring.edit', array($appt->recur_id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Series</a></p>
+				@endif
 
 				@if ($appt->service->isLesson())
 					@if ((bool) $appt->userAppointments->first()->paid === false)

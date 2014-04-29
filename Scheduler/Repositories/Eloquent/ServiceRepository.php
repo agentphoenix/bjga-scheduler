@@ -264,7 +264,9 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	public function forDropdown(Collection $collection, $key, $value)
 	{
 		if ($collection->count() > 0)
-			return $collection->toSimpleArray($key, $value);
+		{
+			return $collection->lists($value, $key);
+		}
 
 		return $collection->toArray();
 	}

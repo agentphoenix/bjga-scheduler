@@ -6,40 +6,6 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 class Collection extends EloquentCollection {
 
 	/**
-	 * Convert a collection to a simple array.
-	 *
-	 * @param	string	The column to use for the key
-	 * @param	string	The column to use for the value
-	 * @return	array
-	 */
-	public function toSimpleArray($key = 'id', $value = 'name')
-	{
-		$final = array();
-
-		if (count($this->items) > 0)
-		{
-			foreach ($this->items as $item)
-			{
-				$final[$item->{$key}] = $item->{$value};
-			}
-		}
-
-		return $final;
-	}
-
-	/**
-	 * Convert a collection to a simple JSON object.
-	 *
-	 * @param	string	The column to use for the key
-	 * @param	string	The column to use for the value
-	 * @return	array
-	 */
-	public function toSimpleJson($key = 'id', $value = 'name')
-	{
-		return json_encode($this->toSimpleArray($key, $value));
-	}
-
-	/**
 	 * Convert a collection to a simple object.
 	 *
 	 * @param	string	The column to use for the key
