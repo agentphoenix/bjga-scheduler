@@ -1,10 +1,10 @@
 <?php namespace Scheduler\Api\Controllers;
 
-use Response,
-	Controller;
+use App, Response;
 use League\Fractal\Manager,
 	League\Fractal\Resource\Item,
 	League\Fractal\Resource\Collection;
+use Dingo\Api\Routing\Controller;
 
 class ApiController extends Controller {
 
@@ -19,6 +19,8 @@ class ApiController extends Controller {
 
 	public function __construct(Manager $fractal)
 	{
+		parent::__construct(App::make('dingo.api.dispatcher'), App::make('dingo.api.auth'));
+
 		$this->fractal = $fractal;
 	}
 
@@ -54,7 +56,7 @@ class ApiController extends Controller {
 
 	protected function respondWithArray(array $array, array $headers = array())
 	{
-		return Response::json($array, $this->statusCode, $headers);
+		return Response::make($array, $this->statusCode, $headers);
 	}
 
 	protected function respondWithError($message, $errorCode)

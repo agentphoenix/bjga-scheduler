@@ -17,7 +17,7 @@ class SchedulerApiServiceProvider extends ServiceProvider {
 
 	protected function routes()
 	{
-		Route::group(array('prefix' => 'api/v1'), function()
+		Route::api(array('version' => 'v1', 'prefix' => 'api'), function()
 		{
 			Route::get('services', 'Scheduler\Api\Controllers\ServicesController@index');
 			Route::get('services/category/{category}', 'Scheduler\Api\Controllers\ServicesController@showByCategory');
