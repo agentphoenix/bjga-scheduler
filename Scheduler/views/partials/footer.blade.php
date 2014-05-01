@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="inner">
-				<h1>Brian Jacobs Golf Academy at Mill Creek Golf Club</h1>
+				<h1>Brian Jacobs Golf at Mill Creek Golf Club</h1>
 				
 				<p>A 23-acre practice center at Mill Creek Golf Club accommodates all levels of golfers serious about their game. The bent grass driving range has over 400 yards of hitting area with six target greens and the short game practice area includes three separate greens for pitching/chipping, putting and bunker play.</p>
 
