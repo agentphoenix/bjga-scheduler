@@ -174,14 +174,14 @@ class HomeController extends BaseController {
 
 	public function report()
 	{
+		// Get the user
+		$user = $this->currentUser;
+		
 		// Set the data
 		$data = array(
 			'user'		=> $user->name,
 			'content'	=> Input::get('content'),
 		);
-
-		// Get the user
-		$user = $this->currentUser;
 
 		// Send the email
 		Mail::queue('emails.reportProblem', $data, function($msg) use ($user)
