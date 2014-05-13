@@ -22,21 +22,6 @@ class Model extends EloquentModel {
 	}
 
 	/**
-	 * Create a new Eloquent Collection instance.
-	 *
-	 * We override this method from the Eloquent model so that we can ensure
-	 * every collection being created is one of our own making and not the
-	 * default.
-	 *
-	 * @param	array	An array of models
-	 * @return	Collection
-	 */
-	public function newCollection(array $models = array())
-	{
-		return new Collection($models);
-	}
-
-	/**
 	 * Get the attributes that should be converted to dates.
 	 *
 	 * @return array
