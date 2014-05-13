@@ -100,38 +100,41 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 
 	public function updateRecurringLesson($id, array $data)
 	{
-		// Get the recur record
-		$recur = StaffAppointmentRecurModel::find($id);
-
-		// Get today
-		$today = Date::now()->startOfDay();
-
-		if ($recur)
+		if ( ! empty($data['newDate']))
 		{
-			// Get the service
-			$service = $recur->staffAppointments->first()->service;
+			// Get the recur record
+			$recur = StaffAppointmentRecurModel::find($id);
 
-			// Make sure we're dealing with only appointments from today forward
-			$series = $recur->staffAppointments->filter(function($s) use ($today)
+			// Get today
+			$today = Date::now()->startOfDay();
+
+			if ($recur)
 			{
-				return $s->start >= $today;
-			});
+				// Get the service
+				$service = $recur->staffAppointments->first()->service;
 
-			// Start building the new date
-			$newDate = Date::createFromFormat('Y-m-d H:i', $data['newDate']);
+				// Make sure we're dealing with only appointments from today forward
+				$series = $recur->staffAppointments->filter(function($s) use ($today)
+				{
+					return $s->start >= $today;
+				});
 
-			foreach ($series as $item)
-			{
-				$item->update(array(
-					'start'	=> $newDate,
-					'end'	=> $newDate->copy()->addMinutes($service->duration),
-				));
+				// Start building the new date
+				$newDate = Date::createFromFormat('Y-m-d H:i', $data['newDate']);
 
-				// Add to the new date
-				$newDate->addDays($service->occurrences_schedule);
+				foreach ($series as $item)
+				{
+					$item->update(array(
+						'start'	=> $newDate,
+						'end'	=> $newDate->copy()->addMinutes($service->duration),
+					));
+
+					// Add to the new date
+					$newDate->addDays($service->occurrences_schedule);
+				}
+
+				Event::fire('appointment.updated', array($item, $item->userAppointments->first()));
 			}
-
-			Event::fire('appointment.updated', array($item, $item->userAppointments->first()));
 		}
 
 		return false;
