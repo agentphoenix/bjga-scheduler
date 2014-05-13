@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "eb4acc6b8cb8e60ca1b33fe5f566a68c",
+    "hash": "f9e41003d92b2d8fd70d20b9ab884ef3",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -147,16 +147,16 @@
         },
         {
             "name": "dingo/api",
-            "version": "v0.2.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dingo/api.git",
-                "reference": "35585780afff9eb5466732511ad0d046a39d89f2"
+                "reference": "dfcb0d22b314d159cffdf76f0736f09ddd0a235a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dingo/api/zipball/35585780afff9eb5466732511ad0d046a39d89f2",
-                "reference": "35585780afff9eb5466732511ad0d046a39d89f2",
+                "url": "https://api.github.com/repos/dingo/api/zipball/dfcb0d22b314d159cffdf76f0736f09ddd0a235a",
+                "reference": "dfcb0d22b314d159cffdf76f0736f09ddd0a235a",
                 "shasum": ""
             },
             "require": {
@@ -169,16 +169,22 @@
                 "illuminate/auth": "4.1.*",
                 "illuminate/database": "4.1.*",
                 "illuminate/events": "4.1.*",
+                "illuminate/pagination": "4.1.*",
                 "illuminate/routing": "4.1.*",
                 "lucadegasperi/oauth2-server-laravel": "1.0.*",
                 "mockery/mockery": "~0.9",
                 "phpunit/phpunit": "~4.0"
             },
             "suggest": {
-                "dingo/oauth2-server-laravel": "Allows OAuth 2.0 authentication to protect your API.",
-                "league/fractal": "Easily output complex, flexible, RESTful data structures."
+                "dingo/oauth2-server-laravel": "Use the Dingo OAuth 2.0 server to protect your API.",
+                "lucadegasperi/oauth2-server-laravel": "Use the League OAuth 2.0 server to protect your API."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Dingo\\Api\\": "src"
@@ -203,7 +209,7 @@
                 "laravel",
                 "restful"
             ],
-            "time": "2014-04-30 15:23:54"
+            "time": "2014-05-12 12:32:54"
         },
         {
             "name": "filp/whoops",
@@ -856,16 +862,16 @@
         },
         {
             "name": "patchwork/utf8",
-            "version": "v1.1.21",
+            "version": "v1.1.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2"
+                "reference": "156e66249f48e439a31df2347290bb9ab1d3d242"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/f45ba8bc7962b7356847724989a6949b68d975a2",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/156e66249f48e439a31df2347290bb9ab1d3d242",
+                "reference": "156e66249f48e439a31df2347290bb9ab1d3d242",
                 "shasum": ""
             },
             "require": {
@@ -903,7 +909,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-03-26 10:52:02"
+            "time": "2014-05-06 15:47:10"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -1235,25 +1241,28 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.1.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "748c01c1144713ac0118396935d10b6ceec91b68"
+                "reference": "043e336b871f17a117f76ef8e190eddfc04c8d48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/748c01c1144713ac0118396935d10b6ceec91b68",
-                "reference": "748c01c1144713ac0118396935d10b6ceec91b68",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/043e336b871f17a117f76ef8e190eddfc04c8d48",
+                "reference": "043e336b871f17a117f76ef8e190eddfc04c8d48",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.1-dev"
+                    "dev-master": "5.2-dev"
                 }
             },
             "autoload": {
@@ -1282,7 +1291,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-03-18 09:03:27"
+            "time": "2014-05-08 08:11:19"
         },
         {
             "name": "symfony/browser-kit",
