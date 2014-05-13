@@ -223,6 +223,11 @@ return array(
 		'StaffScheduleRepositoryInterface'		=> 'Scheduler\Interfaces\StaffScheduleRepositoryInterface',
 		'UserRepositoryInterface'				=> 'Scheduler\Interfaces\UserRepositoryInterface',
 
+		/**
+		 * Transformers
+		 */
+		'ServiceTransformer'			=> 'Scheduler\Api\Transformers\ServiceTransformer',
+
 	),
 
 );
