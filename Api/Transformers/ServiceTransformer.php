@@ -1,14 +1,9 @@
 <?php namespace Scheduler\Api\Transformers;
 
-use Config;
-use ServiceModel;
+use Config, ServiceModel;
 use League\Fractal\TransformerAbstract;
 
 class ServiceTransformer extends TransformerAbstract {
-
-	protected $availableEmbeds = array(
-		'schedule'
-	);
 
 	public function transform(ServiceModel $service)
 	{
@@ -18,7 +13,7 @@ class ServiceTransformer extends TransformerAbstract {
 			return $s->start;
 		});
 
-		return array(
+		return [
 			'name'			=> $service->name,
 			'slug'			=> $service->slug,
 			'description'	=> $service->description,
@@ -33,14 +28,7 @@ class ServiceTransformer extends TransformerAbstract {
 			'active'		=> (bool) $service->status,
 			'start'			=> ($service->isProgram()) ? $appts->first()->start->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
 			'end'			=> ($service->isProgram()) ? $appts->last()->end->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
-		);
-	}
-
-	public function embedSchedule()
-	{
-		$schedule = $service->staffAppointments;
-
-		return $this->collection($schedule, new AppointmentTransformer);
+		];
 	}
 
 }
