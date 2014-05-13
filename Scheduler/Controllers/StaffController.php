@@ -204,16 +204,16 @@ class StaffController extends BaseController {
 			}
 			else
 			{
+				$start = str_replace(' AM', '', Input::get('start'));
+				$start = str_replace(' PM', '', $start);
+
+				$end = str_replace(' AM', '', Input::get('end'));
+				$end = str_replace(' PM', '', $end);
+
 				// Break the start and end times apart
-				list($aStartHour, $aStartMinute) = explode(':', Input::get('start'));
-				list($aEndHour, $aEndMinute) = explode(':', Input::get('end'));
-
-				$start = Input::get('start');
-				$end = Input::get('end');
+				list($aStartHour, $aStartMinute) = explode(':', $start);
+				list($aEndHour, $aEndMinute) = explode(':', $end);
 			}
-
-			$start = $date->copy()->hour($aStartHour)->minute($aStartMinute)->second(0);
-			$end = $date->copy()->hour($aEndHour)->minute($aEndMinute)->second(0);
 
 			Book::block(array(
 				'staff'	=> Input::get('staff_id'),
