@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c8983eed94bcc15b4bd32f663b57b7e2",
+    "hash": "eb4acc6b8cb8e60ca1b33fe5f566a68c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -147,20 +147,21 @@
         },
         {
             "name": "dingo/api",
-            "version": "v0.1.2",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dingo/api.git",
-                "reference": "2d5d3a057d0e5157ed406c050715e2e1fec3bad0"
+                "reference": "35585780afff9eb5466732511ad0d046a39d89f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dingo/api/zipball/2d5d3a057d0e5157ed406c050715e2e1fec3bad0",
-                "reference": "2d5d3a057d0e5157ed406c050715e2e1fec3bad0",
+                "url": "https://api.github.com/repos/dingo/api/zipball/35585780afff9eb5466732511ad0d046a39d89f2",
+                "reference": "35585780afff9eb5466732511ad0d046a39d89f2",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "4.1.*",
+                "league/fractal": "~0.7",
                 "php": ">=5.4.0"
             },
             "require-dev": {
@@ -202,7 +203,7 @@
                 "laravel",
                 "restful"
             ],
-            "time": "2014-04-28 13:27:45"
+            "time": "2014-04-30 15:23:54"
         },
         {
             "name": "filp/whoops",
@@ -310,12 +311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ircmaxell/password_compat.git",
-                "reference": "1fc1521b5e9794ea77e4eca30717be9635f1d4f4"
+                "reference": "v1.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/1fc1521b5e9794ea77e4eca30717be9635f1d4f4",
-                "reference": "1fc1521b5e9794ea77e4eca30717be9635f1d4f4",
+                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/v1.0.3",
+                "reference": "v1.0.3",
                 "shasum": ""
             },
             "type": "library",
@@ -331,7 +332,7 @@
             "authors": [
                 {
                     "name": "Anthony Ferrara",
-                    "email": "ircmaxell@php.net",
+                    "email": "ircmaxell@ircmaxell.com",
                     "homepage": "http://blog.ircmaxell.com"
                 }
             ],
@@ -1050,13 +1051,13 @@
             "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+                "url": "https://github.com/php-fig/log",
+                "reference": "1.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "url": "https://github.com/php-fig/log/archive/1.0.0.zip",
+                "reference": "1.0.0",
                 "shasum": ""
             },
             "type": "library",
