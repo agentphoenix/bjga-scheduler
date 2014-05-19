@@ -1,12 +1,12 @@
 <?php namespace Scheduler\Services;
 
-use dflydev\markdown\MarkdownParser;
+use Parsedown;
 
 class MarkdownService {
 
 	protected $markdown;
 
-	public function __construct(MarkdownParser $markdown)
+	public function __construct(Parsedown $markdown)
 	{
 		$this->markdown = $markdown;
 	}
@@ -19,7 +19,7 @@ class MarkdownService {
 	 */
 	public function parse($str)
 	{
-		return $this->markdown->transformMarkdown($str);
+		return $this->markdown->text($str);
 	}
 	
 }

@@ -7,8 +7,8 @@ use App,
 	Event,
 	Queue,
 	Config;
+use Parsedown;
 use Ikimea\Browser\Browser;
-use dflydev\markdown\MarkdownParser;
 use Illuminate\Support\ServiceProvider;
 use Scheduler\Services\BookingService,
 	Scheduler\Services\BombBombService,
@@ -46,7 +46,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->app['markdown'] = $this->app->share(function($app)
 		{
-			return new MarkdownService(new MarkdownParser);
+			return new MarkdownService(new Parsedown);
 		});
 	}
 
