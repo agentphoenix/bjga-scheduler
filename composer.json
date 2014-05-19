@@ -1,13 +1,13 @@
 {
 	"require": {
 		"laravel/framework": "4.1.*",
-		"dflydev/markdown": "~1.0",
+		"erusev/parsedown": "~1.0",
 		"iron-io/iron_mq": "1.5.*",
 		"sabre/vobject" : "3.1.*",
 		"ikimea/browser": "~1.0",
-		"laracasts/presenter": "0.1.*",
+		"laracasts/presenter": "~0.1",
 		"raveren/kint": "dev-master",
-		"dingo/api": "*"
+		"dingo/api": "~0.1"
 	},
 	
 	"require-dev": {
