@@ -104,8 +104,20 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="control-label">Notes</label>
+							<div class="controls">
+								{{ Form::textarea('notes', false, array('class' => 'form-control', 'rows' => 5)) }}
+							</div>
+						</div>
+					</div>
+				</div>
 			@else
 				{{ Form::hidden('user', $_currentUser->id) }}
+				{{ Form::hidden('notes', '') }}
 			@endif
 
 			<div class="row">

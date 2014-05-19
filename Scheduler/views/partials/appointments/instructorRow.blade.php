@@ -12,6 +12,9 @@
 				@endif
 			</strong>
 		</p>
+		@if ( ! empty($appt->notes))
+			<p class="text-sm text-info">{{ $appt->notes }}</p>
+		@endif
 	</div>
 	<div class="col-sm-12 col-md-5 col-lg-4">
 		<div class="visible-md visible-lg">

@@ -219,6 +219,7 @@ class StaffController extends BaseController {
 				'staff'	=> Input::get('staff_id'),
 				'start'	=> $date->copy()->hour($aStartHour)->minute($aStartMinute)->second(0),
 				'end'	=> $date->copy()->hour($aEndHour)->minute($aEndMinute)->second(0),
+				'notes'	=> Input::get('notes'),
 			));
 
 			return Redirect::route('admin.staff.schedule', array(Input::get('staff_id')))

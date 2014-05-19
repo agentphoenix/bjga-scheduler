@@ -105,6 +105,7 @@ class AppointmentController extends BaseController {
 			// Update the staff appointment
 			$sa = StaffAppointmentModel::find(Input::get('staff_appointment_id'));
 			$sa->update(Input::get('staff'));
+			$sa->update(array('notes' => Input::get('notes')));
 
 			// Update the user appointment
 			$ua = UserAppointmentModel::find(Input::get('user_appointment_id'));

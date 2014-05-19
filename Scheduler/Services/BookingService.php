@@ -31,6 +31,7 @@ class BookingService {
 			'service_id'	=> 1,
 			'start'			=> $data['start'],
 			'end'			=> $data['end'],
+			'notes'			=> $data['notes'],
 		));
 
 		// Get the current user
@@ -81,6 +82,7 @@ class BookingService {
 			'service_id'	=> $service->id,
 			'start'			=> $start,
 			'end'			=> $end,
+			'notes'			=> $data['notes'],
 		);
 
 		// Set the initial user appointment record

@@ -39,6 +39,17 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="form-group">
+				<label class="control-label">Notes</label>
+				<div class="controls">
+					{{ Form::textarea('notes', false, array('class' => 'form-control', 'rows' => 5)) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
 	{{ Form::hidden('staff_id', $user->staff->id) }}
 
 	<div class="visible-md visible-lg">
