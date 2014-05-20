@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "82befe2317a40f4c89a5516714b12ac1",
+    "hash": "c470dea19cea5c188a00208ad2480473",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -520,16 +520,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.1.28",
+            "version": "v4.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4"
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
                 "shasum": ""
             },
             "require": {
@@ -556,7 +556,7 @@
                 "symfony/http-kernel": "2.4.*",
                 "symfony/process": "2.4.*",
                 "symfony/routing": "2.4.*",
-                "symfony/security": "2.4.*",
+                "symfony/security-core": "2.4.*",
                 "symfony/translation": "2.4.*"
             },
             "replace": {
@@ -624,7 +624,7 @@
                     "name": "Taylor Otwell",
                     "email": "taylorotwell@gmail.com",
                     "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "role": "Creator of Laravel"
                 }
             ],
             "description": "The Laravel Framework.",
@@ -632,7 +632,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-04-17 17:16:42"
+            "time": "2014-05-20 13:22:03"
         },
         {
             "name": "league/fractal",
