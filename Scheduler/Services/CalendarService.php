@@ -44,6 +44,11 @@ class CalendarService {
 			$event['DTSTART'] = $a->start;
 			$event['DTEND'] = $a->end;
 
+			if ( ! empty($a->notes))
+			{
+				$event['DESCRIPTION'] = $a->notes;
+			}
+
 			// Add the event to the calendar
 			$calendar->add('VEVENT', $event);
 		}

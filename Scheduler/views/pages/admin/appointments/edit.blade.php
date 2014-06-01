@@ -27,14 +27,14 @@
 	</div>
 
 	{{ Form::model($appointment, array('route' => array('admin.appointment.update', $appointment->id), 'method' => 'put')) }}
-		<!--<div class="row">
+		<div class="row">
 			<div class="col-md-10 col-lg-8">
 				<div class="form-group">
 					<label class="control-label">Notes</label>
 					{{ Form::textarea('notes', null, array('class' => 'form-control', 'rows' => 5)) }}
 				</div>
 			</div>
-		</div>-->
+		</div>
 
 		<div class="row">
 			<div class="col-sm-6 col-md-5 col-lg-4">

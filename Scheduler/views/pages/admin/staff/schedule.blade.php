@@ -42,6 +42,10 @@
 						<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 							<p><strong>{{ $b->start->format(Config::get('bjga.dates.date')) }}</strong></p>
 							<p class="text-muted text-sm">{{ $b->start->format(Config::get('bjga.dates.time')) }} - {{ $b->end->format(Config::get('bjga.dates.time')) }}</p>
+
+							@if ( ! empty($b->notes))
+								<p class="text-sm text-info">{{ $b->notes }}</p>
+							@endif
 						</div>
 						<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 							<div class="visible-md visible-lg">
