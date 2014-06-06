@@ -164,12 +164,18 @@ class HomeController extends BaseController {
 		// Get the event
 		$event = $this->service->findBySlug($slug);
 
-		// Get the appointment record
-		$appointment = $event->appointments->first();
+		if ($event)
+		{
+			// Get the appointment record
+			$appointment = $event->appointments->first();
 
-		return View::make('pages.event')
-			->withEvent($event)
-			->withAppointment($appointment);
+			return View::make('pages.event')
+				->withEvent($event)
+				->withAppointment($appointment);
+		}
+
+		return View::make('pages.admin.error')
+			->withError("We couldn't find the event you're looking for. Please try again. If you believe you've received this in error, please contact us at ". Config::get('bjga.email.adminAddress') .".");
 	}
 
 	public function report()
