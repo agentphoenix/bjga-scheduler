@@ -91,7 +91,7 @@ class ReportController extends BaseController {
 						if ( ! $u->user->isStaff())
 						{
 							// Lesson Hours
-							if ( ! $lessonHoursCounted)
+							if ( ! $lessonHoursCounted and $a->service->duration !== null)
 							{
 								$lessonHours += $a->service->duration;
 								$lessonHoursCounted = true;
@@ -131,7 +131,7 @@ class ReportController extends BaseController {
 						if ( ! $u->user->isStaff())
 						{
 							// Lesson Hours
-							if ( ! $lessonHoursCounted)
+							if ( ! $lessonHoursCounted and $a->service->duration !== null)
 							{
 								$lessonHoursYTD += $a->service->duration;
 								$lessonHoursCounted = true;
