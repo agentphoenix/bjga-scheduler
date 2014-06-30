@@ -34,7 +34,8 @@ class HomeController extends BaseController {
 			$days = ($this->currentUser->isStaff()) ? 90 : false;
 
 			return View::make('pages.schedule')
-				->withSchedule($this->user->getSchedule($this->currentUser, $days));
+				->withSchedule($this->user->getSchedule($this->currentUser, $days))
+				->withNow(\Date::now());
 		}
 
 		return View::make('pages.login');
