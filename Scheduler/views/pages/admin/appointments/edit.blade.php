@@ -28,7 +28,7 @@
 
 	{{ Form::model($appointment, array('route' => array('admin.appointment.update', $appointment->id), 'method' => 'put')) }}
 		<div class="row">
-			<div class="col-md-10 col-lg-8">
+			<div class="col-md-9 col-lg-8">
 				<div class="form-group">
 					<label class="control-label">Notes</label>
 					{{ Form::textarea('notes', null, array('class' => 'form-control', 'rows' => 5)) }}
@@ -37,45 +37,31 @@
 		</div>
 
 		<div class="row">
-			<div class="col-sm-6 col-md-5 col-lg-4">
+			<div class="col-sm-4 col-md-3 col-lg-2">
 				<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
-					<label class="control-label">Start</label>
-					{{ Form::text('staff[start]', $appointment->start, array('class' => 'form-control js-datepicker')) }}
+					<label class="control-label">Date</label>
+					{{ Form::text('staff[date]', $appointment->start->format('Y-m-d'), array('class' => 'form-control js-datepicker')) }}
 					{{ $errors->first('start', '<p class="help-block">:message</p>') }}
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-5 col-lg-4">
+			<div class="col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
+					<label class="control-label">Start Time</label>
+					{{ Form::text('staff[start]', $appointment->start->format('H:i'), array('class' => 'form-control js-timepicker')) }}
+					{{ $errors->first('start', '<p class="help-block">:message</p>') }}
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-3 col-lg-2">
 				<div class="form-group{{ ($errors->has('end')) ? ' has-error' : '' }}">
-					<label class="control-label">End</label>
-					{{ Form::text('staff[end]', $appointment->end, array('class' => 'form-control js-datepicker')) }}
+					<label class="control-label">End Time</label>
+					{{ Form::text('staff[end]', $appointment->end->format('H:i'), array('class' => 'form-control js-timepicker')) }}
 					{{ $errors->first('end', '<p class="help-block">:message</p>') }}
 				</div>
 			</div>
 		</div>
 
-		<!--<div class="row">
-			<div class="col-sm-6 col-md-5 col-lg-4">
-				<div class="form-group">
-					<label class="control-label">Has gift certificate?</label>
-					<div class="controls">
-						<label class="radio-inline text-sm">{{ Form::radio('has_gift', 1, ($appointment->userAppointments->first()->has_gift === 1)) }} Yes</label>
-						<label class="radio-inline text-sm">{{ Form::radio('has_gift', 0, ($appointment->userAppointments->first()->has_gift === 0)) }} No</label>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3 col-lg-2">
-				<div class="form-group">
-					<label class="control-label">Amount</label>
-					<div class="input-group">
-						<span class="input-group-addon"><strong>$</strong></span>
-						{{ Form::text('gift_amount', $appointment->userAppointments->first()->gift_amount, array('class' => 'form-control')) }}
-					</div>
-				</div>
-			</div>
-		</div>-->
-
 		<div class="row">
-			<div class="col-sm-6 col-md-3 col-lg-2">
+			<div class="col-sm-4 col-md-3 col-lg-2">
 				<div class="form-group">
 					<label class="control-label">Total Due</label>
 					<div class="input-group">
@@ -84,8 +70,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="visible-lg visible-md col-md-2 col-lg-2">&nbsp;</div>
-			<div class="col-sm-6 col-md-5 col-lg-4">
+			<div class="col-sm-4 col-md-3 col-lg-4">
 				<div class="form-group">
 					<label class="control-label">Paid?</label>
 					<div class="controls">
@@ -112,21 +97,33 @@
 	{{ Form::close() }}
 @stop
 
+@section('styles')
+	{{ HTML::style('css/picker.default.css') }}
+	{{ HTML::style('css/picker.default.date.css') }}
+	{{ HTML::style('css/picker.default.time.css') }}
+@stop
+
 @section('scripts')
-	{{ HTML::script('js/moment.min.js') }}
-	{{ HTML::script('js/bootstrap-datetimepicker.min.js') }}
+	{{ HTML::script('js/picker.js') }}
+	{{ HTML::script('js/picker.date.js') }}
+	{{ HTML::script('js/picker.time.js') }}
+	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
-		
 		$(function()
 		{
-			$('.js-datepicker').datetimepicker({
-				format: "YYYY-MM-DD HH:mm:ss",
-				minuteStepping: 15,
-				defaultDate: moment($(this).val(), "HH:mm:ss"),
-				sideBySide: true,
-				useSeconds: false
+			$('.js-datepicker').pickadate({
+				format: "yyyy-mm-dd",
+				max: false,
+				container: '.container-fluid'
+			});
+
+			$('.js-timepicker').pickatime({
+				format: "HH:i",
+				interval: 15,
+				min: [7, 0],
+				max: [21, 0],
+				container: '.container-fluid'
 			});
 		});
-
 	</script>
 @stop
