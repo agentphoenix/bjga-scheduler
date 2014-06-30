@@ -60,8 +60,13 @@
 	</div>
 {{ Form::close() }}
 
-<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+{{ HTML::style('css/picker.default.css') }}
+{{ HTML::style('css/picker.default.date.css') }}
+{{ HTML::style('css/picker.default.time.css') }}
+{{ HTML::script('js/picker.js') }}
+{{ HTML::script('js/picker.date.js') }}
+{{ HTML::script('js/picker.time.js') }}
+{{ HTML::script('js/picker.legacy.js') }}
 <script>
 	$(document).on('change', '[name="all_day"]', function()
 	{
@@ -75,21 +80,26 @@
 
 	$(function()
 	{
-		$('.js-datepicker').datetimepicker({
-			pickTime: false,
-			format: "YYYY-MM-DD"
+		$('.js-datepicker').pickadate({
+			format: "yyyy-mm-dd",
+			max: false,
+			container: '.container-fluid'
 		});
 
-		$('.js-timepicker-start').datetimepicker({
-			pickDate: false,
-			format: "HH:mm A",
-			useSeconds: false
+		$('.js-timepicker-start').pickatime({
+			format: "HH:i A",
+			interval: 15,
+			min: [7, 0],
+			max: [21, 0],
+			container: '.container-fluid'
 		});
 
-		$('.js-timepicker-end').datetimepicker({
-			pickDate: false,
-			format: "HH:mm A",
-			useSeconds: false
+		$('.js-timepicker-end').pickatime({
+			format: "HH:i A",
+			interval: 15,
+			min: [7, 0],
+			max: [21, 0],
+			container: '.container-fluid'
 		});
 	});
 </script>

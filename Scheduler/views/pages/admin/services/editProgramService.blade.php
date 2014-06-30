@@ -146,8 +146,13 @@
 										</div>
 									</div>
 									<div class="col-lg-1">
-										<label class="control-label">&nbsp;</label>
-										<a class="btn btn-xs btn-danger icn-size-16 js-removeSchedule-action" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
+										<div class="visible-xs visible-sm">
+											<p><a class="btn btn-lg btn-block btn-danger icn-size-16 js-removeSchedule-action" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a></p>
+										</div>
+										<div class="visible-md visible-lg">
+											<label class="control-label">&nbsp;</label>
+											<a class="btn btn-xs btn-danger icn-size-16 js-removeSchedule-action" data-id="{{ $s->id }}">{{ $_icons['remove'] }}</a>
+										</div>
 									</div>
 								</div>
 							@endforeach
@@ -194,11 +199,18 @@
 	{{ Form::close() }}
 @stop
 
+@section('styles')
+	{{ HTML::style('css/picker.default.css') }}
+	{{ HTML::style('css/picker.default.date.css') }}
+	{{ HTML::style('css/picker.default.time.css') }}
+@stop
+
 @section('scripts')
-	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+	{{ HTML::script('js/picker.js') }}
+	{{ HTML::script('js/picker.date.js') }}
+	{{ HTML::script('js/picker.time.js') }}
+	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
-		
 		$(document).on('click', '.js-addSchedule-action', function(e)
 		{
 			e.preventDefault();
@@ -207,18 +219,20 @@
 			{
 				if ($(this).hasClass('js-datepicker'))
 				{
-					$(this).val('').datetimepicker({
-						pickTime: false,
-						format: "YYYY-MM-DD"
+					$(this).val('').pickadate({
+						format: "yyyy-mm-dd",
+						max: false,
+						container: '.container-fluid'
 					});
 				}
 				else
 				{
-					$(this).datetimepicker({
-						pickDate: false,
-						format: "HH:mm A",
-						minuteStepping: 15,
-						useSeconds: false
+					$(this).pickatime({
+						format: "HH:i A",
+						interval: 15,
+						min: [7, 0],
+						max: [21, 0],
+						container: '.container-fluid'
 					});
 				}
 			}).end().appendTo('#serviceScheduleTable');
@@ -253,27 +267,20 @@
 		{
 			$('.js-timepicker').each(function()
 			{
-				$(this).datetimepicker({
-					pickDate: false,
-					format: "HH:mm A",
-					minuteStepping: 15,
-					defaultDate: moment($(this).val(), "HH:mm:ss"),
-					useSeconds: false
+				$(this).pickatime({
+					format: "HH:i A",
+					interval: 15,
+					min: [7, 0],
+					max: [21, 0],
+					container: '.container-fluid'
 				});
 			});
 
-			$('.js-datepicker').datetimepicker({
-				pickTime: false,
-				format: "YYYY-MM-DD"
-			});
-
-			$('.js-timepicker').datetimepicker({
-				pickDate: false,
-				format: "HH:mm A",
-				minuteStepping: 15,
-				useSeconds: false
+			$('.js-datepicker').pickadate({
+				format: "yyyy-mm-dd",
+				max: false,
+				container: '.container-fluid',
 			});
 		});
-
 	</script>
 @stop

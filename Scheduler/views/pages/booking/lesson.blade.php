@@ -138,11 +138,18 @@
 	{{ Form::close() }}
 @stop
 
+@section('styles')
+	{{ HTML::style('css/picker.default.css') }}
+	{{ HTML::style('css/picker.default.date.css') }}
+@stop
+
 @section('scripts')
 	{{ HTML::script('js/moment.min.js') }}
-	{{ HTML::script('js/bootstrap-datetimepicker.min.js') }}
 	{{ HTML::script('js/jquery.plugin.min.js') }}
 	{{ HTML::script('js/jquery.countdown.min.js') }}
+	{{ HTML::script('js/picker.js') }}
+	{{ HTML::script('js/picker.date.js') }}
+	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
 
 		var timer;
@@ -237,28 +244,22 @@
 			resetOptions();
 		});
 
-		$(document).on('dp.show', function()
-		{
-			$('[name="time"]').val('');
-			$('[name="timeDisplay"]').val('');
-			$('.bookingForm').addClass('hide');
-			$('.ajax-container').html('').closest('.row').removeClass('hide');
-			$('.js-check').closest('.row').removeClass('hide');
-
-			/*if ($.isFunction($.countdown))
-			{
-				$('#availabilityCountdown').countdown('destroy');
-				$('#availabilityCountdown').closest('.row').addClass('hide');
-			}*/
-		});
-
 		$(function()
 		{
-			$('.js-datepicker').datetimepicker({
-				pickTime: false,
-				format: "YYYY-MM-DD",
-				defaultDate: moment().add('days', 1),
-				minDate: moment()
+			$('.js-datepicker').pickadate({
+				format: "yyyy-mm-dd",
+				min: 1,
+				max: false,
+				container: '.container-fluid',
+				today: false,
+				onOpen: function()
+				{
+					$('[name="time"]').val('');
+					$('[name="timeDisplay"]').val('');
+					$('.bookingForm').addClass('hide');
+					$('.ajax-container').html('').closest('.row').removeClass('hide');
+					$('.js-check').closest('.row').removeClass('hide');
+				}
 			});
 		});
 

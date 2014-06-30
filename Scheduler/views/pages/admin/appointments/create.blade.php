@@ -129,11 +129,18 @@
 	{{ Form::close() }}
 @stop
 
-@section('scripts')
-	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-	<script>
+@section('styles')
+	{{ HTML::style('css/picker.default.css') }}
+	{{ HTML::style('css/picker.default.date.css') }}
+	{{ HTML::style('css/picker.default.time.css') }}
+@stop
 
+@section('scripts')
+	{{ HTML::script('js/picker.js') }}
+	{{ HTML::script('js/picker.date.js') }}
+	{{ HTML::script('js/picker.time.js') }}
+	{{ HTML::script('js/picker.legacy.js') }}
+	<script>
 		$('[name="service_id"]').on('change', function(e)
 		{
 			$.ajax({
@@ -152,19 +159,21 @@
 
 		$(function()
 		{
-			$('.js-datepicker').datetimepicker({
-				pickTime: false,
-				format: "YYYY-MM-DD",
-				defaultDate: moment()
+			$('.js-datepicker').pickadate({
+				format: "yyyy-mm-dd",
+				min: 1,
+				max: false,
+				container: '.container-fluid',
+				today: false
 			});
 
-			$('.js-timepicker').datetimepicker({
-				pickDate: false,
-				format: "HH:mm A",
-				minuteStepping: 15,
-				useSeconds: false
+			$('.js-timepicker').pickatime({
+				format: "HH:i A",
+				interval: 15,
+				min: [7, 0],
+				max: [21, 0],
+				container: '.container-fluid'
 			});
 		});
-
 	</script>
 @stop
