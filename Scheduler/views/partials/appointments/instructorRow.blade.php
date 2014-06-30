@@ -1,9 +1,19 @@
 <div class="row">
-	<div class="col-sm-3 col-md-2 col-lg-2">
-		<p class="text-sm"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }} - {{ $appt->end->format(Config::get('bjga.dates.time')) }}</strong></p>
+	<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+		<p class="lead{{ ($appt->hasEnded()) ? ' text-muted' : '' }}"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }}</strong></p>
 	</div>
-	<div class="col-sm-9 col-md-5 col-lg-6">
-		<p class="lead">
+	<div class="col-xs-8 col-sm-9 col-md-5 col-lg-6">
+		<p class="lead visible-xs visible-sm{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
+			<a href="#" class="no-color js-details" data-id="{{ $appt->id }}"><strong>
+				@if ($appt->service->isLesson())
+					{{ trim($appt->userAppointments->first()->user->name) }}
+				@else
+					{{ trim($appt->service->name) }}
+				@endif
+			</strong></a>
+		</p>
+
+		<p class="lead visible-md visible-lg">
 			<strong>
 				@if ($appt->service->isLesson())
 					{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
@@ -16,7 +26,7 @@
 			<p class="text-sm text-info">{{ $appt->notes }}</p>
 		@endif
 	</div>
-	<div class="col-sm-12 col-md-5 col-lg-4">
+	<div class="col-md-5 col-lg-4">
 		<div class="visible-md visible-lg">
 			<div class="btn-toolbar pull-right">
 				@if ($appt->service->isProgram())
@@ -67,41 +77,6 @@
 					</div>
 				@endif
 			</div>
-		</div>
-		<div class="visible-xs visible-sm">
-			@if ($appt->service->isProgram())
-				<p><a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">More Info</a></p>
-			@endif
-
-			@if ($appt->service->isLesson() or $appt->service->isProgram())
-				<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email" data-service="{{ $appt->service->id }}" data-appt="{{ $appt->id }}">Email Attendees</a></p>
-				
-				<p>
-					@if ($appt->service->isLesson())
-						<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Appointment</a>
-					@else
-						<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Service</a>
-					@endif
-				</p>
-
-				@if ($appt->service->isRecurring())
-					<p><a href="{{ URL::route('admin.appointment.recurring.edit', array($appt->recur_id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Series</a></p>
-				@endif
-
-				@if ($appt->service->isLesson())
-					@if ((bool) $appt->userAppointments->first()->paid === false)
-						<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16 js-markAsPaid" data-appt="{{ $appt->userAppointments->first()->id }}">Mark as Paid</a></p>
-					@endif
-				@else
-					<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-attendees" data-id="{{ $appt->id }}">See All Attendees</a></p>
-				@endif
-
-				@if ( ! $appt->hasStarted())
-					<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
-				@endif
-			@else
-				<p><a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">View Schedule</a></p>
-			@endif
 		</div>
 	</div>
 </div>
