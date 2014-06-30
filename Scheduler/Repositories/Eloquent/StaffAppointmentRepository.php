@@ -120,7 +120,7 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 				});
 
 				// Start building the new date
-				$newDate = Date::createFromFormat('Y-m-d H:i', $data['newDate']);
+				$newDate = Date::createFromFormat('Y-m-d H:i', $data['newDate']." ".$data['newTime']);
 
 				foreach ($series as $item)
 				{

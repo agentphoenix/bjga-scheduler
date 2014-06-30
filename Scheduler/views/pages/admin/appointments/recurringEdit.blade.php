@@ -35,11 +35,19 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="form-group">
+					<label class="control-label">New Date</label>
 					{{ Form::text('newDate', null, array('class' => 'js-datepicker form-control')) }}
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="control-label">New Start Time</label>
+					{{ Form::text('newTime', null, array('class' => 'js-timepicker form-control')) }}
 				</div>
 			</div>
 			<div class="col-lg-2">
 				<div class="visible-md visible-lg">
+					<label class="control-label">&nbsp;</label>
 					{{ Form::button('Change', array('type' => 'submit', 'class' => 'btn btn-sm btn-block btn-primary')) }}
 				</div>
 				<div class="visible-xs visible-sm">
@@ -79,20 +87,33 @@
 	</div>
 @stop
 
+@section('styles')
+	{{ HTML::style('css/picker.default.css') }}
+	{{ HTML::style('css/picker.default.date.css') }}
+	{{ HTML::style('css/picker.default.time.css') }}
+@stop
+
 @section('scripts')
-	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+	{{ HTML::script('js/picker.js') }}
+	{{ HTML::script('js/picker.date.js') }}
+	{{ HTML::script('js/picker.time.js') }}
+	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
-		
 		$(function()
 		{
-			$('.js-datepicker').datetimepicker({
-				format: "YYYY-MM-DD HH:mm",
-				minuteStepping: 15,
-				minDate: moment(),
-				sideBySide: true
+			$('.js-datepicker').pickadate({
+				format: "yyyy-mm-dd",
+				max: false,
+				container: '.container-fluid'
+			});
+
+			$('.js-timepicker').pickatime({
+				format: "HH:i",
+				interval: 15,
+				min: [7, 0],
+				max: [21, 0],
+				container: '.container-fluid'
 			});
 		});
-
 	</script>
 @stop
