@@ -40,7 +40,7 @@
 				@if ($type == 'user')
 					{{ View::make('partials.appointments.studentRow')->withAppt($appt) }}
 				@else
-					{{ View::make('partials.appointments.instructorRow')->withAppt($appt) }}
+					{{ View::make('partials.appointments.instructorRowNew')->withAppt($appt) }}
 				@endif
 			@endforeach
 			</div>
@@ -64,6 +64,7 @@
 	{{ modal(array('id' => 'instructorCancel', 'header' => "Cancel Appointment")) }}
 	{{ modal(array('id' => 'studentCancel', 'header' => "Cancel Appointment")) }}
 	{{ modal(array('id' => 'attendees', 'header' => "Attendees")) }}
+	{{ modal(['id' => 'apptDetails', 'header' => 'Appointment Details']) }}
 @stop
 
 @section('scripts')
@@ -78,6 +79,17 @@
 
 			$('#attendees').modal({
 				remote: "{{ URL::to('admin/appointment/attendees/appointment') }}/" + id
+			}).modal('show');
+		});
+
+		$('.js-details').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var id = $(this).data('id');
+
+			$('#apptDetails').modal({
+				remote: "{{ URL::to('admin/appointment/details') }}/" + id
 			}).modal('show');
 		});
 		
