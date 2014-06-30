@@ -17,9 +17,9 @@
 		<link href="http://fonts.googleapis.com/css?family=Exo+2:400,500,500italic,600" rel="stylesheet">
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
 		<link href="http://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	@else
-		<link href="http://localhost/global/bootstrap/3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://localhost/global/bootstrap/3.2/css/bootstrap.min.css" rel="stylesheet">
 	@endif
 
 	{{ HTML::style('css/bootstrap-datetimepicker.min.css') }}
@@ -73,7 +73,7 @@
 			<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<!--<![endif]-->
 
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	@else
 		<!--[if lt IE 9]>
 			<script src="http://localhost/global/jquery/jquery-1.11.1.min.js"></script>
@@ -82,7 +82,7 @@
 			<script src="http://localhost/global/jquery/jquery-2.1.1.min.js"></script>
 		<!--<![endif]-->
 
-		<script src="http://localhost/global/bootstrap/3.1/js/bootstrap.min.js"></script>
+		<script src="http://localhost/global/bootstrap/3.2/js/bootstrap.min.js"></script>
 	@endif
 	<!--[if lt IE 9]>
 		{{ HTML::script('js/respond.min.js') }}
