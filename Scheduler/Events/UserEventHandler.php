@@ -38,7 +38,7 @@ class UserEventHandler {
 	{
 		if (App::environment() == 'production')
 		{
-			// Subscribe the user to the mailchimp list
+			/*// Subscribe the user to the mailchimp list
 			if (isset($input['newsletter_optin']) and $input['newsletter_optin'] == '1')
 			{
 				// Break the user name out
@@ -57,7 +57,7 @@ class UserEventHandler {
 					'listlist'	=> '8334abc4-dd51-dbec-233f-517b664913f3',
 				));
 
-				/*// Get the MailChimp instance
+				// Get the MailChimp instance
 				$mailchimp = App::make('scheduler.mailchimp');
 
 				// Get the list
@@ -72,8 +72,8 @@ class UserEventHandler {
 					'update_existing'	=> true,
 					'replace_interests'	=> false,
 					'send_welcome'		=> false,
-				));*/
-			}
+				));
+			}*/
 		}
 
 		// Set the email data
