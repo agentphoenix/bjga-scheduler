@@ -1,13 +1,13 @@
 <div class="row">
-	<div class="col-sm-3 col-md-2 col-lg-2">
-		<p class="text-sm"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }} - {{ $appt->end->format(Config::get('bjga.dates.time')) }}</strong></p>
+	<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+		<p class="lead visible-xs visible-sm"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }}</strong></p>
+		<p class="lead visible-md visible-lg">{{ $appt->start->format(Config::get('bjga.dates.time')) }}</p>
 	</div>
-	<div class="col-sm-9 col-md-5 col-lg-6">
-		<p class="lead">
-			<strong>{{ trim($appt->service->name) }}</strong>
-		</p>
+	<div class="col-xs-8 col-sm-9 col-md-5 col-lg-6">
+		<p class="lead visible-xs visible-sm"><strong>{{ $appt->service->present()->name }}</strong></p>
+		<p class="lead visible-md visible-lg">{{ $appt->service->present()->name }}</p>
 	</div>
-	<div class="col-sm-12 col-md-5 col-lg-4">
+	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 		<div class="visible-md visible-lg">
 			<div class="btn-toolbar pull-right">
 				@if ($appt->service->isProgram())

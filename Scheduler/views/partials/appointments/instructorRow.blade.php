@@ -1,26 +1,29 @@
 <div class="row">
 	<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-		<p class="lead{{ ($appt->hasEnded()) ? ' text-muted' : '' }}"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }}</strong></p>
+		<p class="lead visible-xs visible-sm{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
+			<strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }}</strong>
+		</p>
+		<p class="lead visible-md visible-lg{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
+			{{ $appt->start->format(Config::get('bjga.dates.time')) }}
+		</p>
 	</div>
 	<div class="col-xs-8 col-sm-9 col-md-5 col-lg-6">
 		<p class="lead visible-xs visible-sm{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
-			<a href="#" class="no-color js-details" data-id="{{ $appt->id }}"><strong>
+			<strong><a href="#" class="no-color js-details" data-id="{{ $appt->id }}">
 				@if ($appt->service->isLesson())
 					{{ trim($appt->userAppointments->first()->user->name) }}
 				@else
 					{{ trim($appt->service->name) }}
 				@endif
-			</strong></a>
+			</a></strong>
 		</p>
 
 		<p class="lead visible-md visible-lg">
-			<strong>
-				@if ($appt->service->isLesson())
-					{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
-				@else
-					{{ trim($appt->service->name) }}
-				@endif
-			</strong>
+			@if ($appt->service->isLesson())
+				{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
+			@else
+				{{ trim($appt->service->name) }}
+			@endif
 		</p>
 		@if ( ! empty($appt->notes))
 			<p class="text-sm text-info">{{ $appt->notes }}</p>
