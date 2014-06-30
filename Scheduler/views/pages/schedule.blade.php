@@ -40,7 +40,7 @@
 				@if ($type == 'user')
 					{{ View::make('partials.appointments.studentRow')->withAppt($appt) }}
 				@else
-					{{ View::make('partials.appointments.instructorRowNew')->withAppt($appt) }}
+					{{ View::make('partials.appointments.instructorRow')->withAppt($appt) }}
 				@endif
 			@endforeach
 			</div>
