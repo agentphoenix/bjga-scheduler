@@ -251,4 +251,17 @@ class AppointmentController extends BaseController {
 		}
 	}
 
+	public function details($id)
+	{
+		// Get the appointment
+		$appointment = $this->appts->find($id);
+
+		return partial('common/modal_content', array(
+			'modalHeader'	=> "Appointment Details",
+			'modalBody'		=> View::make('pages.admin.appointments.ajax.details')
+								->withAppt($appointment),
+			'modalFooter'	=> false,
+		));
+	}
+
 }

@@ -74,6 +74,19 @@ class StaffAppointmentModel extends Model {
 		return $collection;
 	}
 
+	public function hasEnded()
+	{
+		// Get right now
+		$now = Date::now();
+
+		if ($now > $this->end)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	public function hasStarted()
 	{
 		// Get right now

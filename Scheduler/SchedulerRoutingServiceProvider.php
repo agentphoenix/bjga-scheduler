@@ -153,6 +153,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::post('appointment/recurring/{id}', array(
 				'as'	=> 'admin.appointment.recurring.update',
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@updateRecurring'));
+			Route::get('appointment/details/{id}','Scheduler\Controllers\AppointmentController@details');
 
 			/**
 			 * Resourceful controllers.

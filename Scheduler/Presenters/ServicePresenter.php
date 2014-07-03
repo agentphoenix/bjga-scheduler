@@ -10,6 +10,11 @@ class ServicePresenter extends Presenter {
 		return Markdown::parse($this->entity->description);
 	}
 
+	public function name()
+	{
+		return trim($this->entity->name);
+	}
+
 	public function price()
 	{
 		// Get the entity

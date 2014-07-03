@@ -10,13 +10,13 @@
 	@if (count($schedule) > 0)
 		@foreach ($schedule as $days => $appointments)
 			@if ($days === 0)
-				<h2>Today <small>{{ Date::now()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+				<h2>Today <small>{{ $now->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@elseif ($days === 1)
-				<h2>Tomorrow <small>{{ Date::now()->addDay()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+				<h2>Tomorrow <small>{{ $now->copy()->addDay()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@elseif ($days >= 2 and $days <= 6)
-				<h2>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+				<h2>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@else
-				<h2>{{ Date::now()->addDays($days)->format(Config::get('bjga.dates.date')) }}</h2>
+				<h2>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.date')) }}</h2>
 			@endif
 
 			<div class="data-table data-table-striped data-table-bordered">
@@ -60,10 +60,11 @@
 @stop
 
 @section('modals')
-	{{ modal(array('id' => 'sendEmail', 'header' => "Send Email")) }}
-	{{ modal(array('id' => 'instructorCancel', 'header' => "Cancel Appointment")) }}
-	{{ modal(array('id' => 'studentCancel', 'header' => "Cancel Appointment")) }}
-	{{ modal(array('id' => 'attendees', 'header' => "Attendees")) }}
+	{{ modal(['id' => 'sendEmail', 'header' => "Send Email"]) }}
+	{{ modal(['id' => 'instructorCancel', 'header' => "Cancel Appointment"]) }}
+	{{ modal(['id' => 'studentCancel', 'header' => "Cancel Appointment"]) }}
+	{{ modal(['id' => 'attendees', 'header' => "Attendees"]) }}
+	{{ modal(['id' => 'apptDetails', 'header' => 'Appointment Details']) }}
 @stop
 
 @section('scripts')
@@ -78,6 +79,17 @@
 
 			$('#attendees').modal({
 				remote: "{{ URL::to('admin/appointment/attendees/appointment') }}/" + id
+			}).modal('show');
+		});
+
+		$('.js-details').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var id = $(this).data('id');
+
+			$('#apptDetails').modal({
+				remote: "{{ URL::to('admin/appointment/details') }}/" + id
 			}).modal('show');
 		});
 		
