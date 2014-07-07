@@ -36,21 +36,30 @@
 	</div>
 {{ Form::close() }}
 
-<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+{{ HTML::style('css/picker.default.css') }}
+{{ HTML::style('css/picker.default.time.css') }}
+{{ HTML::script('js/picker.js') }}
+{{ HTML::script('js/picker.time.js') }}
+{{ HTML::script('js/picker.legacy.js') }}
 <script>
 	$(function()
 	{
-		$('.js-timepicker-start').datetimepicker({
-			pickDate: false,
-			format: "HH:mm A",
-			useSeconds: false
+		$('.js-timepicker-start').pickatime({
+			format: "HH:i A",
+			interval: 15,
+			min: [7, 0],
+			max: [21, 0],
+			container: '.container-fluid',
+			editable: true
 		});
 
-		$('.js-timepicker-end').datetimepicker({
-			pickDate: false,
-			format: "HH:mm A",
-			useSeconds: false
+		$('.js-timepicker-end').pickatime({
+			format: "HH:i A",
+			interval: 15,
+			min: [7, 0],
+			max: [21, 0],
+			container: '.container-fluid',
+			editable: true
 		});
 	});
 </script>

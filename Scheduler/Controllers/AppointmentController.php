@@ -102,10 +102,24 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
+			// Get the staff data
+			$staffData = Input::get('staff');
+			$staffData['notes'] = Input::get('notes');
+
+			// Build the dates
+			$startDate = Date::createFromFormat('Y-m-d H:i', $staffData['date'].' '.$staffData['start']);
+			$endDate = Date::createFromFormat('Y-m-d H:i', $staffData['date'].' '.$staffData['end']);
+
+			// Put the dates back into the staff data
+			$staffData['start'] = $startDate;
+			$staffData['end'] = $endDate;
+
+			// Clear the date
+			unset($staffData['date']);
+
 			// Update the staff appointment
 			$sa = StaffAppointmentModel::find(Input::get('staff_appointment_id'));
-			$sa->update(Input::get('staff'));
-			$sa->update(array('notes' => Input::get('notes')));
+			$sa->update($staffData);
 
 			// Update the user appointment
 			$ua = UserAppointmentModel::find(Input::get('user_appointment_id'));
