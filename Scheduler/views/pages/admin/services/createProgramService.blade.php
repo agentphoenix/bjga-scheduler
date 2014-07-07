@@ -184,7 +184,8 @@
 					$(this).val('').pickadate({
 						format: "yyyy-mm-dd",
 						max: false,
-						container: '.container-fluid'
+						container: '.container-fluid',
+						editable: true
 					});
 				}
 				else
@@ -194,7 +195,8 @@
 						interval: 15,
 						min: [7, 0],
 						max: [21, 0],
-						container: '.container-fluid'
+						container: '.container-fluid',
+						editable: true
 					});
 				}
 			}).end().appendTo('#serviceScheduleTable');
@@ -206,6 +208,7 @@
 				format: "yyyy-mm-dd",
 				max: false,
 				container: '.container-fluid',
+				editable: true
 			});
 
 			$('.js-timepicker').pickatime({
@@ -213,7 +216,8 @@
 					interval: 15,
 					min: [7, 0],
 					max: [21, 0],
-					container: '.container-fluid'
+					container: '.container-fluid',
+					editable: true
 				});
 		});
 	</script>

@@ -252,6 +252,7 @@
 				max: false,
 				container: '.container-fluid',
 				today: false,
+				editable: true,
 				onOpen: function()
 				{
 					$('[name="time"]').val('');

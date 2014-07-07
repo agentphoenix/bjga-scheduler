@@ -83,7 +83,8 @@
 		$('.js-datepicker').pickadate({
 			format: "yyyy-mm-dd",
 			max: false,
-			container: '.container-fluid'
+			container: '.container-fluid',
+			editable: true
 		});
 
 		$('.js-timepicker-start').pickatime({
@@ -91,7 +92,8 @@
 			interval: 15,
 			min: [7, 0],
 			max: [21, 0],
-			container: '.container-fluid'
+			container: '.container-fluid',
+			editable: true
 		});
 
 		$('.js-timepicker-end').pickatime({
@@ -99,7 +101,8 @@
 			interval: 15,
 			min: [7, 0],
 			max: [21, 0],
-			container: '.container-fluid'
+			container: '.container-fluid',
+			editable: true
 		});
 	});
 </script>
