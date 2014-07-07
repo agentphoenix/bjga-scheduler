@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Events;
 
 use App,
+	Date,
 	File,
 	Mail,
 	Config,
@@ -28,7 +29,29 @@ class UserEventHandler {
 		});
 	}
 
-	public function onUserDeleted($user){}
+	public function onUserDeleted($user)
+	{
+		// Get right now
+		$now = Date::now();
+
+		// Get all the user's future appointments
+		$appointments = $user->appointments->filter(function($ua) use ($now)
+		{
+			return $ua->appointment->start >= $now;
+		});
+
+		foreach ($appointments as $ua)
+		{
+			// Remove the user appointment
+			$ua->forceDelete();
+
+			// If it's a lesson, remove the staff appointment too
+			if ($ua->appointment->service->isLesson())
+			{
+				$ua->appointment->forceDelete();
+			}
+		}
+	}
 
 	public function onUserPasswordReminder($data){}
 
