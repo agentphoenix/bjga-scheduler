@@ -161,11 +161,18 @@
 	{{ Form::close() }}
 @stop
 
+@section('styles')
+	{{ HTML::style('css/picker.default.css') }}
+	{{ HTML::style('css/picker.default.date.css') }}
+	{{ HTML::style('css/picker.default.time.css') }}
+@stop
+
 @section('scripts')
-	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+	{{ HTML::script('js/picker.js') }}
+	{{ HTML::script('js/picker.date.js') }}
+	{{ HTML::script('js/picker.time.js') }}
+	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
-		
 		$(document).on('click', '.js-addSchedule-action', function(e)
 		{
 			e.preventDefault();
@@ -174,19 +181,22 @@
 			{
 				if ($(this).hasClass('js-datepicker'))
 				{
-					$(this).val('').datetimepicker({
-						pickTime: false,
-						format: "YYYY-MM-DD",
-						minuteStepping: 15
+					$(this).val('').pickadate({
+						format: "yyyy-mm-dd",
+						max: false,
+						container: '.container-fluid',
+						editable: true
 					});
 				}
 				else
 				{
-					$(this).datetimepicker({
-						pickDate: false,
-						format: "HH:mm A",
-						minuteStepping: 15,
-						useSeconds: false
+					$(this).pickatime({
+						format: "HH:i A",
+						interval: 15,
+						min: [7, 0],
+						max: [21, 0],
+						container: '.container-fluid',
+						editable: true
 					});
 				}
 			}).end().appendTo('#serviceScheduleTable');
@@ -194,19 +204,21 @@
 
 		$(function()
 		{
-			$('.js-datepicker').datetimepicker({
-				pickTime: false,
-				format: "YYYY-MM-DD",
-				minuteStepping: 15
+			$('.js-datepicker').pickadate({
+				format: "yyyy-mm-dd",
+				max: false,
+				container: '.container-fluid',
+				editable: true
 			});
 
-			$('.js-timepicker').datetimepicker({
-				pickDate: false,
-				format: "HH:mm A",
-				minuteStepping: 15,
-				useSeconds: false
-			});
+			$('.js-timepicker').pickatime({
+					format: "HH:i A",
+					interval: 15,
+					min: [7, 0],
+					max: [21, 0],
+					container: '.container-fluid',
+					editable: true
+				});
 		});
-
 	</script>
 @stop
