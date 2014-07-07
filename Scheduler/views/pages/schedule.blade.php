@@ -13,10 +13,8 @@
 				<h2>Today <small>{{ $now->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@elseif ($days === 1)
 				<h2>Tomorrow <small>{{ $now->copy()->addDay()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
-			@elseif ($days >= 2 and $days <= 6)
-				<h2>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@else
-				<h2>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.date')) }}</h2>
+				<h2>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@endif
 
 			<div class="data-table data-table-striped data-table-bordered">
