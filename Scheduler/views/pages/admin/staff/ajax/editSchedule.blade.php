@@ -49,8 +49,7 @@
 			interval: 15,
 			min: [7, 0],
 			max: [21, 0],
-			container: '.container-fluid',
-			editable: true
+			container: '.container-fluid'
 		});
 
 		$('.js-timepicker-end').pickatime({
@@ -58,8 +57,7 @@
 			interval: 15,
 			min: [7, 0],
 			max: [21, 0],
-			container: '.container-fluid',
-			editable: true
+			container: '.container-fluid'
 		});
 	});
 </script>

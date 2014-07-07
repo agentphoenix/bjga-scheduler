@@ -164,8 +164,7 @@
 				min: 1,
 				max: false,
 				container: '.container-fluid',
-				today: false,
-				editable: true
+				today: false
 			});
 
 			$('.js-timepicker').pickatime({
@@ -173,8 +172,7 @@
 				interval: 15,
 				min: [7, 0],
 				max: [21, 0],
-				container: '.container-fluid',
-				editable: true
+				container: '.container-fluid'
 			});
 		});
 	</script>
