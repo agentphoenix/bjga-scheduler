@@ -55,9 +55,7 @@
 		<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-mobile-attendees" data-id="{{ $appt->id }}">See All Attendees</a></p>
 	@endif
 
-	@if ( ! $appt->hasStarted())
-		<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-mobile-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
-	@endif
+	<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-mobile-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
 @else
 	<p><a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">View Schedule</a></p>
 @endif

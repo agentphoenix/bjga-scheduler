@@ -69,11 +69,9 @@
 						</div>
 					@endif
 
-					@if ( ! $appt->hasStarted())
-						<div class="btn-group">
-							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw js-tooltip-top" data-type="staff" data-appointment="{{ $appt->id }}" data-title="Cancel Appointment">{{ $_icons['reject'] }}</a>
-						</div>
-					@endif
+					<div class="btn-group">
+						<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw js-tooltip-top" data-type="staff" data-appointment="{{ $appt->id }}" data-title="Cancel Appointment">{{ $_icons['reject'] }}</a>
+					</div>
 				@else
 					<div class="btn-group">
 						<a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="View Schedule">{{ $_icons['calendar'] }}</a>

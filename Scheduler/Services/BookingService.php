@@ -315,6 +315,12 @@ class BookingService {
 
 					// Get the entire collection of staff appointments
 					$staffSeries = $staffAppt->recur->staffAppointments()->withTrashed()->get();
+					
+					// Filter the series to make sure we're only getting what we want
+					$staffSeries = $staffSeries->filter(function($s) use ($staffAppt)
+					{
+						return $s->start >= $staffAppt->start;
+					});
 				}
 				else
 				{
@@ -335,34 +341,12 @@ class BookingService {
 						// Get the student email addresses
 						$emails[] = $userAppt->user->email;
 
-						if ($now > $seriesStart)
-						{
-							// Delete the user appointment
-							$userAppt->delete();
-
-							// Delete the staff appointment
-							//$seriesItem->delete();
-						}
-						else
-						{
-							// Delete the user appointment
-							$userAppt->forceDelete();
-
-							// Delete the staff appointment
-							//$seriesItem->forceDelete();
-						}
+						// Delete the user appointment
+						$userAppt->forceDelete();
 					}
 
-					if ($now > $seriesStart)
-					{
-						// Delete the staff appointment
-						$seriesItem->delete();
-					}
-					else
-					{
-						// Delete the staff appointment
-						$seriesItem->forceDelete();
-					}
+					// Delete the staff appointment
+					$seriesItem->forceDelete();
 				}
 			}
 			else

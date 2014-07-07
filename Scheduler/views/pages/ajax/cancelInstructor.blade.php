@@ -46,7 +46,7 @@
 						<label class="checkbox-inline text-sm">
 							{{ Form::checkbox('cancel_all', 1, false) }}
 							@if ($appointment->service->isLesson())
-								Cancel the entire series
+								Cancel the series from this point forward
 							@else
 								Cancel the entire program
 							@endif
