@@ -26,12 +26,12 @@ class HomeController extends BaseController {
 		$this->appointment = $appointment;
 	}
 
-	public function mySchedule()
+	public function mySchedule($days = 10)
 	{
 		if (Auth::check())
 		{
 			// Staff should only show 10 days
-			$days = ($this->currentUser->isStaff()) ? 10 : false;
+			$days = ($this->currentUser->isStaff()) ? $days : false;
 
 			return View::make('pages.schedule')
 				->withSchedule($this->user->getSchedule($this->currentUser, $days))

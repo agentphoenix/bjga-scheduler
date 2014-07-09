@@ -47,7 +47,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 
 	protected function routes()
 	{
-		Route::get('/', array(
+		Route::get('/{days?}', array(
 			'as'	=> 'home',
 			'uses'	=> 'Scheduler\Controllers\HomeController@mySchedule'));
 		Route::get('logout', array(

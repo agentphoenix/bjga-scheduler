@@ -7,6 +7,45 @@
 @section('content')
 	<h1>My Schedule</h1>
 
+	@if ($_currentUser->isStaff())
+		<div class="visible-xs visible-sm">
+			@if (Request::segment(1))
+				<p><a href="{{ route('home') }}" class="btn btn-lg btn-block btn-default">10 Days from Today</a></p>
+			@endif
+
+			@if (Request::segment(1) != "30")
+				<p><a href="{{ route('home', [30]) }}" class="btn btn-lg btn-block btn-default">30 Days from Today</a></p>
+			@endif
+
+			@if (Request::segment(1) != "90")
+				<p><a href="{{ route('home', [90]) }}" class="btn btn-lg btn-block btn-default">3 Months from Today</a></p>
+			@endif
+
+			@if (Request::segment(1) != "180")
+				<p><a href="{{ route('home', [180]) }}" class="btn btn-lg btn-block btn-default">6 Months from Today</a></p>
+			@endif
+		</div>
+		<div class="visible-md visible-lg">
+			<div class="btn-toolbar">
+				@if (Request::segment(1))
+					<div class="btn-group"><a href="{{ route('home') }}" class="btn btn-sm btn-default">10 Days from Today</a></div>
+				@endif
+
+				@if (Request::segment(1) != "30")
+					<div class="btn-group"><a href="{{ route('home', [30]) }}" class="btn btn-sm btn-default">30 Days from Today</a></div>
+				@endif
+
+				@if (Request::segment(1) != "60")
+					<div class="btn-group"><a href="{{ route('home', [90]) }}" class="btn btn-sm btn-default">3 Months from Today</a></div>
+				@endif
+
+				@if (Request::segment(1) != "180")
+					<div class="btn-group"><a href="{{ route('home', [180]) }}" class="btn btn-sm btn-default">6 Months from Today</a></div>
+				@endif
+			</div>
+		</div>
+	@endif
+
 	@if (count($schedule) > 0)
 		@foreach ($schedule as $days => $appointments)
 			@if ($days === 0)
