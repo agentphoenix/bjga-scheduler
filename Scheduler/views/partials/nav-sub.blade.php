@@ -3,7 +3,7 @@
 	<ul>
 		<li class="visible-xs visible-sm"><a href="http://brianjacobsgolf.com">Brian Jacobs Golf Home</a></li>
 		@if (Auth::check())
-			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
+			<li class="{{ ((Request::is('/') or Request::is('days*')) ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
 		@endif
 			
 		<li class="{{ (Request::is('event*') ? 'active' : '') }}"><a href="{{ route('events') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Upcoming Programs</a></li>
