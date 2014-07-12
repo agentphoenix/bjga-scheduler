@@ -13,16 +13,16 @@
 				<p><a href="{{ route('home') }}" class="btn btn-lg btn-block btn-default">10 Days from Today</a></p>
 			@endif
 
-			@if (Request::segment(1) != "30")
-				<p><a href="{{ route('home', [30]) }}" class="btn btn-lg btn-block btn-default">30 Days from Today</a></p>
+			@if (Request::segment(2) != "30")
+				<p><a href="{{ route('homeDays', [30]) }}" class="btn btn-lg btn-block btn-default">30 Days from Today</a></p>
 			@endif
 
-			@if (Request::segment(1) != "90")
-				<p><a href="{{ route('home', [90]) }}" class="btn btn-lg btn-block btn-default">3 Months from Today</a></p>
+			@if (Request::segment(2) != "90")
+				<p><a href="{{ route('homeDays', [90]) }}" class="btn btn-lg btn-block btn-default">3 Months from Today</a></p>
 			@endif
 
-			@if (Request::segment(1) != "180")
-				<p><a href="{{ route('home', [180]) }}" class="btn btn-lg btn-block btn-default">6 Months from Today</a></p>
+			@if (Request::segment(2) != "180")
+				<p><a href="{{ route('homeDays', [180]) }}" class="btn btn-lg btn-block btn-default">6 Months from Today</a></p>
 			@endif
 		</div>
 		<div class="visible-md visible-lg">
@@ -31,16 +31,16 @@
 					<div class="btn-group"><a href="{{ route('home') }}" class="btn btn-sm btn-default">10 Days from Today</a></div>
 				@endif
 
-				@if (Request::segment(1) != "30")
-					<div class="btn-group"><a href="{{ route('home', [30]) }}" class="btn btn-sm btn-default">30 Days from Today</a></div>
+				@if (Request::segment(2) != "30")
+					<div class="btn-group"><a href="{{ route('homeDays', [30]) }}" class="btn btn-sm btn-default">30 Days from Today</a></div>
 				@endif
 
-				@if (Request::segment(1) != "60")
-					<div class="btn-group"><a href="{{ route('home', [90]) }}" class="btn btn-sm btn-default">3 Months from Today</a></div>
+				@if (Request::segment(2) != "90")
+					<div class="btn-group"><a href="{{ route('homeDays', [90]) }}" class="btn btn-sm btn-default">3 Months from Today</a></div>
 				@endif
 
-				@if (Request::segment(1) != "180")
-					<div class="btn-group"><a href="{{ route('home', [180]) }}" class="btn btn-sm btn-default">6 Months from Today</a></div>
+				@if (Request::segment(2) != "180")
+					<div class="btn-group"><a href="{{ route('homeDays', [180]) }}" class="btn btn-sm btn-default">6 Months from Today</a></div>
 				@endif
 			</div>
 		</div>
