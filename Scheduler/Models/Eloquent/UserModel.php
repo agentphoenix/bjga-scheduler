@@ -36,6 +36,11 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return $this->hasMany('UserAppointmentModel', 'user_id');
 	}
 
+	public function credit()
+	{
+		return $this->hasMany('CreditModel', 'user_id');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Getters/Setters
@@ -124,6 +129,44 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		}
 
 		return false;
+	}
+
+	public function credits()
+	{
+		// Get all the credits
+		$credits = $this->credit;
+
+		// Start a collection to track credits
+		$finalCredits = $this->newCollection();
+
+		// Get all the time credits
+		$time = $credits->filter(function($t)
+		{
+			return $t->type == 'time';
+		});
+
+		if ($time->count() > 0)
+		{
+			$finalTime = 0;
+
+			$finalTime = $time->each(function($t) use ($finalTime)
+			{
+				return $finalTime += (int) $t->value;
+			});
+
+			$finalCredits->put('time', $finalTime);
+		}
+
+		// Get all the money credits
+		$money = $credits->filter(function($m)
+		{
+			return $t->type == 'money';
+		});
+
+		if ($money->count() > 0)
+		{
+			//
+		}
 	}
 
 	/*

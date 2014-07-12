@@ -171,6 +171,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'except' => array('show')));
 			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController', array(
 				'except' => array('show', 'destroy')));
+			Route::resource('credits', 'Scheduler\Controllers\CreditsController', [
+				'except' => ['show']]);
 		});
 	}
 

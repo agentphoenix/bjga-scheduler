@@ -14,6 +14,14 @@ class UserRepository implements UserRepositoryInterface {
 		return UserModel::all();
 	}
 
+	public function allForDropdown()
+	{
+		$users[''] = "Please select a user";
+		$users += UserModel::lists('name', 'id');
+		
+		return $users;
+	}
+
 	public function allPaginated()
 	{
 		return UserModel::paginate(25);

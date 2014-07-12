@@ -3,22 +3,22 @@
 	<ul>
 		<li class="visible-xs visible-sm"><a href="http://brianjacobsgolf.com">Brian Jacobs Golf Home</a></li>
 		@if (Auth::check())
-			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
+			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
 		@endif
 			
-		<li class="{{ (Request::is('event*') ? 'active' : '') }}"><a href="{{ URL::route('events') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Upcoming Programs</a></li>
+		<li class="{{ (Request::is('event*') ? 'active' : '') }}"><a href="{{ route('events') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Upcoming Programs</a></li>
 
 		@if (Auth::check())
-			<li class="{{ (Request::is('admin/user/'.$_currentUser->id.'/edit') ? 'active' : '') }}"><a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
+			<li class="{{ (Request::is('admin/user/'.$_currentUser->id.'/edit') ? 'active' : '') }}"><a href="{{ route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
 
 			@if ($_currentUser->isStaff())
-				<li><a href="{{ URL::route('admin.staff.schedule', array(Auth::user()->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage My Schedule</a></li>
+				<li><a href="{{ route('admin.staff.schedule', array(Auth::user()->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage My Schedule</a></li>
 			@endif
 			
-			<li><a href="{{ URL::route('logout') }}"><span class="icn-size-16">{{ $_icons['logout'] }}</span>Log Out</a></li>
+			<li><a href="{{ route('logout') }}"><span class="icn-size-16">{{ $_icons['logout'] }}</span>Log Out</a></li>
 		@else
-			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ URL::route('home') }}"><span class="icn-size-16">{{ $_icons['login'] }}</span>Log In</a></li>
-			<li class="{{ (Request::is('register') ? 'active' : '') }}"><a href="{{ URL::route('register') }}"><span class="icn-size-16">{{ $_icons['edit'] }}</span>Register</a></li>
+			<li class="{{ (Request::is('/') ? 'active' : '') }}"><a href="{{ route('home') }}"><span class="icn-size-16">{{ $_icons['login'] }}</span>Log In</a></li>
+			<li class="{{ (Request::is('register') ? 'active' : '') }}"><a href="{{ route('register') }}"><span class="icn-size-16">{{ $_icons['edit'] }}</span>Register</a></li>
 		@endif
 	</ul>
 
@@ -26,17 +26,18 @@
 		@if ($_currentUser->isStaff())
 			<p>Admin</p>
 			<ul>
-				<li class="{{ (Request::is('admin/appointment*') ? 'active' : '') }}"><a href="{{ URL::route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
-				<li class="{{ (Request::is('admin/service*') ? 'active' : '') }}"><a href="{{ URL::route('admin.service.index') }}"><span class="icn-size-16">{{ $_icons['golf'] }}</span>Services</a></li>
-				<li class="{{ ((Request::is('admin/user*') and ! Request::is('admin/user/'.$_currentUser->id.'/edit')) ? 'active' : '') }}"><a href="{{ URL::route('admin.user.index') }}"><span class="icn-size-16">{{ $_icons['users'] }}</span>Users</a></li>
-				<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ URL::route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['school'] }}</span>Staff</a></li>
-				<li class="{{ (Request::is('admin/reports*') ? 'active' : '') }}"><a href="{{ URL::route('admin.reports.index') }}"><span class="icn-size-16">{{ $_icons['report'] }}</span>Report Center</a></li>
+				<li class="{{ (Request::is('admin/appointment*') ? 'active' : '') }}"><a href="{{ route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
+				<li class="{{ (Request::is('admin/service*') ? 'active' : '') }}"><a href="{{ route('admin.service.index') }}"><span class="icn-size-16">{{ $_icons['golf'] }}</span>Services</a></li>
+				<li class="{{ ((Request::is('admin/user*') and ! Request::is('admin/user/'.$_currentUser->id.'/edit')) ? 'active' : '') }}"><a href="{{ route('admin.user.index') }}"><span class="icn-size-16">{{ $_icons['users'] }}</span>Users</a></li>
+				<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['school'] }}</span>Staff</a></li>
+				<li class="{{ (Request::is('admin/credits*') ? 'active' : '') }}"><a href="{{ route('admin.credits.index') }}"><span class="icn-size-16">{{ $_icons['money'] }}</span>Credits</a></li>
+				<li class="{{ (Request::is('admin/reports*') ? 'active' : '') }}"><a href="{{ route('admin.reports.index') }}"><span class="icn-size-16">{{ $_icons['report'] }}</span>Report Center</a></li>
 			</ul>
 		@endif
 
 		<ul class="buttons">
-			<li><a href="{{ URL::route('book.lesson') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Book a Lesson</a></li>
-			<li><a href="{{ URL::route('book.program') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Enroll in Program</a></li>
+			<li><a href="{{ route('book.lesson') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Book a Lesson</a></li>
+			<li><a href="{{ route('book.program') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Enroll in Program</a></li>
 			<li><a href="#" data-toggle="modal" data-target="#reportProblem"><span class="icn-size-16">{{ $_icons['warning'] }}</span>Report a Problem</a></li>
 		</ul>
 	@endif

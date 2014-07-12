@@ -607,3 +607,12 @@ a.no-color:hover {
 .text-muted a.no-color:hover {
   color: #999;
 }
+code {
+  padding: 3px 6px;
+  background-color: #ededed;
+  border: 1px solid #dddddd;
+  color: #56ba37;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px 4px 4px 4px;
+}

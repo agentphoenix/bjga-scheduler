@@ -21,6 +21,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->setupMarkdown();
 		$this->setupBombBomb();
 		$this->setupBrowser();
+		$this->setupMacros();
 	}
 
 	public function boot()
@@ -72,6 +73,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$a = Config::get('app.aliases');
 
 		// Bind the repositories to any calls to their interfaces
+		App::bind($a['CreditRepositoryInterface'], $a['CreditRepository']);
 		App::bind($a['ServiceRepositoryInterface'], $a['ServiceRepository']);
 		App::bind($a['StaffRepositoryInterface'], $a['StaffRepository']);
 		App::bind($a['StaffAppointmentRepositoryInterface'], $a['StaffAppointmentRepository']);
@@ -109,6 +111,10 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Event::listen('appointment.created', 'Scheduler\Events\AppointmentEventHandler@onCreated');
 		Event::listen('appointment.updated', 'Scheduler\Events\AppointmentEventHandler@onUpdated');
 
+		Event::listen('credit.created', 'Scheduler\Events\CreditEventHandler@onCreate');
+		Event::listen('credit.deleted', 'Scheduler\Events\CreditEventHandler@onDelete');
+		Event::listen('credit.updated', 'Scheduler\Events\CreditEventHandler@onUpdate');
+
 		/**
 		 * If a queue item fails, send an email.
 		 */
@@ -145,6 +151,16 @@ class SchedulerServiceProvider extends ServiceProvider {
 				header("Location: browser.php");
 				die();
 			}
+		});
+	}
+
+	protected function setupMacros()
+	{
+		\Str::macro('creditCode', function($length)
+		{
+			$pool = '123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+
+			return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
 		});
 	}
 

@@ -5,6 +5,7 @@ use UserModel;
 interface UserRepositoryInterface {
 
 	public function all();
+	public function allForDropdown();
 	public function allPaginated();
 	public function create(array $data);
 	public function delete($id);
