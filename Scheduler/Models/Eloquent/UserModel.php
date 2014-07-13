@@ -138,6 +138,8 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 
 		// Start a collection to track credits
 		$finalCredits = $this->newCollection();
+		$finalCredits->put('time', 0);
+		$finalCredits->put('money', 0);
 
 		// Get all the time credits
 		$time = $credits->filter(function($t)
@@ -149,10 +151,10 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		{
 			$finalTime = 0;
 
-			$finalTime = $time->each(function($t) use ($finalTime)
+			foreach ($time as $t)
 			{
-				return $finalTime += (int) $t->value;
-			});
+				$finalTime += (int) $t->value;
+			}
 
 			$finalCredits->put('time', $finalTime);
 		}
@@ -160,13 +162,22 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		// Get all the money credits
 		$money = $credits->filter(function($m)
 		{
-			return $t->type == 'money';
+			return $m->type == 'money';
 		});
 
 		if ($money->count() > 0)
 		{
-			//
+			$finalMoney = 0;
+
+			foreach ($money as $m)
+			{
+				$finalMoney += (int) $m->value;
+			}
+
+			$finalCredits->put('money', $finalMoney);
 		}
+
+		return $finalCredits;
 	}
 
 	/*
