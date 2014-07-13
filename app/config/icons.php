@@ -8,6 +8,8 @@ return array(
 
 	'calendar' => '<span class="icn" data-icon="e"></span>',
 	'check' => '<span class="icn" data-icon="k"></span>',
+	'clock' => '<span class="icn" data-icon="8"></span>',
+	'credit' => '<span class="icn" data-icon="7"></span>',
 
 	'edit' => '<span class="icn" data-icon="3"></span>',
 	'email' => '<span class="icn" data-icon="v"></span>',
