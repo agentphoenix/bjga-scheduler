@@ -22,20 +22,20 @@
 		@endif
 	</ul>
 
-	@if ($_currentUser->getCredits()['time'] > 0 or $_currentUser->getCredits()['money'] > 0)
-		<p>My Credit</p>
-		<ul>
-			@if ($_currentUser->getCredits()['money'] > 0)
-				<li><div class="text"><span class="icn-size-16">{{ $_icons['credit'] }}</span>{{ $_currentUser->present()->creditMoney }}</div></li>
-			@endif
-
-			@if ($_currentUser->getCredits()['time'] > 0)
-				<li><div class="text"><span class="icn-size-16">{{ $_icons['clock'] }}</span> {{ $_currentUser->present()->creditTime }}</div></li>
-			@endif
-		</ul>
-	@endif
-
 	@if (Auth::check())
+		@if ($_currentUser->getCredits()['time'] > 0 or $_currentUser->getCredits()['money'] > 0)
+			<p>My Credit</p>
+			<ul>
+				@if ($_currentUser->getCredits()['money'] > 0)
+					<li><div class="text"><span class="icn-size-16">{{ $_icons['credit'] }}</span>{{ $_currentUser->present()->creditMoney }}</div></li>
+				@endif
+
+				@if ($_currentUser->getCredits()['time'] > 0)
+					<li><div class="text"><span class="icn-size-16">{{ $_icons['clock'] }}</span> {{ $_currentUser->present()->creditTime }}</div></li>
+				@endif
+			</ul>
+		@endif
+		
 		@if ($_currentUser->isStaff())
 			<p>Admin</p>
 			<ul>
