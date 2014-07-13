@@ -54,6 +54,10 @@
 					@if (Session::has('message'))
 						<div class="alert alert-{{ Session::get('messageStatus') }}">{{ Session::get('message') }}</div>
 					@endif
+
+					@if (Session::has('flash.message'))
+						@include('partials.common.alert')
+					@endif
 					
 					@yield('content')
 				</section>

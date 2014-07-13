@@ -22,6 +22,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->setupBombBomb();
 		$this->setupBrowser();
 		$this->setupMacros();
+		$this->setupFlashNotifier();
 	}
 
 	public function boot()
@@ -161,6 +162,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 			$pool = '123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
 
 			return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+		});
+	}
+
+	protected function setupFlashNotifier()
+	{
+		$this->app['scheduler.flash'] = $this->app->share(function($app)
+		{
+			return new Services\FlashNotifierService($app['session.store']);
 		});
 	}
 

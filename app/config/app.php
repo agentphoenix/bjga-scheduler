@@ -181,6 +181,7 @@ return array(
 		'API'			=> 'Dingo\Api\Facades\API',
 		'Book'			=> 'Scheduler\Facades\Book',
 		'Date'			=> 'Carbon\Carbon',
+		'Flash'			=> 'Scheduler\Facades\FlashFacade',
 		'Markdown'		=> 'Scheduler\Facades\Markdown',
 		'Model'			=> 'Scheduler\Extensions\Laravel\Database\Eloquent\Model',
 
