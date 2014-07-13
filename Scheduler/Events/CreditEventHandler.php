@@ -2,17 +2,17 @@
 
 class CreditEventHandler {
 
-	public function onCreate()
+	public function onCreate($credit, $input)
 	{
 		# code...
 	}
 
-	public function onDelete()
+	public function onDelete($credit)
 	{
 		# code...
 	}
 
-	public function onUpdate()
+	public function onUpdate($credit, $input)
 	{
 		# code...
 	}

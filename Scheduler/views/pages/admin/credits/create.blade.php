@@ -30,6 +30,7 @@
 				<div class="form-group">
 					<label class="control-label">Code</label>
 					<p class="form-control-static"><code class="text-lg">{{ $code }}</code></p>
+					{{ Form::hidden('code', $code) }}
 				</div>
 			</div>
 		</div>

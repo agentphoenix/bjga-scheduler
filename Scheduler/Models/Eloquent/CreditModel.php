@@ -9,7 +9,8 @@ class CreditModel extends Model {
 
 	protected $table = 'users_credits';
 
-	protected $fillable = ['code', 'type', 'value', 'user_id', 'email', 'expires'];
+	protected $fillable = ['code', 'type', 'value', 'claimed', 'user_id', 'email',
+		'expires'];
 
 	protected $softDelete = true;
 

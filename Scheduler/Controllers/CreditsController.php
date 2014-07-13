@@ -2,6 +2,7 @@
 
 use View,
 	Event,
+	Flash,
 	Input,
 	Redirect,
 	CreditValidator,
@@ -51,7 +52,18 @@ class CreditsController extends BaseController {
 
 	public function store()
 	{
-		$this->credits->create(Input::except('valueMoney', 'valueTime'));
+		// Validate
+		
+		// Create the credit
+		$credit = $this->credits->create(Input::except('valueMoney', 'valueTime'));
+
+		// Fire the event
+		Event::fire('credit.created', [$credit, Input::all()]);
+
+		// Set the flash message
+		Flash::success("Credit has been successfully created.");
+
+		return Redirect::route('admin.credits.index');
 	}
 
 	public function edit($id)
