@@ -3,5 +3,6 @@
 Route::get('dev', function()
 {
 	$user = Auth::user();
-	sd($user->credits());
+	$credits = $user->credits();
+	sd($credits);
 });
