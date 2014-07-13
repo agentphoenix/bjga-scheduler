@@ -18,6 +18,7 @@ class CreateUserCredits extends Migration {
 			$table->string('code', 12);
 			$table->string('type');
 			$table->integer('value')->default(0);
+			$table->integer('claimed')->default(0);
 			$table->integer('user_id')->unsigned()->nullable();
 			$table->string('email')->nullable();
 			$table->timestamp('expires')->nullable();
