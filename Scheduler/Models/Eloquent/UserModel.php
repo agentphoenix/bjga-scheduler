@@ -4,8 +4,11 @@ use Hash,
 	Model;
 use Illuminate\Auth\UserInterface,
 	Illuminate\Auth\Reminders\RemindableInterface;
+use Laracasts\Presenter\PresentableTrait;
 
 class UserModel extends Model implements UserInterface, RemindableInterface {
+
+	use PresentableTrait;
 
 	protected $table = 'users';
 
@@ -19,6 +22,8 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 	protected $hashableAttributes = array('password');
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+
+	protected $presenter = 'Scheduler\Presenters\UserPresenter';
 
 	/*
 	|--------------------------------------------------------------------------
@@ -36,7 +41,7 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return $this->hasMany('UserAppointmentModel', 'user_id');
 	}
 
-	public function credit()
+	public function credits()
 	{
 		return $this->hasMany('CreditModel', 'user_id');
 	}
@@ -131,15 +136,14 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return false;
 	}
 
-	public function credits()
+	public function getCredits()
 	{
 		// Get all the credits
-		$credits = $this->credit;
+		$credits = $this->credits;
 
-		// Start a collection to track credits
-		$finalCredits = $this->newCollection();
-		$finalCredits->put('time', 0);
-		$finalCredits->put('money', 0);
+		// Start an array to track credits
+		$finalCredits['time'] = 0;
+		$finalCredits['money'] = 0;
 
 		// Get all the time credits
 		$time = $credits->filter(function($t)
@@ -149,14 +153,16 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 
 		if ($time->count() > 0)
 		{
+			// Start off with zero time
 			$finalTime = 0;
 
-			foreach ($time as $t)
+			// Iterate through the collection
+			$time->each(function($t) use (&$finalTime)
 			{
-				$finalTime += (int) $t->value;
-			}
+				$finalTime += $t->value;
+			});
 
-			$finalCredits->put('time', $finalTime);
+			$finalCredits['time'] = $finalTime;
 		}
 
 		// Get all the money credits
@@ -167,14 +173,16 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 
 		if ($money->count() > 0)
 		{
+			// Start off with zero money
 			$finalMoney = 0;
 
-			foreach ($money as $m)
+			// Iterate through the collection
+			$money->each(function($m) use (&$finalMoney)
 			{
-				$finalMoney += (int) $m->value;
-			}
+				$finalMoney += $m->value;
+			});
 
-			$finalCredits->put('money', $finalMoney);
+			$finalCredits['money'] = $finalMoney;
 		}
 
 		return $finalCredits;
