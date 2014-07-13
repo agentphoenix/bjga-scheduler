@@ -112,6 +112,19 @@ nav.nav-sub ul li.active a {
   letter-spacing: .01em;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
+nav.nav-sub ul li .text {
+  height: 28px;
+  line-height: 28px;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .01em;
+}
+nav.nav-sub ul li .text .icn-size-16 {
+  float: left;
+  margin-top: 0;
+  margin-right: 8px;
+}
 section {
   position: relative;
   margin-right: -15px;
@@ -615,4 +628,7 @@ code {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px 4px 4px 4px;
+}
+.lowercase {
+  text-transform: lowercase;
 }

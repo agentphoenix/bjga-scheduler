@@ -135,6 +135,22 @@ nav.nav-sub {
 					text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
 				}
 			}
+
+			.text {
+				height: 28px;
+				line-height: 28px;
+
+				color: rgba(255, 255, 255, .25);
+				font-weight: 600;
+				font-size: @font-size-small;
+				letter-spacing: .01em;
+
+				.icn-size-16 {
+					float: left;
+					margin-top: 0;
+					margin-right: 8px;
+				}
+			}
 		}
 	}
 }
@@ -685,4 +701,8 @@ code {
 	color: @color-success-bright;
 
 	.rounded(@border-radius);
+}
+
+.lowercase {
+	text-transform: lowercase;
 }
