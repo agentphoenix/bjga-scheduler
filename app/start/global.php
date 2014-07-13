@@ -45,24 +45,27 @@ App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
 
-	$emailData = array(
-		'user'		=> "the Scheduler",
-		'content'	=> nl2br(Request::instance()->fullUrl()."\r\n\r\n".$exception->getMessage()."\r\n\r\n".$exception->getFile().":".$exception->getLine()."\r\n\r\n".$exception->getTraceAsString()),
-	);
-
-	Mail::send('emails.reportProblem', $emailData, function($msg)
+	if (App::environment() == 'production')
 	{
-		$msg->to('admin@brianjacobsgolf.com')
-			->subject("[Brian Jacobs Golf] Exception Thrown!");
+		$emailData = array(
+			'user'		=> "the Scheduler",
+			'content'	=> nl2br(Request::instance()->fullUrl()."\r\n\r\n".$exception->getMessage()."\r\n\r\n".$exception->getFile().":".$exception->getLine()."\r\n\r\n".$exception->getTraceAsString()),
+		);
 
-		if (Auth::check())
+		Mail::send('emails.reportProblem', $emailData, function($msg)
 		{
-			$msg->from(Auth::user()->email, Auth::user()->name);
-		}
-	});
+			$msg->to('admin@brianjacobsgolf.com')
+				->subject("[Brian Jacobs Golf] Exception Thrown!");
 
-	return View::make('pages.admin.error')
-		->withError("Uh-oh! It looks like you stumbled across an error. We apologize for the issue. The problem has been automatically reported to Brian Jacobs Golf. If you continue to have trouble, email admin@brianjacobsgolf.com for more help.");
+			if (Auth::check())
+			{
+				$msg->from(Auth::user()->email, Auth::user()->name);
+			}
+		});
+
+		return View::make('pages.admin.error')
+			->withError("Uh-oh! It looks like you stumbled across an error. We apologize for the issue. The problem has been automatically reported to Brian Jacobs Golf. If you continue to have trouble, email admin@brianjacobsgolf.com for more help.");
+	}
 });
 
 /*
