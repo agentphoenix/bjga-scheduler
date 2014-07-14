@@ -65,9 +65,6 @@
 		</div>
 	</div>
 
-	@include('partials.report-problem')
-	@yield('modals')
-
 	@if (App::environment() == 'production')
 		<!--[if lt IE 9]>
 			<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -91,6 +88,11 @@
 		{{ HTML::script('js/respond.min.js') }}
 	<![endif]-->
 	{{ HTML::script('js/trunk.js') }}
+	
+	@include('partials.report-problem')
+	@include('partials.apply-credit')
+	@yield('modals')
+
 	<script>
 
 		$('#navToggle').click(function(e)

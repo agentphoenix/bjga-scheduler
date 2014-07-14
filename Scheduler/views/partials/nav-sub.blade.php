@@ -51,6 +51,7 @@
 		<ul class="buttons">
 			<li><a href="{{ route('book.lesson') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Book a Lesson</a></li>
 			<li><a href="{{ route('book.program') }}"><span class="icn-size-16">{{ $_icons['add'] }}</span>Enroll in Program</a></li>
+			<li><a href="#" data-toggle="modal" data-target="#applyCredit"><span class="icn-size-16">{{ $_icons['credit'] }}</span>Apply User Credit</a></li>
 			<li><a href="#" data-toggle="modal" data-target="#reportProblem"><span class="icn-size-16">{{ $_icons['warning'] }}</span>Report a Problem</a></li>
 		</ul>
 	@endif

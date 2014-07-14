@@ -75,6 +75,10 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::post('report', array(
 			'as'	=> 'report',
 			'uses'	=> 'Scheduler\Controllers\HomeController@report'));
+
+		Route::post('apply-credit', [
+			'as'	=> 'credit.apply',
+			'uses'	=> 'Scheduler\Controllers\HomeController@applyCredit']);
 	}
 
 	protected function adminRoutes()

@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Controllers;
 
-use Auth,
+use App,
+	Auth,
 	Mail,
 	View,
 	Event,
@@ -201,6 +202,52 @@ class HomeController extends BaseController {
 		return Redirect::route('home')
 			->with('message', "Thanks for your feedback. We'll begin looking into the issue and contact you if we need more information.")
 			->with('messageStatus', 'success');
+	}
+
+	public function applyCredit()
+	{
+		// Get an instance of the credits repo
+		$credits = App::make('CreditRepository');
+
+		// Find the code
+		$item = $credits->findByCode(Input::get('code'));
+
+		// Setup the return
+		$return = [
+			'code'		=> 0,
+			'message'	=> 'An error occurred.',
+		];
+
+		if ($item)
+		{
+			if (empty($item->user_id) and empty($item->email))
+			{
+				$updateData['user_id'] = $this->currentUser->id;
+
+				if ($item->type == 'time')
+				{
+					$updateData['expires'] = \Date::now()->addDay()->addYear()->startOfDay();
+				}
+
+				// Update the credit
+				$credits->update($item->id, $updateData);
+
+				// Set a successful return code
+				$return['code'] = 1;
+			}
+			else
+			{
+				// Set the flash message
+				$return['message'] = "The user credit code you've entered is already in use and cannot be applied to your account. Please contact Brian Jacobs Golf for further help.";
+			}
+		}
+		else
+		{
+			// Set the flash message
+			$return['message'] = "User credit code not found!";
+		}
+
+		return json_encode($return);
 	}
 
 }
