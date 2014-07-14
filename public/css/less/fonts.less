@@ -1,3 +1,5 @@
+@import "variables.less";
+
 @font-face {
 	font-family: 'icomoon';
 	src: url('../fonts/icomoon.eot');
@@ -72,4 +74,33 @@
 
 [data-icon]:before {
 	content: attr(data-icon);
+}
+
+.tab-icon {
+	float: left;
+	margin-right: @spacing-sm;
+
+	&.tab-icon-down1 {
+		margin-top: 1px;
+	}
+
+	&.tab-icon-up1 {
+		margin-top: -1px;
+	}
+
+	&.tab-icon-up2 {
+		margin-top: -2px;
+	}
+
+	&.tab-icon-up3 {
+		margin-top: -3px;
+	}
+
+	&.tab-icon-up4 {
+		margin-top: -4px;
+	}
+
+	&.tab-icon-right {
+		margin-right: 8px;
+	}
 }
