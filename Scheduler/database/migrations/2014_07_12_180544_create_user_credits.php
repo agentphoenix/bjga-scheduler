@@ -21,6 +21,7 @@ class CreateUserCredits extends Migration {
 			$table->integer('claimed')->default(0);
 			$table->integer('user_id')->unsigned()->nullable();
 			$table->string('email')->nullable();
+			$table->text('notes')->nullable();
 			$table->timestamp('expires')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
