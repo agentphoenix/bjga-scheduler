@@ -186,6 +186,11 @@ return array(
 		'Model'			=> 'Scheduler\Extensions\Laravel\Database\Eloquent\Model',
 
 		/**
+		 * Exceptions
+		 */
+		'FormValidationException'	=> 'Scheduler\Exceptions\FormValidationException',
+
+		/**
 		 * Validators
 		 */
 		'AppointmentValidator'	=> 'Scheduler\Validators\AppointmentValidator',

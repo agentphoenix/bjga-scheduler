@@ -1,24 +1,17 @@
 <?php namespace Scheduler\Validators;
 
-class ServiceValidator extends BaseValidator {
+class CreditValidator extends FormBaseValidator {
 
-	public static $rules = array(
-		'category'		=> 'required',
-		'staff_id'		=> 'required',
-		'name'			=> 'required',
-		'user_limit'	=> 'required|integer',
-		'occurrences'	=> 'required|integer',
-	);
+	protected $rules = [
+		'type'	=> 'required|in:time,money',
+		'value'	=> 'required|integer',
+	];
 
-	public static $messages = array(
-		'category.required'		=> "Select a category",
-		'staff_id.required'		=> "Select a staff member",
-		'name.required'			=> "Enter a name for the service",
-		'name.unique'			=> "Service names cannot be duplicated",
-		'user_limit.required'	=> "Enter the number of users allowed for this service",
-		'user_limit.integer'	=> "User limit must be a number",
-		'occurrences.required'	=> "Enter the number of occurrences for this service",
-		'occurrences.integer'	=> "Occurrences must be a number",
-	);
+	protected $messages = [
+		'type.required' => "Please select a type",
+		'type.in' => "Please select a valid credit type",
+		'value.required' => "Please enter a value",
+		'value.integer' => "Please enter a valid numerical value",
+	];
 
 }
