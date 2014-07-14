@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	Book Lesson
+	Book a Lesson
 @stop
 
 @section('content')
-	<h1>Book Lesson</h1>
+	<h1>Book a Lesson</h1>
 
 	{{ Form::open(array('route' => 'book.lesson.store')) }}
 		<div class="row">
@@ -73,7 +73,7 @@
 			</div>
 		</div>
 
-		<div class="hide bookingForm">
+		<div class="bookingForm hide">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="form-group">
@@ -88,6 +88,36 @@
 							<div class="col-xs-5 col-sm-8 col-md-9 col-lg-10">
 								<button class="btn btn-sm btn-default js-change-time" type="button" style="padding-bottom:6px;">Change Time</button>
 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="panel panel-default" id="codeApplyPanel">
+						<div class="panel-heading">
+							<h4 class="panel-title">Apply User Credit</h4>
+						</div>
+						<div class="panel-body">
+							<p id="codeSuccess" class="text-sm text-success hide"><strong>Promo code has been successfully applied to your account!</strong></p>
+
+							<p id="codeError" class="text-sm text-danger hide"><strong></strong></p>
+
+							<p class="text-sm" id="codeApplyIntro">If you have a 12-digit user credit code, you can apply it to your account by typing in the code and clicking on Apply Code.</p>
+
+							<div class="row form-group" id="codeApplyForm">
+								<div class="col-xs-7 col-sm-6">
+									{{ Form::text('code', null, ['class' => 'form-control']) }}
+								</div>
+								<div class="col-xs-5 col-sm-6">
+									<button class="btn btn-sm btn-default js-apply-code" type="button" style="padding-bottom:6px;">Apply Code</button>
+								</div>
+							</div>
+
+							@if ($_currentUser->isStaff())
+								<p class="alert alert-warning">Promo codes will be applied to your account, not the user selected below. If you want to apply a promo code to a specific user, use the Credits management page.</p>
+							@endif
 						</div>
 					</div>
 				</div>
@@ -242,6 +272,47 @@
 		$('.js-change-time').on('click', function(e)
 		{
 			resetOptions();
+		});
+
+		$('.js-apply-code').on('click', function(e)
+		{
+			e.preventDefault();
+
+			$.ajax({
+				beforeSend: function()
+				{
+					$('#codeApplyPanel').removeClass('panel-success')
+						.removeClass('panel-danger')
+						.addClass('panel-default');
+					$('#codeSuccess').addClass('hide');
+					$('#codeError').addClass('hide');
+				},
+				type: "POST",
+				url: "{{ route('credit.apply') }}",
+				data: { code: $('[name="code"]').val() },
+				dataType: "json",
+				success: function(data)
+				{
+					if (data.code == 1)
+					{
+						$('#codeApplyForm').addClass('hide');
+						$('#codeApplyIntro').addClass('hide');
+						$('#codeApplyPanel').removeClass('panel-default').addClass('panel-success');
+						$('#codeSuccess').removeClass('hide');
+					}
+					else
+					{
+						$('#codeApplyPanel').removeClass('panel-default').addClass('panel-danger');
+						$('#codeError').html(data.message).removeClass('hide');
+						$('[name="code"]').val('');
+					}
+				},
+				error: function(data)
+				{
+					$('#error').html(data.message).removeClass('hide');
+					$('[name="code"]').val('');
+				}
+			});
 		});
 
 		$(function()

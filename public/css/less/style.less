@@ -454,6 +454,34 @@ select {
 			}
 		}
 	}
+
+	&.panel-success {
+		border-color: lighten(@color-success-alert, 28%);
+
+		.panel-heading {
+			color: @color-success-alert;
+			border-color: lighten(@color-success-alert, 28%);
+			background-color: lighten(@color-success-alert, 38%);
+
+			.panel-title {
+				color: @color-success-alert;
+			}
+		}
+	}
+
+	&.panel-danger {
+		border-color: lighten(@color-danger-alert, 28%);
+
+		.panel-heading {
+			color: @color-danger-alert;
+			border-color: lighten(@color-danger-alert, 28%);
+			background-color: lighten(@color-danger-alert, 38%);
+
+			.panel-title {
+				color: @color-danger-alert;
+			}
+		}
+	}
 }
 
 .help-block {
