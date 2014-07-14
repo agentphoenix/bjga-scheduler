@@ -20,6 +20,7 @@ return array(
 	'golf' => '<span class="icn" data-icon="g"></span>',
 
 	'info' => '<span class="icn" data-icon="i"></span>',
+	'instagram' => '<span class="icn" data-icon="a"></span>',
 
 	'list' => '<span class="icn" data-icon="5"></span>',
 	'login' => '<span class="icn" data-icon="4"></span>',
