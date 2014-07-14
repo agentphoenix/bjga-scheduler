@@ -60,10 +60,12 @@
 		<div class="visible-xs visible-sm">
 			<a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="btn btn-lg btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
 			<a href="https://twitter.com/BrianJacobsgolf" target="_blank" class="btn btn-lg btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
+			<a href="http://instagram.com/BrianJacobsgolf" target="_blank" class="btn btn-lg btn-default icn-size-16">{{ $_icons['instagram'] }}</a>
 		</div>
 		<div class="visible-md visible-lg">
 			<a href="https://www.facebook.com/brianjacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['facebook'] }}</a>
 			<a href="https://twitter.com/BrianJacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['twitter'] }}</a>
+			<a href="http://instagram.com/BrianJacobsgolf" target="_blank" class="btn btn-sm btn-default icn-size-16">{{ $_icons['instagram'] }}</a>
 		</div>
 	</div>
 
