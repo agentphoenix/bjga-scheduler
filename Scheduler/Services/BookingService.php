@@ -486,4 +486,9 @@ class BookingService {
 		return array($staffAppt->staff->user->email);
 	}
 
+	protected function applyUserCredit()
+	{
+		# code...
+	}
+
 }
