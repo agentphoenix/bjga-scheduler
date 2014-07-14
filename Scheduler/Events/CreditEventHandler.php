@@ -7,7 +7,7 @@ class CreditEventHandler {
 
 	public function onCreate($credit, $input)
 	{
-		if ( ! empty($credit->user_id) or ! empty($credit->email))
+		if ((int) $credit->user_id !== 0 or ! empty($credit->email))
 		{
 			// Compile the basic data
 			$data = [
@@ -16,7 +16,7 @@ class CreditEventHandler {
 			];
 
 			// Compile the user account info
-			if ( ! empty($credit->user_id))
+			if ((int) $credit->user_id !== 0)
 			{
 				// Set the email info
 				$email = $credit->user->email;
@@ -47,7 +47,7 @@ class CreditEventHandler {
 
 	public function onDelete($credit)
 	{
-		if ( ! empty($credit->user_id) or ! empty($credit->email))
+		if ((int) $credit->user_id !== 0 or ! empty($credit->email))
 		{
 			// Compile the basic data
 			$data = [
@@ -56,7 +56,7 @@ class CreditEventHandler {
 			];
 
 			// Compile the user account info
-			if ( ! empty($credit->user_id))
+			if ((int) $credit->user_id !== 0)
 			{
 				// Set the email info
 				$email = $credit->user->email;

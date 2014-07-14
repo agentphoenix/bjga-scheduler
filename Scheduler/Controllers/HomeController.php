@@ -220,7 +220,7 @@ class HomeController extends BaseController {
 
 		if ($item)
 		{
-			if (empty($item->user_id) and empty($item->email))
+			if ((int) $item->user_id === 0 and empty($item->email))
 			{
 				$updateData['user_id'] = $this->currentUser->id;
 
