@@ -10,11 +10,11 @@ class CreditModel extends Model {
 	protected $table = 'users_credits';
 
 	protected $fillable = ['code', 'type', 'value', 'claimed', 'user_id', 'email',
-		'expires'];
+		'expires', 'notes'];
 
 	protected $softDelete = true;
 
-	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $dates = ['created_at', 'updated_at', 'deleted_at', 'expires'];
 
 	protected $presenter = 'Scheduler\Presenters\CreditPresenter';
 

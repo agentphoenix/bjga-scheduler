@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Repositories\Eloquent;
 
-use CreditModel,
+use Date,
+	CreditModel,
 	CreditRepositoryInterface;
 
 class CreditRepository implements CreditRepositoryInterface {
@@ -17,7 +18,18 @@ class CreditRepository implements CreditRepositoryInterface {
 
 	public function delete($id)
 	{
-		return CreditModel::destroy($id);
+		// Get the item
+		$item = $this->find($id);
+
+		if ($item)
+		{
+			// Delete the credit
+			$item->delete();
+
+			return $item;
+		}
+
+		return false;
 	}
 
 	public function find($id)
@@ -30,13 +42,56 @@ class CreditRepository implements CreditRepositoryInterface {
 		return CreditModel::where('code', $code)->first();
 	}
 
+	public function findByDate($field, Date $date)
+	{
+		return CreditModel::where($field, $date)->get();
+	}
+
+	public function removeClaimed()
+	{
+		// Get all the items
+		$items = CreditModel::whereRaw('value = claimed')->get();
+
+		if ($items->count() > 0)
+		{
+			foreach ($items as $item)
+			{
+				$item->delete();
+			}
+		}
+	}
+
+	public function removeExpired(Date $date, $exact = false)
+	{
+		// Figure out the operator sign
+		$sign = ($exact) ? '=' : '<=';
+
+		// Get the items
+		$items = CreditModel::where('expires', $sign, $date)->get();
+
+		if ($items->count() > 0)
+		{
+			foreach ($items as $item)
+			{
+				$item->delete();
+			}
+		}
+	}
+
 	public function update($id, array $data)
 	{
+		// Get the item
 		$item = $this->find($id);
-		$item->fill($data);
-		$item->save();
 
-		return $item;
+		if ($item)
+		{
+			// Fill and save the item
+			$item->fill($data)->save();
+
+			return $item;
+		}
+
+		return false;
 	}
 	
 }

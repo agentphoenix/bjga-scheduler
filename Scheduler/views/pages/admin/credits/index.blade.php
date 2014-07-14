@@ -46,12 +46,16 @@
 							<br><span class="text-muted"><span class="tab-icon tab-icon-down1">{{ $_icons['email'] }}</span><em>{{ $c->present()->email }}</em></span>
 						@endif
 					</p>
+
+					@if ( ! empty($c->notes))
+						<span class="text-info text-sm">{{ $c->present()->notes }}</span>
+					@endif
 				</div>
 				<div class="col-sm-4 col-md-2">
-					<p>{{ $c->present()->value }}</p>
+					<p>{{ $c->present()->valueLong }}</p>
 				</div>
 				<div class="col-sm-4 col-md-3">
-					<p>{{ $c->present()->remaining }}</p>
+					<p>{{ $c->present()->remainingLong }}</p>
 				</div>
 
 				<div class="clearfix visible-sm-block"></div>
@@ -65,7 +69,7 @@
 
 							@if ($c->type == 'time')
 								<div class="btn-group">
-									<a href="#" class="btn btn-sm btn-danger icn-size-16 js-staff-action js-tooltip-top" data-title="Delete Credit" data-action="delete" data-id="{{ $c->id }}">{{ $_icons['remove'] }}</a>
+									<a href="#" class="btn btn-sm btn-danger icn-size-16 js-credit-action js-tooltip-top" data-title="Delete Credit" data-action="delete" data-id="{{ $c->id }}">{{ $_icons['remove'] }}</a>
 								</div>
 							@endif
 						</div>
@@ -78,7 +82,7 @@
 							
 							@if ($c->type == 'time')
 								<div class="col-sm-6">
-									<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-staff-action" data-action="delete" data-id="{{ $c->id }}">Delete Credit</a></p>
+									<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-credit-action" data-action="delete" data-id="{{ $c->id }}">Delete Credit</a></p>
 								</div>
 							@endif
 						</div>
@@ -90,4 +94,27 @@
 	@else
 		{{ partial('common/alert', ['type' => 'warning', 'content' => "No credits found."]) }}
 	@endif
+@stop
+
+@section('modals')
+	{{ modal(['id' => 'deleteCredit', 'header' => "Delete User Credit"]) }}
+@stop
+
+@section('scripts')
+	<script>
+		$(document).on('click', '.js-credit-action', function(e)
+		{
+			e.preventDefault();
+
+			var action = $(this).data('action');
+			var id = $(this).data('id');
+
+			if (action == 'delete')
+			{
+				$('#deleteCredit').modal({
+					remote: "{{ URL::to('admin/credits/delete') }}/" + id
+				}).modal('show');
+			}
+		});
+	</script>
 @stop

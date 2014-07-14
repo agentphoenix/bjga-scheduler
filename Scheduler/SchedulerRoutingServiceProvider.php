@@ -158,6 +158,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@updateRecurring'));
 			Route::get('appointment/details/{id}','Scheduler\Controllers\AppointmentController@details');
 
+			Route::get('credits/delete/{id}', 'Scheduler\Controllers\CreditsController@delete');
+
 			/**
 			 * Resourceful controllers.
 			 *
@@ -165,6 +167,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			 * user
 			 * staff
 			 * appointment
+			 * credits
 			 */
 			Route::resource('service', 'Scheduler\Controllers\ServiceController', array(
 				'except' => array('show', 'create')));

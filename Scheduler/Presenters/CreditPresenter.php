@@ -1,5 +1,6 @@
 <?php namespace Scheduler\Presenters;
 
+use Markdown;
 use Laracasts\Presenter\Presenter;
 
 class CreditPresenter extends Presenter {
@@ -9,9 +10,24 @@ class CreditPresenter extends Presenter {
 		return $this->entity->email;
 	}
 
+	public function expires()
+	{
+		return $this->entity->expires->format(Config::get('bjga.dates.date'));
+	}
+
+	public function notes()
+	{
+		return Markdown::parse($this->entity->notes);
+	}
+
 	public function remaining()
 	{
-		$remaining = (int) $this->entity->value - (int) $this->entity->claimed;
+		return (int) $this->entity->value - (int) $this->entity->claimed;
+	}
+
+	public function remainingLong()
+	{
+		$remaining = $this->remaining();
 
 		if ($remaining === 0)
 		{
@@ -29,7 +45,12 @@ class CreditPresenter extends Presenter {
 
 	public function value()
 	{
-		return $this->formatByType($this->entity->type, (int) $this->entity->value);
+		return (int) $this->entity->value;
+	}
+
+	public function valueLong()
+	{
+		return $this->formatByType($this->entity->type, $this->value());
 	}
 
 	protected function formatByType($type, $value)
@@ -42,7 +63,12 @@ class CreditPresenter extends Presenter {
 		switch ($type)
 		{
 			case 'time':
-				return $value." hours";
+				if ($value === 1)
+				{
+					return "{$value} hour";
+				}
+
+				return "{$value} hours";
 			break;
 
 			case 'money':

@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	Create Credit
+	Edit Credit
 @stop
 
 @section('content')
-	<h1>Create Credit</h1>
+	<h1>Edit Credit <small>{{ $credit->code }}</h1>
 
 	@if ($_currentUser->access() > 1)
 		<div class="visible-md visible-lg">
@@ -24,13 +24,13 @@
 		</div>
 	@endif
 
-	{{ Form::open(['route' => 'admin.credits.store']) }}
+	{{ Form::model($credit, ['route' => ['admin.credits.update', $credit->id], 'method' => 'put']) }}
 		<div class="row">
 			<div class="col-sm-6 col-lg-4">
 				<div class="form-group">
 					<label class="control-label">Code</label>
-					<p class="form-control-static"><code class="text-lg">{{ $code }}</code></p>
-					{{ Form::hidden('code', $code) }}
+					<p class="form-control-static"><code class="text-lg">{{ $credit->code }}</code></p>
+					{{ Form::hidden('code', $credit->code) }}
 				</div>
 			</div>
 		</div>
@@ -40,41 +40,23 @@
 				<div class="form-group{{ ($errors->has('type')) ? ' has-error' : '' }}">
 					<label class="control-label">Credit Type</label>
 					{{ Form::select('type', $types, null, ['class' => 'form-control']) }}
-					{{ $errors->first('type', '<p class="help-block">:message</p>') }}
+					{{ $errors->first('value', '<p class="help-block">:message</p>') }}
 				</div>
 			</div>
 
 			<div class="col-sm-4 col-lg-2">
-				<div class="form-group{{ ($errors->has('type')) ? ' has-error' : '' }}">
+				<div class="form-group{{ ($errors->has('value')) ? ' has-error' : '' }}">
 					<label class="control-label">Value</label>
-					<div id="moneyType" class="input-group hide">
+					<div id="moneyType" class="input-group{{ ($credit->type != 'money') ? ' hide' : '' }}">
 						<span class="input-group-addon" id="moneyType"><strong>$</strong></span>
-						{{ Form::text('valueMoney', null, ['class' => 'form-control']) }}
+						{{ Form::text('valueMoney', $credit->value, ['class' => 'form-control']) }}
 					</div>
-					<div id="timeType" class="input-group">
-						{{ Form::text('valueTime', null, ['class' => 'form-control']) }}
+					<div id="timeType" class="input-group{{ ($credit->type != 'time') ? ' hide' : '' }}">
+						{{ Form::text('valueTime', $credit->value, ['class' => 'form-control']) }}
 						<span class="input-group-addon"><strong>hours</strong></span>
 					</div>
 					{{ $errors->first('value', '<p class="help-block text-danger">:message</p>') }}
-					{{ Form::hidden('value', '') }}
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-8 col-lg-4">
-				<div class="form-group">
-					<label class="control-label">User <span class="text-sm">(Optional)</span></label>
-					{{ Form::select('user_id', $users, null, ['class' => 'form-control']) }}
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-8 col-lg-4">
-				<div class="form-group">
-					<label class="control-label">Email Address <span class="text-sm">(Optional)</span></label>
-					{{ Form::email('email', null, ['class' => 'form-control']) }}
+					{{ Form::hidden('value', null) }}
 				</div>
 			</div>
 		</div>
@@ -91,10 +73,10 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="visible-md visible-lg">
-					{{ Form::submit('Create', array('class' => 'btn btn-lg btn-primary')) }}
+					{{ Form::submit('Update', array('class' => 'btn btn-lg btn-primary')) }}
 				</div>
 				<div class="visible-xs visible-sm">
-					{{ Form::submit('Create', array('class' => 'btn btn-lg btn-block btn-primary')) }}
+					{{ Form::submit('Update', array('class' => 'btn btn-lg btn-block btn-primary')) }}
 				</div>
 			</div>
 		</div>
@@ -136,18 +118,6 @@
 				$('[name="valueMoney"]').val('');
 				$('[name="value"]').val('');
 			}
-		});
-
-		$('[name="user_id"]').on('change', function()
-		{
-			if ($('[name="user_id"] option:selected').val() != "")
-				$('[name="email"]').val('');
-		});
-
-		$('[name="email"]').on('keyup', function()
-		{
-			if ($('[name="user_id"]').val() != '')
-				$('[name="user_id"]').val('');
 		});
 	</script>
 @stop
