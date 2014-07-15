@@ -71,6 +71,11 @@ class UserRepository implements UserRepositoryInterface {
 		})->first();
 	}
 
+	public function getAppointmentRecord($id)
+	{
+		return UserAppointmentModel::find($id);
+	}
+
 	public function getNonStaff()
 	{
 		$users = $this->all();
