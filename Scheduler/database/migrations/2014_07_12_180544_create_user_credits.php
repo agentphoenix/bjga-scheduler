@@ -26,6 +26,11 @@ class CreateUserCredits extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
+		Schema::table('users_appointments', function(Blueprint $table)
+		{
+			$table->integer('received')->default(0)->after('amount');
+		});
 	}
 
 	/**
@@ -36,6 +41,11 @@ class CreateUserCredits extends Migration {
 	public function down()
 	{
 		Schema::dropIfExists('users_credits');
+
+		Schema::table('users_appointments', function(Blueprint $table)
+		{
+			$table->dropColumn('received');
+		});
 	}
 
 }
