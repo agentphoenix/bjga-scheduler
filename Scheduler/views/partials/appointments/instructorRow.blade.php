@@ -18,7 +18,7 @@
 			</a></strong>
 		</p>
 
-		<p class="lead visible-md visible-lg">
+		<p class="lead visible-md visible-lg{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
 			@if ($appt->service->isLesson())
 				{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
 			@else
