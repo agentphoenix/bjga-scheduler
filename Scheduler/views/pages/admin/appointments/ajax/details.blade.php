@@ -1,27 +1,43 @@
 <div class="data-table data-table-bordered data-table-striped">
 	<div class="row">
 		<div class="col-xs-3">
-			<p class="lead"><strong>Type</strong></p>
+			<p><strong>Type</strong></p>
 		</div>
 		<div class="col-xs-9"><p>{{ $appt->service->name }}</p></div>
 	</div>
 	<div class="row">
 		<div class="col-xs-3">
-			<p class="lead"><strong>Start</strong></p>
+			<p><strong>Start</strong></p>
 		</div>
 		<div class="col-xs-9"><p>{{ $appt->start->format(Config::get('bjga.dates.full')) }}</p></div>
 	</div>
 	<div class="row">
 		<div class="col-xs-3">
-			<p class="lead"><strong>End</strong></p>
+			<p><strong>End</strong></p>
 		</div>
 		<div class="col-xs-9"><p>{{ $appt->end->format(Config::get('bjga.dates.full')) }}</p></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-3">
+			<p><strong>Due</strong></p>
+		</div>
+		<div class="col-xs-9">
+			<p class="text-success"><strong>
+				@if ($appt->service->isLesson())
+					{{ $appt->userAppointments->first()->present()->due }}
+				@endif
+
+				@if ($appt->service->isProgram())
+					{{ $appt->service->present()->price }}
+				@endif
+			</strong></p>
+		</div>
 	</div>
 
 	@if ( ! empty($appt->notes))
 		<div class="row">
 			<div class="col-xs-3">
-				<p class="lead"><strong>Notes</strong></p>
+				<p><strong>Notes</strong></p>
 			</div>
 			<div class="col-xs-9"><p>{{ $appt->notes }}</p></div>
 		</div>
@@ -59,6 +75,8 @@
 @else
 	<p><a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">View Schedule</a></p>
 @endif
+
+<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16" data-dismiss="modal">Close</a></p>
 
 {{ View::make('partials.jsMarkAsPaid') }}
 <script>
