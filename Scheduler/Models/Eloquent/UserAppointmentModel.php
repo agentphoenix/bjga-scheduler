@@ -1,8 +1,11 @@
 <?php namespace Scheduler\Models\Eloquent;
 
 use Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class UserAppointmentModel extends Model {
+
+	use PresentableTrait;
 
 	protected $table = 'users_appointments';
 
@@ -13,6 +16,8 @@ class UserAppointmentModel extends Model {
 	protected $softDelete = true;
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+
+	protected $presenter = 'Scheduler\Presenters\UserAppointmentPresenter';
 
 	/*
 	|--------------------------------------------------------------------------
