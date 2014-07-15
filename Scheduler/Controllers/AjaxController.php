@@ -344,7 +344,10 @@ class AjaxController extends BaseController {
 
 			if ($appointment)
 			{
-				$appointment->update(array('paid' => (int) true));
+				$appointment->update(array(
+					'received'	=> (int) $appointment->amount,
+					'paid'		=> (int) true,
+				));
 
 				return json_encode(array('code' => 1));
 			}
