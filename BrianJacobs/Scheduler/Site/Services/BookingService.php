@@ -43,6 +43,9 @@ class BookingService {
 
 	public function lesson(array $data, $staffCreated = false, $sendEmail = true)
 	{
+		// Get the user
+		$user = $this->user->find((int) $data['user']);
+
 		// Get the service
 		$service = $this->service->find($data['service_id']);
 
@@ -71,10 +74,8 @@ class BookingService {
 		}
 
 		// Build the price
-		$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
-
-		// Get the user
-		$user = $this->user->find((int) $data['user']);
+		$originalPrice = (int) (array_key_exists('price', $data)) ? $data['price'] : $service->price;
+		$newPrice = $this->applyUserCredit($user, $originalPrice, $service->duration);
 
 		// Set the initial appointment record
 		$apptRecord = array(
@@ -88,22 +89,32 @@ class BookingService {
 		// Set the initial user appointment record
 		$userApptRecord = array(
 			'user_id'	=> $user->id,
-			'amount'	=> $price,
+			'amount'	=> $originalPrice,
+			'received'	=> $originalPrice - $newPrice['value'],
 		);
 
+		if ($newPrice['type'] == 'time')
+		{
+			$userApptRecord['amount'] = ($newPrice['value'] == 0) ? 0 : $newPrice['value'];
+			$userApptRecord['received'] = 0;
+		}
+
 		// Automatically mark free services as paid
-		if ($userApptRecord['amount'] == 0)
+		if ($userApptRecord['amount'] == 0 or $userApptRecord['amount'] == $userApptRecord['received'])
+		{
 			$userApptRecord['paid'] = (int) true;
+		}
 
 		// Staff members get free lessons, so we need to take that into account
 		if ($user->isStaff())
+		{
 			$userApptRecord = array_merge($userApptRecord, array('paid' => (int) true, 'amount' => 0));
+		}
 
 		$bookStaffIds = array();
 		$bookUserIds = array();
 
-		// If we have multiple occurrences, we need to make sure everything is
-		// created properly
+		// If we have multiple occurrences, we need to make sure everything is created properly
 		if ($service->occurrences > 1)
 		{
 			// Create a new recurring record
@@ -486,9 +497,122 @@ class BookingService {
 		return array($staffAppt->staff->user->email);
 	}
 
-	protected function applyUserCredit()
+	protected function applyUserCredit($user, $price, $duration)
 	{
-		# code...
+		// Get the user's credits
+		$credits = $user->getCredits();
+
+		// Set the new price
+		$newPrice = $price;
+
+		$retval = [
+			'type'	=> '',
+			'value'	=> '',
+		];
+
+		if ($credits['money'] > 0)
+		{
+			// Make sure we're monetary credits
+			$money = $user->credits->filter(function($c)
+			{
+				return $c->type == 'money';
+			});
+
+			foreach ($money as $m)
+			{
+				if ($newPrice > 0)
+				{
+					// Get the remaining amount
+					$remaining = $m->value - $m->claimed;
+
+					if ($remaining >= $newPrice)
+					{
+						// Update the credits
+						$m->update(['claimed' => $m->claimed + $newPrice]);
+
+						// Set the new price
+						$newPrice = 0;
+
+						if ($remaining == $newPrice)
+						{
+							$m->delete();
+						}
+					}
+					else
+					{
+						// Set the new price
+						$newPrice = $newPrice - $remaining;
+
+						// Update the credits
+						$m->update(['claimed' => $m->value]);
+
+						// Now delete the credit
+						$m->delete();
+					}
+				}
+			}
+
+			$retval['type'] = 'money';
+			$retval['value'] = (int) $newPrice;
+
+			return $retval;
+		}
+
+		if ($credits['time'] > 0)
+		{
+			// Make sure we're dealing with time credits
+			$time = $user->credits->filter(function($c)
+			{
+				return $c->type == 'time';
+			})->sortBy('expires');
+
+			foreach ($time as $t)
+			{
+				if ($newPrice > 0)
+				{
+					// Get the remaining credit in minutes
+					$remaining = $t->value - $t->claimed;
+
+					if ((int) $remaining >= (int) $duration)
+					{
+						// Update the credits
+						$t->update(['claimed' => $t->claimed + $duration]);
+
+						// Set the new price
+						$newPrice = 0;
+
+						if ((int) $remaining == (int) $duration)
+						{
+							$t->delete();
+						}
+					}
+					else
+					{
+						// Get the remaining time
+						$remainingTime = $duration - $remaining;
+
+						// Figure out the cost per minute
+						$costPerMinute = $newPrice / $duration;
+
+						// Set the new price
+						$newPrice = $remainingTime * $costPerMinute;
+
+						// Update the credits
+						$t->update(['claimed' => $t->value]);
+
+						// Now delete the credit
+						$t->delete();
+					}
+				}
+			}
+
+			$retval['type'] = 'time';
+			$retval['value'] = (int) $newPrice;
+
+			return $retval;
+		}
+
+		return (int) $newPrice;
 	}
 
 }

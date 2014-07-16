@@ -8,8 +8,21 @@
 	<h1>Book a Lesson</h1>
 
 	{{ Form::open(array('route' => 'book.lesson.store')) }}
+		@if ($_currentUser->isStaff())
+			<div class="row">
+				<div class="col-sm-4 col-lg-3">
+					<div class="form-group">
+						<label class="control-label">Student</label>
+						<div class="controls">
+							{{ Form::select('user', UserModel::all()->lists('name', 'id'), $_currentUser->id, array('class' => 'form-control')) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		@endif
+
 		<div class="row">
-			<div class="col-sm-8 col-md-6 col-lg-4">
+			<div class="col-sm-6 col-lg-4">
 				<div class="form-group">
 					<label class="control-label">Service</label>
 					<div class="controls">
@@ -24,7 +37,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-sm-4 col-md-3 col-lg-2">
+			<div class="col-sm-4 col-lg-2">
 				<div class="form-group">
 					<label class="control-label">Date</label>
 					<div class="controls">
@@ -35,7 +48,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-lg-4">
+			<div class="col-sm-6 col-md-4">
 				<div class="form-group">
 					<div class="visible-md visible-lg">
 						<a class="btn btn-lg btn-primary js-check">Check Availability</a>
@@ -50,7 +63,7 @@
 		<div class="row hide">
 			<div class="col-lg-12">
 				<div class="alert alert-warning">
-					<p>You have 3 minutes to select a time for your lesson. If you don't select a time within 3 minutes, you will have to check availability again.</p>
+					<p>You have 5 minutes to select a time for your lesson. If you don't select a time within 5 minutes, you will have to check availability again.</p>
 					<p class="text-lg" id="availabilityCountdown"></p>
 				</div>
 			</div>
@@ -67,7 +80,7 @@
 		<div class="row hide">
 			<div class="col-lg-12">
 				<div class="alert alert-warning">
-					<p>Your selections have been made. You have 3 minutes to book your lesson for the selected date and time. If you don't book within 3 minutes, you will have to check availability again.</p>
+					<p>Your selections have been made. You have 5 minutes to book your lesson for the selected date and time. If you don't book within 5 minutes, you will have to check availability again.</p>
 					<p class="text-lg" id="finalCountdown"></p>
 				</div>
 			</div>
@@ -124,17 +137,6 @@
 			</div>
 
 			@if ($_currentUser->isStaff())
-				<div class="row">
-					<div class="col-lg-3">
-						<div class="form-group">
-							<label class="control-label">User</label>
-							<div class="controls">
-								{{ Form::select('user', UserModel::all()->lists('name', 'id'), $_currentUser->id, array('class' => 'form-control')) }}
-							</div>
-						</div>
-					</div>
-				</div>
-
 				<div class="row">
 					<div class="col-lg-6">
 						<div class="form-group">
@@ -261,7 +263,10 @@
 
 			$.ajax({
 				url: "{{ URL::route('ajax.getLessonService') }}",
-				data: { service: $('[name="service_id"] option:selected').val() },
+				data: {
+					service: $('[name="service_id"] option:selected').val(),
+					user: $('[name="user"]').val(),
+				},
 				success: function(data)
 				{
 					$('#lessonServiceDetails').html(data);
