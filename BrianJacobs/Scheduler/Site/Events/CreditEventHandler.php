@@ -24,7 +24,10 @@ class CreditEventHandler {
 				$data['email'] = "user";
 
 				// Start the expiration timer
-				$credit->update(['expires' => \Date::now()->addDay()->addYear()->startOfDay()]);
+				if ($credit->type == 'time')
+				{
+					$credit->update(['expires' => \Date::now()->addDay()->addYear()->startOfDay()]);
+				}
 			}
 
 			// Compile the email address info
