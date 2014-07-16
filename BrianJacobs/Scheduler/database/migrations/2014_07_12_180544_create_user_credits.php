@@ -29,7 +29,7 @@ class CreateUserCredits extends Migration {
 
 		Schema::table('users_appointments', function(Blueprint $table)
 		{
-			$table->integer('received')->default(0)->after('amount');
+			$table->float('received')->default(0)->after('amount');
 		});
 	}
 
