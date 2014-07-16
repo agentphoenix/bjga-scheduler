@@ -52,7 +52,7 @@
 						{{ Form::text('valueMoney', $credit->value, ['class' => 'form-control']) }}
 					</div>
 					<div id="timeType" class="input-group{{ ($credit->type != 'time') ? ' hide' : '' }}">
-						{{ Form::text('valueTime', $credit->value, ['class' => 'form-control']) }}
+						{{ Form::text('valueTime', $credit->present()->value, ['class' => 'form-control']) }}
 						<span class="input-group-addon"><strong>hours</strong></span>
 					</div>
 					{{ $errors->first('value', '<p class="help-block text-danger">:message</p>') }}
