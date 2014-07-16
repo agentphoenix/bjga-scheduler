@@ -28,5 +28,35 @@ class CreditModel extends Model {
 	{
 		return $this->belongsTo('UserModel', 'user_id');
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Getters/Setters
+	|--------------------------------------------------------------------------
+	*/
+
+	public function setClaimedAttribute($value)
+	{
+		if ($this->attributes['type'] == 'time')
+		{
+			$this->attributes['claimed'] = $value * 60;
+		}
+		else
+		{
+			$this->attributes['claimed'] = $value;
+		}
+	}
+
+	public function setValueAttribute($value)
+	{
+		if ($this->attributes['type'] == 'time')
+		{
+			$this->attributes['value'] = $value * 60;
+		}
+		else
+		{
+			$this->attributes['value'] = $value;
+		}
+	}
 	
 }
