@@ -42,10 +42,13 @@ class CreateUserCredits extends Migration {
 	{
 		Schema::dropIfExists('users_credits');
 
-		Schema::table('users_appointments', function(Blueprint $table)
+		if (Schema::hasColumn('users_appointments', 'received'))
 		{
-			$table->dropColumn('received');
-		});
+			Schema::table('users_appointments', function(Blueprint $table)
+			{
+				$table->dropColumn('received');
+			});
+		}
 	}
 
 }
