@@ -17,13 +17,14 @@
 	
 	"autoload": {
 		"classmap": [
-			"Scheduler/database/migrations",
-			"Scheduler/database/seeds"
+			"BrianJacobs/Scheduler/database/migrations",
+			"BrianJacobs/Scheduler/database/seeds"
 		],
 		
 		"psr-4": {
-			"Scheduler\\": "Scheduler",
-			"Scheduler\\Api\\": "Api"
+			"Scheduler\\": "BrianJacobs\\Scheduler\\Site",
+			"Scheduler\\Api\\": "BrianJacobs\\Scheduler\\Api",
+			"Scheduler\\Extensions\\": "BrianJacobs\\Scheduler\\Extensions"
 		}
 	},
 	
