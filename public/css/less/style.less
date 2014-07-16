@@ -738,3 +738,29 @@ code {
 .monospace {
 	font-family: @font-monospace;
 }
+
+.pagination {
+	.rounded(@border-radius);
+
+	> li {
+		> a, span {
+			color: lighten(@color-success, 8%);
+
+			&:hover {
+				color: @color-success;
+			}
+		}
+	}
+
+	> .active {
+		> a, span {
+			background-color: @color-success;
+			border-color: @color-success;
+
+			&:hover, &:focus {
+				background-color: @color-success;
+				border-color: @color-success;
+			}
+		}
+	}
+}

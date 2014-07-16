@@ -165,6 +165,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@details']);
 
 			Route::get('credits/delete/{id}', 'Scheduler\Controllers\CreditsController@delete');
+			Route::post('credits/search', [
+				'as'	=> 'admin.credits.search',
+				'uses'	=> 'Scheduler\Controllers\CreditsController@doSearch']);
 
 			/**
 			 * Resourceful controllers.

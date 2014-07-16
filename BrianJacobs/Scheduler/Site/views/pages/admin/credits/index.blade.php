@@ -22,27 +22,43 @@
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-sm-6 col-lg-4">
-			<div class="form-group">
-				{{ Form::text('search', null, array('placeholder' => 'Search for credits', 'class' => 'form-control search-control', 'id' => 'searchCredits')) }}
+	{{ Form::open(['route' => 'admin.credits.search']) }}
+		<div class="row">
+			<div class="col-sm-6 col-lg-4">
+				<div class="form-group">
+					{{ Form::text('search', null, ['placeholder' => 'Search for credits', 'class' => 'form-control search-control']) }}
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="hidden-xs">
+					{{ Form::button('Search', ['type' => 'submit', 'class' => 'btn btn-sm btn-default']) }}
+				</div>
+				<div class="visible-xs">
+					{{ Form::button('Search', ['type' => 'submit', 'class' => 'btn btn-sm btn-block btn-default']) }}
+				</div>
 			</div>
 		</div>
-	</div>
+	{{ Form::close() }}
 
 	@if ($credits->count() > 0)
-		<div class="data-table data-table-striped data-table-bordered" id="creditsTable">
+		@if (Input::has('search'))
+			{{ partial('common/alert', ['type' => 'warning', 'content' => "Search results for: \"".Input::get("search")."\""]) }}
+		@endif
+
+		{{ $credits->links() }}
+
+		<div class="data-table data-table-striped data-table-bordered">
 		@foreach ($credits as $c)
 			<div class="row">
 				<div class="col-sm-4">
 					<p>
 						<strong class="monospace">{{ $c->code }}</strong>
 						
-						@if ( ! empty($c->user_id))
+						@if ($c->user_id > 0)
 							<br><span class="text-muted"><span class="tab-icon">{{ $_icons['user'] }}</span><em>{{ $c->present()->user }}</em></span>
 						@endif
 
-						@if ( ! empty($c->email))
+						@if ( ! empty($c->present()->email))
 							<br><span class="text-muted"><span class="tab-icon tab-icon-down1">{{ $_icons['email'] }}</span><em>{{ $c->present()->email }}</em></span>
 						@endif
 					</p>
@@ -91,8 +107,14 @@
 			</div>
 		@endforeach
 		</div>
+
+		{{ $credits->links() }}
 	@else
-		{{ partial('common/alert', ['type' => 'warning', 'content' => "No credits found."]) }}
+		@if (Input::has('search'))
+			{{ partial('common/alert', ['type' => 'warning', 'content' => "No credits found with the search term \"".Input::get('search')."\"."]) }}
+		@else
+			{{ partial('common/alert', ['type' => 'warning', 'content' => "No credits found."]) }}
+		@endif
 	@endif
 @stop
 

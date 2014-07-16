@@ -1,14 +1,22 @@
 <?php namespace Scheduler\Data\Repositories\Eloquent;
 
-use Date,
+use Str,
+	Date,
 	CreditModel,
 	CreditRepositoryInterface;
 
 class CreditRepository implements CreditRepositoryInterface {
 
+	protected $resultsPerPage = 25;
+
 	public function all()
 	{
 		return CreditModel::all();
+	}
+
+	public function allPaginated()
+	{
+		return CreditModel::paginate($this->resultsPerPage);
 	}
 
 	public function create(array $data)
@@ -76,6 +84,20 @@ class CreditRepository implements CreditRepositoryInterface {
 				$item->delete();
 			}
 		}
+	}
+
+	public function search($term)
+	{
+		return CreditModel::join('users', 'users_credits.user_id', '=', 'users.id')
+			->where(function($query) use ($term)
+			{
+				$query->where('users.name', 'like', "%{$term}%")
+					->orWhere('users.email', 'like', "%{$term}%");
+			})->orWhere(function($query) use ($term)
+			{
+				$query->where('users_credits.code', 'like', "%{$term}%")
+					->orWhere('users_credits.email', 'like', "%{$term}%");
+			})->paginate($this->resultsPerPage);
 	}
 
 	public function update($id, array $data)

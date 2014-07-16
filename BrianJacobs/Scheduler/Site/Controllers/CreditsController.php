@@ -4,6 +4,7 @@ use View,
 	Event,
 	Flash,
 	Input,
+	Session,
 	Redirect,
 	CreditValidator,
 	UserRepositoryInterface,
@@ -42,7 +43,7 @@ class CreditsController extends BaseController {
 	public function index()
 	{
 		return View::make('pages.admin.credits.index')
-			->withCredits($this->credits->all());
+			->withCredits($this->credits->allPaginated());
 	}
 
 	public function create()
@@ -116,6 +117,12 @@ class CreditsController extends BaseController {
 		Flash::success("Credit has been successfully deleted.");
 
 		return Redirect::route('admin.credits.index');
+	}
+
+	public function doSearch()
+	{
+		return View::make('pages.admin.credits.index')
+			->withCredits($this->credits->search(Input::get('search')));
 	}
 
 }

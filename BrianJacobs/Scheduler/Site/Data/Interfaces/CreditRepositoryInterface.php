@@ -12,6 +12,7 @@ interface CreditRepositoryInterface {
 	public function findByDate($field, Date $date);
 	public function removeClaimed();
 	public function removeExpired(Date $date, $exact = false);
+	public function search($term);
 	public function update($id, array $data);
 
 }
