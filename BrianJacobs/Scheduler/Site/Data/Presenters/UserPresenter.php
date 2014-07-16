@@ -11,7 +11,7 @@ class UserPresenter extends Presenter {
 
 	public function creditTime()
 	{
-		$value = (int) $this->entity->getCredits()['time'];
+		$value = (int) $this->entity->getCredits()['time'] / 60;
 
 		if ($value === 1)
 		{

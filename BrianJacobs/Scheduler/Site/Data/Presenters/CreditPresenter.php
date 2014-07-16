@@ -15,6 +15,16 @@ class CreditPresenter extends Presenter {
 		return $this->entity->expires->format(Config::get('bjga.dates.date'));
 	}
 
+	public function claimed()
+	{
+		if ($this->entity->type == 'time')
+		{
+			return (int) $this->entity->claimed / 60;
+		}
+
+		return (int) $this->entity->claimed;
+	}
+
 	public function notes()
 	{
 		return Markdown::parse($this->entity->notes);
@@ -22,7 +32,7 @@ class CreditPresenter extends Presenter {
 
 	public function remaining()
 	{
-		return (int) $this->entity->value - (int) $this->entity->claimed;
+		return (int) $this->value() - (int) $this->claimed();
 	}
 
 	public function remainingLong()
@@ -31,8 +41,7 @@ class CreditPresenter extends Presenter {
 
 		if ($remaining === 0)
 		{
-			$remaining = "No ";
-			$remaining.= ($this->entity->type == 'time') ? "time" : "money";
+			$remaining = "No {$this->entity->type}";
 		}
 
 		return $this->formatByType($this->entity->type, $remaining)." remaining";
@@ -45,6 +54,11 @@ class CreditPresenter extends Presenter {
 
 	public function value()
 	{
+		if ($this->entity->type == 'time')
+		{
+			return (int) $this->entity->value / 60;
+		}
+
 		return (int) $this->entity->value;
 	}
 
