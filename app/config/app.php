@@ -202,36 +202,36 @@ return array(
 		/**
 		 * Models
 		 */
-		'BookingMetaModel'				=> 'Scheduler\Models\Eloquent\BookingMetaModel',
-		'CreditModel'					=> 'Scheduler\Models\Eloquent\CreditModel',
-		'ServiceModel'					=> 'Scheduler\Models\Eloquent\ServiceModel',
-		'ServiceOccurrenceModel'		=> 'Scheduler\Models\Eloquent\ServiceOccurrenceModel',
-		'StaffModel'					=> 'Scheduler\Models\Eloquent\StaffModel',
-		'StaffAppointmentModel'			=> 'Scheduler\Models\Eloquent\StaffAppointmentModel',
-		'StaffAppointmentRecurModel'	=> 'Scheduler\Models\Eloquent\StaffAppointmentRecurModel',
-		'StaffScheduleModel'			=> 'Scheduler\Models\Eloquent\StaffScheduleModel',
-		'UserModel'						=> 'Scheduler\Models\Eloquent\UserModel',
-		'UserAppointmentModel'			=> 'Scheduler\Models\Eloquent\UserAppointmentModel',
+		'BookingMetaModel'				=> 'Scheduler\Data\Models\Eloquent\BookingMetaModel',
+		'CreditModel'					=> 'Scheduler\Data\Models\Eloquent\CreditModel',
+		'ServiceModel'					=> 'Scheduler\Data\Models\Eloquent\ServiceModel',
+		'ServiceOccurrenceModel'		=> 'Scheduler\Data\Models\Eloquent\ServiceOccurrenceModel',
+		'StaffModel'					=> 'Scheduler\Data\Models\Eloquent\StaffModel',
+		'StaffAppointmentModel'			=> 'Scheduler\Data\Models\Eloquent\StaffAppointmentModel',
+		'StaffAppointmentRecurModel'	=> 'Scheduler\Data\Models\Eloquent\StaffAppointmentRecurModel',
+		'StaffScheduleModel'			=> 'Scheduler\Data\Models\Eloquent\StaffScheduleModel',
+		'UserModel'						=> 'Scheduler\Data\Models\Eloquent\UserModel',
+		'UserAppointmentModel'			=> 'Scheduler\Data\Models\Eloquent\UserAppointmentModel',
 
 		/**
 		 * Repositories
 		 */
-		'CreditRepository'				=> 'Scheduler\Repositories\Eloquent\CreditRepository',
-		'ServiceRepository'				=> 'Scheduler\Repositories\Eloquent\ServiceRepository',
-		'StaffRepository'				=> 'Scheduler\Repositories\Eloquent\StaffRepository',
-		'StaffAppointmentRepository'	=> 'Scheduler\Repositories\Eloquent\StaffAppointmentRepository',
-		'StaffScheduleRepository'		=> 'Scheduler\Repositories\Eloquent\StaffScheduleRepository',
-		'UserRepository'				=> 'Scheduler\Repositories\Eloquent\UserRepository',
+		'CreditRepository'				=> 'Scheduler\Data\Repositories\Eloquent\CreditRepository',
+		'ServiceRepository'				=> 'Scheduler\Data\Repositories\Eloquent\ServiceRepository',
+		'StaffRepository'				=> 'Scheduler\Data\Repositories\Eloquent\StaffRepository',
+		'StaffAppointmentRepository'	=> 'Scheduler\Data\Repositories\Eloquent\StaffAppointmentRepository',
+		'StaffScheduleRepository'		=> 'Scheduler\Data\Repositories\Eloquent\StaffScheduleRepository',
+		'UserRepository'				=> 'Scheduler\Data\Repositories\Eloquent\UserRepository',
 
 		/**
 		 * Repository Interfaces
 		 */
-		'CreditRepositoryInterface'				=> 'Scheduler\Interfaces\CreditRepositoryInterface',
-		'ServiceRepositoryInterface'			=> 'Scheduler\Interfaces\ServiceRepositoryInterface',
-		'StaffRepositoryInterface'				=> 'Scheduler\Interfaces\StaffRepositoryInterface',
-		'StaffAppointmentRepositoryInterface'	=> 'Scheduler\Interfaces\StaffAppointmentRepositoryInterface',
-		'StaffScheduleRepositoryInterface'		=> 'Scheduler\Interfaces\StaffScheduleRepositoryInterface',
-		'UserRepositoryInterface'				=> 'Scheduler\Interfaces\UserRepositoryInterface',
+		'CreditRepositoryInterface'				=> 'Scheduler\Data\Interfaces\CreditRepositoryInterface',
+		'ServiceRepositoryInterface'			=> 'Scheduler\Data\Interfaces\ServiceRepositoryInterface',
+		'StaffRepositoryInterface'				=> 'Scheduler\Data\Interfaces\StaffRepositoryInterface',
+		'StaffAppointmentRepositoryInterface'	=> 'Scheduler\Data\Interfaces\StaffAppointmentRepositoryInterface',
+		'StaffScheduleRepositoryInterface'		=> 'Scheduler\Data\Interfaces\StaffScheduleRepositoryInterface',
+		'UserRepositoryInterface'				=> 'Scheduler\Data\Interfaces\UserRepositoryInterface',
 
 	),
 
