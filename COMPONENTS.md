@@ -2,7 +2,7 @@
 
 ## PHP
 
-- Laravel 4.1.28
+- Laravel 4.1.30
 	- http://laravel.com
 
 ## Javascript
@@ -13,8 +13,6 @@
 	- http://jqueryui.com
 - Bootstrap 3.2
 	- http://getbootstrap.com/
-- DateTimePicker 3.0.0
-	- https://github.com/Eonasdan/bootstrap-datetimepicker
 - [Pickadate.js](http://amsul.ca/pickadate.js/)
 	- Version: 3.5.2
 - Moment 2.7
