@@ -159,7 +159,7 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 			// Iterate through the collection
 			$time->each(function($t) use (&$finalTime)
 			{
-				$finalTime += (int) $t->value - (int) $t->claimed;
+				$finalTime += (float) $t->value - (float) $t->claimed;
 			});
 
 			$finalCredits['time'] = $finalTime;
@@ -179,7 +179,7 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 			// Iterate through the collection
 			$money->each(function($m) use (&$finalMoney)
 			{
-				$finalMoney += (int) $m->value - (int) $m->claimed;
+				$finalMoney += (float) $m->value - (float) $m->claimed;
 			});
 
 			$finalCredits['money'] = $finalMoney;

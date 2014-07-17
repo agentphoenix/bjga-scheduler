@@ -19,10 +19,10 @@ class CreditPresenter extends Presenter {
 	{
 		if ($this->entity->type == 'time')
 		{
-			return (int) $this->entity->claimed / 60;
+			return (float) $this->entity->claimed / 60;
 		}
 
-		return (int) $this->entity->claimed;
+		return (float) $this->entity->claimed;
 	}
 
 	public function notes()
@@ -32,7 +32,7 @@ class CreditPresenter extends Presenter {
 
 	public function remaining()
 	{
-		return (int) $this->value() - (int) $this->claimed();
+		return (float) $this->value() - (float) $this->claimed();
 	}
 
 	public function remainingLong()
@@ -56,10 +56,10 @@ class CreditPresenter extends Presenter {
 	{
 		if ($this->entity->type == 'time')
 		{
-			return (int) $this->entity->value / 60;
+			return (float) $this->entity->value / 60;
 		}
 
-		return (int) $this->entity->value;
+		return (float) $this->entity->value;
 	}
 
 	public function valueLong()
@@ -77,9 +77,14 @@ class CreditPresenter extends Presenter {
 		switch ($type)
 		{
 			case 'time':
-				if ($value === 1)
+				if ($value == 1)
 				{
 					return "{$value} hour";
+				}
+
+				if ($value < 1)
+				{
+					return ($value * 60)." minutes";
 				}
 
 				return "{$value} hours";
