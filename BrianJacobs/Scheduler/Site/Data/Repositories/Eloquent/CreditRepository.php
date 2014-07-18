@@ -55,6 +55,11 @@ class CreditRepository implements CreditRepositoryInterface {
 		return CreditModel::where($field, $date)->get();
 	}
 
+	public function findByEmail($email)
+	{
+		return CreditModel::where('email', $email)->get();
+	}
+
 	public function removeClaimed()
 	{
 		// Get all the items
