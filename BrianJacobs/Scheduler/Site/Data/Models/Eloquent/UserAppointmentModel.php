@@ -61,5 +61,16 @@ class UserAppointmentModel extends Model {
 	{
 		$query->where('user_id', $user);
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Model Methods
+	|--------------------------------------------------------------------------
+	*/
+
+	public function due()
+	{
+		return (float) $this->amount - (float) $this->received;
+	}
 	
 }
