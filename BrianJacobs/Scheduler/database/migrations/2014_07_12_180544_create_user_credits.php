@@ -16,11 +16,11 @@ class CreateUserCredits extends Migration {
 		{
 			$table->bigIncrements('id');
 			$table->string('code', 12);
-			$table->string('type');
+			$table->string('type', 20);
 			$table->float('value')->default(0);
 			$table->float('claimed')->default(0);
 			$table->integer('user_id')->unsigned()->nullable();
-			$table->string('email')->nullable();
+			$table->string('email', 100)->nullable();
 			$table->text('notes')->nullable();
 			$table->timestamp('expires')->nullable();
 			$table->timestamps();
@@ -31,6 +31,9 @@ class CreateUserCredits extends Migration {
 		{
 			$table->float('received')->default(0)->after('amount');
 		});
+
+		DB::query("ALTER TABLE `scheduler_users_appointments` ALTER `amount` DROP DEFAULT;");
+		DB::query("ALTER TABLE `scheduler_users_appointments` CHANGE COLUMN `amount` `amount` FLOAT(8,2) NOT NULL COLLATE 'utf8_unicode_ci' AFTER `paid`;");
 	}
 
 	/**
