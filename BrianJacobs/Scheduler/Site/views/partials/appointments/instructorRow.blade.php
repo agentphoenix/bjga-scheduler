@@ -26,7 +26,7 @@
 			@endif
 		</p>
 		@if ( ! empty($appt->notes))
-			<p class="text-sm text-info">{{ $appt->notes }}</p>
+			<span class="text-sm text-info">{{ $appt->present()->notes }}</span>
 		@endif
 	</div>
 	<div class="col-md-5 col-lg-4">
