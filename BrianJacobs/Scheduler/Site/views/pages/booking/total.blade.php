@@ -26,7 +26,13 @@
 		@if ($type == 'money')
 			<div class="row">
 				<div class="col-xs-6 col-sm-7 text-danger"><p>Monetary Credit Applied</p></div>
-				<div class="col-xs-6 col-sm-5 text-right text-danger"><p><strong>${{ $credits['money'] }}</strong></p></div>
+				<div class="col-xs-6 col-sm-5 text-right text-danger"><p><strong>
+					@if ($credits['money'] >= $service->price)
+						${{ $service->price }}
+					@else
+						${{ $credits['money'] }}
+					@endif
+				</strong></p></div>
 			</div>
 		@endif
 

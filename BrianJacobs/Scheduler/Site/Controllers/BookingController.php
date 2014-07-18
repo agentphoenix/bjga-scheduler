@@ -186,7 +186,14 @@ class BookingController extends BaseController {
 				}
 				else
 				{
-					$totalRaw -= $credits['money'];
+					if ($credits['money'] >= (int) $service->price)
+					{
+						$totalRaw = 0;
+					}
+					else
+					{
+						$totalRaw -= $credits['money'];
+					}
 				}
 			}
 
