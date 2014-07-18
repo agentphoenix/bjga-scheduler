@@ -2,6 +2,7 @@
 
 interface StaffAppointmentRepositoryInterface {
 
+	public function create(array $data);
 	public function find($id);
 	public function getAttendees($id);
 	public function getRecurringLessons($id = false);

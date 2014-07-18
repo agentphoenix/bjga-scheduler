@@ -10,6 +10,11 @@ use Illuminate\Support\Collection;
 
 class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface {
 
+	public function create(array $data)
+	{
+		return StaffAppointmentModel::create($data);
+	}
+
 	public function getAttendees($id)
 	{
 		// Get the appointment
