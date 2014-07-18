@@ -6,14 +6,20 @@ use Auth,
 	Input,
 	Redirect,
 	StaffAppointmentModel,
+	UserRepositoryInterface,
 	ServiceRepositoryInterface;
 
 class BookingController extends BaseController {
 
-	public function __construct(ServiceRepositoryInterface $service)
+	protected $user;
+	protected $service;
+
+	public function __construct(ServiceRepositoryInterface $service,
+			UserRepositoryInterface $user)
 	{
 		parent::__construct();
 
+		$this->user = $user;
 		$this->service = $service;
 
 		$this->beforeFilter(function()
@@ -148,6 +154,80 @@ class BookingController extends BaseController {
 				->with('message', "You've attempted to enroll a lesson service. This feature is only available for enrolling in programs. Please use the booking page to book a lesson service.")
 				->with('messageStatus', 'danger');
 		}
+	}
+
+	public function calculatePrice($userId, $serviceId)
+	{
+		// Get the user
+		$user = $this->user->find($userId);
+
+		// Get the service
+		$service = $this->service->find($serviceId);
+
+		// Get the credits
+		$credits = $user->getCredits();
+
+		$type = '';
+
+		// Build the total
+		$totalRaw = (float) $service->price;
+
+		if ( ! $user->isStaff())
+		{
+			if ($credits['time'] == 0 and $credits['money'] > 0)
+			{
+				$type = 'money';
+
+				if ($service->isRecurring())
+				{
+					$serviceCost = $service->price * $service->occurrences;
+					$serviceCostWithDiscount = $serviceCost - $credits['money'];
+					$totalRaw = $serviceCostWithDiscount / $service->occurrences;
+				}
+				else
+				{
+					$totalRaw -= $credits['money'];
+				}
+			}
+
+			if ($credits['time'] > 0)
+			{
+				$type = 'time';
+
+				$duration = ($service->isRecurring())
+					? $service->duration * $service->occurrences
+					: $service->duration;
+
+				if ($credits['time'] >= $duration)
+				{
+					$totalRaw = 0;
+				}
+				else
+				{
+					// Get the price per minute of the service
+					$pricePerMinute = $service->price / $service->duration;
+
+					// Get the number of remaining minutes
+					$remainingMinutes = $duration - $credits['time'];
+
+					// Calculate the total
+					$totalRaw = ($service->isRecurring())
+						? ($remainingMinutes * $pricePerMinute) / $service->occurrences
+						: $remainingMinutes * $pricePerMinute;
+				}
+			}
+		}
+		else
+		{
+			$totalRaw = 0;
+		}
+
+		// Format the total
+		$formattedTotal = sprintf('%01.2f', $totalRaw);
+		$total = '$'.str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
+
+		return View::make('pages.booking.total')
+			->with(compact('service', 'credits', 'total', 'type', 'user'));
 	}
 
 }

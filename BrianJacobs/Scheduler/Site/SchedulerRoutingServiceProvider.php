@@ -27,6 +27,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::get('book/program', array(
 			'as'	=> 'book.program',
 			'uses'	=> 'Scheduler\Controllers\BookingController@program'));
+		Route::get('book/lesson/total/user/{userId}/service/{serviceId}', [
+			'as'	=> 'book.lesson.total',
+			'uses'	=> 'Scheduler\Controllers\BookingController@calculatePrice']);
 
 		Route::post('book/lesson', array(
 			'as'	=> 'book.lesson.store',

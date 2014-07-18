@@ -106,7 +106,7 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<!--<div class="row">
 				<div class="col-lg-6">
 					<div class="panel panel-default" id="codeApplyPanel">
 						<div class="panel-heading">
@@ -134,7 +134,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 
 			@if ($_currentUser->isStaff())
 				<div class="row">
@@ -151,6 +151,12 @@
 				{{ Form::hidden('user', $_currentUser->id) }}
 				{{ Form::hidden('notes', '') }}
 			@endif
+
+			<div class="row">
+				<div class="col-lg-6">
+					<div id="priceContainer"></div>
+				</div>
+			</div>
 
 			<div class="row">
 				<div class="col-lg-12">
@@ -255,6 +261,14 @@
 
 			// 5 minutes... GO!
 			timer = setTimeout("resetOptions()", 300000);
+
+			$.ajax({
+				url: "{{ URL::to('book/lesson/total/user') }}/" + $('[name="user"]').val() + "/service/" + $('[name="service_id"]').val(),
+				success: function(data)
+				{
+					$('#priceContainer').html(data);
+				}
+			});
 		});
 
 		$('[name="service_id"]').on('change', function(e)
