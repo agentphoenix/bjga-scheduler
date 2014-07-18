@@ -36,6 +36,7 @@ return array(
 	'remove' => '<span class="icn" data-icon="-"></span>',
 	'report' => '<span class="icn" data-icon="r"></span>',
 
+	'sale' => '<span class="icn" data-icon="0"></span>',
 	'schedule' => '<span class="icn" data-icon="o"></span>',
 	'school' => '<span class="icn" data-icon="s"></span>',
 	'star' => '<span class="icn" data-icon="1"></span>',
