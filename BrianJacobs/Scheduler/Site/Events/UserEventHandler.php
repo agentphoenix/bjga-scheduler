@@ -12,6 +12,31 @@ class UserEventHandler {
 
 	public function onUserCreated($user, $input)
 	{
+		// Get the instance of the credit repo
+		$credits = App::make('CreditRepository');
+
+		// Find any credits by email
+		$items = $credits->findByEmail($user->email);
+
+		if ($items->count() > 0)
+		{
+			foreach ($items as $item)
+			{
+				$updateData = [
+					'user_id'	=> $user->id,
+					'email'		=> '',
+				];
+
+				if ($item->type == 'time')
+				{
+					$updateData['expires'] = Date::now()->addDay()->addYear()->startOfDay();
+				}
+
+				// Update the credit
+				$item->update($updateData);
+			}
+		}
+
 		// Set the email data
 		$data = array(
 			'name'		=> $user->name,
