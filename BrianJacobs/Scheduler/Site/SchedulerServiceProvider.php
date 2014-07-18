@@ -36,7 +36,8 @@ class SchedulerServiceProvider extends ServiceProvider {
 		{
 			return new Services\BookingService(
 				$app->make('ServiceRepository'),
-				$app->make('UserRepository')
+				$app->make('UserRepository'),
+				$app->make('StaffAppointmentRepository')
 			);
 		});
 	}
