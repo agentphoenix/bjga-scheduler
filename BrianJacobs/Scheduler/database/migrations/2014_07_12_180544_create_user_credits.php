@@ -32,8 +32,8 @@ class CreateUserCredits extends Migration {
 			$table->float('received')->default(0)->after('amount');
 		});
 
-		DB::query("ALTER TABLE `scheduler_users_appointments` ALTER `amount` DROP DEFAULT;");
-		DB::query("ALTER TABLE `scheduler_users_appointments` CHANGE COLUMN `amount` `amount` FLOAT(8,2) NOT NULL COLLATE 'utf8_unicode_ci' AFTER `paid`;");
+		DB::statement("ALTER TABLE `scheduler_users_appointments` ALTER `amount` DROP DEFAULT;");
+		DB::statement("ALTER TABLE `scheduler_users_appointments` CHANGE COLUMN `amount` `amount` FLOAT(8,2) NOT NULL COLLATE 'utf8_unicode_ci' AFTER `paid`;");
 	}
 
 	/**
