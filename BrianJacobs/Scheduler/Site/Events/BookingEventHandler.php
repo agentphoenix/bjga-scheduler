@@ -20,6 +20,23 @@ class BookingEventHandler {
 		// Get the user
 		$user = $userAppt->user;
 
+		// Start to build some appointment information
+		$appointments = [];
+
+		// Sort the appointments
+		$sa = ($service->isRecurring()) 
+			? $staffAppt->recur->staffAppointments->sortBy('start')
+			: $staffAppt;
+
+		foreach ($sa as $s)
+		{
+			foreach ($s->userAppointments as $ua)
+			{
+				$appointments[$ua->id]['start'] = $ua->appointment->present()->start;
+				$appointments[$ua->id]['due'] = $ua->present()->due;
+			}
+		}
+
 		// Set the data
 		$data = array(
 			'service'		=> $service->name,
@@ -30,6 +47,7 @@ class BookingEventHandler {
 			'additional'	=> $service->occurrences - 1,
 			'days'			=> $service->occurrences_schedule,
 			'user'			=> $user->name,
+			'appointments'	=> $appointments,
 		);
 
 		// Email the attendees
