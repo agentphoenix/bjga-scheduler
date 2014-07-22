@@ -3,7 +3,7 @@
 ## PHP
 
 - [Laravel](http://laravel.com)
-	- Version: 4.2.6
+	- Version: 4.2.7
 - [Fractal](http://fractal.thephpleague.com/)
 	- Version: 0.8.3
 - [Parsedown](http://parsedown.org/)
