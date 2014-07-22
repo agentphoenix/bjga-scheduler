@@ -67,6 +67,8 @@ class AppointmentReminderMessageCommand extends Command {
 						'service'	=> $service->name,
 						'start'		=> $sa->start->format(Config::get('bjga.dates.time')),
 						'end'		=> $sa->end->format(Config::get('bjga.dates.time')),
+						'lesson'	=> (bool) $service->isLesson(),
+						'due'		=> ($service->isLesson()) ? $sa->userAppointments->first()->present()->due : 0,
 					);
 
 					// Set the view
