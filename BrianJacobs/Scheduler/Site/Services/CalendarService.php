@@ -21,9 +21,6 @@ class CalendarService {
 		// Get the calendar
 		$calendar = new VCalendar;
 
-		// Create a new event
-		$event = array();
-
 		// Get a subset of the staff member's appointments
 		$series = $staff->appointments->filter(function($a)
 		{
@@ -35,6 +32,9 @@ class CalendarService {
 
 		foreach ($series as $a)
 		{
+			// Create a new event
+			$event = [];
+
 			// Set the summary
 			$event['SUMMARY'] = ($a->service->isLesson())
 				? "{$a->userAppointments->first()->user->name} ({$a->service->name})"
