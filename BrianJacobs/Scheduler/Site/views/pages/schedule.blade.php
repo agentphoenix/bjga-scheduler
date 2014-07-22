@@ -58,7 +58,7 @@
 
 			<div class="data-table data-table-striped data-table-bordered">
 			@foreach ($appointments as $a)
-				@if ($a instanceof Scheduler\Models\Eloquent\UserAppointmentModel)
+				@if ($a instanceof Scheduler\Data\Models\Eloquent\UserAppointmentModel)
 					<?php
 
 					$appt = $a->appointment;
