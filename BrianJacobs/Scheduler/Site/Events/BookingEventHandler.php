@@ -28,9 +28,22 @@ class BookingEventHandler {
 			? $staffAppt->recur->staffAppointments->sortBy('start')
 			: $staffAppt;
 
-		foreach ($sa as $s)
+		if ($service->isRecurring())
 		{
-			foreach ($s->userAppointments as $ua)
+			$series = $staffAppt->recur->staffAppointments->sortBy('start');
+
+			foreach ($series as $s)
+			{
+				foreach ($s->userAppointments as $ua)
+				{
+					$appointments[$ua->id]['start'] = $ua->appointment->present()->start;
+					$appointments[$ua->id]['due'] = $ua->present()->due;
+				}
+			}
+		}
+		else
+		{
+			foreach ($staffAppt->userAppointments as $ua)
 			{
 				$appointments[$ua->id]['start'] = $ua->appointment->present()->start;
 				$appointments[$ua->id]['due'] = $ua->present()->due;
