@@ -2,10 +2,12 @@
 
 use Str, Model;
 use Laracasts\Presenter\PresentableTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class ServiceModel extends Model {
 
 	use PresentableTrait;
+	use SoftDeletingTrait;
 
 	protected $table = 'services';
 
@@ -14,8 +16,6 @@ class ServiceModel extends Model {
 		'occurrences', 'duration', 'user_limit', 'order', 'status', 'loyalty',
 		'occurrences_schedule',
 	);
-
-	protected $softDelete = true;
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
 

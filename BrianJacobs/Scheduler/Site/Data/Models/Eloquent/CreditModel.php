@@ -2,17 +2,17 @@
 
 use Model;
 use Laracasts\Presenter\PresentableTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class CreditModel extends Model {
 
 	use PresentableTrait;
+	use SoftDeletingTrait;
 
 	protected $table = 'users_credits';
 
 	protected $fillable = ['code', 'type', 'value', 'claimed', 'user_id', 'email',
 		'expires', 'notes'];
-
-	protected $softDelete = true;
 
 	protected $dates = ['created_at', 'updated_at', 'deleted_at', 'expires'];
 

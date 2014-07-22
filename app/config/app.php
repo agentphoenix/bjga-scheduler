@@ -67,6 +67,8 @@ return array(
 
 	'key' => $_ENV['APP_KEY'],
 
+	'cipher' => MCRYPT_RIJNDAEL_256,
+
 	/*
 	|--------------------------------------------------------------------------
 	| Autoloaded Service Providers

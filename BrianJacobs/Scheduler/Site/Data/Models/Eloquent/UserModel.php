@@ -5,14 +5,14 @@ use Hash,
 use Illuminate\Auth\UserInterface,
 	Illuminate\Auth\Reminders\RemindableInterface;
 use Laracasts\Presenter\PresentableTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class UserModel extends Model implements UserInterface, RemindableInterface {
 
 	use PresentableTrait;
+	use SoftDeletingTrait;
 
 	protected $table = 'users';
-
-	protected $softDelete = true;
 
 	protected $fillable = array('name', 'email', 'password', 'phone', 'address',
 		'remember_token');

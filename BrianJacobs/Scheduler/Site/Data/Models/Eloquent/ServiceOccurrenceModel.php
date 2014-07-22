@@ -1,14 +1,15 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
 use Model;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class ServiceOccurrenceModel extends Model {
+
+	use SoftDeletingTrait;
 
 	protected $table = 'services_occurrences';
 
 	protected $fillable = array('service_id', 'start', 'end');
-
-	protected $softDelete = true;
 
 	protected $dates = array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
 

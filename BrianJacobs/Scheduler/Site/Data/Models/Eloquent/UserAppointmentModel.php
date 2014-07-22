@@ -2,18 +2,18 @@
 
 use Model;
 use Laracasts\Presenter\PresentableTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class UserAppointmentModel extends Model {
 
 	use PresentableTrait;
+	use SoftDeletingTrait;
 
 	protected $table = 'users_appointments';
 
 	protected $fillable = array(
 		'appointment_id', 'recur_id', 'occurrence_id', 'user_id', 'paid', 'amount', 'received',
 	);
-
-	protected $softDelete = true;
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
 

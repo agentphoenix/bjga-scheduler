@@ -1,14 +1,15 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
 use Model;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class StaffModel extends Model {
+
+	use SoftDeletingTrait;
 
 	protected $table = 'staff';
 
 	protected $fillable = array('user_id', 'title', 'bio', 'access', 'instruction');
-
-	protected $softDelete = true;
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
 

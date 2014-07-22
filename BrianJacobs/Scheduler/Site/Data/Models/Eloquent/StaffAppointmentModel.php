@@ -2,10 +2,12 @@
 
 use Date, Model;
 use Laracasts\Presenter\PresentableTrait;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class StaffAppointmentModel extends Model {
 
 	use PresentableTrait;
+	use SoftDeletingTrait;
 
 	protected $table = 'staff_appointments';
 
@@ -13,8 +15,6 @@ class StaffAppointmentModel extends Model {
 		'staff_id', 'service_id', 'recur_id', 'occurrence_id', 'start', 'end', 
 		'notes',
 	);
-
-	protected $softDelete = true;
 
 	protected $dates = array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
 
