@@ -127,5 +127,13 @@ class StaffAppointmentModel extends Model {
 
 		return false;
 	}
+
+	public function userAppointment($user)
+	{
+		return $this->userAppointments->filter(function($u) use ($user)
+		{
+			return $u->user_id == $user->id;
+		})->first();
+	}
 	
 }
