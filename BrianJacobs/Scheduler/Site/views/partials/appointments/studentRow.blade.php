@@ -6,6 +6,8 @@
 	<div class="col-xs-8 col-sm-9 col-md-5 col-lg-6">
 		<p class="lead visible-xs visible-sm"><strong>{{ $appt->service->present()->name }}</strong></p>
 		<p class="lead visible-md visible-lg">{{ $appt->service->present()->name }}</p>
+
+		<p>Total Due: <strong class="text-success">{{ $appt->userAppointment($_currentUser)->present()->due }}</strong></p>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 		<div class="visible-md visible-lg">
