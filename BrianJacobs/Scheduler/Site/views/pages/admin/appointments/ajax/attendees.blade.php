@@ -3,7 +3,7 @@
 	@foreach ($attendees as $a)
 		<?php
 
-		if ($a instanceof Scheduler\Models\Eloquent\UserModel)
+		if ($a instanceof Scheduler\Data\Models\Eloquent\UserModel)
 		{
 			$user = $a;
 			$apptBased = false;
@@ -16,10 +16,13 @@
 
 		?>
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
-				<p><strong>{{ $user->name }}</strong></p>
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<p>
+					<strong>{{ $user->name }}</strong>
+					<br><span class="text-sm">Total Due: <strong>{{ $a->present()->due }}</strong></span>
+				</p>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+			<div class="col-xs-12 col-sm-6 col-md-4">
 				<div class="visible-md visible-lg">
 					<div class="btn-toolbar pull-right">
 						@if ($apptBased and (bool) $a->paid === false)
@@ -51,12 +54,11 @@
 	@endforeach
 	</div>
 @else
-	<div class="alert alert-warning">There are no attendees for this service.</div>
+	{{ alert('warning', "There are no attendees for this service.") }}
 @endif
 
 {{ View::make('partials.jsMarkAsPaid') }}
 <script>
-
 	$(document).on('click', '.js-removeAttendee', function(e)
 	{
 		e.preventDefault();
@@ -79,5 +81,4 @@
 			}
 		});
 	});
-
 </script>
