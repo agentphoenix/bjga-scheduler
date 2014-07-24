@@ -215,10 +215,13 @@ class BookingService {
 	public function program(array $data)
 	{
 		// Get the user
-		$user = $this->userRepo->find((int) $data['user']);
+		$user = $this->userRepo->find($data['user']);
 
 		// Get the service
 		$service = $this->serviceRepo->find($data['service_id']);
+
+		// Start a collection for user appointments
+		$userApptCollection = new Collection;
 
 		// Set the initial user appointment record
 		$userApptRecord = array(
@@ -248,6 +251,9 @@ class BookingService {
 					array('appointment_id' => $a->id, 'occurrence_id' => $a->occurrence_id)
 				);
 				$bookUser = UserAppointmentModel::create($userApptArr);
+
+				// Add to the collection of user appointments
+				$userApptCollection->push($bookUser);
 			}
 		}
 		else
@@ -258,7 +264,13 @@ class BookingService {
 				array('appointment_id' => $service->appointments()->first()->id)
 			);
 			$bookUser = UserAppointmentModel::create($userApptArr);
+
+			// Add to the collection of user appointments
+			$userApptCollection->push($bookUser);
 		}
+
+		// Apply any credits
+		$this->applyCredit($user, $userApptCollection);
 
 		// Fire the program booking event
 		Event::fire('book.program.created', array($service, $bookUser));
