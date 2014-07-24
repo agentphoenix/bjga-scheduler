@@ -7,6 +7,12 @@
 @section('content')
 	<h1>Book a Lesson</h1>
 
+	<div class="alert alert-info">
+		<a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-sm btn-info pull-right hidden-xs">Apply User Credit</a>
+		<p>Apply any user credit code(s) before attempting to book your lesson!</p>
+		<p class="visible-xs"><a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-lg btn-block btn-info">Apply User Credit</a></p>
+	</div>
+
 	{{ Form::open(array('route' => 'book.lesson.store')) }}
 		@if ($_currentUser->isStaff())
 			<div class="row">
