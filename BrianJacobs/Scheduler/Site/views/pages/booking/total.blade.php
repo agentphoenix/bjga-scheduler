@@ -5,12 +5,12 @@
 		<div class="col-xs-6 col-sm-7"><p>
 			{{ $service->name }}
 			@if ($service->isRecurring())
-				<br><small>{{ $service->occurrences }} appointments</small>
+				<br><span class="text-sm">{{ $service->occurrences }} appointments</span>
 			@endif
 		</p></div>
 		<div class="col-xs-6 col-sm-5 text-right"><p><strong>
 			@if ($service->isRecurring())
-				${{ number_format($service->price) }} <small>per appt.</small>
+				${{ number_format($service->price) }} <span class="text-sm">per appt.</span>
 			@else
 				{{ $service->present()->price }}
 			@endif
@@ -88,12 +88,12 @@
 		<div class="col-xs-6 col-sm-7"><p>
 			Total
 			@if ($service->isRecurring())
-				<br><small class="text-muted"><em>Estimate; actual per appt. will vary</em></small>
+				<br><span class="text-sm text-muted"><em>Estimate; actual per appt. will vary</em></span>
 			@endif
 		</p></div>
 		<div class="col-xs-6 col-sm-5 text-right"><p><strong>
 			@if ($service->isRecurring())
-				{{ $total }} <small>per appt.</small>
+				{{ $total }} <span class="text-sm">per appt.</span>
 			@else
 				{{ $total }}
 			@endif
