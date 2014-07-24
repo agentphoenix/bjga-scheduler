@@ -9,3 +9,4 @@ public/calendars/*.ics
 
 *.sublime-project
 *.sublime-workspace
+config.codekit
