@@ -167,40 +167,13 @@ class BookingController extends BaseController {
 		// Get the credits
 		$credits = $user->getCredits();
 
-		$type = '';
-
 		// Build the total
 		$totalRaw = (float) $service->price;
 
 		if ( ! $user->isStaff())
 		{
-			if ($credits['time'] == 0 and $credits['money'] > 0)
-			{
-				$type = 'money';
-
-				if ($service->isRecurring())
-				{
-					$serviceCost = $service->price * $service->occurrences;
-					$serviceCostWithDiscount = $serviceCost - $credits['money'];
-					$totalRaw = $serviceCostWithDiscount / $service->occurrences;
-				}
-				else
-				{
-					if ($credits['money'] >= (int) $service->price)
-					{
-						$totalRaw = 0;
-					}
-					else
-					{
-						$totalRaw -= $credits['money'];
-					}
-				}
-			}
-
 			if ($credits['time'] > 0)
 			{
-				$type = 'time';
-
 				$duration = ($service->isRecurring())
 					? $service->duration * $service->occurrences
 					: $service->duration;
@@ -223,6 +196,30 @@ class BookingController extends BaseController {
 						: $remainingMinutes * $pricePerMinute;
 				}
 			}
+
+			if ($totalRaw > 0)
+			{
+				if ($credits['money'] > 0)
+				{
+					if ($service->isRecurring())
+					{
+						$serviceCost = $totalRaw * $service->occurrences;
+						$serviceCostWithDiscount = $serviceCost - $credits['money'];
+						$totalRaw = $serviceCostWithDiscount / $service->occurrences;
+					}
+					else
+					{
+						if ($credits['money'] >= $totalRaw)
+						{
+							$totalRaw = 0;
+						}
+						else
+						{
+							$totalRaw -= $credits['money'];
+						}
+					}
+				}
+			}
 		}
 		else
 		{
@@ -234,7 +231,7 @@ class BookingController extends BaseController {
 		$total = '$'.str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
 
 		return View::make('pages.booking.total')
-			->with(compact('service', 'credits', 'total', 'type', 'user'));
+			->with(compact('service', 'credits', 'total', 'user'));
 	}
 
 }
