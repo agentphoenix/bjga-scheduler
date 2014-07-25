@@ -1,3 +1,4 @@
+<?php $userAppt = $appt->userAppointment($_currentUser);?>
 <div class="row">
 	<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
 		<p class="lead visible-xs visible-sm"><strong>{{ $appt->start->format(Config::get('bjga.dates.time')) }}</strong></p>
@@ -7,7 +8,7 @@
 		<p class="lead visible-xs visible-sm"><strong>{{ $appt->service->present()->name }}</strong></p>
 		<p class="lead visible-md visible-lg">{{ $appt->service->present()->name }}</p>
 
-		<p>Total Due: <strong class="text-success">{{ $appt->userAppointment($_currentUser)->present()->due }}</strong></p>
+		<p>Total Due: <strong class="text-success">{{ $userAppt->present()->due }}</strong></p>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 		<div class="visible-md visible-lg">
@@ -22,7 +23,7 @@
 					<a href="#" class="btn btn-sm btn-default icn-size-16 js-email-instructor js-tooltip-top" data-appt="{{ $appt->id }}" data-title="Email Instructor">{{ $_icons['email'] }}</a>
 				</div>
 
-				@if ( ! $appt->hasStarted())
+				@if ( ! $userAppt->hasStarted())
 					<div class="btn-group">
 						<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw js-tooltip-top" data-type="student" data-appointment="{{ $appt->id }}" data-title="Cancel Appointment">{{ $_icons['reject'] }}</a>
 					</div>
@@ -36,7 +37,7 @@
 
 			<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email-instructor" data-appt="{{ $appt->id }}">Email Instructor</a></p>
 
-			@if ( ! $appt->hasStarted())
+			@if ( ! $userAppt->hasStarted())
 				<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-withdraw" data-type="student" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
 			@endif
 		</div>
