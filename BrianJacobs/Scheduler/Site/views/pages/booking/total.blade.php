@@ -70,14 +70,22 @@
 			</div>
 		@endif
 
-		@if ($credits['money'] > 0 and $credits['time'] < $service->duration)
+		@if ($credits['money'] > 0 and ( ! $service->isRecurring() and $credits['time'] < $service->duration) or ($service->isRecurring() and $credits['time'] < $service->duration * $service->occurrences))
 			<div class="row">
 				<div class="col-xs-6 col-sm-7 text-danger"><p>Monetary Credit Applied</p></div>
 				<div class="col-xs-6 col-sm-5 text-right text-danger"><p><strong>
-					@if ($credits['money'] >= $service->price)
-						${{ $service->price }}
+					@if ($service->isRecurring())
+						@if ($credits['money'] >= $service->price * $service->occurrences)
+							${{ $service->price }}
+						@else
+							${{ $credits['money'] }}
+						@endif
 					@else
-						${{ $credits['money'] }}
+						@if ($credits['money'] >= $service->price)
+							${{ $service->price }}
+						@else
+							${{ $credits['money'] }}
+						@endif
 					@endif
 				</strong></p></div>
 			</div>
