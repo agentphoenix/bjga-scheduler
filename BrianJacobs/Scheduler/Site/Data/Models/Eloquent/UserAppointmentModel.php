@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
-use Model;
+use Date,
+	Model;
 use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
@@ -11,11 +12,10 @@ class UserAppointmentModel extends Model {
 
 	protected $table = 'users_appointments';
 
-	protected $fillable = array(
-		'appointment_id', 'recur_id', 'occurrence_id', 'user_id', 'paid', 'amount', 'received',
-	);
+	protected $fillable = ['appointment_id', 'recur_id', 'occurrence_id',
+		'user_id', 'paid', 'amount', 'received'];
 
-	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
 	protected $presenter = 'Scheduler\Data\Presenters\UserAppointmentPresenter';
 
@@ -71,6 +71,21 @@ class UserAppointmentModel extends Model {
 	public function due()
 	{
 		return (float) $this->amount - (float) $this->received;
+	}
+
+	public function isPaid()
+	{
+		return (bool) $this->paid;
+	}
+
+	public function hasEnded()
+	{
+		return (bool) Date::now() > $this->appointment->end;
+	}
+
+	public function hasStarted()
+	{
+		return (bool) Date::now() >= $this->appointment->start;
 	}
 	
 }
