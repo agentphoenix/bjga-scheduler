@@ -6,14 +6,21 @@ class UserAppointmentPresenter extends Presenter {
 
 	public function total()
 	{
-		return "$".(int) $this->entity->amount;
+		return $this->formatCurrency((float) $this->entity->amount);
 	}
 
 	public function due()
 	{
-		$remaining = (int) $this->entity->amount - (int) $this->entity->received;
+		$remaining = (float) $this->entity->amount - (float) $this->entity->received;
 
-		return '$'.$remaining;
+		return $this->formatCurrency($remaining);
+	}
+
+	private function formatCurrency($value)
+	{
+		$formattedTotal = sprintf('%01.2f', $value);
+		
+		return '$'.str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
 	}
 
 }
