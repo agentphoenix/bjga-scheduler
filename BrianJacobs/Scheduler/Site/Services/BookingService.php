@@ -323,8 +323,25 @@ class BookingService {
 				// Get the attendee email addresses
 				$emails[] = $userAppt->user->email;
 
-				// Delete the user appointment
-				$userAppt->forceDelete();
+				if ( ! $staffAppt->start > Date::now() and $userAppt->isPaid())
+				{
+					// Give the user credit
+					CreditModel::create([
+						'code'		=> \Str::creditCode(12),
+						'type'		=> 'time',
+						'value'		=> $staffAppt->service->duration / 60,
+						'user_id'	=> $userAppt->user->id,
+						'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+					]);
+
+					// Delete the user appointment
+					$userAppt->delete();
+				}
+				else
+				{
+					// Delete the user appointment
+					$userAppt->forceDelete();
+				}
 
 				// Delete the staff appointment
 				$staffAppt->delete();
@@ -392,8 +409,25 @@ class BookingService {
 					// Get the student's email addresses
 					$emails[] = $userAppt->user->email;
 
-					// Delete the user appointment
-					$userAppt->delete();
+					if ($staffAppt->start > Date::now() and $userAppt->isPaid())
+					{
+						// Give the user credit
+						CreditModel::create([
+							'code'		=> \Str::creditCode(12),
+							'type'		=> 'time',
+							'value'		=> $staffAppt->service->duration / 60,
+							'user_id'	=> $userAppt->user->id,
+							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+						]);
+
+						// Delete the user appointment
+						$userAppt->delete();
+					}
+					else
+					{
+						// Delete the user appointment
+						$userAppt->forceDelete();
+					}
 
 					// Delete the staff appointment
 					$staffAppt->delete();
@@ -724,7 +758,7 @@ class BookingService {
 						]);
 
 						// Update the credit
-						$credit->update(['claimed' => $credit->value]);
+						$credit->update(['claimed' => $credit->value / 60]);
 
 						// Remove the credit
 						$credit->delete();
