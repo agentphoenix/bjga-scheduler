@@ -339,16 +339,16 @@
         },
         {
             "name": "iron-io/iron_core",
-            "version": "0.1.6",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iron-io/iron_core_php.git",
-                "reference": "209b9e65279643f9716b918a6b5168141d548593"
+                "reference": "645c455162a5fb8cfe4ec91dfb9a9927a7cf709d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/209b9e65279643f9716b918a6b5168141d548593",
-                "reference": "209b9e65279643f9716b918a6b5168141d548593",
+                "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/645c455162a5fb8cfe4ec91dfb9a9927a7cf709d",
+                "reference": "645c455162a5fb8cfe4ec91dfb9a9927a7cf709d",
                 "shasum": ""
             },
             "require": {
@@ -384,7 +384,7 @@
                 "iron",
                 "iron_core"
             ],
-            "time": "2013-09-17 03:47:38"
+            "time": "2014-07-29 23:06:42"
         },
         {
             "name": "iron-io/iron_mq",
