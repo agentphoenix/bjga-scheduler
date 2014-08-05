@@ -3,7 +3,7 @@
 ## PHP
 
 - [Laravel](http://laravel.com)
-	- Version: 4.2.7
+	- Version: 4.2.8
 - [Fractal](http://fractal.thephpleague.com/)
 	- Version: 0.8.3
 - [Parsedown](http://parsedown.org/)
@@ -17,7 +17,7 @@
 - [Sabre VObject](https://github.com/fruux/sabre-vobject)
 	- Version: 3.2.4
 - [API](https://github.com/dingo/api)
-	- Version: 0.6.2
+	- Version: 0.6.3
 
 ## Javascript
 

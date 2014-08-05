@@ -89,16 +89,16 @@
         },
         {
             "name": "dingo/api",
-            "version": "v0.6.2",
+            "version": "v0.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dingo/api.git",
-                "reference": "0b98bb0392fcc9b3e54af963bf9a4744dcbcac0a"
+                "reference": "bda2e0cd362e717d7b7a53758de40763becc902c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dingo/api/zipball/0b98bb0392fcc9b3e54af963bf9a4744dcbcac0a",
-                "reference": "0b98bb0392fcc9b3e54af963bf9a4744dcbcac0a",
+                "url": "https://api.github.com/repos/dingo/api/zipball/bda2e0cd362e717d7b7a53758de40763becc902c",
+                "reference": "bda2e0cd362e717d7b7a53758de40763becc902c",
                 "shasum": ""
             },
             "require": {
@@ -138,9 +138,7 @@
             "authors": [
                 {
                     "name": "Jason Lewis",
-                    "email": "jason.lewis1991@gmail.com",
-                    "homepage": "http://jasonlewis.me",
-                    "role": "Creator"
+                    "email": "jason.lewis1991@gmail.com"
                 }
             ],
             "description": "A RESTful API package for the Laravel framework.",
@@ -150,7 +148,7 @@
                 "laravel",
                 "restful"
             ],
-            "time": "2014-06-27 13:33:30"
+            "time": "2014-07-14 03:35:07"
         },
         {
             "name": "erusev/parsedown",
@@ -339,16 +337,16 @@
         },
         {
             "name": "iron-io/iron_core",
-            "version": "0.1.6",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iron-io/iron_core_php.git",
-                "reference": "209b9e65279643f9716b918a6b5168141d548593"
+                "reference": "bf399c13a42a78079b3fe56d0e2e1791290521c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/209b9e65279643f9716b918a6b5168141d548593",
-                "reference": "209b9e65279643f9716b918a6b5168141d548593",
+                "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/bf399c13a42a78079b3fe56d0e2e1791290521c4",
+                "reference": "bf399c13a42a78079b3fe56d0e2e1791290521c4",
                 "shasum": ""
             },
             "require": {
@@ -384,7 +382,7 @@
                 "iron",
                 "iron_core"
             ],
-            "time": "2013-09-17 03:47:38"
+            "time": "2014-08-05 13:53:05"
         },
         {
             "name": "iron-io/iron_mq",
@@ -527,16 +525,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "11c1b47b365be02beab3e5aca2306aaa08203d8e"
+                "reference": "e60ea917ab862254a6db37fa9cb8933138c1e73c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/11c1b47b365be02beab3e5aca2306aaa08203d8e",
-                "reference": "11c1b47b365be02beab3e5aca2306aaa08203d8e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e60ea917ab862254a6db37fa9cb8933138c1e73c",
+                "reference": "e60ea917ab862254a6db37fa9cb8933138c1e73c",
                 "shasum": ""
             },
             "require": {
@@ -638,7 +636,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-07-22 20:25:45"
+            "time": "2014-08-05 19:52:17"
         },
         {
             "name": "league/fractal",
@@ -860,16 +858,16 @@
         },
         {
             "name": "patchwork/utf8",
-            "version": "v1.1.24",
+            "version": "v1.1.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "40f552c019956f446553b19f7de2da2f9c74d730"
+                "reference": "2d43bd047b120279511d45e76e61c5a9812d9a83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/40f552c019956f446553b19f7de2da2f9c74d730",
-                "reference": "40f552c019956f446553b19f7de2da2f9c74d730",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/2d43bd047b120279511d45e76e61c5a9812d9a83",
+                "reference": "2d43bd047b120279511d45e76e61c5a9812d9a83",
                 "shasum": ""
             },
             "require": {
@@ -882,6 +880,11 @@
                 "ext-mbstring": "Use Mbstring for best performance"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Patchwork": "class/",
@@ -907,7 +910,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-06-17 08:23:06"
+            "time": "2014-08-05 08:00:32"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -1008,16 +1011,16 @@
         },
         {
             "name": "predis/predis",
-            "version": "v0.8.6",
+            "version": "v0.8.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nrk/predis.git",
-                "reference": "239864d9a0929f29bf8c5a8370ef743537c4953d"
+                "reference": "4123fcd85d61354c6c9900db76c9597dbd129bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/239864d9a0929f29bf8c5a8370ef743537c4953d",
-                "reference": "239864d9a0929f29bf8c5a8370ef743537c4953d",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/4123fcd85d61354c6c9900db76c9597dbd129bf6",
+                "reference": "4123fcd85d61354c6c9900db76c9597dbd129bf6",
                 "shasum": ""
             },
             "require": {
@@ -1054,7 +1057,7 @@
                 "predis",
                 "redis"
             ],
-            "time": "2014-07-15 09:54:33"
+            "time": "2014-08-01 09:43:10"
         },
         {
             "name": "psr/log",
@@ -1100,12 +1103,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/raveren/kint.git",
-                "reference": "590e3fcc3fd4234a8d5e844ce783c82464401d7f"
+                "reference": "cd801406b28cfa74d257bbd4f9e9fdddf59390c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/raveren/kint/zipball/590e3fcc3fd4234a8d5e844ce783c82464401d7f",
-                "reference": "590e3fcc3fd4234a8d5e844ce783c82464401d7f",
+                "url": "https://api.github.com/repos/raveren/kint/zipball/cd801406b28cfa74d257bbd4f9e9fdddf59390c5",
+                "reference": "cd801406b28cfa74d257bbd4f9e9fdddf59390c5",
                 "shasum": ""
             },
             "require": {
@@ -1138,7 +1141,7 @@
                 "kint",
                 "php"
             ],
-            "time": "2014-03-20 13:38:44"
+            "time": "2014-08-04 19:57:55"
         },
         {
             "name": "sabre/vobject",
@@ -2166,6 +2169,7 @@
     "stability-flags": {
         "raveren/kint": 20
     },
+    "prefer-stable": true,
     "platform": [
 
     ],
