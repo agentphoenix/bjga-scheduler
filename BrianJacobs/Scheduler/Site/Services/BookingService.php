@@ -5,6 +5,7 @@ use App,
 	Date,
 	Event,
 	UserModel,
+	CreditModel,
 	BookingMetaModel,
 	UserAppointmentModel,
 	StaffAppointmentModel,
@@ -323,13 +324,13 @@ class BookingService {
 				// Get the attendee email addresses
 				$emails[] = $userAppt->user->email;
 
-				if ( ! $staffAppt->start > Date::now() and $userAppt->isPaid())
+				if ($service->isLesson() and ! $staffAppt->hasStarted() and $userAppt->isPaid())
 				{
 					// Give the user credit
 					CreditModel::create([
 						'code'		=> \Str::creditCode(12),
 						'type'		=> 'time',
-						'value'		=> $staffAppt->service->duration / 60,
+						'value'		=> $service->duration / 60,
 						'user_id'	=> $userAppt->user->id,
 						'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
 					]);
@@ -394,8 +395,33 @@ class BookingService {
 						// Get the student email addresses
 						$emails[] = $userAppt->user->email;
 
-						// Delete the user appointment
-						$userAppt->forceDelete();
+						if ($service->isLesson())
+						{
+							if ($userAppt->isPaid())
+							{
+								// Give the credit
+								CreditModel::create([
+									'code'		=> \Str::creditCode(12),
+									'type'		=> 'time',
+									'value'		=> $service->duration / 60,
+									'user_id'	=> $userAppt->user->id,
+									'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+								]);
+
+								// Delete the user appointment
+								$userAppt->delete();
+							}
+							else
+							{
+								// Delete the user appointment
+								$userAppt->forceDelete();
+							}
+						}
+						else
+						{
+							// Delete the user appointment
+							$userAppt->forceDelete();
+						}
 					}
 
 					// Delete the staff appointment
@@ -409,13 +435,13 @@ class BookingService {
 					// Get the student's email addresses
 					$emails[] = $userAppt->user->email;
 
-					if ($staffAppt->start > Date::now() and $userAppt->isPaid())
+					if ($service->isLesson() and $userAppt->isPaid())
 					{
 						// Give the user credit
 						CreditModel::create([
 							'code'		=> \Str::creditCode(12),
 							'type'		=> 'time',
-							'value'		=> $staffAppt->service->duration / 60,
+							'value'		=> $service->duration / 60,
 							'user_id'	=> $userAppt->user->id,
 							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
 						]);
