@@ -113,6 +113,7 @@ return array(
 		'Scheduler\SchedulerServiceProvider',
 		'Scheduler\SchedulerRoutingServiceProvider',
 		'Scheduler\Api\SchedulerApiServiceProvider',
+		'Barryvdh\Debugbar\ServiceProvider',
 
 	),
 
@@ -183,6 +184,7 @@ return array(
 		'API'			=> 'Dingo\Api\Facades\API',
 		'Book'			=> 'Scheduler\Facades\Book',
 		'Date'			=> 'Carbon\Carbon',
+		'Debugbar'		=> 'Barryvdh\Debugbar\Facade',
 		'Flash'			=> 'Scheduler\Facades\FlashFacade',
 		'Markdown'		=> 'Scheduler\Facades\Markdown',
 		'Model'			=> 'Scheduler\Extensions\Laravel\Database\Eloquent\Model',
