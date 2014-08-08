@@ -6,10 +6,6 @@ use League\Fractal\TransformerAbstract;
 
 class ServiceTransformer extends TransformerAbstract {
 
-	protected $availableEmbeds = array(
-		'schedule'
-	);
-
 	public function transform(ServiceModel $service)
 	{
 		// Get the appointments
@@ -18,7 +14,7 @@ class ServiceTransformer extends TransformerAbstract {
 			return $s->start;
 		});
 
-		return array(
+		return [
 			'name'			=> $service->name,
 			'slug'			=> $service->slug,
 			'description'	=> $service->description,
@@ -31,16 +27,9 @@ class ServiceTransformer extends TransformerAbstract {
 			'occurrences'	=> (int) $service->occurrences,
 			'loyalty'		=> (bool) $service->loyalty,
 			'active'		=> (bool) $service->status,
-			'start'			=> ($service->isProgram()) ? $appts->first()->start->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
-			'end'			=> ($service->isProgram()) ? $appts->last()->end->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
-		);
-	}
-
-	public function embedSchedule()
-	{
-		$schedule = $service->staffAppointments;
-
-		return $this->collection($schedule, new AppointmentTransformer);
+			'start'			=> ($service->isProgram() and $appts->count() > 0) ? $appts->first()->start->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
+			'end'			=> ($service->isProgram() and $appts->count() > 0) ? $appts->last()->end->format(Config::get('bjga.dates.dateNoDay').', '.Config::get('bjga.dates.time')) : false,
+		];
 	}
 
 }

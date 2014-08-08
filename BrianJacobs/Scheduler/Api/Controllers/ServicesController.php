@@ -1,15 +1,12 @@
 <?php namespace Scheduler\Api\Controllers;
 
 use ServiceModel;
-use Scheduler\Api\Transformers\ServiceTransformer;
 
 class ServicesController extends ApiController {
 
 	public function index()
 	{
-		$services = ServiceModel::all();
-
-		return $this->respondWithCollection($services, new ServiceTransformer);
+		return ServiceModel::all();
 	}
 
 	public function showByCategory($category)
@@ -18,17 +15,17 @@ class ServicesController extends ApiController {
 			->orderBy('order', 'asc')
 			->get();
 
-		if ( ! $services)
+		if ($services->count() == 0)
 		{
-			return $this->errorNotFound('No services found');
+			return $this->errorNotFound("No services found");
 		}
 
 		if ($services->count() == 1)
 		{
-			return $this->respondWithItem($services->first(), new ServiceTransformer);
+			return $services->first();
 		}
 
-		return $this->respondWithCollection($services, new ServiceTransformer);
+		return $services;
 	}
 
 	public function showByName($name)
@@ -37,17 +34,17 @@ class ServicesController extends ApiController {
 			->orderBy('order', 'asc')
 			->get();
 
-		if ( ! $services)
+		if ($services->count() == 0)
 		{
 			return $this->errorNotFound('No service found');
 		}
 
 		if ($services->count() == 1)
 		{
-			return $this->respondWithItem($services->first(), new ServiceTransformer);
+			return $services->first();
 		}
 
-		return $this->respondWithCollection($services, new ServiceTransformer);
+		return $services;
 	}
 
 }
