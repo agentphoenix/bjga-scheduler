@@ -338,6 +338,26 @@ class BookingService {
 					// Delete the user appointment
 					$userAppt->delete();
 				}
+				elseif ($service->isLesson() and ! $staffAppt->hasStarted() and ! $userAppt->isPaid() and ($userAppt->received > 0 and $userAppt->received < $service->price))
+				{
+					// Price per minute
+					$pricePerMin = $service->price / $service->duration;
+
+					// How many minutes to credit
+					$minutesToCredit = round($userAppt->received / $pricePerMin);
+
+					// Give the user credit
+					CreditModel::create([
+						'code'		=> \Str::creditCode(12),
+						'type'		=> 'time',
+						'value'		=> $minutesToCredit / 60,
+						'user_id'	=> $userAppt->user->id,
+						'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+					]);
+
+					// Delete the user appointment
+					$userAppt->delete();
+				}
 				else
 				{
 					// Delete the user appointment
