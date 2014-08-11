@@ -1,6 +1,6 @@
 <?php namespace Scheduler\Data\Presenters;
 
-use Markdown;
+use Config, Markdown;
 use Laracasts\Presenter\Presenter;
 
 class CreditPresenter extends Presenter {
