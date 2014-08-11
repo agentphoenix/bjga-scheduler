@@ -6,6 +6,7 @@
 	<meta name="description" content="Brian Jacobs Golf is committed to providing the best golf instruction in western New York and helping golfers of all skills be more consistent and enjoy the game more.">
 	<meta name="author" content="Brian Jacobs">
 	<meta name="viewport" content="width=device-width">
+	<meta name="application-name" content="Brian Jacobs Golf Scheduler">
 	<link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico?v2') }}">
 	<link rel="apple-touch-icon-precomposed" href="{{ URL::asset('apple-touch-icon.png') }}">
 	
