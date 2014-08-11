@@ -66,7 +66,7 @@
 			</div>
 		</div>-->
 
-		<div class="row" id="enrollBtn">
+		<div class="row hide" id="enrollBtn">
 			<div class="col-lg-12">
 				<div class="visible-md visible-lg">
 					<p>{{ Form::submit('Enroll Now', array('class' => 'btn btn-lg btn-primary')) }}</p>
@@ -89,6 +89,9 @@
 		$(document).on('change', '[name="service_id"]', function(e)
 		{
 			var selected = $('[name="service_id"] option:selected').val();
+			
+			if (selected != "")
+				$('#enrollBtn').removeClass('hide');
 
 			$.ajax({
 				url: "{{ URL::route('ajax.getService') }}",
