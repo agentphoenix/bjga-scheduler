@@ -4,6 +4,4 @@ return [
 
 	'driver' => 'log',
 
-	'pretend' => true,
-
 ];
