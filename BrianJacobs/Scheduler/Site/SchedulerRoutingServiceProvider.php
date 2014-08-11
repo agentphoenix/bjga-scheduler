@@ -70,7 +70,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::get('events', array(
 			'as'	=> 'events',
 			'uses'	=> 'Scheduler\Controllers\HomeController@events'));
-		Route::get('event/{slug}', array(
+		Route::get('event/{slug?}', array(
 			'as'	=> 'event',
 			'uses'	=> 'Scheduler\Controllers\HomeController@getEvent'));
 

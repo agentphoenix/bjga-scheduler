@@ -161,8 +161,14 @@ class HomeController extends BaseController {
 	/**
 	 * Show a specific event.
 	 */
-	public function getEvent($slug)
+	public function getEvent($slug = false)
 	{
+		if ( ! $slug)
+		{
+			return View::make('pages.admin.error')
+				->withError("Please specify an event to get more information about. If you believe you've received this message in error, please use the Report a Problem link from the sidebar and let us know how you received this message.");
+		}
+
 		// Get the event
 		$event = $this->service->findBySlug($slug);
 
