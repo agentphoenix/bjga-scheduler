@@ -85,8 +85,8 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	public function allPrograms($timeframe = false, $onlyActive = false)
 	{
 		// Get the services
-		$query = ServiceModel::getCategory('program')
-			->orderBy('order', 'asc');
+		$query = ServiceModel::with('staff', 'appointments', 'serviceOccurrences')
+			->getCategory('program')->orderBy('order', 'asc');
 
 		if ($onlyActive)
 		{
