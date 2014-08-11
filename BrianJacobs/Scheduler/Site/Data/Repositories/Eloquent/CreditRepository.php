@@ -42,7 +42,7 @@ class CreditRepository implements CreditRepositoryInterface {
 
 	public function find($id)
 	{
-		return CreditModel::find($id);
+		return CreditModel::with('user')->find($id);
 	}
 
 	public function findByCode($code)
