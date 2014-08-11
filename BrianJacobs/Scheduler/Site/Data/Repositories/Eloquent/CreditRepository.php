@@ -11,12 +11,12 @@ class CreditRepository implements CreditRepositoryInterface {
 
 	public function all()
 	{
-		return CreditModel::all();
+		return CreditModel::with('user')->get();
 	}
 
 	public function allPaginated()
 	{
-		return CreditModel::paginate($this->resultsPerPage);
+		return CreditModel::with('user')->paginate($this->resultsPerPage);
 	}
 
 	public function create(array $data)
