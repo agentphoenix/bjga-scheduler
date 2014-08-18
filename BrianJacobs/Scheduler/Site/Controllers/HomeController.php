@@ -16,6 +16,10 @@ use App,
 
 class HomeController extends BaseController {
 
+	protected $user;
+	protected $service;
+	protected $appointment;
+
 	public function __construct(UserRepositoryInterface $user,
 			StaffAppointmentRepositoryInterface $appointment,
 			ServiceRepositoryInterface $service)
@@ -254,6 +258,21 @@ class HomeController extends BaseController {
 		}
 
 		return json_encode($return);
+	}
+
+	public function studentHistory()
+	{
+		if (Auth::check())
+		{
+			// Get the current user
+			$user = $this->currentUser;
+
+			return View::make('pages.admin.appointments.usersHistory')
+				->withUser($user)
+				->withHistory($this->user->getScheduleHistory($user));
+		}
+
+		return Redirect::route('login');
 	}
 
 }
