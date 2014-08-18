@@ -51,7 +51,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to manage appointments!");
+			return $this->unauthorized("You do not have permission to manage appointments!");
 		}
 	}
 
@@ -64,7 +64,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to create appointments!");
+			return $this->unauthorized("You do not have permission to create appointments!");
 		}
 	}
 
@@ -81,7 +81,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to create appointments!");
+			return $this->unauthorized("You do not have permission to create appointments!");
 		}
 	}
 
@@ -94,7 +94,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to edit appointments!");
+			return $this->unauthorized("You do not have permission to edit appointments!");
 		}
 	}
 
@@ -134,7 +134,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to update appointments!");
+			return $this->unauthorized("You do not have permission to update appointments!");
 		}
 	}
 
@@ -201,7 +201,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to manage users' appointments!");
+			return $this->unauthorized("You do not have permission to manage users' appointments!");
 		}
 	}
 
@@ -218,7 +218,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to manage users' appointments!");
+			return $this->unauthorized("You do not have permission to manage users' appointments!");
 		}
 	}
 
@@ -231,7 +231,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to manage recurring appointments!");
+			return $this->unauthorized("You do not have permission to manage recurring appointments!");
 		}
 	}
 
@@ -245,7 +245,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to edit recurring appointments!");
+			return $this->unauthorized("You do not have permission to edit recurring appointments!");
 		}
 	}
 
@@ -261,7 +261,7 @@ class AppointmentController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to edit recurring appointments!");
+			return $this->unauthorized("You do not have permission to edit recurring appointments!");
 		}
 	}
 

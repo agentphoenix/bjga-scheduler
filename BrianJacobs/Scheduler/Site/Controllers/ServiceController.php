@@ -45,7 +45,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to manage services!");
+			return $this->unauthorized("You do not have permission to manage services!");
 		}
 	}
 
@@ -80,7 +80,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to create services!");
+			return $this->unauthorized("You do not have permission to create services!");
 		}
 	}
 
@@ -116,7 +116,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to update services!");
+			return $this->unauthorized("You do not have permission to update services!");
 		}
 	}
 
@@ -151,7 +151,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to edit services!");
+			return $this->unauthorized("You do not have permission to edit services!");
 		}
 	}
 
@@ -171,7 +171,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to delete services!");
+			return $this->unauthorized("You do not have permission to delete services!");
 		}
 	}
 
@@ -193,7 +193,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to create services!");
+			return $this->unauthorized("You do not have permission to create services!");
 		}
 	}
 
@@ -215,7 +215,7 @@ class ServiceController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized("You do not have permission to create services!");
+			return $this->unauthorized("You do not have permission to create services!");
 		}
 	}
 

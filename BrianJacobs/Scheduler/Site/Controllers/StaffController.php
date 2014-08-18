@@ -46,10 +46,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to manage staff!");
+			return $this->unauthorized("You do not have permission to manage staff!");
 		}
 	}
 
@@ -62,10 +59,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to create staff members!");
+			return $this->unauthorized("You do not have permission to create staff members!");
 		}
 	}
 
@@ -96,10 +90,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to create staff members!");
+			return $this->unauthorized("You do not have permission to create staff members!");
 		}
 	}
 
@@ -117,10 +108,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to edit staff members!");
+			return $this->unauthorized("You do not have permission to edit staff members!");
 		}
 	}
 
@@ -154,10 +142,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to edit this staff member!");
+			return $this->unauthorized("You do not have permission to edit this staff member!");
 		}
 	}
 
@@ -175,10 +160,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to remove staff members!");
+			return $this->unauthorized("You do not have permission to remove staff members!");
 		}
 	}
 
@@ -228,10 +210,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("Only staff members can block their schedules!");
+			return $this->unauthorized("Only staff members can block their schedules!");
 		}
 	}
 
@@ -285,10 +264,7 @@ class StaffController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("Only staff members can view schedules!");
+			return $this->unauthorized("Only staff members can view schedules!");
 		}
 	}
 

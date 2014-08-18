@@ -41,10 +41,7 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to manage users!");
+			return $this->unauthorized("You do not have permission to manage users!");
 		}
 	}
 
@@ -56,10 +53,7 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to create users!");
+			return $this->unauthorized("You do not have permission to create users!");
 		}
 	}
 
@@ -90,10 +84,7 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to create users!");
+			return $this->unauthorized("You do not have permission to create users!");
 		}
 	}
 
@@ -111,10 +102,7 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to edit this user!");
+			return $this->unauthorized("You do not have permission to edit this user!");
 		}
 	}
 
@@ -168,10 +156,7 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to edit this user!");
+			return $this->unauthorized("You do not have permission to edit this user!");
 		}
 	}
 
@@ -191,10 +176,7 @@ class UserController extends BaseController {
 		}
 		else
 		{
-			$this->unauthorized();
-
-			return View::make('pages.admin.error')
-				->withError("You do not have permission to delete users!");
+			return $this->unauthorized("You do not have permission to remove users!");
 		}
 	}
 
