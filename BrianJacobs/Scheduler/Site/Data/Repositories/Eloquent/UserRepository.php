@@ -230,6 +230,9 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function getScheduleHistory(UserModel $user)
 	{
+		// Eager load...
+		$user = $user->load('credits', 'appointments', 'appointments.appointment', 'appointments.appointment.service');
+
 		// Start an array for holding everything
 		$schedule = array();
 
