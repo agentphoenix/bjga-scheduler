@@ -17,7 +17,7 @@
 - [Sabre VObject](https://github.com/fruux/sabre-vobject)
 	- Version: 3.2.4
 - [API](https://github.com/dingo/api)
-	- Version: 0.6.3
+	- Version: 0.6.5
 
 ## Javascript
 
