@@ -169,6 +169,8 @@ class UserRepository implements UserRepositoryInterface {
 		// Get today
 		$today = Date::now();
 
+		$user = $user->load('appointments', 'appointments.appointment', 'appointments.appointment.service', 'appointments.appointment.service', 'appointments.appointment.userAppointments');
+
 		// Filter user appointments to only show today forward
 		$userAppointments = $user->appointments->filter(function($a) use ($today, $days)
 		{
