@@ -774,7 +774,10 @@ class BookingService {
 					if ($remaining >= $service->duration)
 					{
 						// Update the credit
-						$credit->update(['claimed' => $service->duration / 60]);
+						$newClaimed = ($credit->claimed + $service->duration) / 60;
+						$credit->fill(['claimed' => $newClaimed]);
+						$credit->save();
+						//$credit->update(['claimed' => $service->duration / 60]);
 
 						// If we've used the credit up, remove it
 						if ($credit->value == $credit->claimed)
