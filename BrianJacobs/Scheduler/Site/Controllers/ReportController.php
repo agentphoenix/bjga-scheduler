@@ -4,6 +4,7 @@ use Date,
 	View,
 	Input,
 	Redirect,
+	UserModel,
 	StaffAppointmentModel,
 	UserRepositoryInterface;
 
@@ -148,6 +149,10 @@ class ReportController extends BaseController {
 			}
 		}
 
+		// Get all users for the month
+		$newUsers = UserModel::where('created_at', '>=', $date->startOfMonth())->count();
+		$newUsersYTD = UserModel::where('created_at', '>=', $date->startOfYear())->count();
+
 		return View::make('pages.admin.reports.monthly')
 			->withStudents(count($students))
 			->withHours(round($lessonHours / 60, 1))
@@ -157,7 +162,9 @@ class ReportController extends BaseController {
 			->withDate($date)
 			->with('revenueYTD', $revenueYTD)
 			->with('hoursYTD', round($lessonHoursYTD / 60, 1))
-			->with('studentsYTD', count($studentsYTD));
+			->with('studentsYTD', count($studentsYTD))
+			->with('newStudents', $newUsers)
+			->with('newStudentsYTD', $newUsersYTD);
 	}
 
 	public function updateMonthly()

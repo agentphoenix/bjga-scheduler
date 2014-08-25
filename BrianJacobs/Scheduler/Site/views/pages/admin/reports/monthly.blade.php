@@ -56,6 +56,20 @@
 				<p class="lead"><strong>${{ number_format($revenueYTD, 2) }}</strong>
 			</div>
 		</div>
+
+		<div class="col-sm-6 col-md-6 col-lg-6">
+			<div class="well well-sm text-center">
+				<h3>New Students</h3>
+				<p class="lead"><strong>{{ $newStudents }}</strong>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6 col-lg-6">
+			<div class="well well-sm text-center">
+				<h3>New Students YTD</h3>
+				<p class="lead"><strong>{{ $newStudentsYTD }}</strong>
+			</div>
+		</div>
+
 		<div class="col-sm-6 col-md-6 col-lg-6">
 			<div class="well well-sm text-center">
 				<h3>Students Seen</h3>
@@ -68,6 +82,7 @@
 				<p class="lead"><strong>{{ $studentsYTD }}</strong>
 			</div>
 		</div>
+
 		<div class="col-sm-6 col-md-6 col-lg-6">
 			<div class="well well-sm text-center">
 				<h3>Revenue/Student</h3>
@@ -88,6 +103,7 @@
 				@endif
 			</div>
 		</div>
+
 		<div class="col-sm-6 col-md-6 col-lg-6">
 			<div class="well well-sm text-center">
 				<h3>Lesson Hours</h3>
@@ -100,6 +116,7 @@
 				<p class="lead"><strong>{{ $hoursYTD }} hours</strong>
 			</div>
 		</div>
+
 		<div class="col-sm-6 col-md-6 col-lg-6">
 			<div class="well well-sm text-center">
 				<h3>Revenue/Hour</h3>
