@@ -3,6 +3,7 @@
 use Auth,
 	Date,
 	UserModel,
+	CreditModel,
 	UserAppointmentModel,
 	UserRepositoryInterface;
 use Illuminate\Support\Collection;
@@ -256,6 +257,89 @@ class UserRepository implements UserRepositoryInterface {
 		ksort($schedule);
 
 		return $schedule;
+	}
+
+	public function getUnusedCredits()
+	{
+		// Get all users
+		$users = $this->all();
+
+		// Eager load the credits
+		$users = $users->load('credits');
+
+		// Array for storing the results
+		$results = [];
+
+		foreach ($users as $user)
+		{
+			if ($user->credits->count() > 0)
+			{
+				// Get the nicer version of the creidts
+				$niceCredits = $user->getCredits();
+
+				if ($niceCredits['time'] > 0)
+				{
+					$results['time'][] = [
+						'user'		=> $user,
+						'credit'	=> $this->formatByType('time', $niceCredits['time'] / 60),
+					];
+				}
+
+				if ($niceCredits['money'] > 0)
+				{
+					$results['money'][] = [
+						'user'		=> $user,
+						'credit'	=> $this->formatByType('money', $niceCredits['money']),
+					];
+				}
+			}
+		}
+
+		return $results;
+
+		// Get all the credits
+		$credits = CreditModel::with('user')->get();
+
+		$creditsArr = [];
+
+		if ($credits->count() > 0)
+		{
+			foreach ($credits as $credit)
+			{
+				$creditsArr[$credit->type][] = $credit;
+			}
+		}
+
+		return $creditsArr;
+	}
+
+	protected function formatByType($type, $value)
+	{
+		if (is_string($value))
+		{
+			return $value;
+		}
+
+		switch ($type)
+		{
+			case 'time':
+				if ($value == 1)
+				{
+					return "{$value} hour";
+				}
+
+				if ($value < 1)
+				{
+					return ($value * 60)." minutes";
+				}
+
+				return "{$value} hours";
+			break;
+
+			case 'money':
+				return "$".$value;
+			break;
+		}
 	}
 	
 }

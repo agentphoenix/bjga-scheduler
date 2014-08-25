@@ -172,4 +172,10 @@ class ReportController extends BaseController {
 			->withUnpaid($this->user->getUnpaid());
 	}
 
+	public function credits()
+	{
+		return View::make('pages.admin.reports.credits')
+			->withCredits($this->user->getUnusedCredits());
+	}
+
 }

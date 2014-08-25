@@ -19,6 +19,7 @@ interface UserRepositoryInterface {
 	public function getUnpaid();
 	public function getUnpaidAmount();
 	public function getUnscheduledAppointments($id = false);
+	public function getUnusedCredits();
 	public function getUserSchedule($id = false);
 	public function isStaff($id = false);
 	public function update($id, array $data);
