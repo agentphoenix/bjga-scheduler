@@ -68,6 +68,11 @@ App::error(function(Exception $exception, $code)
 	}
 });
 
+App::error(function(Scheduler\Exceptions\FormValidationException $exception, $code)
+{
+	return Redirect::back()->withInput()->withErrors($exception->getErrors());
+});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler

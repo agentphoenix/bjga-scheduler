@@ -9,3 +9,9 @@ public/calendars/*.ics
 
 *.sublime-project
 *.sublime-workspace
+config.codekit
+
+app/config/packages/barryvdh/*
+app/storage/debugbar/
+public/packages/barryvdh/*
+public/packages/maximebf/*

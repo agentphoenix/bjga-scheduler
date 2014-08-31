@@ -1,7 +1,7 @@
 <?php
 
-return array(
+return [
 
-	'pretend' => true,
+	'driver' => 'log',
 
-);
+];
