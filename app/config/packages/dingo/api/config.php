@@ -13,7 +13,7 @@ return [
 	|
 	*/
 
-	'vendor' => 'Scheduler',
+	'vendor' => 'scheduler',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -59,11 +59,14 @@ return [
 	| The authentication providers that should be used when attempting to
 	| authenticate an incoming API request.
 	|
-	| Available: "basic", "dingo.oauth2", "league.oauth2"
-	|
 	*/
 
-	'auth' => ['basic'],
+	'auth' => [
+		'basic' => function($app)
+		{
+			return new Dingo\Api\Auth\BasicProvider($app['auth']);
+		}
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -108,10 +111,31 @@ return [
 	|
 	*/
 
+	'default_format' => 'json',
+
 	'formats' => [
 
 		'json' => new Dingo\Api\Http\ResponseFormat\JsonResponseFormat
 		
+	],
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Transformer Relationships
+	|--------------------------------------------------------------------------
+	|
+	| Transformers can embed or nest relationships. The embeds "key" is the
+	| query string key and the "separator" is the character that will
+	| separate each relationship (or scope).
+	|
+	*/
+
+	'embeds' => [
+
+		'key' => 'embeds',
+		'separator' => ','
+
 	]
 
 ];

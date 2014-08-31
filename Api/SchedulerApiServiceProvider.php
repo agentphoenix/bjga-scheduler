@@ -1,13 +1,15 @@
 <?php namespace Scheduler\Api;
 
-use Route;
+use API,
+	Route,
+	Config;
 use Illuminate\Support\ServiceProvider;
 
 class SchedulerApiServiceProvider extends ServiceProvider {
 
 	public function register()
 	{
-		//
+		$this->setApiTransformers();
 	}
 
 	public function boot()
@@ -15,9 +17,16 @@ class SchedulerApiServiceProvider extends ServiceProvider {
 		$this->routes();
 	}
 
+	protected function setApiTransformers()
+	{
+		$a = Config::get('app.aliases');
+
+		API::transform($a['ServiceModel'], $a['ServiceTransformer']);
+	}
+
 	protected function routes()
 	{
-		Route::api(array('version' => 'v1', 'prefix' => 'api'), function()
+		Route::api(['version' => 'v1', 'prefix' => 'api'], function()
 		{
 			Route::get('services', 'Scheduler\Api\Controllers\ServicesController@index');
 			Route::get('services/category/{category}', 'Scheduler\Api\Controllers\ServicesController@showByCategory');

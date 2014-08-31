@@ -38,3 +38,13 @@ if ( ! function_exists('modal'))
 			->with('modalFooter', (array_key_exists('footer', $data)) ? $data['footer'] : false);
 	}
 }
+
+if ( ! function_exists('alert'))
+{
+	function alert($level, $message)
+	{
+		return View::make('partials.common.alert')
+			->withClass($level)
+			->withContent($message);
+	}
+}
