@@ -58,7 +58,7 @@
 							<br><span class="text-muted"><span class="tab-icon">{{ $_icons['user'] }}</span><em>{{ $c->present()->user }}</em></span>
 						@endif
 
-						@if ( ! empty($c->present()->email))
+						@if ( ! empty($c->email))
 							<br><span class="text-muted"><span class="tab-icon tab-icon-down1">{{ $_icons['email'] }}</span><em>{{ $c->present()->email }}</em></span>
 						@endif
 					</p>
