@@ -12,30 +12,8 @@ class UserEventHandler {
 
 	public function onUserCreated($user, $input)
 	{
-		// Get the instance of the credit repo
-		$credits = App::make('CreditRepository');
-
-		// Find any credits by email
-		$items = $credits->findByEmail($user->email);
-
-		if ($items->count() > 0)
-		{
-			foreach ($items as $item)
-			{
-				$updateData = [
-					'user_id'	=> $user->id,
-					'email'		=> '',
-				];
-
-				if ($item->type == 'time')
-				{
-					$updateData['expires'] = Date::now()->addDay()->addYear()->startOfDay();
-				}
-
-				// Update the credit
-				$item->update($updateData);
-			}
-		}
+		// Assign credits to the new account
+		$this->assignCredits($user);
 
 		// Set the email data
 		$data = array(
@@ -124,6 +102,9 @@ class UserEventHandler {
 			}*/
 		}
 
+		// Assign credits to the new account
+		$this->assignCredits($user);
+
 		// Set the email data
 		$data = array(
 			'name'		=> $user->name,
@@ -187,5 +168,33 @@ class UserEventHandler {
 	}
 
 	public function onStaffUpdated($item){}
+
+	private function assignCredits($user)
+	{
+		// Get the instance of the credit repo
+		$credits = App::make('CreditRepository');
+
+		// Find any credits by email
+		$items = $credits->findByEmail($user->email);
+
+		if ($items->count() > 0)
+		{
+			foreach ($items as $item)
+			{
+				$updateData = [
+					'user_id'	=> $user->id,
+					'email'		=> '',
+				];
+
+				if ($item->type == 'time')
+				{
+					$updateData['expires'] = Date::now()->addDay()->addYear()->startOfDay();
+				}
+
+				// Update the credit
+				$item->update($updateData);
+			}
+		}
+	}
 
 }
