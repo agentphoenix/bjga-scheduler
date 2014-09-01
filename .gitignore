@@ -9,7 +9,6 @@ public/calendars/*.ics
 
 *.sublime-project
 *.sublime-workspace
-config.codekit
 
 app/config/packages/barryvdh/*
 app/storage/debugbar/
