@@ -44,11 +44,11 @@ class AjaxController extends BaseController {
 
 	public function changePassword($id)
 	{
-		// Get the user
-		$user = $this->user->find($id);
-
-		if ($this->currentUser == $user)
+		if ($this->currentUser->id == $id)
 		{
+			// Get the user
+			$user = $this->user->find($id);
+			
 			return partial('common/modal_content', array(
 				'modalHeader'	=> "Change Password",
 				'modalBody'		=> View::make('pages.ajax.changePassword')->with('user', $user),
@@ -466,7 +466,7 @@ class AjaxController extends BaseController {
 		// Get the current user
 		$user = $this->currentUser;
 
-		Mail::queue('emails.sendToUser', $emailData, function($msg) use ($input, $user)
+		Mail::send('emails.sendToUser', $emailData, function($msg) use ($input, $user)
 		{
 			$recipientArr = explode(',', $input['recipients']);
 
