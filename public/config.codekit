@@ -1,10 +1,6 @@
 {
 "CodeKitInfo": "This is a CodeKit 2.x project configuration file. It is designed to sync project settings across multiple machines. MODIFYING THE CONTENTS OF THIS FILE IS A POOR LIFE DECISION. If you do so, you will likely cause CodeKit to crash. This file is not useful unless accompanied by the project that created it in CodeKit 2. This file is not backwards-compatible with CodeKit 1.x. For more information, see: http:\/\/incident57.com\/codekit",
-<<<<<<< Updated upstream
 "creatorBuild": "17682",
-=======
-"creatorBuild": "17625",
->>>>>>> Stashed changes
 "files": {
 	"\/apple-touch-icon.png": {
 		"fileType": 32768,
@@ -706,19 +702,25 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/large.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 53387,
+		"inputAbbreviatedPath": "\/large.png",
+		"outputAbbreviatedPath": "\/large.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/less\/alt-vars.less": {
 		"allowInsecureImports": 0,
 		"createSourceMap": 0,
 		"disableJavascript": 0,
 		"fileType": 1,
 		"ieCompatibility": 1,
-<<<<<<< Updated upstream
 		"ignore": 1,
 		"ignoreWasSetByUser": 1,
-=======
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
->>>>>>> Stashed changes
 		"inputAbbreviatedPath": "\/less\/alt-vars.less",
 		"outputAbbreviatedPath": "\/css\/alt-vars.css",
 		"outputPathIsOutsideProject": 0,
@@ -737,13 +739,8 @@
 		"disableJavascript": 0,
 		"fileType": 1,
 		"ieCompatibility": 1,
-<<<<<<< Updated upstream
 		"ignore": 1,
 		"ignoreWasSetByUser": 1,
-=======
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
->>>>>>> Stashed changes
 		"inputAbbreviatedPath": "\/less\/alt.less",
 		"outputAbbreviatedPath": "\/css\/alt.css",
 		"outputPathIsOutsideProject": 0,
@@ -935,6 +932,252 @@
 		"strictImports": 0,
 		"strictMath": 0,
 		"strictUnits": 0
+		},
+	"\/packages\/barryvdh\/laravel-debugbar\/laravel-debugbar.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/barryvdh\/laravel-debugbar\/laravel-debugbar.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/barryvdh\/laravel-debugbar\/laravel-icon.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 15938,
+		"inputAbbreviatedPath": "\/packages\/barryvdh\/laravel-debugbar\/laravel-icon.png",
+		"outputAbbreviatedPath": "\/packages\/barryvdh\/laravel-debugbar\/laravel-icon.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/packages\/barryvdh\/laravel-debugbar\/openhandler.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/barryvdh\/laravel-debugbar\/openhandler.js",
+		"outputAbbreviatedPath": "\/packages\/barryvdh\/laravel-debugbar\/min\/openhandler-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/debugbar.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/debugbar.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/debugbar.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/debugbar.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/min\/debugbar-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/icons.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 500,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/icons.png",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/icons.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/openhandler.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/openhandler.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/openhandler.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/openhandler.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/min\/openhandler-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/php-icon.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 3621,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/php-icon.png",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/php-icon.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/vendor\/font-awesome\/css\/font-awesome.min.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/vendor\/font-awesome\/css\/font-awesome.min.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/vendor\/highlightjs\/highlight.pack.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/vendor\/highlightjs\/highlight.pack.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/vendor\/highlightjs\/min\/highlight.pack-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/vendor\/highlightjs\/styles\/github.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/vendor\/highlightjs\/styles\/github.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/vendor\/jquery\/dist\/jquery.min.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/vendor\/jquery\/dist\/jquery.min.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/vendor\/jquery\/dist\/min\/jquery.min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/min\/widgets-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets\/mails\/widget.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/mails\/widget.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets\/mails\/widget.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/mails\/widget.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/mails\/min\/widget-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets\/sqlqueries\/widget.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/sqlqueries\/widget.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets\/sqlqueries\/widget.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/sqlqueries\/widget.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/sqlqueries\/min\/widget-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets\/templates\/widget.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/templates\/widget.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/packages\/maximebf\/php-debugbar\/widgets\/templates\/widget.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/templates\/widget.js",
+		"outputAbbreviatedPath": "\/packages\/maximebf\/php-debugbar\/widgets\/templates\/min\/widget-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/square.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 53516,
+		"inputAbbreviatedPath": "\/square.png",
+		"outputAbbreviatedPath": "\/square.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/tiny.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 53387,
+		"inputAbbreviatedPath": "\/tiny.png",
+		"outputAbbreviatedPath": "\/tiny.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/wide.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 30570,
+		"inputAbbreviatedPath": "\/wide.png",
+		"outputAbbreviatedPath": "\/wide.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
 		}
 	},
 "hooks": [
@@ -949,7 +1192,7 @@
 	"iconImageName": "\/apple-touch-icon.png"
 	},
 "projectSettings": {
-	"alwaysUseExternalServer": 1,
+	"alwaysUseExternalServer": 0,
 	"animateCSSInjections": 1,
 	"autoApplyPSLanguageSettingsStyle": 0,
 	"autoprefixerBrowserString": "> 1%, last 2 versions, Firefox ESR, Opera 12.1",
@@ -1079,7 +1322,7 @@
 	"coffeeMinifyOutput": 1,
 	"coffeeOutputStyle": 0,
 	"coffeeSyntaxCheckerStyle": 1,
-	"externalServerAddress": "http:\/\/scheduler.dev",
+	"externalServerAddress": "http:\/\/localhost:8888",
 	"externalServerPreviewPathAddition": "",
 	"genericWebpageFileExtensionsString": "html, htm, shtml, shtm, xhtml, php, jsp, asp, aspx, erb, ctp",
 	"hamlAutoOutputPathEnabled": 1,
@@ -1494,14 +1737,14 @@
 	"lessAllowInsecureImports": 0,
 	"lessAutoOutputPathEnabled": 1,
 	"lessAutoOutputPathFilenamePattern": "*.css",
-	"lessAutoOutputPathRelativePath": "..\/..\/css",
+	"lessAutoOutputPathRelativePath": "..\/css",
 	"lessAutoOutputPathReplace1": "less",
 	"lessAutoOutputPathReplace2": "css",
-	"lessAutoOutputPathStyle": 3,
+	"lessAutoOutputPathStyle": 2,
 	"lessCreateSourceMap": 0,
 	"lessDisableJavascript": 0,
 	"lessIeCompatibility": 1,
-	"lessOutputStyle": 2,
+	"lessOutputStyle": 0,
 	"lessRelativeURLS": 0,
 	"lessStrictImports": 0,
 	"lessStrictMath": 0,
@@ -1527,9 +1770,9 @@
 	"sassDecimalPrecision": 5,
 	"sassOutputStyle": 0,
 	"sassUseLibsass": 0,
-	"shouldRunAutoprefixer": 1,
+	"shouldRunAutoprefixer": 0,
 	"shouldRunBless": 0,
-	"skippedItemsString": ".git, log, _logs, _cache, cache, logs",
+	"skippedItemsString": ".svn, .git, .hg, log, _logs, _cache, cache, logs",
 	"slimAutoOutputPathEnabled": 1,
 	"slimAutoOutputPathFilenamePattern": "*.html",
 	"slimAutoOutputPathRelativePath": "",
