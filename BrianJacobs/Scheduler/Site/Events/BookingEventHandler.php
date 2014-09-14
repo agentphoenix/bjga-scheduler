@@ -64,7 +64,7 @@ class BookingEventHandler {
 		);
 
 		// Email the attendees
-		Mail::queue('emails.bookedLesson', $data, function($msg) use ($user, $service)
+		Mail::send('emails.bookedLesson', $data, function($msg) use ($user, $service)
 		{
 			$msg->to($user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Booked")
@@ -72,7 +72,7 @@ class BookingEventHandler {
 		});
 
 		// Email the instructor
-		Mail::queue('emails.bookedLessonInstructor', $data, function($msg) use ($service, $staffAppt)
+		Mail::send('emails.bookedLessonInstructor', $data, function($msg) use ($service, $staffAppt)
 		{
 			$msg->to($service->staff->user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Booking Notification")
@@ -102,7 +102,7 @@ class BookingEventHandler {
 		$user = $userAppt->user;
 
 		// Email the attendees
-		Mail::queue('emails.bookedProgram', $data, function($msg) use ($user, $service)
+		Mail::send('emails.bookedProgram', $data, function($msg) use ($user, $service)
 		{
 			$msg->to($user->email)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Enrollment")
@@ -124,7 +124,7 @@ class BookingEventHandler {
 		);
 
 		// Email the attendees
-		Mail::queue('emails.studentCancelled', $data, function($message) use ($emails, $service, $user)
+		Mail::send('emails.studentCancelled', $data, function($message) use ($emails, $service, $user)
 		{
 			$message->to($emails)
 				->subject(Config::get('bjga.email.subject')." {$service->name} - Student Cancellation")
@@ -149,7 +149,7 @@ class BookingEventHandler {
 		);
 
 		// Email the attendees
-		Mail::queue('emails.instructorCancelled', $data, function($message) use ($emails, $service)
+		Mail::send('emails.instructorCancelled', $data, function($message) use ($emails, $service)
 		{
 			$message->to($emails)
 				->subject(Config::get('bjga.email.subject')." {$service->name} Schedule Change")

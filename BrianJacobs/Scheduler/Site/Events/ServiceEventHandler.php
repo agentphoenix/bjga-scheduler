@@ -28,7 +28,7 @@ class ServiceEventHandler {
 				$data = array('service' => $service->toArray());
 
 				// Email the attendees
-				Mail::queue('emails.serviceDeleted', $data, function($message) use ($service)
+				Mail::send('emails.serviceDeleted', $data, function($message) use ($service)
 				{
 					$message->bcc($service->attendees()->lists('email'))
 						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Cancelled")
@@ -69,7 +69,7 @@ class ServiceEventHandler {
 				}
 
 				// Email the attendees
-				Mail::queue('emails.serviceUpdated', $data, function($message) use ($service)
+				Mail::send('emails.serviceUpdated', $data, function($message) use ($service)
 				{
 					$message->bcc($service->attendees()->lists('email'))
 						->subject(Config::get('bjga.email.subject')." {$service->name} Has Been Updated")

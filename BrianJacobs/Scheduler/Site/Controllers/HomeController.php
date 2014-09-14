@@ -202,7 +202,7 @@ class HomeController extends BaseController {
 		);
 
 		// Send the email
-		Mail::queue('emails.reportProblem', $data, function($msg) use ($user)
+		Mail::send('emails.reportProblem', $data, function($msg) use ($user)
 		{
 			$msg->to(Config::get('bjga.email.adminAddress'))
 				->from($user->email, $user->name)

@@ -25,7 +25,7 @@ class AppointmentEventHandler {
 			$user = $userAppt->user;
 
 			// Email the attendees
-			Mail::queue('emails.appointmentCreated', $data, function($message) use ($user, $service)
+			Mail::send('emails.appointmentCreated', $data, function($message) use ($user, $service)
 			{
 				\Log::info('emails.appointmentCreated');
 
@@ -56,7 +56,7 @@ class AppointmentEventHandler {
 		$service = $staffAppt->service;
 
 		// Email the attendees
-		Mail::queue('emails.appointmentUpdated', $data, function($message) use ($user, $service)
+		Mail::send('emails.appointmentUpdated', $data, function($message) use ($user, $service)
 		{
 			\Log::info('emails.appointmentUpdated');
 

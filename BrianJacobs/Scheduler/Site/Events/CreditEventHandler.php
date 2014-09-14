@@ -39,7 +39,7 @@ class CreditEventHandler {
 			}
 
 			// Send the email
-			Mail::queue('emails.creditAdded', $data, function($msg) use ($email, $subject)
+			Mail::send('emails.creditAdded', $data, function($msg) use ($email, $subject)
 			{
 				$msg->to($email)
 					->subject(Config::get('bjga.email.subject')." {$subject}")
@@ -76,7 +76,7 @@ class CreditEventHandler {
 			}
 
 			// Send the email
-			Mail::queue('emails.creditRemoved', $data, function($msg) use ($email, $subject)
+			Mail::send('emails.creditRemoved', $data, function($msg) use ($email, $subject)
 			{
 				$msg->to($email)
 					->subject(Config::get('bjga.email.subject')." {$subject}")

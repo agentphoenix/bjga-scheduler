@@ -74,7 +74,7 @@ class CreditCleanupCommand extends Command {
 				];
 
 				// Send the email
-				Mail::queue('emails.creditReminderFirst', $data, function($msg) use ($item)
+				Mail::send('emails.creditReminderFirst', $data, function($msg) use ($item)
 				{
 					$msg->to($item->user->email)
 						->subject(Config::get('bjga.email.subject')." Credit Expiration Notice (90 Days)")
@@ -100,7 +100,7 @@ class CreditCleanupCommand extends Command {
 				];
 
 				// Send the email
-				Mail::queue('emails.creditReminderFinal', $data, function($msg) use ($item)
+				Mail::send('emails.creditReminderFinal', $data, function($msg) use ($item)
 				{
 					$msg->to($item->user->email)
 						->subject(Config::get('bjga.email.subject')." Credit Expiration Final Notice (30 Days)")

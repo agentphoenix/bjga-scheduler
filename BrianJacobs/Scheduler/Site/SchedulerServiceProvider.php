@@ -123,7 +123,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 			$emailData = array('job' => $job, 'data' => $data);
 
 			// Send the email
-			Mail::queue('emails.failedQueueJob', $emailData, function($message)
+			Mail::send('emails.failedQueueJob', $emailData, function($message)
 			{
 				$message->to(Config::get('bjga.email.adminAddress'))
 					->subject(Config::get('bjga.email.subject').' Scheduler Queue Job Failed');
