@@ -231,7 +231,7 @@ class UserRepository implements UserRepositoryInterface {
 		return $schedule;
 	}
 
-	public function getScheduleHistory(UserModel $user)
+	public function getScheduleHistory(UserModel $user, $direction = 'asc')
 	{
 		// Eager load...
 		$user = $user->load('credits', 'appointments', 'appointments.appointment', 'appointments.appointment.service');
@@ -253,8 +253,14 @@ class UserRepository implements UserRepositoryInterface {
 			}
 		}
 
-		// Sort the array
-		ksort($schedule);
+		if ($direction == 'asc')
+		{
+			ksort($schedule);
+		}
+		else
+		{
+			krsort($schedule);
+		}
 
 		return $schedule;
 	}

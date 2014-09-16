@@ -270,7 +270,7 @@ class HomeController extends BaseController {
 
 			return View::make('pages.admin.appointments.usersHistory')
 				->withUser($user)
-				->withHistory($this->user->getScheduleHistory($user));
+				->withHistory($this->user->getScheduleHistory($user, 'desc'));
 		}
 
 		return Redirect::route('login');
