@@ -254,12 +254,12 @@ class StaffController extends BaseController {
 		if ($this->currentUser->isStaff())
 		{
 			// Get the user record
-			$user = $this->user->find($id);
+			$staff = $this->staff->find($id);
 
 			return View::make('pages.admin.staff.schedule')
-				->withStaff($user->staff)
-				->withBlocks($this->staff->getBlocks($user))
-				->withSchedule($user->staff->schedule)
+				->withStaff($staff)
+				->withBlocks($this->staff->getBlocks($staff->user))
+				->withSchedule($staff->schedule)
 				->withDays(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'));
 		}
 		else
