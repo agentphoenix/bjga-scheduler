@@ -2,6 +2,7 @@
 
 use Auth,
 	Date,
+	StaffModel,
 	ServiceModel,
 	UserAppointmentModel,
 	StaffAppointmentModel,
@@ -307,6 +308,28 @@ class ServiceRepository implements ServiceRepositoryInterface {
 		$services = $query->get();
 
 		return $this->forDropdown($services, 'id', 'name');
+	}
+
+	public function getValuesByInstructor($category, $onlyActive = false)
+	{
+		// Get staff members available for instruction
+		$staff = StaffModel::with('services', 'user')
+			->where('instruction', (int) true)->orderBy('id')->get();
+
+		$output = array();
+
+		foreach ($staff as $s)
+		{
+			$services = $s->services->sortBy('order');
+			$name = $s->user->name;
+
+			foreach ($services as $service)
+			{
+				$output[$name][$service->id] = $service->name;
+			}
+		}
+
+		return $output;
 	}
 
 	/**

@@ -15,6 +15,7 @@ interface ServiceRepositoryInterface {
 	public function forDropdown(Collection $collection, $key, $value);
 	public function getAttendees($id);
 	public function getValues($category, $onlyActive = false);
+	public function getValuesByInstructor($category, $onlyActive = false);
 	public function update($id, array $data);
 	
 }
