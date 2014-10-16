@@ -39,10 +39,13 @@
 		@if ($_currentUser->isStaff())
 			<p>Admin</p>
 			<ul>
-				<li class="{{ (Request::is('admin/appointment*') ? 'active' : '') }}"><a href="{{ route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
-				<li class="{{ (Request::is('admin/service*') ? 'active' : '') }}"><a href="{{ route('admin.service.index') }}"><span class="icn-size-16">{{ $_icons['golf'] }}</span>Services</a></li>
-				<li class="{{ ((Request::is('admin/user*') and ! Request::is('admin/user/'.$_currentUser->id.'/edit')) ? 'active' : '') }}"><a href="{{ route('admin.user.index') }}"><span class="icn-size-16">{{ $_icons['users'] }}</span>Users</a></li>
-				<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['school'] }}</span>Staff</a></li>
+				@if ($_currentUser->access() > 1)
+					<li class="{{ (Request::is('admin/appointment*') ? 'active' : '') }}"><a href="{{ route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
+					<li class="{{ (Request::is('admin/service*') ? 'active' : '') }}"><a href="{{ route('admin.service.index') }}"><span class="icn-size-16">{{ $_icons['golf'] }}</span>Services</a></li>
+					<li class="{{ ((Request::is('admin/user*') and ! Request::is('admin/user/'.$_currentUser->id.'/edit')) ? 'active' : '') }}"><a href="{{ route('admin.user.index') }}"><span class="icn-size-16">{{ $_icons['users'] }}</span>Users</a></li>
+					<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['school'] }}</span>Staff</a></li>
+				@endif
+
 				<li class="{{ (Request::is('admin/credits*') ? 'active' : '') }}"><a href="{{ route('admin.credits.index') }}"><span class="icn-size-16">{{ $_icons['money'] }}</span>Credits</a></li>
 				<li class="{{ (Request::is('admin/reports*') ? 'active' : '') }}"><a href="{{ route('admin.reports.index') }}"><span class="icn-size-16">{{ $_icons['report'] }}</span>Report Center</a></li>
 			</ul>

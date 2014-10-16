@@ -87,7 +87,7 @@ class AppointmentController extends BaseController {
 
 	public function edit($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			return View::make('pages.admin.appointments.edit')
 				->withAppointment($this->appts->find($id));
@@ -100,7 +100,7 @@ class AppointmentController extends BaseController {
 
 	public function update($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			// Get the staff data
 			$staffData = Input::get('staff');
@@ -237,7 +237,7 @@ class AppointmentController extends BaseController {
 
 	public function editRecurring($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			return View::make('pages.admin.appointments.recurringEdit')
 				->withRecurring($this->appts->getRecurringLessons($id))
@@ -251,7 +251,7 @@ class AppointmentController extends BaseController {
 
 	public function updateRecurring($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			$this->appts->updateRecurringLesson($id, Input::all());
 
