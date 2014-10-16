@@ -289,7 +289,7 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 * @param	string	$category
 	 * @return	Collection
 	 */
-	public function getValues($category, $onlyActive = false)
+	public function getValues($category, $onlyActive = false, $instructor = false)
 	{
 		// Get the category items
 		$query = ServiceModel::getCategory($category)
@@ -305,6 +305,11 @@ class ServiceRepository implements ServiceRepositoryInterface {
 			$query = $query->where('loyalty', (int) false);
 		}
 
+		if ($instructor)
+		{
+			$query = $query->where('staff_id', $instructor);
+		}
+
 		$services = $query->get();
 
 		return $this->forDropdown($services, 'id', 'name');
@@ -313,19 +318,18 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	public function getValuesByInstructor($category, $onlyActive = false)
 	{
 		// Get staff members available for instruction
-		$staff = StaffModel::with('services', 'user')
+		$staff = StaffModel::with('user')
 			->where('instruction', (int) true)->orderBy('id')->get();
 
 		$output = array();
 
 		foreach ($staff as $s)
 		{
-			$services = $s->services->sortBy('order');
-			$name = $s->user->name;
+			$services = $this->getValues($category, $onlyActive, $s->id);
 
-			foreach ($services as $service)
+			if (count($services) > 0)
 			{
-				$output[$name][$service->id] = $service->name;
+				$output[$s->user->name] = $services;
 			}
 		}
 

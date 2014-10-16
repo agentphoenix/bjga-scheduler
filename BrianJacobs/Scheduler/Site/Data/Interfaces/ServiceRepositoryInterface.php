@@ -14,7 +14,7 @@ interface ServiceRepositoryInterface {
 	public function findBySlug($slug);
 	public function forDropdown(Collection $collection, $key, $value);
 	public function getAttendees($id);
-	public function getValues($category, $onlyActive = false);
+	public function getValues($category, $onlyActive = false, $instructor = false);
 	public function getValuesByInstructor($category, $onlyActive = false);
 	public function update($id, array $data);
 	
