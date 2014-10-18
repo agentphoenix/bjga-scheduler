@@ -42,7 +42,7 @@
 				<div class="col-lg-12">
 					<div class="row">
 					@foreach ($events as $eventArr)
-						@foreach ($eventArra as $event)
+						@foreach ($eventArr as $event)
 							<?php $appt = $event->appointments->first();?>
 							<?php $openSlots = $event->user_limit - $event->attendees()->count();?>
 							<?php $hasOpenings = $event->attendees()->count() < $event->user_limit;?>
