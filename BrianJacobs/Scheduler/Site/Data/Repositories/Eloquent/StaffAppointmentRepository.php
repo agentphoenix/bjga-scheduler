@@ -92,6 +92,30 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 		return new Collection;
 	}
 
+	public function getUpcomingEventsByMonth($days = 90)
+	{
+		// Get all the events
+		$events = $this->getUpcomingEvents($days);
+
+		if ($events->count() > 0)
+		{
+			$eventsCollection = new Collection;
+
+			foreach ($events as $e)
+			{
+				$appt = $e->appointments->first();
+
+				$eventsCollection->put($appt->start->format('F'), $e);
+
+				//$eventsArr[$appt->start->format('F')][] = $e;
+			}
+
+			return $eventsCollection;
+		}
+
+		return $events;
+	}
+
 	/**
 	 * Find an appointment.
 	 *
