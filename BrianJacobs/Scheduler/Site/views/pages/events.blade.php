@@ -102,6 +102,7 @@
 					</div>
 				</div>
 			@endif
+		@endforeach
 		</div>
 	@else
 		{{ partial('common/alert', array('class' => ' alert-warning', 'content' => "There are no scheduled events in the next 90 days. Check back regularly for more events.")) }}
