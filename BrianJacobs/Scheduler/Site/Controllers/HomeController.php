@@ -159,7 +159,7 @@ class HomeController extends BaseController {
 	public function events()
 	{
 		return View::make('pages.events')
-			->withEvents($this->appointment->getUpcomingEventsByMonth(0))
+			->withEvents($this->appointment->getUpcomingEvents(0))
 			->withMonths(array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'));
 	}
 
