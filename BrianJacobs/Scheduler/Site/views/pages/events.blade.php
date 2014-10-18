@@ -41,63 +41,65 @@
 
 				<div class="col-lg-12">
 					<div class="row">
-					@foreach ($events as $event)
-						<?php $appt = $event->appointments->first();?>
-						<?php $openSlots = $event->user_limit - $event->attendees()->count();?>
-						<?php $hasOpenings = $event->attendees()->count() < $event->user_limit;?>
+					@foreach ($events as $eventArr)
+						@foreach ($eventArra as $event)
+							<?php $appt = $event->appointments->first();?>
+							<?php $openSlots = $event->user_limit - $event->attendees()->count();?>
+							<?php $hasOpenings = $event->attendees()->count() < $event->user_limit;?>
 
-						<div class="col-lg-6">
-							<div class="well well-sm">
-								<h3>
-									{{ $event->name }}
+							<div class="col-lg-6">
+								<div class="well well-sm">
+									<h3>
+										{{ $event->name }}
 
-									<small>{{ $event->present()->price }}</small>
-								</h3>
+										<small>{{ $event->present()->price }}</small>
+									</h3>
 
-								<div class="row">
-									<div class="col-sm-6 col-md-6 col-lg-6">
-										<p class="text-sm">
-											<strong>
-												@if ($appt->start->isToday())
-													Today
-												@elseif ($appt->start->isTomorrow())
-													Tomorrow
-												@else
-													{{ $appt->start->format(Config::get('bjga.dates.date')) }}
+									<div class="row">
+										<div class="col-sm-6 col-md-6 col-lg-6">
+											<p class="text-sm">
+												<strong>
+													@if ($appt->start->isToday())
+														Today
+													@elseif ($appt->start->isTomorrow())
+														Tomorrow
+													@else
+														{{ $appt->start->format(Config::get('bjga.dates.date')) }}
+													@endif
+												</strong>
+												
+												@if ($event->occurrences > 1)
+													&nbsp;<span class="label label-default icn-size-16 js-tooltip-bottom" data-title="Program spans multiple days">{{ $_icons['calendar'] }}</span>
 												@endif
-											</strong>
-											
-											@if ($event->occurrences > 1)
-												&nbsp;<span class="label label-default icn-size-16 js-tooltip-bottom" data-title="Program spans multiple days">{{ $_icons['calendar'] }}</span>
-											@endif
 
-											@if ($hasOpenings and ($openSlots <= 5 and $openSlots > 0))
-												&nbsp; <span class="label label-warning icn-size-16 js-tooltip-bottom" data-title="Space limited, enroll today">{{ $_icons['warning'] }}</span>
-											@endif
+												@if ($hasOpenings and ($openSlots <= 5 and $openSlots > 0))
+													&nbsp; <span class="label label-warning icn-size-16 js-tooltip-bottom" data-title="Space limited, enroll today">{{ $_icons['warning'] }}</span>
+												@endif
 
-											@if (Auth::check() and $_currentUser->isAttending($event->id))
-												&nbsp;<span class="label label-success icn-size-16 js-tooltip-bottom" data-title="You are currently enrolled">{{ $_icons['check'] }}</span>
-											@endif
+												@if (Auth::check() and $_currentUser->isAttending($event->id))
+													&nbsp;<span class="label label-success icn-size-16 js-tooltip-bottom" data-title="You are currently enrolled">{{ $_icons['check'] }}</span>
+												@endif
 
-											<br>
-											<span class="text-muted">{{ $appt->start->format(Config::get('bjga.dates.time')) }} - {{ $appt->end->format(Config::get('bjga.dates.time')) }}</span>
-										</p>
-									</div>
-									<div class="col-sm-6 col-md-6 col-lg-6">
-										<div class="visible-md visible-lg">
-											<p class="pull-right"><a href="{{ URL::route('event', array($event->slug)) }}" class="btn btn-lg btn-default">More Info</a></p>
+												<br>
+												<span class="text-muted">{{ $appt->start->format(Config::get('bjga.dates.time')) }} - {{ $appt->end->format(Config::get('bjga.dates.time')) }}</span>
+											</p>
 										</div>
-										<div class="visible-xs visible-sm">
-											<div class="row">
-												<div class="col-sm-6 col-sm-offset-6">
-													<p><a href="{{ URL::route('event', array($event->slug)) }}" class="btn btn-lg btn-block btn-default">More Info</a></p>
+										<div class="col-sm-6 col-md-6 col-lg-6">
+											<div class="visible-md visible-lg">
+												<p class="pull-right"><a href="{{ URL::route('event', array($event->slug)) }}" class="btn btn-lg btn-default">More Info</a></p>
+											</div>
+											<div class="visible-xs visible-sm">
+												<div class="row">
+													<div class="col-sm-6 col-sm-offset-6">
+														<p><a href="{{ URL::route('event', array($event->slug)) }}" class="btn btn-lg btn-block btn-default">More Info</a></p>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						@endforeach
 					@endforeach
 					</div>
 				</div>
