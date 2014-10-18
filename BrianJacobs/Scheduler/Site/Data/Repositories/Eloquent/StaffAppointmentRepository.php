@@ -111,7 +111,7 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 			return $eventsArr;
 		}
 
-		return $events;
+		return array();
 	}
 
 	/**
