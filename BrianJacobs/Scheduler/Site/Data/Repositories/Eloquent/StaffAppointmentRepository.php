@@ -99,18 +99,16 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 
 		if ($events->count() > 0)
 		{
-			$eventsCollection = new Collection;
+			$eventsArr = array();
 
 			foreach ($events as $e)
 			{
 				$appt = $e->appointments->first();
 
-				$eventsCollection->put($appt->start->format('F'), $e);
-
-				//$eventsArr[$appt->start->format('F')][] = $e;
+				$eventsArr[$appt->start->format('F')][] = $e;
 			}
 
-			return $eventsCollection;
+			return $eventsArr;
 		}
 
 		return $events;
