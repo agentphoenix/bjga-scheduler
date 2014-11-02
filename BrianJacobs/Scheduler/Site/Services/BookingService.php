@@ -324,39 +324,47 @@ class BookingService {
 				// Get the attendee email addresses
 				$emails[] = $userAppt->user->email;
 
-				if ($service->isLesson() and ! $staffAppt->hasStarted() and $userAppt->isPaid())
+				if ( ! $userAppt->user->isStaff())
 				{
-					// Give the user credit
-					CreditModel::create([
-						'code'		=> \Str::creditCode(12),
-						'type'		=> 'time',
-						'value'		=> $service->duration / 60,
-						'user_id'	=> $userAppt->user->id,
-						'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
-					]);
+					if ($service->isLesson() and ! $staffAppt->hasStarted() and $userAppt->isPaid())
+					{
+						// Give the user credit
+						CreditModel::create([
+							'code'		=> \Str::creditCode(12),
+							'type'		=> 'time',
+							'value'		=> $service->duration / 60,
+							'user_id'	=> $userAppt->user->id,
+							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+						]);
 
-					// Delete the user appointment
-					$userAppt->delete();
-				}
-				elseif ($service->isLesson() and ! $staffAppt->hasStarted() and ! $userAppt->isPaid() and ($userAppt->received > 0 and $userAppt->received < $service->price))
-				{
-					// Price per minute
-					$pricePerMin = $service->price / $service->duration;
+						// Delete the user appointment
+						$userAppt->delete();
+					}
+					elseif ($service->isLesson() and ! $staffAppt->hasStarted() and ! $userAppt->isPaid() and ($userAppt->received > 0 and $userAppt->received < $service->price))
+					{
+						// Price per minute
+						$pricePerMin = $service->price / $service->duration;
 
-					// How many minutes to credit
-					$minutesToCredit = round($userAppt->received / $pricePerMin);
+						// How many minutes to credit
+						$minutesToCredit = round($userAppt->received / $pricePerMin);
 
-					// Give the user credit
-					CreditModel::create([
-						'code'		=> \Str::creditCode(12),
-						'type'		=> 'time',
-						'value'		=> $minutesToCredit / 60,
-						'user_id'	=> $userAppt->user->id,
-						'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
-					]);
+						// Give the user credit
+						CreditModel::create([
+							'code'		=> \Str::creditCode(12),
+							'type'		=> 'time',
+							'value'		=> $minutesToCredit / 60,
+							'user_id'	=> $userAppt->user->id,
+							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+						]);
 
-					// Delete the user appointment
-					$userAppt->delete();
+						// Delete the user appointment
+						$userAppt->delete();
+					}
+					else
+					{
+						// Delete the user appointment
+						$userAppt->forceDelete();
+					}
 				}
 				else
 				{
