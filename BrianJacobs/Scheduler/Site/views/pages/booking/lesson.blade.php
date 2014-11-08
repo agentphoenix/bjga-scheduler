@@ -37,7 +37,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-4 col-md-6 col-lg-8">
+			<div class="col-sm-6 col-lg-8">
 				<div id="lessonServiceDetails"></div>
 			</div>
 		</div>
