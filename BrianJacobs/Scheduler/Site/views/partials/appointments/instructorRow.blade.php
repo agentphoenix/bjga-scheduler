@@ -39,9 +39,11 @@
 				@endif
 
 				@if ($appt->service->isLesson() or $appt->service->isProgram())
-					<div class="btn-group">
-						<a href="#" class="btn btn-sm btn-default icn-size-16 js-email js-tooltip-top" data-service="{{ $appt->service->id }}" data-appt="{{ $appt->id }}" data-title="Email Attendees">{{ $_icons['email'] }}</a>
-					</div>
+					@if ($appt->userAppointments->count() > 0)
+						<div class="btn-group">
+							<a href="#" class="btn btn-sm btn-default icn-size-16 js-email js-tooltip-top" data-service="{{ $appt->service->id }}" data-appt="{{ $appt->id }}" data-title="Email Attendees">{{ $_icons['email'] }}</a>
+						</div>
+					@endif
 					
 					<div class="btn-group">
 						@if ($appt->service->isLesson())
