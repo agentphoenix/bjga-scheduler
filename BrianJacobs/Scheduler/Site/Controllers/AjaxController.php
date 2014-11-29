@@ -375,6 +375,9 @@ class AjaxController extends BaseController {
 			{
 				$header = 'Email Attendees';
 
+				// Make sure we have an empty array to avoid errors
+				$recipientArr = [];
+
 				foreach ($appointment->userAppointments as $a)
 				{
 					$recipientArr[] = $a->user->email;
