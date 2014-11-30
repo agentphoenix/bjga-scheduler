@@ -33,6 +33,8 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 			return StaffAppointmentRecurModel::find($id);
 		}
 
+		return StaffAppointmentRecurModel::get();
+
 		return StaffAppointmentRecurModel::where('start', '>', Date::now()->startOfDay())->get();
 	}
 	
