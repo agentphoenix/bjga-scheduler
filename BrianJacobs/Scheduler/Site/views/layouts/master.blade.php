@@ -7,8 +7,10 @@
 	<meta name="author" content="Brian Jacobs">
 	<meta name="viewport" content="width=device-width">
 	<meta name="application-name" content="Brian Jacobs Golf Scheduler">
+	<meta property="og:image" content="{{ URL::asset('apple-touch-icon.png') }}">
 	<link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico?v2') }}">
 	<link rel="apple-touch-icon-precomposed" href="{{ URL::asset('apple-touch-icon.png') }}">
+	<link rel="image_src" href="{{ URL::asset('apple-touch-icon.png') }}">
 	
 	<!--[if lt IE 9]>
 	{{ HTML::script('js/html5shiv.js') }}
