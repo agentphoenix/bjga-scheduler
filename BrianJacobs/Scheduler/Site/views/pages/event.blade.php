@@ -9,7 +9,7 @@
 @stop
 
 @section('ogDesc')
-	{{ Str::words($event->description) }}
+	{{ Str::words(strip_tags($event->present()->description)) }}
 @stop
 
 @section('content')
