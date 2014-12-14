@@ -10,7 +10,7 @@
 	
 	<meta property="og:image" content="{{ URL::asset('apple-touch-icon.png') }}">
 	<meta property="og:url" content="{{ Request::url() }}">
-	<meta property="og:title" content="@yield('ogTitle')">
+	<meta property="og:title" content="Brian Jacobs Golf">
 	<meta property="og:description" content="@yield('ogDesc')">
 	
 	<link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico?v2') }}">
