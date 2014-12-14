@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width">
 	<meta name="application-name" content="Brian Jacobs Golf Scheduler">
 	
-	<meta property="og:image" content="{{ URL::asset('apple-touch-icon.png') }}">
+	<meta property="og:image" content="{{ URL::asset('img/facebook_preview.jpg') }}">
 	<meta property="og:url" content="{{ Request::url() }}">
 	<meta property="og:title" content="Brian Jacobs Golf">
 	<meta property="og:description" content="@yield('ogDesc')">
