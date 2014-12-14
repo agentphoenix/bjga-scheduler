@@ -12,6 +12,7 @@ use App,
 	Validator,
 	UserRepositoryInterface,
 	ServiceRepositoryInterface,
+	LocationRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
 class HomeController extends BaseController {
@@ -19,16 +20,19 @@ class HomeController extends BaseController {
 	protected $user;
 	protected $service;
 	protected $appointment;
+	protected $locations;
 
 	public function __construct(UserRepositoryInterface $user,
 			StaffAppointmentRepositoryInterface $appointment,
-			ServiceRepositoryInterface $service)
+			ServiceRepositoryInterface $service,
+			LocationRepositoryInterface $locations)
 	{
 		parent::__construct();
 
 		$this->user = $user;
 		$this->service = $service;
 		$this->appointment = $appointment;
+		$this->locations = $locations;
 	}
 
 	public function mySchedule($days = 10)
@@ -274,6 +278,12 @@ class HomeController extends BaseController {
 		}
 
 		return Redirect::route('login');
+	}
+
+	public function locations()
+	{
+		return View::make('pages.locations')
+			->withLocations($this->locations->all());
 	}
 
 }

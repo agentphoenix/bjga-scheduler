@@ -1,12 +1,12 @@
 <?php namespace Scheduler\Services;
 
-use Parsedown;
+use ParsedownExtra;
 
 class MarkdownService {
 
 	protected $markdown;
 
-	public function __construct(Parsedown $markdown)
+	public function __construct(ParsedownExtra $markdown)
 	{
 		$this->markdown = $markdown;
 	}

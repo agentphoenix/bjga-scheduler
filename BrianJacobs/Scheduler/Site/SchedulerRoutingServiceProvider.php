@@ -86,6 +86,10 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::get('my-history', [
 			'as'	=> 'history',
 			'uses'	=> 'Scheduler\Controllers\HomeController@studentHistory']);
+
+		Route::get('locations', [
+			'as'	=> 'locations',
+			'uses'	=> 'Scheduler\Controllers\HomeController@locations']);
 	}
 
 	protected function adminRoutes()
@@ -179,6 +183,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'as'	=> 'admin.credits.search',
 				'uses'	=> 'Scheduler\Controllers\CreditsController@doSearch']);
 
+			Route::get('locations/delete/{id}', 'Scheduler\Controllers\LocationsController@delete');
+
 			/**
 			 * Resourceful controllers.
 			 *
@@ -187,6 +193,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			 * staff
 			 * appointment
 			 * credits
+			 * locations
 			 */
 			Route::resource('service', 'Scheduler\Controllers\ServiceController', array(
 				'except' => array('show', 'create')));
@@ -197,6 +204,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController', array(
 				'except' => array('show', 'destroy')));
 			Route::resource('credits', 'Scheduler\Controllers\CreditsController', [
+				'except' => ['show']]);
+			Route::resource('locations', 'Scheduler\Controllers\LocationsController', [
 				'except' => ['show']]);
 		});
 	}
