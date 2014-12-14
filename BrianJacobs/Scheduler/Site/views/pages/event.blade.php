@@ -4,6 +4,14 @@
 	Program Details - {{ $event->name }}
 @stop
 
+@section('ogTitle')
+	{{ $event->name }}
+@stop
+
+@section('ogDesc')
+	{{ Str::words($event->description) }}
+@stop
+
 @section('content')
 	<h1>{{ $event->name }}</h1>
 

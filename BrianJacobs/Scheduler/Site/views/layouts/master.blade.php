@@ -10,8 +10,8 @@
 	
 	<meta property="og:image" content="{{ URL::asset('apple-touch-icon.png') }}">
 	<meta property="og:url" content="{{ Request::url() }}">
-	<meta property="og:title" content="Brian Jacobs Golf">
-	<meta property="og:description" content="Brian Jacobs Golf is committed to providing the best golf instruction in western New York and helping golfers of all skills be more consistent and enjoy the game more.">
+	<meta property="og:title" content="@yield('ogTitle')">
+	<meta property="og:description" content="@yield('ogDesc')">
 	
 	<link rel="icon" type="image/x-icon" href="{{ URL::asset('favicon.ico?v2') }}">
 	<link rel="apple-touch-icon-precomposed" href="{{ URL::asset('apple-touch-icon.png') }}">
