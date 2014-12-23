@@ -120,8 +120,8 @@
 			$('.js-timepicker').pickatime({
 				format: "HH:i",
 				interval: 15,
-				min: [7, 0],
-				max: [21, 0],
+				min: [6, 0],
+				max: [22, 0],
 				container: '.container-fluid'
 			});
 		});

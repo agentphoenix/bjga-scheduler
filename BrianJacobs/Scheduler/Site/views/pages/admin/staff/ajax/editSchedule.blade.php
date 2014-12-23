@@ -47,16 +47,16 @@
 		$('.js-timepicker-start').pickatime({
 			format: "HH:i A",
 			interval: 15,
-			min: [7, 0],
-			max: [21, 0],
+			min: [6, 0],
+			max: [22, 0],
 			container: '.container-fluid'
 		});
 
 		$('.js-timepicker-end').pickatime({
 			format: "HH:i A",
 			interval: 15,
-			min: [7, 0],
-			max: [21, 0],
+			min: [6, 0],
+			max: [22, 0],
 			container: '.container-fluid'
 		});
 	});
