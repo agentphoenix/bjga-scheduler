@@ -73,7 +73,7 @@
 
 		<div id="schedule" class="tab-pane">
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-lg-7">
 					<div class="data-table data-table-striped data-table-bordered">
 					@for ($d = 0; $d <=6; $d++)
 						<div class="row">
@@ -81,10 +81,16 @@
 								<p><strong>{{ $days[$d] }}</strong></p>
 							</div>
 							<div class="col-xs-6 col-sm-4 col-md-3 col-lg-4">
-								<?php $available = $schedule->filter(function($s) use ($d){ return $s->day == $d; })->first()->availability;?>
+								<?php $available = $schedule->filter(function($s) use ($d){ return $s->day == $d; })->first();?>
 
-								@if ( ! empty($available))
-									<p>{{ $available }}</p>
+								@if ( ! empty($available->availability))
+									<p>{{ $available->availability }}</p>
+
+									@if ($available->location)
+										<p>{{ $available->location->name }}</p>
+									@else
+										<p class="text-danger"><strong>No location set</strong></p>
+									@endif
 								@else
 									<p class="text-info"><strong>No availability</strong></p>
 								@endif

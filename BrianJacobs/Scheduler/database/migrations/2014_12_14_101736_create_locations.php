@@ -22,6 +22,27 @@ class CreateLocations extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
+		Schema::table('services', function(Blueprint $table)
+		{
+			$table->dropColumn('location');
+			$table->integer('location_id')->nullable()->after('description');
+		});
+
+		Schema::table('staff_appointments', function(Blueprint $table)
+		{
+			$table->integer('location_id')->after('service_id');
+		});
+
+		Schema::table('staff_appointments_recurring', function(Blueprint $table)
+		{
+			$table->integer('location_id')->after('service_id');
+		});
+
+		Schema::table('staff_schedules', function(Blueprint $table)
+		{
+			$table->integer('location_id')->after('availability');
+		});
 	}
 
 	/**

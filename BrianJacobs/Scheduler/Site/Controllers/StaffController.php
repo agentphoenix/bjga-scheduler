@@ -8,20 +8,24 @@ use Book,
 	Redirect,
 	StaffValidator,
 	UserRepositoryInterface,
-	StaffRepositoryInterface;
+	StaffRepositoryInterface,
+	LocationRepositoryInterface;
 
 class StaffController extends BaseController {
 
 	protected $user;
 	protected $staff;
+	protected $location;
 
 	public function __construct(StaffRepositoryInterface $staff,
-			UserRepositoryInterface $user)
+			UserRepositoryInterface $user,
+			LocationRepositoryInterface $location)
 	{
 		parent::__construct();
 
 		$this->staff = $staff;
 		$this->user = $user;
+		$this->location = $location;
 
 		$this->beforeFilter(function()
 		{
@@ -272,14 +276,17 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+			$locations = $this->location->listAll('id', 'name');
 
 			return partial('common/modal_content', array(
 				'modalHeader'	=> "Edit {$days[$day]} Schedule",
 				'modalBody'		=> View::make('pages.admin.staff.ajax.editSchedule')
 									->withStaff($this->staff->find($staffId))
 									->withDay($days[$day])
-									->withDaynum($day),
+									->withDaynum($day)
+									->withLocations($locations),
 				'modalFooter'	=> false,
 			));
 		}
@@ -310,7 +317,10 @@ class StaffController extends BaseController {
 				$availability = "{$start}-{$end}";
 			}
 
-			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), $availability);
+			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), [
+				'availability'	=> $availability,
+				'location_id'	=> Input::get('location')
+			]);
 
 			return Redirect::route('admin.staff.schedule', array($id))
 				->with('message', "Schedule was successfully updated.")

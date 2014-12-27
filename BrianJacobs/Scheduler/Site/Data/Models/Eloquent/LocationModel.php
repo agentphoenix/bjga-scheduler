@@ -23,7 +23,10 @@ class LocationModel extends Model {
 	|--------------------------------------------------------------------------
 	*/
 
-	//
+	public function staff()
+	{
+		return $this->hasMany('StaffScheduleModel', 'location_id');
+	}
 
 	/*
 	|--------------------------------------------------------------------------

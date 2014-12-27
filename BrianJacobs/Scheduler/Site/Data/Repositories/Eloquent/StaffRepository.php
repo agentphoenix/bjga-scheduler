@@ -212,7 +212,7 @@ class StaffRepository implements StaffRepositoryInterface {
 		return false;
 	}
 
-	public function updateSchedule($staffId, $day, $availability)
+	public function updateSchedule($staffId, $day, array $data)
 	{
 		// Get the staff member
 		$staff = $this->find($staffId);
@@ -225,7 +225,7 @@ class StaffRepository implements StaffRepositoryInterface {
 				return (int) $s->day === (int) $day;
 			})->first();
 
-			return $daySchedule->update(array('availability' => $availability));
+			return $daySchedule->update($data);
 		}
 
 		return false;

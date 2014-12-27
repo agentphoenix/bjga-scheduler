@@ -36,6 +36,11 @@ class LocationRepository implements LocationRepositoryInterface {
 		return LocationModel::find($id);
 	}
 
+	public function listAll($key, $value)
+	{
+		return LocationModel::lists($value, $key);
+	}
+
 	public function update($id, array $data)
 	{
 		// Get the item

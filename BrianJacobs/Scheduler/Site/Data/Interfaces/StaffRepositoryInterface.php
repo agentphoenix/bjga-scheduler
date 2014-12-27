@@ -12,6 +12,6 @@ interface StaffRepositoryInterface {
 	public function getBlocks($user);
 	public function getSchedule($staffId, $days);
 	public function update($id, array $data);
-	public function updateSchedule($staffId, $day, $availability);
+	public function updateSchedule($staffId, $day, array $data);
 	
 }

@@ -8,7 +8,7 @@ class StaffScheduleModel extends Model {
 
 	public $timestamps = false;
 
-	protected $fillable = array('staff_id', 'day', 'availability');
+	protected $fillable = array('staff_id', 'day', 'availability', 'location_id');
 
 	/*
 	|--------------------------------------------------------------------------
@@ -19,6 +19,11 @@ class StaffScheduleModel extends Model {
 	public function staff()
 	{
 		return $this->belongsTo('StaffModel');
+	}
+
+	public function location()
+	{
+		return $this->belongsTo('LocationModel', 'location_id', 'id');
 	}
 	
 }

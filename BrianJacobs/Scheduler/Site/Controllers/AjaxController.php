@@ -13,6 +13,7 @@ use Auth,
 	UserRepositoryInterface,
 	StaffRepositoryInterface,
 	ServiceRepositoryInterface,
+	LocationRepositoryInterface,
 	StaffScheduleRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
@@ -24,12 +25,14 @@ class AjaxController extends BaseController {
 	protected $appointment;
 	protected $staff;
 	protected $icons;
+	protected $location;
 
 	public function __construct(StaffScheduleRepositoryInterface $schedule,
 			ServiceRepositoryInterface $service,
 			UserRepositoryInterface $user,
 			StaffAppointmentRepositoryInterface $appointment,
-			StaffRepositoryInterface $staff)
+			StaffRepositoryInterface $staff,
+			LocationRepositoryInterface $location)
 	{
 		parent::__construct();
 
@@ -38,6 +41,7 @@ class AjaxController extends BaseController {
 		$this->user = $user;
 		$this->appointment = $appointment;
 		$this->staff = $staff;
+		$this->location = $location;
 
 		$this->icons = Config::get('icons');
 	}
@@ -169,8 +173,18 @@ class AjaxController extends BaseController {
 
 		if ($service)
 		{
+			// Build a date object
+			$date = Date::createFromFormat('Y-m-d', Input::get('date'));
+
+			// Get the location from the instructor
+			$location = $service->staff->schedule->filter(function($s) use ($date)
+			{
+				return (int) $s->day === (int) $date->dayOfWeek;
+			})->first()->location;
+
 			return View::make('pages.ajax.lessonServiceDetails')
-				->withService($service);
+				->withService($service)
+				->withLocation($location->present()->name);
 		}
 
 		return View::make('partials.common.alert')
