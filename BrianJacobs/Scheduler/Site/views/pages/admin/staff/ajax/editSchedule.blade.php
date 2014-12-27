@@ -26,6 +26,15 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label class="control-label">Location</label>
+				{{ Form::select('location', $locations, null, ['class' => 'form-control']) }}
+			</div>
+		</div>
+	</div>
+
 	{{ Form::hidden('dayNum', $daynum) }}
 
 	<div class="visible-md visible-lg">
