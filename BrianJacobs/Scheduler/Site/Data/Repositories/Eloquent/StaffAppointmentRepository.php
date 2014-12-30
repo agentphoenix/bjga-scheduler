@@ -2,6 +2,7 @@
 
 use Date,
 	Event,
+	Config,
 	ServiceModel,
 	StaffAppointmentModel,
 	StaffAppointmentRecurModel,
@@ -142,10 +143,13 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 				// Get the service
 				$service = $recur->staffAppointments->first()->service;
 
+				// Grab the starting date to use
+				$starting = Date::createFromFormat(Config::get('bjga.dates.dateFormal'), $data['startingWith']);
+
 				// Make sure we're dealing with only appointments from today forward
-				$series = $recur->staffAppointments->filter(function($s) use ($today)
+				$series = $recur->staffAppointments->filter(function($s) use ($starting)
 				{
-					return $s->start >= $today;
+					return $s->start >= $starting->startOfDay();
 				});
 
 				// Start building the new date

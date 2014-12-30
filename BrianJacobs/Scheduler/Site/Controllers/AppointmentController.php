@@ -5,6 +5,7 @@ use Book,
 	View,
 	Event,
 	Input,
+	Config,
 	Redirect,
 	ServiceValidator,
 	UserAppointmentModel,
@@ -239,9 +240,22 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			$recurring = $this->appts->getRecurringLessons($id);
+
+			$starting = $recurring->staffAppointments->filter(function($a)
+			{
+				return $a->start >= Date::now()->startOfDay();
+			});
+
+			foreach ($starting as $s)
+			{
+				$startingDropdown[$s->start->format(Config::get('bjga.dates.dateFormal'))] = $s->start->format(Config::get('bjga.dates.date'));
+			}
+
 			return View::make('pages.admin.appointments.recurringEdit')
-				->withRecurring($this->appts->getRecurringLessons($id))
-				->withToday(Date::now()->startOfDay());
+				->withRecurring($recurring)
+				->withToday(Date::now()->startOfDay())
+				->with('startingWith', $startingDropdown);
 		}
 		else
 		{

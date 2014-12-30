@@ -45,6 +45,12 @@
 					{{ Form::text('newTime', null, array('class' => 'js-timepicker form-control')) }}
 				</div>
 			</div>
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="control-label">Starting With</label>
+					{{ Form::select('startingWith', $startingWith, null, ['class' => 'form-control']) }}
+				</div>
+			</div>
 			<div class="col-lg-2">
 				<div class="visible-md visible-lg">
 					<label class="control-label">&nbsp;</label>
