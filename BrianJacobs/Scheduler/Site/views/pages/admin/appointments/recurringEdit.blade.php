@@ -27,12 +27,20 @@
 
 	<hr>
 
-	<h3>Select New Date</h3>
+	<h3>Update Series</h3>
 
-	<p>The new date you select will be used for the next appointment in the series. All appointments beyond that will be shifted accordingly. <strong class="text-danger">This will not take instructor availability into account, so make sure you have verified the time is available.</strong></p>
+	<p>To update the series, select the effective appointment, the new date, and the new start time and click <strong>Change</strong>. All appointments in the series, beginning with the effective appointment you select, will be shifted to the new date/time for the remainder of the series. <strong class="text-danger">This will not take instructor availability into account, so make sure you have verified the time is available.</strong></p>
+
+	<!--<p>The new date you select will be used for the next appointment in the series. All appointments, including the one selected, in the <em>Starting With Appointment</em> will be shifted accordingly. <strong class="text-danger">This will not take instructor availability into account, so make sure you have verified the time is available.</strong></p>-->
 
 	{{ Form::open(array('route' => array('admin.appointment.recurring.update', $recurring->id))) }}
 		<div class="row">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="control-label">Effective Appointment</label>
+					{{ Form::select('startingWith', $startingWith, null, ['class' => 'form-control']) }}
+				</div>
+			</div>
 			<div class="col-lg-3">
 				<div class="form-group">
 					<label class="control-label">New Date</label>
@@ -43,12 +51,6 @@
 				<div class="form-group">
 					<label class="control-label">New Start Time</label>
 					{{ Form::text('newTime', null, array('class' => 'js-timepicker form-control')) }}
-				</div>
-			</div>
-			<div class="col-lg-3">
-				<div class="form-group">
-					<label class="control-label">Starting With</label>
-					{{ Form::select('startingWith', $startingWith, null, ['class' => 'form-control']) }}
 				</div>
 			</div>
 			<div class="col-lg-2">
@@ -63,7 +65,7 @@
 		</div>
 	{{ Form::close() }}
 
-	<h3>Appointment Schedule</h3>
+	<h3>Series Schedule</h3>
 
 	<div class="row">
 		<div class="col-lg-6">
