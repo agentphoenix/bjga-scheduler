@@ -1,6 +1,8 @@
 <?php namespace Scheduler\Events;
 
-use Mail,
+use Log,
+	Date,
+	Mail,
 	Queue,
 	Config;
 
@@ -55,10 +57,23 @@ class AppointmentEventHandler {
 		// Get the service
 		$service = $staffAppt->service;
 
+		// Get the series
+		$series = ($service->isRecurring())
+			? $userAppt->recur->staffAppointments->sortBy('start')->filter(function($a)
+				{
+					return $a->start >= Date::now();
+				})
+			: $userAppt->appointment;
+
+		foreach ($series as $s)
+		{
+			$data['appointments'][] = $s->start->format(Config::get('bjga.dates.date')).' '.$s->start->format(Config::get('bjga.dates.time')).' - '.$s->end->format(Config::get('bjga.dates.time'));
+		}
+
 		// Email the attendees
 		Mail::send('emails.appointmentUpdated', $data, function($message) use ($user, $service)
 		{
-			\Log::info('emails.appointmentUpdated');
+			//Log::info('emails.appointmentUpdated');
 
 			$message->to($user->email)
 				->subject(Config::get('bjga.email.subject')." Appointment Updated")
