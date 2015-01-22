@@ -109,10 +109,10 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
-		'Dingo\Api\ApiServiceProvider',
+		//'Dingo\Api\ApiServiceProvider',
 		'Scheduler\SchedulerServiceProvider',
 		'Scheduler\SchedulerRoutingServiceProvider',
-		'Scheduler\Api\SchedulerApiServiceProvider',
+		//'Scheduler\Api\SchedulerApiServiceProvider',
 
 	),
 
@@ -180,7 +180,7 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 
-		'API'			=> 'Dingo\Api\Facades\API',
+		//'API'			=> 'Dingo\Api\Facades\API',
 		'Book'			=> 'Scheduler\Facades\Book',
 		'Date'			=> 'Carbon\Carbon',
 		'Flash'			=> 'Scheduler\Facades\FlashFacade',
