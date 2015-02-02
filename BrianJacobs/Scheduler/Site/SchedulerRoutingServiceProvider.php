@@ -213,6 +213,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('service/get', array(
 				'as'	=> 'ajax.getService',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@getService'));
+			Route::get('service/getService', 'Scheduler\Controllers\AjaxController@getServiceNew');
 			Route::get('service/getLesson', array(
 				'as'	=> 'ajax.getLessonService',
 				'uses'	=> 'Scheduler\Controllers\AjaxController@getLessonDetails'));
