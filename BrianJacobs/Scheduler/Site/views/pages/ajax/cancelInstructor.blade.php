@@ -59,6 +59,10 @@
 	@endif
 	--}}
 
+	@if ($appointment->service->isRecurring())
+		{{ alert('warning', "This will only cancel this appointment. If you need to cancel the entire series, please email ".Config::get('bjga.email.adminAddress')." with the following information: <nobr><code>Series ID: ".$appointment->recur_id."</code></nobr>") }}
+	@endif
+
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="form-group">
