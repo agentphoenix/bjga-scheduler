@@ -35,25 +35,25 @@
 
 	{{ Form::open(array('route' => array('admin.appointment.recurring.update', $recurring->id))) }}
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-md-4 col-lg-3">
 				<div class="form-group">
 					<label class="control-label">Effective Appointment</label>
 					{{ Form::select('startingWith', $startingWith, null, ['class' => 'form-control']) }}
 				</div>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-md-2 col-lg-3">
 				<div class="form-group">
 					<label class="control-label">New Date</label>
 					{{ Form::text('newDate', null, array('class' => 'js-datepicker form-control')) }}
 				</div>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-md-3">
 				<div class="form-group">
 					<label class="control-label">New Start Time</label>
 					{{ Form::text('newTime', null, array('class' => 'js-timepicker form-control')) }}
 				</div>
 			</div>
-			<div class="col-lg-2">
+			<div class="col-md-3 col-lg-2">
 				<div class="visible-md visible-lg">
 					<label class="control-label">&nbsp;</label>
 					{{ Form::button('Change', array('type' => 'submit', 'class' => 'btn btn-sm btn-block btn-primary')) }}
@@ -68,11 +68,11 @@
 	<h3>Series Schedule</h3>
 
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-md-10 col-lg-8">
 			<div class="data-table data-table-striped data-table-bordered">
 			@foreach ($recurring->present()->staffAppointments as $sa)
 				<div class="row">
-					<div class="col-sm-6 col-md-6 col-lg-7">
+					<div class="col-xs-6 col-md-5">
 						@if ($sa->start < $today)
 							<p class="text-muted">
 						@else
@@ -80,7 +80,7 @@
 						@endif
 						{{ $sa->present()->appointmentDate }}</p>
 					</div>
-					<div class="col-sm-6 col-md-6 col-lg-5">
+					<div class="col-xs-6 col-md-4">
 						@if ($sa->start < $today)
 							<p class="text-muted">
 						@else
@@ -88,11 +88,37 @@
 						@endif
 						{{ $sa->present()->appointmentTime }}</p>
 					</div>
+					<div class="col-xs-12 col-md-3">
+						<div class="visible-md visible-lg">
+							<div class="btn-toolbar pull-right">
+								<div class="btn-group">
+									<a href="{{ URL::route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-sm icn-size-16">{{ $_icons['edit'] }}</a>
+								</div>
+								<div class="btn-group">
+									<a href="#" class="btn btn-danger btn-sm icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">{{ $_icons['reject'] }}</a>
+								</div>
+							</div>
+						</div>
+						<div class="visible-xs visible-sm">
+							<div class="row">
+								<div class="col-sm-6">
+									<p><a href="{{ URL::route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-lg btn-block">Edit Appointment</a></p>
+								</div>
+								<div class="col-sm-6">
+									<p><a href="#" class="btn btn-danger btn-lg btn-block js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">Cancel Appointment</a></p>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			@endforeach
 			</div>
 		</div>
 	</div>
+@stop
+
+@section('modals')
+	{{ modal(['id' => 'instructorCancel', 'header' => "Cancel Appointment"]) }}
 @stop
 
 @section('styles')
@@ -122,6 +148,27 @@
 				max: [22, 0],
 				container: '.container-fluid'
 			});
+		});
+
+		$('.js-withdraw').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var id = $(this).data('appointment');
+			var type = $(this).data('type');
+
+			if (type == "staff")
+			{
+				$('#instructorCancel').modal({
+					remote: "{{ URL::to('ajax/cancel/staff') }}/" + id
+				}).modal('show');
+			}
+			else
+			{
+				$('#studentCancel').modal({
+					remote: "{{ URL::to('ajax/cancel/student') }}/" + id
+				}).modal('show');
+			}
 		});
 	</script>
 @stop
