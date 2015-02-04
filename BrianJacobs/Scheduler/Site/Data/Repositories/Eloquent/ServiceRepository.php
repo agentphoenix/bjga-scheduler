@@ -17,9 +17,12 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 *
 	 * @return	Collection
 	 */
-	public function all($onlyActive = false)
+	public function all($onlyActive = false, $staff = false)
 	{
 		$services = ServiceModel::orderBy('order', 'asc');
+
+		if ($staff)
+			$services = $services->where('staff_id', $staff);
 
 		if ($onlyActive)
 			$services = $services->where('status', (int) true);
@@ -32,10 +35,10 @@ class ServiceRepository implements ServiceRepositoryInterface {
 	 *
 	 * @return	array
 	 */
-	public function allByCategory($onlyActive = false)
+	public function allByCategory($onlyActive = false, $staff = false)
 	{
 		// Get everything from the database
-		$items = $this->all($onlyActive);
+		$items = $this->all($onlyActive, $staff);
 
 		// Start a holding array
 		$final = array();

@@ -37,10 +37,14 @@ class ServiceController extends BaseController {
 
 	public function index()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
+			$staffId = ($this->currentUser->access() < 3) 
+				? $this->currentUser->staff->id 
+				: false;
+
 			return View::make('pages.admin.services.index')
-				->withServices($this->service->allByCategory())
+				->withServices($this->service->allByCategory(false, $staffId))
 				->withCategories(array('lesson', 'program'));
 		}
 		else
@@ -51,7 +55,7 @@ class ServiceController extends BaseController {
 
 	public function store()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			$validator = new ServiceValidator;
 
@@ -86,7 +90,7 @@ class ServiceController extends BaseController {
 
 	public function edit($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			// Get the service
 			$service = $this->service->find($id);
@@ -122,7 +126,7 @@ class ServiceController extends BaseController {
 
 	public function update($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			$validator = new ServiceValidator;
 
@@ -177,7 +181,7 @@ class ServiceController extends BaseController {
 
 	public function createLessonService()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			// Set up the staff array
 			$staff[''] = 'Please choose an instructor';
@@ -199,7 +203,7 @@ class ServiceController extends BaseController {
 
 	public function createProgramService()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			// Set up the staff array
 			$staff[''] = 'Please choose an instructor';

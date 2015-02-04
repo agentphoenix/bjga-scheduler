@@ -56,9 +56,23 @@ class ServiceModel extends Model {
 	 */
 	public function setSlugAttribute($value)
 	{
-		$this->attributes['slug'] = (empty($value)) 
-			? Str::slug($this->attributes['name'])
-			: $value;
+		if (empty($value))
+		{
+			// Get the staff argument
+			$staff = StaffModel::find($this->attributes['staff_id']);
+
+			// Get the staff member's last name
+			$name = explode(' ', $staff->user->name);
+
+			// Get the last name
+			$lastname = strtolower(end($name));
+
+			$this->attributes['slug'] = Str::slug($this->attributes['name']." ".$lastname);
+		}
+		else
+		{
+			$this->attributes['slug'] = $value;
+		}
 	}
 
 	/*
