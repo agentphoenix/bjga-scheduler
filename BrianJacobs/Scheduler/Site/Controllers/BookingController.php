@@ -121,10 +121,10 @@ class BookingController extends BaseController {
 		if ($this->currentUser->isStaff())
 		{
 			// Figure out if we're cancelling everything
-			$cancelAll = (Input::get('cancel_all', false) == '1') ? true : false;
+			//$cancelAll = (Input::get('cancel_all', false) == '1') ? true : false;
 
 			// Cancel the appointment
-			Book::cancel(Input::get('appointment'), Input::get('reason'), $cancelAll);
+			Book::cancel(Input::get('appointment'), Input::get('reason'));
 
 			return Redirect::route('home')
 				->with('message', "Appointment was successfully cancelled. All attendees have been notified of the cancellation.")

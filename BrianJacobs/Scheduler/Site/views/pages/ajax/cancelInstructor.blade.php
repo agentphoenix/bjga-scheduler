@@ -38,6 +38,7 @@
 <hr>
 
 {{ Form::open(array('route' => array('book.cancel'))) }}
+	{{--
 	@if ($appointment->service->isRecurring())
 		<div class="row">
 			<div class="col-lg-12">
@@ -56,6 +57,7 @@
 			</div>
 		</div>
 	@endif
+	--}}
 
 	<div class="row">
 		<div class="col-lg-12">
