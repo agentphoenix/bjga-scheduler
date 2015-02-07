@@ -39,10 +39,7 @@
 		@if ($_currentUser->isStaff())
 			<p>Admin</p>
 			<ul>
-				@if ($_currentUser->access() > 1)
-					<li class="{{ (Request::is('admin/appointment*') ? 'active' : '') }}"><a href="{{ route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
-				@endif
-				
+				<li class="{{ (Request::is('admin/appointment*') ? 'active' : '') }}"><a href="{{ route('admin.appointment.index') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Appointments</a></li>
 				<li class="{{ (Request::is('admin/service*') ? 'active' : '') }}"><a href="{{ route('admin.service.index') }}"><span class="icn-size-16">{{ $_icons['golf'] }}</span>Services</a></li>
 
 				@if ($_currentUser->access() > 1)
