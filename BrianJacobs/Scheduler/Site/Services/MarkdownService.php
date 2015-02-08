@@ -1,25 +1,25 @@
 <?php namespace Scheduler\Services;
 
-use ParsedownExtra;
+use League\CommonMark\CommonMarkConverter as Parser;
 
 class MarkdownService {
 
-	protected $markdown;
+	protected $parser;
 
-	public function __construct(ParsedownExtra $markdown)
+	public function __construct(Parser $parser)
 	{
-		$this->markdown = $markdown;
+		$this->parser = $parser;
 	}
 
 	/**
-	 * Parse the string from Markdown to HTML.
-	 *
-	 * @param	string	$str	The string to parse
-	 * @return	string
-	 */
+	* Parse the string from Markdown to HTML.
+	*
+	* @param	string	$str	The string to parse
+	* @return	string
+	*/
 	public function parse($str)
 	{
-		return $this->markdown->text($str);
+		return $this->parser->convertToHtml($str);
 	}
-	
+
 }
