@@ -4,8 +4,8 @@ use Illuminate\Support\Collection;
 
 interface ServiceRepositoryInterface {
 
-	public function all($onlyActive = false);
-	public function allByCategory($onlyActive = false);
+	public function all($onlyActive = false, $staff = false);
+	public function allByCategory($onlyActive = false, $staff = false);
 	public function allForDropdownByCategory($onlyActive = false);
 	public function allPrograms($timeframe = false, $onlyActive = false);
 	public function create(array $data);

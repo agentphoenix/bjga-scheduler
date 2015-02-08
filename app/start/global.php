@@ -41,11 +41,16 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 |
 */
 
+App::missing(function($exception)
+{
+	return Response::view('errors.missing', [], 404);
+});
+
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
 
-	if (App::environment() == 'production')
+	if (App::environment() == 'production' and $code != 404)
 	{
 		$emailData = array(
 			'user'		=> "the Scheduler",

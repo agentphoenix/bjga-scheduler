@@ -52,6 +52,9 @@
 								<span class="label label-warning">Inactive</span>
 							@endif
 						</p>
+						@if ($_currentUser->access() == 3)
+							<p class="text-sm">{{ $service->staff->user->name }}</p>
+						@endif
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
 						<div class="visible-md visible-lg">
@@ -66,11 +69,9 @@
 									<a href="{{ URL::route('admin.service.edit', array($service->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Service">{{ $_icons['edit'] }}</a>
 								</div>
 
-								@if ($_currentUser->access() >= 2)
-									<div class="btn-group">
-										<a href="{{ URL::route('admin.service.destroy', array($service->id)) }}" class="btn btn-sm btn-danger icn-size-16 js-service-action js-tooltip-top" data-title="Remove Service" data-action="delete" data-id="{{ $service->id }}">{{ $_icons['remove'] }}</a>
-									</div>
-								@endif
+								<div class="btn-group">
+									<a href="{{ URL::route('admin.service.destroy', array($service->id)) }}" class="btn btn-sm btn-danger icn-size-16 js-service-action js-tooltip-top" data-title="Remove Service" data-action="delete" data-id="{{ $service->id }}">{{ $_icons['remove'] }}</a>
+								</div>
 							</div>
 						</div>
 						<div class="visible-xs visible-sm">
@@ -87,11 +88,9 @@
 									<p><a href="{{ URL::route('admin.service.edit', array($service->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit Service</a></p>
 								</div>
 
-								@if ($_currentUser->access() >= 2)
-									<div class="col-xs-12 col-sm-4">
-										<p><a href="{{ URL::route('admin.service.destroy', array($service->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-service-action" data-action="delete" data-id="{{ $service->id }}">Remove Service</a></p>
-									</div>
-								@endif
+								<div class="col-xs-12 col-sm-4">
+									<p><a href="{{ URL::route('admin.service.destroy', array($service->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-service-action" data-action="delete" data-id="{{ $service->id }}">Remove Service</a></p>
+								</div>
 							</div>
 						</div>
 					</div>

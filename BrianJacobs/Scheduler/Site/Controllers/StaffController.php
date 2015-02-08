@@ -181,6 +181,13 @@ class StaffController extends BaseController {
 					return (int) $s->day === (int) $date->dayOfWeek;
 				})->first();
 
+				if (empty($schedule->availability))
+				{
+					return Redirect::route('admin.staff.schedule', [Input::get('staff_id')])
+						->with('message', "No availability to block.")
+						->with('messageStatus', 'warning');
+				}
+
 				// Break the availability apart
 				list($aStart, $aEnd) = explode('-', $schedule->availability);
 

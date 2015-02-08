@@ -46,7 +46,7 @@ class AppointmentController extends BaseController {
 
 	public function index()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			return View::make('pages.admin.appointments.index');
 		}
@@ -58,10 +58,13 @@ class AppointmentController extends BaseController {
 
 	public function create()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
+			$services = [0 => "Please choose one"];
+			$services+= $this->service->getValues('lesson', true, (int) $this->currentUser->staff->id);
+
 			return View::make('pages.admin.appointments.create')
-				->withServices(array('0' => "Please choose one") + $this->service->getValues('lesson', true));
+				->withServices($services);
 		}
 		else
 		{
@@ -71,7 +74,7 @@ class AppointmentController extends BaseController {
 
 	public function store()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			// Do the booking
 			Book::lesson(Input::all(), true, (bool) Input::get('email_student', 0));
@@ -186,7 +189,7 @@ class AppointmentController extends BaseController {
 
 	public function user($id = false)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			if ( ! $id)
 			{
@@ -211,7 +214,7 @@ class AppointmentController extends BaseController {
 
 	public function history($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			// Get the user
 			$user = $this->user->find($id);
@@ -228,7 +231,7 @@ class AppointmentController extends BaseController {
 
 	public function recurring()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
 			return View::make('pages.admin.appointments.recurring')
 				->withRecurring($this->appts->getRecurringLessons());

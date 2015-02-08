@@ -50,7 +50,7 @@ class CreditEventHandler {
 
 	public function onDelete($credit)
 	{
-		if ((int) $credit->user_id !== 0 or ! empty($credit->email))
+		if ($credit and ((int) $credit->user_id !== 0 or ! empty($credit->email)))
 		{
 			// Compile the basic data
 			$data = [

@@ -7,30 +7,33 @@
 @section('content')
 	<h1>Edit Program Service <small>{{ $service->name }}</small></h1>
 
-	@if ($_currentUser->access() > 1)
-		<div class="visible-md visible-lg">
-			<div class="btn-toolbar">
-				<div class="btn-group">
-					<a href="{{ URL::route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
-				</div>
+	<div class="visible-md visible-lg">
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<a href="{{ URL::route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 		</div>
-		<div class="visible-xs visible-sm">
-			<div class="row">
-				<div class="col-xs-6 col-sm-3">
-					<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
-				</div>
+	</div>
+	<div class="visible-xs visible-sm">
+		<div class="row">
+			<div class="col-xs-6 col-sm-3">
+				<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-block btn-lg btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 			</div>
 		</div>
-	@endif
+	</div>
 
 	{{ Form::model($service, array('route' => array('admin.service.update', $service->id), 'method' => 'put')) }}
 		<div class="row">
 			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('staff_id')) ? ' has-error' : '' }}">
 					<label class="control-label">Instructor</label>
-					{{ Form::select('staff_id', $staff, null, array('class' => 'form-control')) }}
-					{{ $errors->first('staff_id', '<p class="help-block">:message</p>') }}
+					@if ($_currentUser->access() == 3)
+						{{ Form::select('staff_id', $staff, null, array('class' => 'form-control')) }}
+						{{ $errors->first('staff_id', '<p class="help-block">:message</p>') }}
+					@else
+						<p>{{ $_currentUser->name }}</p>
+						{{ Form::hidden('staff_id', $_currentUser->staff->id) }}
+					@endif
 				</div>
 			</div>
 		</div>

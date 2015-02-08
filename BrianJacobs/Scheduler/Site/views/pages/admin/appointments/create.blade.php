@@ -144,13 +144,13 @@
 		$('[name="service_id"]').on('change', function(e)
 		{
 			$.ajax({
-				url: "{{ URL::to('ajax/service/get') }}",
+				url: "{{ URL::to('ajax/service/getService') }}",
 				data: { service: $('[name="service_id"] option:selected').val() },
 				success: function(data)
 				{
 					var obj = $.parseJSON(data);
 					var price = obj.service.price;
-					price = price.replace("$", "");
+					//price = price.replace("$", "");
 
 					$('[name="price"]').val(price);
 				}

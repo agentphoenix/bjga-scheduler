@@ -177,7 +177,10 @@ class UserRepository implements UserRepositoryInterface {
 		{
 			if ($days)
 			{
-				return $a->appointment->start->startOfDay() >= $today->startOfDay() and $a->appointment->start->endOfDay() <= $today->copy()->addDays($days)->endOfDay();
+				if ($a->appointment)
+				{
+					return $a->appointment->start->startOfDay() >= $today->startOfDay() and $a->appointment->start->endOfDay() <= $today->copy()->addDays($days)->endOfDay();
+				}
 			}
 			else
 			{

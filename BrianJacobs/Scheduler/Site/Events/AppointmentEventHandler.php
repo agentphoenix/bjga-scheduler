@@ -63,11 +63,15 @@ class AppointmentEventHandler {
 				{
 					return $a->start >= Date::now();
 				})
-			: $userAppt->appointment;
+			: [$userAppt->appointment];
 
 		foreach ($series as $s)
 		{
-			$data['appointments'][] = $s->start->format(Config::get('bjga.dates.date')).' '.$s->start->format(Config::get('bjga.dates.time')).' - '.$s->end->format(Config::get('bjga.dates.time'));
+			$output = $s->start->format(Config::get('bjga.dates.date'))." ";
+			$output.= $s->start->format(Config::get('bjga.dates.time'))." - ";
+			$output.= $s->end->format(Config::get('bjga.dates.time'));
+
+			$data['appointments'][] = $output;
 		}
 
 		// Email the attendees
