@@ -7,9 +7,9 @@ use App,
 	Event,
 	Queue,
 	Config;
-use Parsedown;
 use Ikimea\Browser\Browser;
 use Illuminate\Support\ServiceProvider;
+use League\CommonMark\CommonMarkConverter;
 
 class SchedulerServiceProvider extends ServiceProvider {
 
@@ -46,7 +46,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		$this->app['markdown'] = $this->app->share(function($app)
 		{
-			return new Services\MarkdownService(new Parsedown);
+			return new Services\MarkdownService(new CommonMarkConverter);
 		});
 	}
 
