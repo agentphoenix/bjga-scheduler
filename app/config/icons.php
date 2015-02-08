@@ -10,11 +10,13 @@ return array(
 	'check' => '<span class="icn" data-icon="k"></span>',
 	'clock' => '<span class="icn" data-icon="8"></span>',
 	'credit' => '<span class="icn" data-icon="7"></span>',
+	'comments' => '<span class="icn" data-icon="z"></span>',
 
 	'edit' => '<span class="icn" data-icon="3"></span>',
 	'email' => '<span class="icn" data-icon="v"></span>',
 
 	'facebook' => '<span class="icn" data-icon="c"></span>',
+	'forward' => '<span class="icn" data-icon=">"></span>',
 
 	'gear' => '<span class="icn" data-icon="2"></span>',
 	'golf' => '<span class="icn" data-icon="g"></span>',
@@ -40,7 +42,9 @@ return array(
 	'schedule' => '<span class="icn" data-icon="o"></span>',
 	'school' => '<span class="icn" data-icon="s"></span>',
 	'star' => '<span class="icn" data-icon="1"></span>',
+	'stats' => '<span class="icn" data-icon="q"></span>',
 
+	'target' => '<span class="icn" data-icon="9"></span>',
 	'twitter' => '<span class="icn" data-icon="w"></span>',
 
 	'user' => '<span class="icn" data-icon="l"></span>',
