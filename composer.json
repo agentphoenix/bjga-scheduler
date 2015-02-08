@@ -24,7 +24,8 @@
 		"psr-4": {
 			"Scheduler\\": "BrianJacobs\\Scheduler\\Site",
 			"Scheduler\\Api\\": "BrianJacobs\\Scheduler\\Api",
-			"Scheduler\\Extensions\\": "BrianJacobs\\Scheduler\\Extensions"
+			"Scheduler\\Extensions\\": "BrianJacobs\\Scheduler\\Extensions",
+			"Plans\\": "BrianJacobs\\Scheduler\\Plans"
 		}
 	},
 	
