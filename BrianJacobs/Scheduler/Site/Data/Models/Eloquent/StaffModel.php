@@ -38,5 +38,10 @@ class StaffModel extends Model {
 	{
 		return $this->hasMany('StaffScheduleModel', 'staff_id');
 	}
+
+	public function plans()
+	{
+		return $this->hasManyThrough('PlanModel', 'development_plans_instructors', 'plan_id', 'staff_id');
+	}
 	
 }

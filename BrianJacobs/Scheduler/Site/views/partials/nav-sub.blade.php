@@ -4,6 +4,11 @@
 		<li class="visible-xs visible-sm"><a href="http://brianjacobsgolf.com">Brian Jacobs Golf Home</a></li>
 		@if (Auth::check())
 			<li class="{{ ((Request::is('/') or Request::is('days*')) ? 'active' : '') }}"><a href="{{ route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
+			
+			@if ($_currentUser->plan)
+				<li class="{{ ((Request::is('my-plan')) ? 'active' : '') }}"><a href="{{ route('my-plan') }}"><span class="icn-size-16">{{ $_icons['target'] }}</span>My Plan</a></li>
+			@endif
+
 			<li class="{{ ((Request::is('my-history')) ? 'active' : '') }}"><a href="{{ route('history') }}"><span class="icn-size-16">{{ $_icons['star'] }}</span>My History</a></li>
 		@endif
 			
@@ -45,6 +50,7 @@
 				@if ($_currentUser->access() > 1)
 					<li class="{{ ((Request::is('admin/user*') and ! Request::is('admin/user/'.$_currentUser->id.'/edit')) ? 'active' : '') }}"><a href="{{ route('admin.user.index') }}"><span class="icn-size-16">{{ $_icons['users'] }}</span>Users</a></li>
 					<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['school'] }}</span>Staff</a></li>
+					<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['list'] }}</span>Development Plans</a></li>
 				@endif
 
 				<li class="{{ (Request::is('admin/credits*') ? 'active' : '') }}"><a href="{{ route('admin.credits.index') }}"><span class="icn-size-16">{{ $_icons['money'] }}</span>Credits</a></li>

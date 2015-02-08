@@ -16,6 +16,7 @@ return array(
 	'paths' => array(
 
 		__DIR__.'/../../BrianJacobs/Scheduler/Site/views',
+		__DIR__.'/../../BrianJacobs/Scheduler/Plans/views',
 		__DIR__.'/../views',
 
 	),

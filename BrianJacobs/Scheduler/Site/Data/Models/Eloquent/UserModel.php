@@ -46,6 +46,16 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return $this->hasMany('CreditModel', 'user_id');
 	}
 
+	public function plan()
+	{
+		return $this->hasOne('Plan', 'user_id');
+	}
+
+	public function conversations()
+	{
+		return $this->hasMany('Conversation', 'user_id');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Getters/Setters

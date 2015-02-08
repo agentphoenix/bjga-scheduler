@@ -112,6 +112,8 @@ return array(
 		//'Dingo\Api\ApiServiceProvider',
 		'Scheduler\SchedulerServiceProvider',
 		'Scheduler\SchedulerRoutingServiceProvider',
+		'Plans\PlanServiceProvider',
+		'Plans\PlanRoutingServiceProvider',
 		//'Scheduler\Api\SchedulerApiServiceProvider',
 
 	),
@@ -215,6 +217,10 @@ return array(
 		'UserModel'						=> 'Scheduler\Data\Models\Eloquent\UserModel',
 		'UserAppointmentModel'			=> 'Scheduler\Data\Models\Eloquent\UserAppointmentModel',
 
+		'Conversation'	=> 'Plans\Data\Conversation',
+		'Goal'			=> 'Plans\Data\Goal',
+		'Plan'			=> 'Plans\Data\Plan',
+
 		/**
 		 * Repositories
 		 */
@@ -225,6 +231,10 @@ return array(
 		'StaffScheduleRepository'		=> 'Scheduler\Data\Repositories\Eloquent\StaffScheduleRepository',
 		'UserRepository'				=> 'Scheduler\Data\Repositories\Eloquent\UserRepository',
 
+		'ConversationRepository'	=> 'Plans\Data\Repositories\ConversationRepository',
+		'GoalRepository'			=> 'Plans\Data\Repositories\GoalRepository',
+		'PlanRepository'				=> 'Plans\Data\Repositories\PlanRepository',
+
 		/**
 		 * Repository Interfaces
 		 */
@@ -234,6 +244,10 @@ return array(
 		'StaffAppointmentRepositoryInterface'	=> 'Scheduler\Data\Interfaces\StaffAppointmentRepositoryInterface',
 		'StaffScheduleRepositoryInterface'		=> 'Scheduler\Data\Interfaces\StaffScheduleRepositoryInterface',
 		'UserRepositoryInterface'				=> 'Scheduler\Data\Interfaces\UserRepositoryInterface',
+
+		'ConversationRepositoryInterface'	=> 'Plans\Data\Interfaces\ConversationRepositoryInterface',
+		'GoalRepositoryInterface'			=> 'Plans\Data\Interfaces\GoalRepositoryInterface',
+		'PlanRepositoryInterface'			=> 'Plans\Data\Interfaces\PlanRepositoryInterface',
 
 		/**
 		 * Transformers
