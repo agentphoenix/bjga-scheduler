@@ -65,6 +65,17 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
+		Schema::create('development_plans_timeline', function(Blueprint $table)
+		{
+			$table->bigIncrements('id');
+			$table->integer('plan_id')->unsigned();
+			$table->integer('goal_id')->unsigned()->nullable();
+			$table->integer('user_id')->unsigned();
+			$table->string('type');
+			$table->integer('type_id')->nullable();
+			$table->timestamps();
+		});
 	}
 
 	/**
@@ -79,6 +90,7 @@ class CreateDevelopmentPlansTables extends Migration {
 		Schema::dropIfExists('development_plans_goals');
 		Schema::dropIfExists('development_plans_conversations');
 		Schema::dropIfExists('development_plans_goals_stats');
+		Schema::dropIfExists('development_plans_timeline');
 	}
 
 }
