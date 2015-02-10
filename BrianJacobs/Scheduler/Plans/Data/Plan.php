@@ -9,7 +9,7 @@ class Plan extends Model {
 	use PresentableTrait;
 	use SoftDeletingTrait;
 
-	protected $table = 'development_plans';
+	protected $table = 'plans';
 
 	protected $fillable = ['user_id'];
 

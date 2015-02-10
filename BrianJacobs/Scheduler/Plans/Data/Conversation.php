@@ -7,7 +7,7 @@ class Conversation extends Model {
 
 	use PresentableTrait;
 
-	protected $table = 'development_plans_conversations';
+	protected $table = 'plans_conversations';
 
 	protected $fillable = ['plan_id', 'goal_id', 'user_id', 'content'];
 

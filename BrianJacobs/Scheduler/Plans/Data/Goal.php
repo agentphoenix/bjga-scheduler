@@ -9,7 +9,7 @@ class Goal extends Model {
 	use PresentableTrait;
 	use SoftDeletingTrait;
 
-	protected $table = 'development_plans_goals';
+	protected $table = 'plans_goals';
 
 	protected $fillable = ['plan_id', 'title', 'summary', 'completed',
 		'completed_date'];
@@ -32,6 +32,11 @@ class Goal extends Model {
 	public function conversations()
 	{
 		return $this->hasMany('Conversation');
+	}
+
+	public function stats()
+	{
+		return $this->hasMany('Stat');
 	}
 	
 }
