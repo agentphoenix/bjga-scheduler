@@ -1,34 +1,38 @@
 @extends('layouts.master')
 
 @section('title')
-	My Development Plan
+	{{ $goal->present()->title }} &bull; My Development Plan
 @stop
 
 @section('content')
-	<h1>My Development Plan</h1>
+	<h1>{{ $goal->present()->title }} <small>My Development Plan</small></h1>
 
 	<div class="visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-6 col-sm-3">
-				<p><a href="#" class="btn btn-block btn-lg btn-primary">Add New Goal</a></p>
+				<p><a href="{{ route('my-plan') }}" class="btn btn-block btn-lg btn-primary">Back to My Plan</a></p>
 			</div>
-			<div class="col-xs-6 col-sm-3">
-				<p><a class="btn btn-block btn-lg btn-primary js-toggleGoals">Only Show My Goals</a></p>
-			</div>
+			@if ( ! (bool) $goal->completed)
+				<div class="col-xs-6 col-sm-3">
+					<p><a href="#" class="btn btn-block btn-lg btn-primary">Add New Stat</a></p>
+				</div>
+			@endif
 		</div>
 	</div>
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="#" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
+				<a href="{{ route('my-plan') }}" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
-			<div class="btn-group">
-				<a href="#" class="btn btn-sm btn-primary icn-size-16-with-text js-toggleGoals">Only Show My Goals</a>
-			</div>
+			@if ( ! (bool) $goal->completed)
+				<div class="btn-group">
+					<a href="#" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
+				</div>
+			@endif
 		</div>
 	</div>
 
-	{{ partial('timeline-plan', ['items' => $timeline, 'plan' => $plan]) }}
+	{{ partial('timeline-goal', ['items' => $timeline, 'goal' => $goal]) }}
 @stop
 
 @section('styles')
@@ -75,7 +79,7 @@
 
 			var text = $(this).text();
 
-			if (text == "Only Show My Goals")
+			if (text == "Show Only Goals")
 			{
 				$('.cd-timeline-block:not(.cd-timeline-goal)').addClass('hide');
 				$('.cd-timeline-block.cd-timeline-goal')
@@ -86,7 +90,7 @@
 			else
 			{
 				$('.cd-timeline-block:not(.cd-timeline-goal)').removeClass('hide');
-				$(this).text("Only Show My Goals");
+				$(this).text("Show Only Goals");
 			}
 		});
 	</script>

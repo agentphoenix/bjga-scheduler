@@ -32,6 +32,9 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 			Route::get('my-plan', [
 				'as'	=> 'my-plan',
 				'uses'	=> 'PlanController@myPlan']);
+			Route::get('my-plan/goal/{id}', [
+				'as'	=> 'my-plan.goal',
+				'uses'	=> 'PlanController@goal']);
 		});
 	}
 
