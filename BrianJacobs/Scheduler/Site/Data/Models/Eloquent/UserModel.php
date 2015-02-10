@@ -56,6 +56,11 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return $this->hasMany('Conversation', 'user_id');
 	}
 
+	public function stats()
+	{
+		return $this->hasMany('Stat', 'user_id');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Getters/Setters
