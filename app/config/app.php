@@ -220,7 +220,7 @@ return array(
 		'Conversation'	=> 'Plans\Data\Conversation',
 		'Goal'			=> 'Plans\Data\Goal',
 		'Plan'			=> 'Plans\Data\Plan',
-		'Timeline'		=> 'Plans\Data\Timeline',
+		'Stat'			=> 'Plans\Data\Stat',
 
 		/**
 		 * Repositories
@@ -235,7 +235,7 @@ return array(
 		'ConversationRepository'	=> 'Plans\Data\Repositories\ConversationRepository',
 		'GoalRepository'			=> 'Plans\Data\Repositories\GoalRepository',
 		'PlanRepository'			=> 'Plans\Data\Repositories\PlanRepository',
-		'TimelineRepository'		=> 'Plans\Data\Repositories\TimelineRepository',
+		'StatRepository'			=> 'Plans\Data\Repositories\StatRepository',
 
 		/**
 		 * Repository Interfaces
@@ -250,7 +250,7 @@ return array(
 		'ConversationRepositoryInterface'	=> 'Plans\Data\Interfaces\ConversationRepositoryInterface',
 		'GoalRepositoryInterface'			=> 'Plans\Data\Interfaces\GoalRepositoryInterface',
 		'PlanRepositoryInterface'			=> 'Plans\Data\Interfaces\PlanRepositoryInterface',
-		'TimelineRepositoryInterface'		=> 'Plans\Data\Interfaces\TimelineRepositoryInterface',
+		'StatRepositoryInterface'			=> 'Plans\Data\Interfaces\StatRepositoryInterface',
 
 		/**
 		 * Transformers
