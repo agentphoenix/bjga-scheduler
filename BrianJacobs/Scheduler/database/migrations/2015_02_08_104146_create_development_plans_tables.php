@@ -12,7 +12,7 @@ class CreateDevelopmentPlansTables extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('development_plans', function(Blueprint $table)
+		Schema::create('plans', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
@@ -20,7 +20,7 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->softDeletes();
 		});
 
-		Schema::create('development_plans_instructors', function(Blueprint $table)
+		Schema::create('plans_instructors', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('plan_id')->unsigned();
@@ -28,7 +28,7 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('development_plans_goals', function(Blueprint $table)
+		Schema::create('plans_goals', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
 			$table->integer('plan_id')->unsigned();
@@ -40,7 +40,7 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->softDeletes();
 		});
 
-		Schema::create('development_plans_conversations', function(Blueprint $table)
+		Schema::create('plans_conversations', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
 			$table->integer('plan_id')->unsigned();
@@ -50,7 +50,7 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('development_plans_goals_stats', function(Blueprint $table)
+		Schema::create('plans_goals_stats', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
 			$table->bigInteger('goal_id')->unsigned();
@@ -65,17 +65,6 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
-
-		Schema::create('development_plans_timeline', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
-			$table->integer('plan_id')->unsigned();
-			$table->integer('goal_id')->unsigned()->nullable();
-			$table->integer('user_id')->unsigned();
-			$table->string('type');
-			$table->integer('type_id')->nullable();
-			$table->timestamps();
-		});
 	}
 
 	/**
@@ -85,12 +74,11 @@ class CreateDevelopmentPlansTables extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('development_plans');
-		Schema::dropIfExists('development_plans_instructors');
-		Schema::dropIfExists('development_plans_goals');
-		Schema::dropIfExists('development_plans_conversations');
-		Schema::dropIfExists('development_plans_goals_stats');
-		Schema::dropIfExists('development_plans_timeline');
+		Schema::dropIfExists('plans');
+		Schema::dropIfExists('plans_instructors');
+		Schema::dropIfExists('plans_goals');
+		Schema::dropIfExists('plans_conversations');
+		Schema::dropIfExists('plans_goals_stats');
 	}
 
 }
