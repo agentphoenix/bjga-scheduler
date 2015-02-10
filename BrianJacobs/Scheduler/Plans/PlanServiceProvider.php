@@ -22,7 +22,7 @@ class PlanServiceProvider extends ServiceProvider {
 		$this->aliases = $this->app['config']['app.aliases'];
 
 		// Set the items being bound
-		$bindings = ['Conversation', 'Goal', 'Plan', 'Timeline'];
+		$bindings = ['Conversation', 'Goal', 'Plan', 'Stat'];
 
 		foreach ($bindings as $binding)
 		{
