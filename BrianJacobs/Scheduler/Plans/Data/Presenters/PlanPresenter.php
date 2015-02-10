@@ -24,4 +24,9 @@ class PlanPresenter extends Presenter {
 		return $output;
 	}
 
+	public function created()
+	{
+		return $this->entity->created_at->format(Config::get('bjga.dates.dateNoDay'));
+	}
+
 }
