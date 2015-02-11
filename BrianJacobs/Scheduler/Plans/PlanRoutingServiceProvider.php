@@ -6,7 +6,8 @@ use Illuminate\Support\ServiceProvider;
 class PlanRoutingServiceProvider extends ServiceProvider {
 
 	protected $options = [
-		'namespace' => "Plans\\Controllers"
+		'namespace' => "Plans\\Controllers",
+		'before'	=> "auth",
 	];
 
 	public function register()
@@ -31,10 +32,14 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 		{
 			Route::get('my-plan', [
 				'as'	=> 'my-plan',
-				'uses'	=> 'PlanController@myPlan']);
+				'uses'	=> 'PlanController@show']);
 			Route::get('my-plan/goal/{id}', [
 				'as'	=> 'my-plan.goal',
 				'uses'	=> 'PlanController@goal']);
+
+			Route::get('plan/{id}', [
+				'as'	=> 'plan',
+				'uses'	=> 'PlanController@show']);
 		});
 	}
 

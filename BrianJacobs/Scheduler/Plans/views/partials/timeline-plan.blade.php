@@ -22,10 +22,10 @@
 						</h2>
 						{{ $item->present()->summary }}
 						<div class="visible-xs visible-sm">
-							<p><a href="{{ route('my-plan.goal', [$item->id]) }}" class="btn btn-default btn-lg btn-block">See Goal</a></p>
+							<p><a href="{{ route('my-plan.goal', [$item->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
 						</div>
 						<div class="visible-md visible-lg">
-							<a href="{{ route('my-plan.goal', [$item->id]) }}" class="btn btn-default btn-sm">See Goal</a>
+							<a href="{{ route('my-plan.goal', [$item->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 						</div>
 						<span class="cd-date">{{ $item->present()->created }}</span>
 					</div> <!-- cd-timeline-content -->
@@ -48,10 +48,10 @@
 						{{ $item->present()->content }}
 						@if ( ! empty($item->goal_id))
 							<div class="visible-xs visible-sm">
-								<p><a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-lg btn-block">See Goal</a></p>
+								<p><a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
 							</div>
 							<div class="visible-md visible-lg">
-								<a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-sm">See Goal</a>
+								<a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 							</div>
 						@endif
 						<span class="cd-date">{{ $item->present()->created }}</span>
@@ -69,10 +69,10 @@
 						<h2>Stats Added to &ldquo;{{ $item->present()->goal }}&rdquo;</h2>
 						{{ $item->present()->summary }}
 						<div class="visible-xs visible-sm">
-							<p><a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-lg btn-block">See Goal</a></p>
+							<p><a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
 						</div>
 						<div class="visible-md visible-lg">
-							<a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-sm">See Goal</a>
+							<a href="{{ route('my-plan.goal', [$item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 						</div>
 						<span class="cd-date">{{ $item->present()->created }}</span>
 					</div> <!-- cd-timeline-content -->
