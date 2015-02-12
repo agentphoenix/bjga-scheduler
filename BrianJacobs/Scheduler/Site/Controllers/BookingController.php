@@ -166,7 +166,7 @@ class BookingController extends BaseController {
 		$service = $this->service->find($serviceId);
 
 		// Get the credits
-		$credits = $user->getCredits();
+		$credits = $user->getCredits($service->staff_id);
 
 		// Build the total
 		$totalRaw = (float) $service->price;

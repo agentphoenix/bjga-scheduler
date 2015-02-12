@@ -12,7 +12,7 @@ class CreditModel extends Model {
 	protected $table = 'users_credits';
 
 	protected $fillable = ['code', 'type', 'value', 'claimed', 'user_id', 'email',
-		'expires', 'notes'];
+		'expires', 'notes', 'staff_id'];
 
 	protected $dates = ['created_at', 'updated_at', 'deleted_at', 'expires'];
 

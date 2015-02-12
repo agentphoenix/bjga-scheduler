@@ -335,6 +335,7 @@ class BookingService {
 							'value'		=> $service->duration / 60,
 							'user_id'	=> $userAppt->user->id,
 							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+							'staff_id'	=> $service->staff_id,
 						]);
 
 						// Delete the user appointment
@@ -355,6 +356,7 @@ class BookingService {
 							'value'		=> $minutesToCredit / 60,
 							'user_id'	=> $userAppt->user->id,
 							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+							'staff_id'	=> $service->staff_id,
 						]);
 
 						// Delete the user appointment
@@ -436,6 +438,7 @@ class BookingService {
 										'value'		=> $service->duration / 60,
 										'user_id'	=> $userAppt->user->id,
 										'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+										'staff_id'	=> $service->staff_id,
 									]);
 
 									// Delete the user appointment
@@ -477,6 +480,7 @@ class BookingService {
 								'value'		=> $service->duration / 60,
 								'user_id'	=> $userAppt->user->id,
 								'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+								'staff_id'	=> $service->staff_id,
 							]);
 
 							// Delete the user appointment
@@ -782,57 +786,60 @@ class BookingService {
 			{
 				foreach ($credits as $credit)
 				{
-					// Get the remaining time on the credit
-					$remaining = $credit->value - $credit->claimed;
-
-					if ($remaining >= $service->duration)
+					if ($service->staff_id == $credit->staff_id)
 					{
-						// Update the credit
-						$newClaimed = ($credit->claimed + $service->duration) / 60;
-						$credit->fill(['claimed' => $newClaimed]);
-						$credit->save();
-						//$credit->update(['claimed' => $service->duration / 60]);
+						// Get the remaining time on the credit
+						$remaining = $credit->value - $credit->claimed;
 
-						// If we've used the credit up, remove it
-						if ($credit->value == $credit->claimed)
+						if ($remaining >= $service->duration)
 						{
+							// Update the credit
+							$newClaimed = ($credit->claimed + $service->duration) / 60;
+							$credit->fill(['claimed' => $newClaimed]);
+							$credit->save();
+							//$credit->update(['claimed' => $service->duration / 60]);
+
+							// If we've used the credit up, remove it
+							if ($credit->value == $credit->claimed)
+							{
+								$credit->delete();
+							}
+
+							// Update the item
+							$item->update([
+								'paid'		=> (int) true,
+								'amount'	=> 0,
+								'received'	=> 0,
+							]);
+						}
+						else
+						{
+							// Get the remaining time
+							$remainingTime = $service->duration - $remaining;
+
+							// Figure out the cost per minute
+							$costPerMinute = $service->price / $service->duration;
+
+							// Update the item
+							$item->update([
+								'amount'	=> $remainingTime * $costPerMinute,
+								'received'	=> 0,
+							]);
+
+							// Update the credit
+							$credit->update(['claimed' => $credit->value / 60]);
+
+							// Remove the credit
 							$credit->delete();
 						}
 
-						// Update the item
-						$item->update([
-							'paid'		=> (int) true,
-							'amount'	=> 0,
-							'received'	=> 0,
-						]);
-					}
-					else
-					{
-						// Get the remaining time
-						$remainingTime = $service->duration - $remaining;
+						// Get the staff appointment
+						$appt = $item->appointment;
 
-						// Figure out the cost per minute
-						$costPerMinute = $service->price / $service->duration;
-
-						// Update the item
-						$item->update([
-							'amount'	=> $remainingTime * $costPerMinute,
-							'received'	=> 0,
-						]);
-
-						// Update the credit
-						$credit->update(['claimed' => $credit->value / 60]);
-
-						// Remove the credit
-						$credit->delete();
+						// Add notes to the staff appointment
+						$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 					}
 				}
-
-				// Get the staff appointment
-				$appt = $item->appointment;
-
-				// Add notes to the staff appointment
-				$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 			}
 		}
 	}
@@ -847,47 +854,53 @@ class BookingService {
 				return $c->type == 'money';
 			});
 
+			// Get the service
+			$service = $item->appointment->service;
+
 			if ($credits->count() > 0)
 			{
 				foreach ($credits as $credit)
 				{
-					// Get the remaining credit available
-					$remaining = $credit->value - $credit->claimed;
-
-					if ($remaining >= $item->due())
+					if ($service->staff_id == $credit->staff_id)
 					{
-						// Update the credit
-						$credit->update(['claimed' => $credit->claimed + $item->due()]);
+						// Get the remaining credit available
+						$remaining = $credit->value - $credit->claimed;
 
-						// If we've used the credit up, remove it
-						if ($credit->value == $credit->claimed)
+						if ($remaining >= $item->due())
 						{
+							// Update the credit
+							$credit->update(['claimed' => $credit->claimed + $item->due()]);
+
+							// If we've used the credit up, remove it
+							if ($credit->value == $credit->claimed)
+							{
+								$credit->delete();
+							}
+
+							// Update the item
+							$item->update([
+								'paid'		=> (int) true,
+								'received'	=> $item->amount,
+							]);
+						}
+						else
+						{
+							// Update the item
+							$item->update(['received' => $item->received + $remaining]);
+
+							// Update the credit
+							$credit->update(['claimed' => $credit->claimed + $remaining]);
+
+							// Remove the credit
 							$credit->delete();
 						}
 
-						// Update the item
-						$item->update([
-							'paid'		=> (int) true,
-							'received'	=> $item->amount,
-						]);
+						// Get the staff appointment
+						$appt = $item->appointment;
+
+						// Add notes to the staff appointment
+						$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 					}
-					else
-					{
-						// Update the item
-						$item->update(['received' => $item->received + $remaining]);
-
-						// Update the credit
-						$credit->update(['claimed' => $credit->claimed + $remaining]);
-
-						// Remove the credit
-						$credit->delete();
-					}
-
-					// Get the staff appointment
-					$appt = $item->appointment;
-
-					// Add notes to the staff appointment
-					$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 				}
 			}
 		}
