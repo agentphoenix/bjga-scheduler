@@ -3,8 +3,9 @@
 class CreditValidator extends FormBaseValidator {
 
 	protected $rules = [
-		'type'	=> 'required|in:time,money',
-		'value'	=> 'required|numeric',
+		'type'		=> 'required|in:time,money',
+		'value'		=> 'required|numeric',
+		'staff_id'	=> 'required',
 	];
 
 	protected $messages = [
@@ -12,6 +13,7 @@ class CreditValidator extends FormBaseValidator {
 		'type.in' => "Please select a valid credit type",
 		'value.required' => "Please enter a value",
 		'value.numeric' => "Please enter a valid numerical value",
+		'staff_id.required' => "Please select a staff member",
 	];
 
 }

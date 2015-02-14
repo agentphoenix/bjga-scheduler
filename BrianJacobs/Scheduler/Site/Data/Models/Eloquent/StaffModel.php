@@ -38,5 +38,10 @@ class StaffModel extends Model {
 	{
 		return $this->hasMany('StaffScheduleModel', 'staff_id');
 	}
+
+	public function credits()
+	{
+		return $this->hasMany('CreditModel', 'staff_id');
+	}
 	
 }

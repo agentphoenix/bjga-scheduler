@@ -1,10 +1,12 @@
 <?php namespace Scheduler\Data\Interfaces;
 
-use Date;
+use Date,
+	UserModel as User;
 
 interface CreditRepositoryInterface {
 
 	public function all();
+	public function allPaginated(User $user);
 	public function create(array $data);
 	public function delete($id);
 	public function find($id);

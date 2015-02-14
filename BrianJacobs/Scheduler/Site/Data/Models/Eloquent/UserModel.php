@@ -136,7 +136,7 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return false;
 	}
 
-	public function getCredits()
+	public function getCredits($instructor = false)
 	{
 		// Get all the credits
 		$credits = $this->credits;
@@ -146,8 +146,10 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		$finalCredits['money'] = 0;
 
 		// Get all the time credits
-		$time = $credits->filter(function($t)
+		$time = $credits->filter(function($t) use ($instructor)
 		{
+			if ($instructor) return $t->type == 'time' and $t->staff_id == $instructor;
+
 			return $t->type == 'time';
 		});
 
@@ -166,8 +168,10 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		}
 
 		// Get all the money credits
-		$money = $credits->filter(function($m)
+		$money = $credits->filter(function($m) use ($instructor)
 		{
+			if ($instructor) return $m->type == 'money' and $m->staff_id == $instructor;
+
 			return $m->type == 'money';
 		});
 

@@ -86,6 +86,13 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::get('my-history', [
 			'as'	=> 'history',
 			'uses'	=> 'Scheduler\Controllers\HomeController@studentHistory']);
+
+		Route::get('search', [
+			'as'	=> 'search',
+			'uses'	=> 'Scheduler\Controllers\HomeController@search']);
+		Route::post('search', [
+			'as'	=> 'search.do',
+			'uses'	=> 'Scheduler\Controllers\HomeController@doSearch']);
 	}
 
 	protected function adminRoutes()
