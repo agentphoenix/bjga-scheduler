@@ -24,7 +24,7 @@
 				</div>
 				<div class="col-md-3">
 					<div class="visible-xs visible-sm">
-						<p>{{ Form::button("Search", ['type' => 'submit', 'class' => 'btn btn-primary btn-lg btn-block']) }}</p>
+						<br>{{ Form::button("Search", ['type' => 'submit', 'class' => 'btn btn-primary btn-lg btn-block']) }}
 					</div>
 					<div class="visible-md visible-lg">
 						<label class="control-label">&nbsp;</label>
