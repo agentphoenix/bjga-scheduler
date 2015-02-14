@@ -29,6 +29,11 @@ class CreditModel extends Model {
 		return $this->belongsTo('UserModel', 'user_id');
 	}
 
+	public function staff()
+	{
+		return $this->belongsTo('StaffModel', 'staff_id');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Getters/Setters

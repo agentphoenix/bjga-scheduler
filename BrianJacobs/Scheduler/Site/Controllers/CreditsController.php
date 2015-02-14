@@ -47,7 +47,7 @@ class CreditsController extends BaseController {
 	public function index()
 	{
 		return View::make('pages.admin.credits.index')
-			->withCredits($this->credits->allPaginated());
+			->withCredits($this->credits->allPaginated($this->currentUser));
 	}
 
 	public function create()
