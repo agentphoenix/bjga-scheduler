@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	Search
+	Find a Lesson Time
 @stop
 
 @section('content')
-	<h1>Search</h1>
+	<h1>Find a Lesson Time</h1>
 
 	{{ Form::open(['route' => 'search.do']) }}
 		<div class="form-group">
