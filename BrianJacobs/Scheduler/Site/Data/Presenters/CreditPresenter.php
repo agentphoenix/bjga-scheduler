@@ -96,4 +96,9 @@ class CreditPresenter extends Presenter {
 		}
 	}
 
+	public function staff()
+	{
+		return $this->entity->staff->user->present()->name;
+	}
+
 }

@@ -1,44 +1,83 @@
 <?php namespace Scheduler\Services;
 
 use Date,
-	ServiceModel,
-	StaffAppointmentModel;
+	StaffModel as Staff;
 
 class AvailabilityService {
 
 	protected $date;
-	protected $user;
-	protected $service;
+	protected $staff;
+	protected $duration;
 	protected $schedule;
+	protected $availability;
 
-	public function find($user, $date, $service)
+	public function today(Staff $staff, $duration)
 	{
+		return $this->find($staff, Date::now()->startOfDay(), $duration);
+	}
+
+	public function tomorrow(Staff $staff, $duration)
+	{
+		return $this->find($staff, Date::now()->addDay()->startOfDay(), $duration);
+	}
+
+	public function week($weeks, Staff $staff, $duration)
+	{
+		$days = [];
+
+		for ($d = 0; $d < $weeks * 7; $d++)
+		{
+			// Build the date
+			$date = Date::now()->addDays($d)->startOfDay();
+
+			// Grab the schedule for the date
+			$days[] = [
+				'date'	=> $date,
+				'times'	=> $this->find($staff, $date, $duration)
+			];
+		}
+
+		return $days;
+	}
+
+	public function find(Staff $staff, Date $date, $duration)
+	{
+		$this->reset();
+
 		$this->date = $date;
-		$this->user = $user;
-		$this->service = $service;
-		$this->schedule = $user->staff->schedule->filter(function($d) use ($date)
+		$this->staff = $staff;
+		$this->duration = $duration;
+		$this->schedule = $staff->schedule->filter(function($d) use ($date)
 		{
 			return (int) $d->day === (int) date('w', $date->format('U'));
-		});
+		})->first();
 
 		// If the staff member has availability for this day
 		if ($this->schedule)
 		{
 			// Create the normal schecule as a starting point to trim from
-			$totalAvailability = $this->createNormalSchedule();
-
-			s($totalAvailability);
+			$this->createNormalSchedule();
 
 			// Now, trim any appointments from the staff member
-			$this->trimAppointments($totalAvailability);
+			$this->trimAppointments();
 
-			return $totalAvailability;
+			// Get the time blocks that fit for the duration
+			$this->findTimeBlock();
+
+			return $this->availability;
 		}
 
 		return false;
 	}
 
-	public function today(){}
+	protected function reset()
+	{
+		$this->date = null;
+		$this->staff = null;
+		$this->duration = null;
+		$this->schedule = null;
+		$this->availability = [];
+	}
 
 	/**
 	 * Create a normal schedule for the day.
@@ -65,7 +104,7 @@ class AvailabilityService {
 			while ($calcTime->gte($startTime) and $calcTime->lt($endTime))
 			{
 				// Store the availability as Carbon objects
-				$availability[] = $this->date->copy()
+				$this->availability[] = $this->date->copy()
 					->hour($calcTime->hour)
 					->minute($calcTime->minute)
 					->second(0);
@@ -73,11 +112,7 @@ class AvailabilityService {
 				// Add 15 minutes
 				$calcTime->addMinutes(15);
 			}
-
-			return $availability;
 		}
-
-		return array();
 	}
 
 	/**
@@ -86,15 +121,15 @@ class AvailabilityService {
 	 * @param	array	Total availability (passed by reference)
 	 * @return	void
 	 */
-	protected function trimAppointments(&$availability)
+	protected function trimAppointments()
 	{
 		// Grab a copy of the date object
 		$date = $this->date;
 
-		$appointmentBlocks = array();
+		$appointmentBlocks = [];
 
 		// Get the staff member's appointments
-		$appointments = $this->user->staff->appointments->filter(function($a) use ($date)
+		$appointments = $this->staff->appointments->filter(function($a) use ($date)
 		{
 			return $a->start->toDateString() == $date->toDateString();
 		});
@@ -119,12 +154,39 @@ class AvailabilityService {
 				}
 			}
 
-			foreach ($availability as $key => $value)
+			foreach ($this->availability as $key => $value)
 			{
 				if (in_array($value, $appointmentBlocks))
 				{
-					$availability[$key] = false;
+					$this->availability[$key] = false;
 				}
+			}
+		}
+	}
+
+	protected function findTimeBlock()
+	{
+		// All services have a 15 minute lead out time
+		$totalDuration = $this->duration + 15;
+
+		// We work in 15 minute blocks, so figure out how many blocks that is
+		$requiredTimeBlocks = $totalDuration / 15;
+
+		// Loop through the availability and figure out if we have enough
+		// consecutive time to book this service for this staff member
+		foreach ($this->availability as $key => $av)
+		{
+			// Get a slice of the array
+			$slice = array_slice($this->availability, $key, $requiredTimeBlocks, true);
+
+			$freshSlice = array_diff($slice, array(false));
+
+			// Get the keys
+			$sliceKeys = array_keys($freshSlice);
+
+			if (count($freshSlice) < $requiredTimeBlocks)
+			{
+				$this->availability[$key] = false;
 			}
 		}
 	}

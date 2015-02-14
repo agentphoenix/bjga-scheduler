@@ -20,6 +20,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->setupBrowser();
 		$this->setupMacros();
 		$this->setupFlashNotifier();
+		$this->setupAvailability();
 	}
 
 	public function boot()
@@ -173,6 +174,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->app['scheduler.flash'] = $this->app->share(function($app)
 		{
 			return new Services\FlashNotifierService($app['session.store']);
+		});
+	}
+
+	protected function setupAvailability()
+	{
+		$this->app['scheduler.availability'] = $this->app->share(function($app)
+		{
+			return new Services\AvailabilityService;
 		});
 	}
 

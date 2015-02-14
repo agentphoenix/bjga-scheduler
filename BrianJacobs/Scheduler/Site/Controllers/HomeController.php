@@ -2,6 +2,7 @@
 
 use App,
 	Auth,
+	Date,
 	Mail,
 	View,
 	Event,
@@ -11,6 +12,7 @@ use App,
 	Redirect,
 	Validator,
 	UserRepositoryInterface,
+	StaffRepositoryInterface,
 	ServiceRepositoryInterface,
 	LocationRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
@@ -18,6 +20,7 @@ use App,
 class HomeController extends BaseController {
 
 	protected $user;
+	protected $staff;
 	protected $service;
 	protected $appointment;
 	protected $locations;
@@ -25,11 +28,16 @@ class HomeController extends BaseController {
 	public function __construct(UserRepositoryInterface $user,
 			StaffAppointmentRepositoryInterface $appointment,
 			ServiceRepositoryInterface $service,
+<<<<<<< HEAD
 			LocationRepositoryInterface $locations)
+=======
+			StaffRepositoryInterface $staff)
+>>>>>>> develop
 	{
 		parent::__construct();
 
 		$this->user = $user;
+		$this->staff = $staff;
 		$this->service = $service;
 		$this->appointment = $appointment;
 		$this->locations = $locations;
@@ -284,6 +292,144 @@ class HomeController extends BaseController {
 	{
 		return View::make('pages.locations')
 			->withLocations($this->locations->all());
+	}
+
+	public function search()
+	{
+		$instructors = [0 => "All Instructors"] + $this->staff->allForDropdown();
+
+		$lessons = [
+			60	=> "Private Lesson (60 minutes)",
+			90	=> "Club Evaluation/Fitting (90 minutes)",
+			180	=> "9-Hole Playing Lesson (3 hours)",
+		];
+
+		$timeframe = [
+			'today'		=> "Today",
+			'tomorrow'	=> "Tomorrow",
+			'week1'		=> "Next 7 Days",
+			'week2'		=> "Next 14 Days",
+		];
+
+		return View::make('pages.search', compact('instructors', 'lessons', 'timeframe'));
+	}
+
+	public function doSearch()
+	{
+		$results = true;
+
+		// Grab the availability class
+		$avCheck = App::make('scheduler.availability');
+
+		// Get the duration
+		$duration = Input::get('duration');
+
+		// Get the instructor(s)
+		$searchInstructor = (Input::get('instructor') > 0)
+			? $this->staff->find(Input::get('instructor'))
+			: $this->staff->all(true);
+
+		switch (Input::get('timeframe'))
+		{
+			case 'today':
+				if (Input::get('instructor') > 0)
+				{
+					$header = $searchInstructor->user->present()->name;
+					$availability = $avCheck->today($searchInstructor, $duration);
+				}
+				else
+				{
+					$allStaffAvailability = [];
+
+					foreach ($searchInstructor as $staff)
+					{
+						$allStaffAvailability[] = [
+							'staff'	=> $staff->user->present()->name,
+							'times'	=> $avCheck->today($staff, $duration),
+						];
+					}
+				}
+			break;
+
+			case 'tomorrow':
+				if (Input::get('instructor') > 0)
+				{
+					$header = $searchInstructor->user->present()->name;
+					$availability = $avCheck->tomorrow($searchInstructor, $duration);
+				}
+				else
+				{
+					$allStaffAvailability = [];
+
+					foreach ($searchInstructor as $staff)
+					{
+						$allStaffAvailability[] = [
+							'staff'	=> $staff->user->present()->name,
+							'times'	=> $avCheck->tomorrow($staff, $duration),
+						];
+					}
+				}
+			break;
+
+			case 'week1':
+				if (Input::get('instructor') > 0)
+				{
+					$header = $searchInstructor->user->present()->name;
+					$availability = $avCheck->week(1, $searchInstructor, $duration);
+				}
+				else
+				{
+					$allStaffAvailability = [];
+
+					foreach ($searchInstructor as $staff)
+					{
+						$allStaffAvailability[] = [
+							'staff'	=> $staff->user->present()->name,
+							'times'	=> $avCheck->week(1, $staff, $duration),
+						];
+					}
+				}
+			break;
+
+			case 'week2':
+				if (Input::get('instructor') > 0)
+				{
+					$header = $searchInstructor->user->present()->name;
+					$availability = $avCheck->week(2, $searchInstructor, $duration);
+				}
+				else
+				{
+					$allStaffAvailability = [];
+
+					foreach ($searchInstructor as $staff)
+					{
+						$allStaffAvailability[] = [
+							'staff'	=> $staff->user->present()->name,
+							'times'	=> $avCheck->week(2, $staff, $duration),
+						];
+					}
+				}
+			break;
+		}
+
+		$instructors = [0 => "All Instructors"] + $this->staff->allForDropdown();
+
+		$lessons = [
+			60	=> "Private Lesson (60 minutes)",
+			90	=> "Club Evaluation/Fitting (90 minutes)",
+			180	=> "9-Hole Playing Lesson (3 hours)",
+		];
+
+		$timeframe = [
+			'today'		=> "Today",
+			'tomorrow'	=> "Tomorrow",
+			'week1'		=> "Next 7 Days",
+			'week2'		=> "Next 14 Days",
+		];
+
+		$now = Date::now();
+
+		return View::make('pages.search', compact('instructors', 'lessons', 'timeframe', 'availability', 'header', 'now', 'results', 'allStaffAvailability'));
 	}
 
 }

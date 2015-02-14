@@ -2,7 +2,7 @@
 
 interface StaffRepositoryInterface {
 
-	public function all();
+	public function all($onlyInstructors = false);
 	public function allForDropdown($onlyInstructors = true);
 	public function create(array $data);
 	public function delete($id);

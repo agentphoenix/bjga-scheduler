@@ -61,6 +61,19 @@
 			</div>
 		</div>
 
+		@if ($_currentUser->access() > 1)
+			<div class="row">
+				<div class="col-sm-6 col-lg-4">
+					<div class="form-group">
+						<label class="control-label">Instructor</label>
+						{{ Form::select('staff_id', $staff, null, ['class' => 'form-control']) }}
+					</div>
+				</div>
+			</div>
+		@else
+			{{ Form::hidden('staff_id', $this->currentUser->staff->id) }}
+		@endif
+
 		<div class="row">
 			<div class="col-sm-8 col-lg-6">
 				<div class="form-group">

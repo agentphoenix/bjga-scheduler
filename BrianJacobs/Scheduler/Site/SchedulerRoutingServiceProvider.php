@@ -90,6 +90,13 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::get('locations', [
 			'as'	=> 'locations',
 			'uses'	=> 'Scheduler\Controllers\HomeController@locations']);
+
+		Route::get('search', [
+			'as'	=> 'search',
+			'uses'	=> 'Scheduler\Controllers\HomeController@search']);
+		Route::post('search', [
+			'as'	=> 'search.do',
+			'uses'	=> 'Scheduler\Controllers\HomeController@doSearch']);
 	}
 
 	protected function adminRoutes()

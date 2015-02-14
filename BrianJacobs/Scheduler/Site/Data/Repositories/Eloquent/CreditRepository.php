@@ -3,6 +3,7 @@
 use Str,
 	Date,
 	CreditModel,
+	UserModel as User,
 	CreditRepositoryInterface;
 
 class CreditRepository implements CreditRepositoryInterface {
@@ -14,9 +15,17 @@ class CreditRepository implements CreditRepositoryInterface {
 		return CreditModel::with('user')->get();
 	}
 
-	public function allPaginated()
+	public function allPaginated(User $user)
 	{
-		return CreditModel::with('user')->paginate($this->resultsPerPage);
+		if ($user->access() < 3)
+		{
+			return CreditModel::with('user', 'user.staff')
+				->where('staff_id', $user->staff->id)
+				->paginate($this->resultsPerPage);
+		}
+
+		return CreditModel::with('user', 'user.staff')
+			->paginate($this->resultsPerPage);
 	}
 
 	public function create(array $data)
