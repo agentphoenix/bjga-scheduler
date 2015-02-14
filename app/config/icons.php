@@ -40,6 +40,7 @@ return array(
 	'schedule' => '<span class="icn" data-icon="o"></span>',
 	'school' => '<span class="icn" data-icon="s"></span>',
 	'star' => '<span class="icn" data-icon="1"></span>',
+	'search' => '<span class="icn" data-icon="h"></span>',
 
 	'twitter' => '<span class="icn" data-icon="w"></span>',
 
