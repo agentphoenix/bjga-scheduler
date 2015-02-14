@@ -14,8 +14,11 @@ class StaffRepository implements StaffRepositoryInterface {
 	 *
 	 * @return	Collection
 	 */
-	public function all()
+	public function all($onlyInstructors = false)
 	{
+		if ($onlyInstructors)
+			return StaffModel::where('instruction', (int) true)->get();
+		
 		return StaffModel::all();
 	}
 
@@ -28,7 +31,7 @@ class StaffRepository implements StaffRepositoryInterface {
 	public function allForDropdown($onlyInstructors = true)
 	{
 		// Get all the staff members
-		$all = $this->all();
+		$all = $this->all($onlyInstructors);
 
 		// Start an array for holding the staff
 		$staff = array();
