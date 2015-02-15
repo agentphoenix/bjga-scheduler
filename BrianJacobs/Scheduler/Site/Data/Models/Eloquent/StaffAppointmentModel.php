@@ -13,7 +13,7 @@ class StaffAppointmentModel extends Model {
 
 	protected $fillable = array(
 		'staff_id', 'service_id', 'recur_id', 'occurrence_id', 'start', 'end', 
-		'notes',
+		'notes', 'location_id',
 	);
 
 	protected $dates = array('start', 'end', 'created_at', 'updated_at', 'deleted_at');

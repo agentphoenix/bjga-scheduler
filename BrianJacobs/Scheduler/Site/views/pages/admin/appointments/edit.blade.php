@@ -26,74 +26,74 @@
 		</div>
 	</div>
 
-	{{ Form::model($appointment, array('route' => array('admin.appointment.update', $appointment->id), 'method' => 'put')) }}
-		<div class="row">
-			<div class="col-md-9 col-lg-8">
-				<div class="form-group">
-					<label class="control-label">Notes</label>
-					{{ Form::textarea('notes', null, array('class' => 'form-control', 'rows' => 5)) }}
+	{{ Form::model($appointment, ['route' => ['admin.appointment.update', $appointment->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
+		<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
+			<label class="col-sm-2 control-label">Date</label>
+			<div class="col-sm-3">
+				{{ Form::text('staff[date]', $appointment->start->format('Y-m-d'), ['class' => 'form-control js-datepicker']) }}
+				{{ $errors->first('start', '<p class="help-block">:message</p>') }}
+			</div>
+		</div>
+
+		<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
+			<label class="col-sm-2 control-label">Start Time</label>
+			<div class="col-sm-3">
+				{{ Form::text('staff[start]', $appointment->start->format('H:i'), ['class' => 'form-control js-timepicker']) }}
+				{{ $errors->first('start', '<p class="help-block">:message</p>') }}
+			</div>
+		</div>
+
+		<div class="form-group{{ ($errors->has('end')) ? ' has-error' : '' }}">
+			<label class="col-sm-2 control-label">End Time</label>
+			<div class="col-sm-3">
+				{{ Form::text('staff[end]', $appointment->end->format('H:i'), ['class' => 'form-control js-timepicker']) }}
+				{{ $errors->first('end', '<p class="help-block">:message</p>') }}
+			</div>
+		</div>
+
+		<div class="form-group{{ ($errors->has('location_id')) ? ' has-error' : '' }}">
+			<label class="col-sm-2 control-label">Location</label>
+			<div class="col-sm-5">
+				{{ Form::select('staff[location_id]', $locations, $appointment->location_id, ['class' => 'form-control']) }}
+				{{ $errors->first('location_id', '<p class="help-block">:message</p>') }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Total Due</label>
+			<div class="col-sm-3">
+				<div class="input-group">
+					<span class="input-group-addon"><strong>$</strong></span>
+					{{ Form::text('user[amount]', $appointment->userAppointments->first()->amount, array('class' => 'form-control')) }}
 				</div>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-4 col-md-3 col-lg-2">
-				<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
-					<label class="control-label">Date</label>
-					{{ Form::text('staff[date]', $appointment->start->format('Y-m-d'), array('class' => 'form-control js-datepicker')) }}
-					{{ $errors->first('start', '<p class="help-block">:message</p>') }}
-				</div>
-			</div>
-			<div class="col-sm-4 col-md-3 col-lg-2">
-				<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
-					<label class="control-label">Start Time</label>
-					{{ Form::text('staff[start]', $appointment->start->format('H:i'), array('class' => 'form-control js-timepicker')) }}
-					{{ $errors->first('start', '<p class="help-block">:message</p>') }}
-				</div>
-			</div>
-			<div class="col-sm-4 col-md-3 col-lg-2">
-				<div class="form-group{{ ($errors->has('end')) ? ' has-error' : '' }}">
-					<label class="control-label">End Time</label>
-					{{ Form::text('staff[end]', $appointment->end->format('H:i'), array('class' => 'form-control js-timepicker')) }}
-					{{ $errors->first('end', '<p class="help-block">:message</p>') }}
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Paid?</label>
+			<div class="col-sm-3">
+				<div>
+					<label class="radio-inline text-sm">{{ Form::radio('user[paid]', 1, ($appointment->userAppointments->first()->paid == 1)) }} Yes</label>
+					<label class="radio-inline text-sm">{{ Form::radio('user[paid]', 0, ($appointment->userAppointments->first()->paid == 0)) }} No</label>
 				</div>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-4 col-md-3 col-lg-2">
-				<div class="form-group">
-					<label class="control-label">Total Due</label>
-					<div class="input-group">
-						<span class="input-group-addon"><strong>$</strong></span>
-						{{ Form::text('user[amount]', $appointment->userAppointments->first()->amount, array('class' => 'form-control')) }}
-					</div>
-				</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Notes</label>
+			<div class="col-sm-8">
+				{{ Form::textarea('notes', null, array('class' => 'form-control', 'rows' => 5)) }}
 			</div>
-			<div class="col-sm-4 col-md-3 col-lg-4">
-				<div class="form-group">
-					<label class="control-label">Paid?</label>
-					<div class="controls">
-						<label class="radio-inline text-sm">{{ Form::radio('user[paid]', 1, ($appointment->userAppointments->first()->paid === 1)) }} Yes</label>
-						<label class="radio-inline text-sm">{{ Form::radio('user[paid]', 0, ($appointment->userAppointments->first()->paid === 0)) }} No</label>
-					</div>
-				</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-3 col-sm-offset-2">
+				{{ Form::submit('Update', array('class' => 'btn btn-lg btn-block btn-primary')) }}
 			</div>
 		</div>
 
 		{{ Form::hidden('staff_appointment_id', $appointment->id) }}
 		{{ Form::hidden('user_appointment_id', $appointment->userAppointments->first()->id) }}
-
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="visible-md visible-lg">
-					{{ Form::submit('Update', array('class' => 'btn btn-lg btn-primary')) }}
-				</div>
-				<div class="visible-xs visible-sm">
-					{{ Form::submit('Update', array('class' => 'btn btn-lg btn-block btn-primary')) }}
-				</div>
-			</div>
-		</div>
 	{{ Form::close() }}
 @stop
 
@@ -112,13 +112,15 @@
 		$(function()
 		{
 			$('.js-datepicker').pickadate({
-				format: "yyyy-mm-dd",
+				format: "dddd, mmm dd, yyyy",
+				formatSubmit: "yyyy-mm-dd",
 				max: false,
 				container: '.container-fluid'
 			});
 
 			$('.js-timepicker').pickatime({
-				format: "HH:i",
+				format: "h:i A",
+				formatSubmit: "HH:i",
 				interval: 15,
 				min: [6, 0],
 				max: [22, 0],

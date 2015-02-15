@@ -12,6 +12,7 @@ use Book,
 	StaffAppointmentModel,
 	UserRepositoryInterface,
 	ServiceRepositoryInterface,
+	LocationRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
 class AppointmentController extends BaseController {
@@ -19,16 +20,19 @@ class AppointmentController extends BaseController {
 	protected $user;
 	protected $appts;
 	protected $service;
+	protected $locations;
 
 	public function __construct(ServiceRepositoryInterface $service,
 			StaffAppointmentRepositoryInterface $appts,
-			UserRepositoryInterface $user)
+			UserRepositoryInterface $user,
+			LocationRepositoryInterface $locations)
 	{
 		parent::__construct();
 
 		$this->user = $user;
 		$this->appts = $appts;
 		$this->service = $service;
+		$this->locations = $locations;
 
 		$this->beforeFilter(function()
 		{
@@ -94,7 +98,8 @@ class AppointmentController extends BaseController {
 		if ($this->currentUser->isStaff())
 		{
 			return View::make('pages.admin.appointments.edit')
-				->withAppointment($this->appts->find($id));
+				->withAppointment($this->appts->find($id))
+				->withLocations($this->locations->listAll('id', 'name'));
 		}
 		else
 		{
