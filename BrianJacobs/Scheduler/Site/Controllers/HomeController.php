@@ -28,11 +28,8 @@ class HomeController extends BaseController {
 	public function __construct(UserRepositoryInterface $user,
 			StaffAppointmentRepositoryInterface $appointment,
 			ServiceRepositoryInterface $service,
-<<<<<<< HEAD
-			LocationRepositoryInterface $locations)
-=======
+			LocationRepositoryInterface $locations,
 			StaffRepositoryInterface $staff)
->>>>>>> develop
 	{
 		parent::__construct();
 
