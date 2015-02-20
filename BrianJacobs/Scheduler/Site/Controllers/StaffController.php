@@ -279,7 +279,7 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 			return partial('common/modal_content', array(
 				'modalHeader'	=> "Edit {$days[$day]} Schedule",
@@ -296,26 +296,14 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$availability = "";
+			// Get the start
+			$start = Date::createFromFormat('H:i', Input::get('start_submit'))->format('G:i');
 
-			// Get the start value
-			$start = Input::get('start');
+			// Get the end
+			$end = Date::createFromFormat('H:i', Input::get('end_submit'))->format('G:i');
 
-			if ($start)
-			{
-				$rawStart = str_replace(' AM', '', $start);
-				$rawStart = str_replace(' PM', '', $rawStart);
-				$rawEnd = str_replace(' AM', '', Input::get('end'));
-				$rawEnd = str_replace(' PM', '', $rawEnd);
-
-				// Get the start
-				$start = Date::createFromFormat('H:i', $rawStart)->format('G:i');
-
-				// Get the end
-				$end = Date::createFromFormat('H:i', $rawEnd)->format('G:i');
-
-				$availability = "{$start}-{$end}";
-			}
+			// Build the availability string
+			$availability = "{$start}-{$end}";
 
 			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), $availability);
 
