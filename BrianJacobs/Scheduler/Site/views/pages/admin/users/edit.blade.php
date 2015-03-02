@@ -23,7 +23,7 @@
 
 			@if ($_currentUser->isStaff())
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-default icn-size-16-with-text">My Staff Account</a>
+					<a href="{{ URL::route('admin.staff.edit', array($user->staff->id)) }}" class="btn btn-default icn-size-16-with-text">My Staff Account</a>
 				</div>
 			@endif
 		</div>
