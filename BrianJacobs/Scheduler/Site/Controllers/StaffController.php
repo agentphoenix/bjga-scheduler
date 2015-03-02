@@ -118,7 +118,7 @@ class StaffController extends BaseController {
 		$staff = $this->staff->find($id);
 
 		if (($staff->user->isStaff() and $staff->user->access() > 1) 
-				or ($staff->user->isStaff() and $staff->user->access == 1 and $staff->user == $this->currentUser)
+				or ($staff->user->isStaff() and $staff->user->access() == 1 and $staff->user == $this->currentUser)
 				or ( ! $staff->user->isStaff() and $staff->user == $this->currentUser))
 		{
 			$validator = new StaffValidator;
