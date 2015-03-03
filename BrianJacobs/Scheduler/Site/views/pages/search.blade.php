@@ -14,15 +14,15 @@
 					<label class="control-label">Instructor</label>
 					{{ Form::select('instructor', $instructors, null, ['class' => 'form-control']) }}
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<label class="control-label">Lesson Type</label>
 					{{ Form::select('duration', $lessons, null, ['class' => 'form-control']) }}
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 col-lg-2">
 					<label class="control-label">Timeframe</label>
 					{{ Form::select('timeframe', $timeframe, null, ['class' => 'form-control']) }}
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2 col-lg-3">
 					<div class="visible-xs visible-sm">
 						<br>{{ Form::button("Search", ['type' => 'submit', 'class' => 'btn btn-primary btn-lg btn-block']) }}
 					</div>
