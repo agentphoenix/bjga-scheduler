@@ -47,5 +47,10 @@ class StaffModel extends Model {
 	{
 		return $this->hasMany('CreditModel', 'staff_id');
 	}
+
+	public function recurringAppointments()
+	{
+		return $this->hasMany('StaffAppointmentRecurModel', 'staff_id');
+	}
 	
 }
