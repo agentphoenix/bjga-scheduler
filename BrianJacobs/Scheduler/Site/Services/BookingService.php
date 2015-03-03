@@ -86,6 +86,12 @@ class BookingService {
 		// Build the price
 		$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
 
+		// Get the location
+		$location = $service->staff->schedule->filter(function($s) use ($start)
+		{
+			return (int) $s->day === (int) $start->dayOfWeek;
+		})->first()->location;
+
 		// Set the initial appointment record
 		$apptRecord = array(
 			'staff_id'		=> $service->staff->id,
@@ -93,6 +99,7 @@ class BookingService {
 			'start'			=> $start,
 			'end'			=> $end,
 			'notes'			=> $data['notes'],
+			'location_id'	=> $location->id,
 		);
 
 		// Set the initial user appointment record
