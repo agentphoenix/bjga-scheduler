@@ -107,7 +107,6 @@
 	{{ HTML::script('js/picker.js') }}
 	{{ HTML::script('js/picker.date.js') }}
 	{{ HTML::script('js/picker.time.js') }}
-	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
 		$(function()
 		{
