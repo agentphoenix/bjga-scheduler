@@ -1,10 +1,12 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
 use Model;
+use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class StaffModel extends Model {
 
+	use PresentableTrait;
 	use SoftDeletingTrait;
 
 	protected $table = 'staff';
@@ -12,6 +14,8 @@ class StaffModel extends Model {
 	protected $fillable = array('user_id', 'title', 'bio', 'access', 'instruction');
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+
+	protected $presenter = 'Scheduler\Data\Presenters\StaffPresenter';
 
 	/*
 	|--------------------------------------------------------------------------
