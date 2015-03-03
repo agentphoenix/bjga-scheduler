@@ -52,4 +52,9 @@ class StaffAppointmentRecurPresenter extends Presenter {
 		});
 	}
 
+	public function instructor()
+	{
+		return $this->entity->staff->user->present()->name;
+	}
+
 }
