@@ -1,6 +1,6 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
-use Model;
+use Date, Model;
 use Laracasts\Presenter\PresentableTrait;
 
 class StaffAppointmentRecurModel extends Model {
@@ -31,6 +31,41 @@ class StaffAppointmentRecurModel extends Model {
 	public function userAppointments()
 	{
 		return $this->hasMany('UserAppointmentModel', 'recur_id');
+	}
+
+	public function staff()
+	{
+		return $this->belongsTo('StaffModel', 'staff_id');
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Model Methods
+	|--------------------------------------------------------------------------
+	*/
+
+	public function hasEnded()
+	{
+		if ($this->staffAppointments->count() > 0)
+		{
+			$last = $this->staffAppointments->sortBy('start')->last();
+			
+			if ($last->end->lt(Date::now()->endOfDay())) return true;
+		}
+
+		return false;
+	}
+
+	public function hasStarted()
+	{
+		if ($this->staffAppointments->count() > 0)
+		{
+			$first = $this->staffAppointments->sortBy('start')->first();
+			
+			if ($first->start->gte(Date::now()->startOfDay())) return true;
+		}
+
+		return false;
 	}
 
 }
