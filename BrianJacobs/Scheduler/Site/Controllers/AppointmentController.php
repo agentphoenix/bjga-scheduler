@@ -125,6 +125,7 @@ class AppointmentController extends BaseController {
 
 			// Clear the date
 			unset($staffData['date']);
+			unset($staffData['date_submit']);
 
 			// Update the staff appointment
 			$sa = StaffAppointmentModel::find(Input::get('staff_appointment_id'));
