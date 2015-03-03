@@ -30,7 +30,7 @@
 		<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">Date</label>
 			<div class="col-sm-3">
-				{{ Form::text('staff[date]', $appointment->start->format('Y-m-d'), ['class' => 'form-control js-datepicker']) }}
+				{{ Form::text('staff[date]', $appointment->start->format('l, M d, Y'), ['class' => 'form-control js-datepicker']) }}
 				{{ $errors->first('start', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 		<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">Start Time</label>
 			<div class="col-sm-3">
-				{{ Form::text('staff[start]', $appointment->start->format('H:i'), ['class' => 'form-control js-timepicker']) }}
+				{{ Form::text('staff[start]', $appointment->start->format('g:i A'), ['class' => 'form-control js-timepicker']) }}
 				{{ $errors->first('start', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 		<div class="form-group{{ ($errors->has('end')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">End Time</label>
 			<div class="col-sm-3">
-				{{ Form::text('staff[end]', $appointment->end->format('H:i'), ['class' => 'form-control js-timepicker']) }}
+				{{ Form::text('staff[end]', $appointment->end->format('g:i A'), ['class' => 'form-control js-timepicker']) }}
 				{{ $errors->first('end', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -114,6 +114,7 @@
 			$('.js-datepicker').pickadate({
 				format: "dddd, mmm dd, yyyy",
 				formatSubmit: "yyyy-mm-dd",
+				hiddenName: true,
 				max: false,
 				container: '.container-fluid'
 			});
@@ -121,6 +122,7 @@
 			$('.js-timepicker').pickatime({
 				format: "h:i A",
 				formatSubmit: "HH:i",
+				hiddenName: true,
 				interval: 15,
 				min: [6, 0],
 				max: [22, 0],
