@@ -44,10 +44,8 @@ class StaffController extends BaseController {
 			return View::make('pages.admin.staff.index')
 				->withStaff($this->staff->all());
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to manage staff!");
-		}
+		
+		return $this->unauthorized("You do not have permission to manage staff!");
 	}
 
 	public function create()
@@ -57,10 +55,8 @@ class StaffController extends BaseController {
 			return View::make('pages.admin.staff.create')
 				->withUsers($this->user->getNonStaff());
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create staff members!");
-		}
+		
+		return $this->unauthorized("You do not have permission to create staff members!");
 	}
 
 	public function store()
@@ -88,10 +84,8 @@ class StaffController extends BaseController {
 				->with('message', 'Staff member was successfully added.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create staff members!");
-		}
+
+		return $this->unauthorized("You do not have permission to create staff members!");
 	}
 
 	public function edit($id)
@@ -99,17 +93,13 @@ class StaffController extends BaseController {
 		// Get the staff member
 		$staff = $this->staff->find($id);
 
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1
-				or ($this->currentUser->isStaff() and $this->currentUser->access() == 1 and 
-					$this->currentUser->staff->id == $staff->id))
+		if ($this->currentUser->access() > 1 or ($this->currentUser->access() == 1 and $staff->user->id == $this->currentUser->id))
 		{
 			return View::make('pages.admin.staff.edit')
 				->withStaff($staff);
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit staff members!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit staff members!");
 	}
 
 	public function update($id)
@@ -117,9 +107,7 @@ class StaffController extends BaseController {
 		// Get the staff member
 		$staff = $this->staff->find($id);
 
-		if (($staff->user->isStaff() and $staff->user->access() > 1) 
-				or ($staff->user->isStaff() and $staff->user->access == 1 and $staff->user == $this->currentUser)
-				or ( ! $staff->user->isStaff() and $staff->user == $this->currentUser))
+		if ($this->currentUser->access() > 1 or ($this->currentUser->access() == 1 and $staff->user->id == $this->currentUser->id))
 		{
 			$validator = new StaffValidator;
 
@@ -140,10 +128,8 @@ class StaffController extends BaseController {
 				->with('message', 'Staff member was successfully updated.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit this staff member!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit this staff member!");
 	}
 
 	public function destroy($id)
