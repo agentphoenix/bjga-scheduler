@@ -51,6 +51,11 @@ class StaffAppointmentModel extends Model {
 		return $this->belongsTo('ServiceOccurrenceModel', 'occurrence_id');
 	}
 
+	public function location()
+	{
+		return $this->belongsTo('LocationModel', 'location_id');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Model Methods
