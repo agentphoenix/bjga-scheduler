@@ -37,7 +37,7 @@
 						<div class="col-sm-6 col-md-6 col-lg-4">
 							<p><strong>{{ $r->present()->userName }}</strong></p>
 							<p class="text-muted text-sm">{{ $r->present()->serviceName }}</p>
-							@if ($_currentUser->access() == 3)
+							@if ((bool) $_currentUser->staff->instruction !== true)
 								<p class="text-muted text-sm">{{ $r->present()->instructor }}</p>
 							@endif
 						</div>
