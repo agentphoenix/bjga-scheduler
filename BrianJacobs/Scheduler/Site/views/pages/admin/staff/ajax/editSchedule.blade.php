@@ -25,7 +25,7 @@
 			<div class="col-lg-6">
 				<div class="form-group">
 					<label class="control-label">Start Time</label>
-					{{ Form::text('start', null, ['class' => 'form-control js-timepicker-start']) }}
+					{{ Form::text('start', $start, ['class' => 'form-control js-timepicker-start']) }}
 				</div>
 			</div>
 		</div>
@@ -34,7 +34,7 @@
 			<div class="col-lg-6">
 				<div class="form-group">
 					<label class="control-label">End Time</label>
-					{{ Form::text('end', null, ['class' => 'form-control js-timepicker-end']) }}
+					{{ Form::text('end', $end, ['class' => 'form-control js-timepicker-end']) }}
 				</div>
 			</div>
 		</div>
@@ -54,7 +54,6 @@
 {{ HTML::style('css/picker.default.time.css') }}
 {{ HTML::script('js/picker.js') }}
 {{ HTML::script('js/picker.time.js') }}
-{{ HTML::script('js/picker.legacy.js') }}
 <script>
 	$('[name="no_times"]').on('change', function(e)
 	{
@@ -74,7 +73,8 @@
 	{
 		$('.js-timepicker-start').pickatime({
 			format: "h:i a",
-			formatSubmit: "HH:i A",
+			formatSubmit: "HH:i",
+			hiddenName: true,
 			interval: 15,
 			min: [6, 0],
 			max: [22, 0],
@@ -83,7 +83,8 @@
 
 		$('.js-timepicker-end').pickatime({
 			format: "h:i a",
-			formatSubmit: "HH:i A",
+			formatSubmit: "HH:i",
+			hiddenName: true,
 			interval: 15,
 			min: [6, 0],
 			max: [22, 0],

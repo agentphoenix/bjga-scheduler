@@ -267,12 +267,10 @@ class StaffController extends BaseController {
 				->withStaff($staff)
 				->withBlocks($this->staff->getBlocks($staff->user))
 				->withSchedule($staff->schedule)
-				->withDays(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'));
+				->withDays(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
 		}
-		else
-		{
-			return $this->unauthorized("Only staff members can view schedules!");
-		}
+		
+		return $this->unauthorized("Only staff members can view schedules!");
 	}
 
 	public function editSchedule($staffId, $day)
@@ -281,12 +279,34 @@ class StaffController extends BaseController {
 		{
 			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+			// Get the staff member
+			$staff = $this->staff->find($staffId);
+
+			// Get the schedule for the day
+			$schedule = $staff->schedule->filter(function($s) use ($day)
+			{
+				return (int) $s->day === (int) $day;
+			})->first();
+
+			$start = false;
+			$end = false;
+
+			if ( ! empty($schedule->availability))
+			{
+				list($start, $end) = explode('-', $schedule->availability);
+
+				$start = Date::createFromFormat('G:i', $start)->format('g:i A');
+				$end = Date::createFromFormat('G:i', $end)->format('g:i A');
+			}
+
 			return partial('common/modal_content', array(
 				'modalHeader'	=> "Edit {$days[$day]} Schedule",
 				'modalBody'		=> View::make('pages.admin.staff.ajax.editSchedule')
-									->withStaff($this->staff->find($staffId))
+									->withStaff($staff)
 									->withDay($days[$day])
-									->withDaynum($day),
+									->withDaynum($day)
+									->withStart($start)
+									->withEnd($end),
 				'modalFooter'	=> false,
 			));
 		}
@@ -296,14 +316,19 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			// Get the start
-			$start = Date::createFromFormat('H:i', Input::get('start_submit'))->format('G:i');
+			$availability = false;
 
-			// Get the end
-			$end = Date::createFromFormat('H:i', Input::get('end_submit'))->format('G:i');
+			if (Input::get('no_times') != "1")
+			{
+				// Get the start
+				$start = Date::createFromFormat('H:i', Input::get('start'))->format('G:i');
 
-			// Build the availability string
-			$availability = "{$start}-{$end}";
+				// Get the end
+				$end = Date::createFromFormat('H:i', Input::get('end'))->format('G:i');
+
+				// Build the availability string
+				$availability = "{$start}-{$end}";
+			}
 
 			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), $availability);
 
