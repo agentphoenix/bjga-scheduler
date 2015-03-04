@@ -304,16 +304,16 @@
         },
         {
             "name": "iron-io/iron_core",
-            "version": "0.2.1",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iron-io/iron_core_php.git",
-                "reference": "bf399c13a42a78079b3fe56d0e2e1791290521c4"
+                "reference": "d5afdccb6aea2ce7c71cf9eedabc81dc3771af19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/bf399c13a42a78079b3fe56d0e2e1791290521c4",
-                "reference": "bf399c13a42a78079b3fe56d0e2e1791290521c4",
+                "url": "https://api.github.com/repos/iron-io/iron_core_php/zipball/d5afdccb6aea2ce7c71cf9eedabc81dc3771af19",
+                "reference": "d5afdccb6aea2ce7c71cf9eedabc81dc3771af19",
                 "shasum": ""
             },
             "require": {
@@ -349,24 +349,24 @@
                 "iron",
                 "iron_core"
             ],
-            "time": "2014-08-05 13:53:05"
+            "time": "2014-11-11 11:18:17"
         },
         {
             "name": "iron-io/iron_mq",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iron-io/iron_mq_php.git",
-                "reference": "d9e64a662d6ddcd4ba535c67467f0eee221804fb"
+                "reference": "90e796570f61b6e63b44296d7300747c51833b92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iron-io/iron_mq_php/zipball/d9e64a662d6ddcd4ba535c67467f0eee221804fb",
-                "reference": "d9e64a662d6ddcd4ba535c67467f0eee221804fb",
+                "url": "https://api.github.com/repos/iron-io/iron_mq_php/zipball/90e796570f61b6e63b44296d7300747c51833b92",
+                "reference": "90e796570f61b6e63b44296d7300747c51833b92",
                 "shasum": ""
             },
             "require": {
-                "iron-io/iron_core": "*",
+                "iron-io/iron_core": "0.*",
                 "php": ">=5.2.0"
             },
             "type": "library",
@@ -394,7 +394,7 @@
                 "iron",
                 "iron_mq"
             ],
-            "time": "2014-10-16 18:40:13"
+            "time": "2015-02-12 15:38:54"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -492,16 +492,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.2.16",
+            "version": "v4.2.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "31fe6a5747bbe3c2df21dc4cc8f291e75ab6144f"
+                "reference": "3359de6d6cd322e8a1b251c2f8d9dd42a3e4e232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/31fe6a5747bbe3c2df21dc4cc8f291e75ab6144f",
-                "reference": "31fe6a5747bbe3c2df21dc4cc8f291e75ab6144f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3359de6d6cd322e8a1b251c2f8d9dd42a3e4e232",
+                "reference": "3359de6d6cd322e8a1b251c2f8d9dd42a3e4e232",
                 "shasum": ""
             },
             "require": {
@@ -512,7 +512,7 @@
                 "jeremeamia/superclosure": "~1.0.1",
                 "monolog/monolog": "~1.6",
                 "nesbot/carbon": "~1.0",
-                "patchwork/utf8": "1.1.*",
+                "patchwork/utf8": "~1.1",
                 "php": ">=5.4.0",
                 "phpseclib/phpseclib": "0.3.*",
                 "predis/predis": "0.8.*",
@@ -603,20 +603,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-12-22 20:56:10"
+            "time": "2015-02-11 20:37:15"
         },
         {
             "name": "league/commonmark",
-            "version": "0.6.1",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "ad1b89403026158529620e0f6096be0eae96817c"
+                "reference": "7b428e962fb83a13715e057c65c88873d3165df0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/ad1b89403026158529620e0f6096be0eae96817c",
-                "reference": "ad1b89403026158529620e0f6096be0eae96817c",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/7b428e962fb83a13715e057c65c88873d3165df0",
+                "reference": "7b428e962fb83a13715e057c65c88873d3165df0",
                 "shasum": ""
             },
             "require": {
@@ -635,7 +635,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6-dev"
+                    "dev-master": "0.8-dev"
                 }
             },
             "autoload": {
@@ -662,7 +662,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2015-01-25 16:08:20"
+            "time": "2015-03-01 21:29:05"
         },
         {
             "name": "league/fractal",
@@ -801,16 +801,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.14.0",
+            "version": "1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bb87460c995d97fe55b39e65f6ffb7f64b0a941e"
+                "reference": "48cb9ae6d9436e156316a59d198cb1ca797f8cd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bb87460c995d97fe55b39e65f6ffb7f64b0a941e",
-                "reference": "bb87460c995d97fe55b39e65f6ffb7f64b0a941e",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/48cb9ae6d9436e156316a59d198cb1ca797f8cd8",
+                "reference": "48cb9ae6d9436e156316a59d198cb1ca797f8cd8",
                 "shasum": ""
             },
             "require": {
@@ -837,13 +837,13 @@
                 }
             ],
             "description": "A simple API extension for DateTime.",
-            "homepage": "https://github.com/briannesbitt/Carbon",
+            "homepage": "http://carbon.nesbot.com",
             "keywords": [
                 "date",
                 "datetime",
                 "time"
             ],
-            "time": "2015-02-06 05:07:29"
+            "time": "2015-03-03 03:24:43"
         },
         {
             "name": "nikic/php-parser",
@@ -892,16 +892,16 @@
         },
         {
             "name": "patchwork/utf8",
-            "version": "v1.1.28",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tchwork/utf8.git",
-                "reference": "ffa082111aa3cb23cf2479a17e6785ace91da982"
+                "reference": "01f0ed1628db7794e2d4e336f55a09daef4248a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tchwork/utf8/zipball/ffa082111aa3cb23cf2479a17e6785ace91da982",
-                "reference": "ffa082111aa3cb23cf2479a17e6785ace91da982",
+                "url": "https://api.github.com/repos/tchwork/utf8/zipball/01f0ed1628db7794e2d4e336f55a09daef4248a5",
+                "reference": "01f0ed1628db7794e2d4e336f55a09daef4248a5",
                 "shasum": ""
             },
             "require": {
@@ -911,9 +911,15 @@
             "suggest": {
                 "ext-iconv": "Use iconv for best performance",
                 "ext-intl": "Use Intl for best performance",
-                "ext-mbstring": "Use Mbstring for best performance"
+                "ext-mbstring": "Use Mbstring for best performance",
+                "ext-wfio": "Use WFIO for UTF-8 filesystem access on Windows"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Patchwork": "class/",
@@ -939,7 +945,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2015-01-12 08:05:15"
+            "time": "2015-01-29 08:36:50"
         },
         {
             "name": "phpseclib/phpseclib",
