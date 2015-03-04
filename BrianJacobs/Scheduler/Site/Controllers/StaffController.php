@@ -44,10 +44,8 @@ class StaffController extends BaseController {
 			return View::make('pages.admin.staff.index')
 				->withStaff($this->staff->all());
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to manage staff!");
-		}
+		
+		return $this->unauthorized("You do not have permission to manage staff!");
 	}
 
 	public function create()
@@ -57,10 +55,8 @@ class StaffController extends BaseController {
 			return View::make('pages.admin.staff.create')
 				->withUsers($this->user->getNonStaff());
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create staff members!");
-		}
+		
+		return $this->unauthorized("You do not have permission to create staff members!");
 	}
 
 	public function store()
@@ -88,10 +84,8 @@ class StaffController extends BaseController {
 				->with('message', 'Staff member was successfully added.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create staff members!");
-		}
+
+		return $this->unauthorized("You do not have permission to create staff members!");
 	}
 
 	public function edit($id)
@@ -99,17 +93,13 @@ class StaffController extends BaseController {
 		// Get the staff member
 		$staff = $this->staff->find($id);
 
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1
-				or ($this->currentUser->isStaff() and $this->currentUser->access() == 1 and 
-					$this->currentUser->staff->id == $staff->id))
+		if ($this->currentUser->access() > 1 or ($this->currentUser->access() == 1 and $staff->user->id == $this->currentUser->id))
 		{
 			return View::make('pages.admin.staff.edit')
 				->withStaff($staff);
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit staff members!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit staff members!");
 	}
 
 	public function update($id)
@@ -117,9 +107,7 @@ class StaffController extends BaseController {
 		// Get the staff member
 		$staff = $this->staff->find($id);
 
-		if (($staff->user->isStaff() and $staff->user->access() > 1) 
-				or ($staff->user->isStaff() and $staff->user->access == 1 and $staff->user == $this->currentUser)
-				or ( ! $staff->user->isStaff() and $staff->user == $this->currentUser))
+		if ($this->currentUser->access() > 1 or ($this->currentUser->access() == 1 and $staff->user->id == $this->currentUser->id))
 		{
 			$validator = new StaffValidator;
 
@@ -140,10 +128,8 @@ class StaffController extends BaseController {
 				->with('message', 'Staff member was successfully updated.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit this staff member!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit this staff member!");
 	}
 
 	public function destroy($id)
@@ -267,26 +253,46 @@ class StaffController extends BaseController {
 				->withStaff($staff)
 				->withBlocks($this->staff->getBlocks($staff->user))
 				->withSchedule($staff->schedule)
-				->withDays(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'));
+				->withDays(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
 		}
-		else
-		{
-			return $this->unauthorized("Only staff members can view schedules!");
-		}
+		
+		return $this->unauthorized("Only staff members can view schedules!");
 	}
 
 	public function editSchedule($staffId, $day)
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+			// Get the staff member
+			$staff = $this->staff->find($staffId);
+
+			// Get the schedule for the day
+			$schedule = $staff->schedule->filter(function($s) use ($day)
+			{
+				return (int) $s->day === (int) $day;
+			})->first();
+
+			$start = false;
+			$end = false;
+
+			if ( ! empty($schedule->availability))
+			{
+				list($start, $end) = explode('-', $schedule->availability);
+
+				$start = Date::createFromFormat('G:i', $start)->format('g:i A');
+				$end = Date::createFromFormat('G:i', $end)->format('g:i A');
+			}
 
 			return partial('common/modal_content', array(
 				'modalHeader'	=> "Edit {$days[$day]} Schedule",
 				'modalBody'		=> View::make('pages.admin.staff.ajax.editSchedule')
-									->withStaff($this->staff->find($staffId))
+									->withStaff($staff)
 									->withDay($days[$day])
-									->withDaynum($day),
+									->withDaynum($day)
+									->withStart($start)
+									->withEnd($end),
 				'modalFooter'	=> false,
 			));
 		}
@@ -296,24 +302,17 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$availability = "";
+			$availability = false;
 
-			// Get the start value
-			$start = Input::get('start');
-
-			if ($start)
+			if (Input::get('no_times') != "1")
 			{
-				$rawStart = str_replace(' AM', '', $start);
-				$rawStart = str_replace(' PM', '', $rawStart);
-				$rawEnd = str_replace(' AM', '', Input::get('end'));
-				$rawEnd = str_replace(' PM', '', $rawEnd);
-
 				// Get the start
-				$start = Date::createFromFormat('H:i', $rawStart)->format('G:i');
+				$start = Date::createFromFormat('H:i', Input::get('start'))->format('G:i');
 
 				// Get the end
-				$end = Date::createFromFormat('H:i', $rawEnd)->format('G:i');
+				$end = Date::createFromFormat('H:i', Input::get('end'))->format('G:i');
 
+				// Build the availability string
 				$availability = "{$start}-{$end}";
 			}
 

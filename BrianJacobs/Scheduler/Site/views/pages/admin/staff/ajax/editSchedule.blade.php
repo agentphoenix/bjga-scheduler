@@ -1,4 +1,4 @@
-{{ Form::open(array('route' => array('admin.staff.schedule.update', $staff->id), 'method' => 'put')) }}
+{{ Form::open(['route' => ['admin.staff.schedule.update', $staff->id], 'method' => 'put']) }}
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="form-group">
@@ -9,19 +9,33 @@
 	</div>
 
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-sm-6">
 			<div class="form-group">
-				<label class="control-label">Start Time</label>
-				{{ Form::text('start', null, array('class' => 'form-control js-timepicker-start')) }}
+				<div class="checkbox text-sm">
+					<label>
+						{{ Form::checkbox('no_times', 1, false) }} No availability on {{ $day }}s
+					</label>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col-lg-6">
-			<div class="form-group">
-				<label class="control-label">End Time</label>
-				{{ Form::text('end', null, array('class' => 'form-control js-timepicker-end')) }}
+	<div id="scheduleTimes">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label class="control-label">Start Time</label>
+					{{ Form::text('start', $start, ['class' => 'form-control js-timepicker-start']) }}
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label class="control-label">End Time</label>
+					{{ Form::text('end', $end, ['class' => 'form-control js-timepicker-end']) }}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -29,10 +43,10 @@
 	{{ Form::hidden('dayNum', $daynum) }}
 
 	<div class="visible-md visible-lg">
-		{{ Form::submit("Update Schedule", array('class' => 'btn btn-lg btn-primary')) }}
+		{{ Form::button("Update Schedule", ['type' => 'submit', 'class' => 'btn btn-lg btn-primary']) }}
 	</div>
 	<div class="visible-xs visible-sm">
-		{{ Form::submit("Update Schedule", array('class' => 'btn btn-lg btn-block btn-primary')) }}
+		{{ Form::button("Update Schedule", ['type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary']) }}
 	</div>
 {{ Form::close() }}
 
@@ -40,12 +54,27 @@
 {{ HTML::style('css/picker.default.time.css') }}
 {{ HTML::script('js/picker.js') }}
 {{ HTML::script('js/picker.time.js') }}
-{{ HTML::script('js/picker.legacy.js') }}
 <script>
+	$('[name="no_times"]').on('change', function(e)
+	{
+		if ($('[name="no_times"]').is(':checked'))
+		{
+			$('#scheduleTimes').addClass('hide');
+			$('[name="start"]').val("");
+			$('[name="end"]').val("");
+		}
+		else
+		{
+			$('#scheduleTimes').removeClass('hide');
+		}
+	});
+
 	$(function()
 	{
 		$('.js-timepicker-start').pickatime({
-			format: "HH:i A",
+			format: "h:i a",
+			formatSubmit: "HH:i",
+			hiddenName: true,
 			interval: 15,
 			min: [6, 0],
 			max: [22, 0],
@@ -53,7 +82,9 @@
 		});
 
 		$('.js-timepicker-end').pickatime({
-			format: "HH:i A",
+			format: "h:i a",
+			formatSubmit: "HH:i",
+			hiddenName: true,
 			interval: 15,
 			min: [6, 0],
 			max: [22, 0],

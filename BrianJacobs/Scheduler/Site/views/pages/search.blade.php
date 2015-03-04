@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	Search
+	Find a Lesson Time
 @stop
 
 @section('content')
-	<h1>Search</h1>
+	<h1>Find a Lesson Time</h1>
 
 	{{ Form::open(['route' => 'search.do']) }}
 		<div class="form-group">
@@ -14,15 +14,15 @@
 					<label class="control-label">Instructor</label>
 					{{ Form::select('instructor', $instructors, null, ['class' => 'form-control']) }}
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<label class="control-label">Lesson Type</label>
 					{{ Form::select('duration', $lessons, null, ['class' => 'form-control']) }}
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 col-lg-2">
 					<label class="control-label">Timeframe</label>
 					{{ Form::select('timeframe', $timeframe, null, ['class' => 'form-control']) }}
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2 col-lg-3">
 					<div class="visible-xs visible-sm">
 						<br>{{ Form::button("Search", ['type' => 'submit', 'class' => 'btn btn-primary btn-lg btn-block']) }}
 					</div>

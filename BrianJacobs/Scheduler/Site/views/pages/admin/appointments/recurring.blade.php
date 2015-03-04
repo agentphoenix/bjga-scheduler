@@ -31,33 +31,38 @@
 
 		<div class="data-table data-table-striped data-table-bordered" id="appointmentsTable">
 		@foreach ($recurring as $r)
-			@if ($r->userAppointments->count() > 0)
-				<div class="row">
-					<div class="col-sm-6 col-md-6 col-lg-4">
-						<p><strong>{{ $r->present()->userName }}</strong></p>
-						<p class="text-muted text-sm">{{ $r->present()->serviceName }}</p>
-					</div>
-					<div class="col-sm-6 col-md-6 col-lg-4">
-						<p class="text-sm">{{ $r->present()->startDate }}</p>
-						<p class="text-sm">{{ $r->present()->endDate }}</p>
-					</div>
-					<div class="col-sm-12 col-md-6 col-lg-4">
-						<div class="visible-md visible-lg">
-							<div class="btn-toolbar pull-right">
-								<div class="btn-group">
-									<a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit">{{ $_icons['edit'] }}</a>
+			@if ( ! $r->hasEnded())
+				@if ($r->userAppointments->count() > 0)
+					<div class="row">
+						<div class="col-sm-6 col-md-6 col-lg-4">
+							<p><strong>{{ $r->present()->userName }}</strong></p>
+							<p class="text-muted text-sm">{{ $r->present()->serviceName }}</p>
+							@if ((bool) $_currentUser->staff->instruction !== true)
+								<p class="text-muted text-sm">{{ $r->present()->instructor }}</p>
+							@endif
+						</div>
+						<div class="col-sm-6 col-md-6 col-lg-4">
+							<p class="text-sm">{{ $r->present()->startDate }}</p>
+							<p class="text-sm">{{ $r->present()->endDate }}</p>
+						</div>
+						<div class="col-sm-12 col-md-6 col-lg-4">
+							<div class="visible-md visible-lg">
+								<div class="btn-toolbar pull-right">
+									<div class="btn-group">
+										<a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit">{{ $_icons['edit'] }}</a>
+									</div>
+								</div>
+							</div>
+							<div class="visible-xs visible-sm">
+								<div class="row">
+									<div class="col-sm-3">
+										<p><a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit</a></p>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="visible-xs visible-sm">
-							<div class="row">
-								<div class="col-sm-3">
-									<p><a href="{{ URL::route('admin.appointment.recurring.edit', array($r->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit</a></p>
-								</div>
-							</div>
-						</div>
 					</div>
-				</div>
+				@endif
 			@endif
 		@endforeach
 		</div>

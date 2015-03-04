@@ -233,8 +233,12 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			$staff = ((bool) $this->currentUser->staff->instruction) 
+				? $this->currentUser->staff->id 
+				: false;
+
 			return View::make('pages.admin.appointments.recurring')
-				->withRecurring($this->appts->getRecurringLessons());
+				->withRecurring($this->appts->getRecurringLessons(false, $staff));
 		}
 		else
 		{

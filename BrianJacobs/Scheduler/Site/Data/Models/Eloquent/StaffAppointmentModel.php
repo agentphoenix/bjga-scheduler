@@ -128,6 +128,22 @@ class StaffAppointmentModel extends Model {
 		return false;
 	}
 
+	public function seriesHasEnded()
+	{
+		if ($this->services->isLesson() and $this->service->isRecurring())
+		{
+			// Get the first appointment
+			$lastAppt = $this->recur->staffAppointments->sortBy(function($s)
+			{
+				return $s->start;
+			})->last();
+
+			if ($lastAppt->lt(Date::now())) return true;
+		}
+
+		return false;
+	}
+
 	public function userAppointment($user)
 	{
 		return $this->userAppointments->filter(function($u) use ($user)

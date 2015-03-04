@@ -94,9 +94,12 @@
 								<div class="btn-group">
 									<a href="{{ URL::route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-sm icn-size-16">{{ $_icons['edit'] }}</a>
 								</div>
-								<div class="btn-group">
-									<a href="#" class="btn btn-danger btn-sm icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">{{ $_icons['reject'] }}</a>
-								</div>
+
+								@if ( ! $sa->hasEnded())
+									<div class="btn-group">
+										<a href="#" class="btn btn-danger btn-sm icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">{{ $_icons['reject'] }}</a>
+									</div>
+								@endif
 							</div>
 						</div>
 						<div class="visible-xs visible-sm">
@@ -104,9 +107,12 @@
 								<div class="col-sm-6">
 									<p><a href="{{ URL::route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-lg btn-block">Edit Appointment</a></p>
 								</div>
-								<div class="col-sm-6">
-									<p><a href="#" class="btn btn-danger btn-lg btn-block js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">Cancel Appointment</a></p>
-								</div>
+
+								@if ( ! $sa->hasEnded())
+									<div class="col-sm-6">
+										<p><a href="#" class="btn btn-danger btn-lg btn-block js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">Cancel Appointment</a></p>
+									</div>
+								@endif
 							</div>
 						</div>
 					</div>
@@ -131,7 +137,6 @@
 	{{ HTML::script('js/picker.js') }}
 	{{ HTML::script('js/picker.date.js') }}
 	{{ HTML::script('js/picker.time.js') }}
-	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
 		$(function()
 		{
