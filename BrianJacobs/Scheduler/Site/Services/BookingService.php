@@ -161,6 +161,7 @@ class BookingService {
 						? $newStartDate->addDays($service->occurrences_schedule) : null,
 					'end'			=> ($service->occurrences_schedule > 0) 
 						? $newEndDate->addDays($service->occurrences_schedule) : null,
+					'location_id'	=> $recurItem->location_id,
 				));
 				$bookStaffIds[] = $sa->id;
 
