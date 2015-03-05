@@ -8,7 +8,7 @@ class StaffScheduleModel extends Model {
 
 	public $timestamps = false;
 
-	protected $fillable = array('staff_id', 'day', 'availability', 'location_id');
+	protected $fillable = ['staff_id', 'day', 'availability', 'location_id'];
 
 	/*
 	|--------------------------------------------------------------------------

@@ -11,9 +11,9 @@ class StaffAppointmentRecurModel extends Model {
 
 	public $timestamps = false;
 
-	protected $fillable = array('staff_id', 'service_id', 'start', 'end');
+	protected $fillable = ['staff_id', 'service_id', 'start', 'end', 'location_id'];
 
-	protected $dates = array('start', 'end');
+	protected $dates = ['start', 'end'];
 
 	protected $presenter = 'Scheduler\Data\Presenters\StaffAppointmentRecurPresenter';
 
