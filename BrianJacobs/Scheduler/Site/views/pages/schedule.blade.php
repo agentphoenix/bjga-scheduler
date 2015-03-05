@@ -48,12 +48,24 @@
 
 	@if (count($schedule) > 0)
 		@foreach ($schedule as $days => $appointments)
+			@if ($_currentUser->isStaff())
+				<div class="visible-md visible-lg">
+					<a class="btn btn-info btn-sm icn-size-16 pull-right js-changeLocation js-tooltip-top" data-title="Change Location for This Day">{{ $_icons['map'] }}</a>
+				</div>
+			@endif
+
 			@if ($days === 0)
 				<h2>Today <small>{{ $now->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@elseif ($days === 1)
 				<h2>Tomorrow <small>{{ $now->copy()->addDay()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
 			@else
 				<h2>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+			@endif
+
+			@if ($_currentUser->isStaff())
+				<div class="visible-xs visible-sm">
+					<p><a class="btn btn-info btn-lg btn-block js-changeLocation">Change Location for This Day</a></p>
+				</div>
 			@endif
 
 			<div class="data-table data-table-striped data-table-bordered">
