@@ -38,6 +38,7 @@ class BookingEventHandler {
 				{
 					$appointments[$ua->id]['start'] = $ua->appointment->present()->start;
 					$appointments[$ua->id]['due'] = $ua->present()->due;
+					$appointments[$ua->id]['location'] = $ua->appointment->present()->location;
 				}
 			}
 		}
@@ -47,6 +48,7 @@ class BookingEventHandler {
 			{
 				$appointments[$ua->id]['start'] = $ua->appointment->present()->start;
 				$appointments[$ua->id]['due'] = $ua->present()->due;
+				$appointments[$ua->id]['location'] = $ua->appointment->present()->location;
 			}
 		}
 
@@ -61,6 +63,7 @@ class BookingEventHandler {
 			'days'			=> $service->occurrences_schedule,
 			'user'			=> $user->name,
 			'appointments'	=> $appointments,
+			'location'		=> $staffAppt->present()->location,
 		);
 
 		// Email the attendees
@@ -86,6 +89,7 @@ class BookingEventHandler {
 		$data = array(
 			'service'	=> $service->name,
 			'schedule'	=> array(),
+			'location'	=> $service->present()->location,
 		);
 
 		$occurrences = $service->serviceOccurrences->sortBy(function($s){ return $s->start; });
