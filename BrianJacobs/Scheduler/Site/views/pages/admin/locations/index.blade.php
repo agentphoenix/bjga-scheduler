@@ -26,11 +26,11 @@
 		<div class="data-table data-table-striped data-table-bordered">
 		@foreach ($locations as $location)
 			<div class="row">
-				<div class="col-sm-9">
+				<div class="col-sm-6 col-md-9">
 					<p><strong>{{ $location->present()->name }}</strong></p>
 				</div>
 
-				<div class="col-sm-3">
+				<div class="col-sm-6 col-md-3">
 					<div class="visible-md visible-lg">
 						<div class="btn-toolbar pull-right">
 							<div class="btn-group">
