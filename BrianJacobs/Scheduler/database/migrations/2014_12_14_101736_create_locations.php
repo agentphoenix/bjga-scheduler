@@ -43,6 +43,17 @@ class CreateLocations extends Migration {
 		{
 			$table->integer('location_id')->after('availability');
 		});
+
+		// Get staff instructors
+		$instructors = StaffModel::where('instruction', (int) true)->get();
+
+		foreach ($instructors as $instructor)
+		{
+			foreach ($instructor->schedule as $day)
+			{
+				$day->fill(['location_id' => 1])->save();
+			}
+		}
 	}
 
 	/**
