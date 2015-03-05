@@ -53,6 +53,7 @@ class ServiceEventHandler {
 					'description' => $service->description,
 					'price' => $service->present()->price,
 					'schedule' => array(),
+					'location' => $service->present()->location,
 				);
 
 				$occurrences = $service->serviceOccurrences->sortBy(function($s)

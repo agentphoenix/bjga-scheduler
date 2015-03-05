@@ -157,7 +157,8 @@ class AjaxController extends BaseController {
 		{
 			return View::make('pages.ajax.programServiceDetails')
 				->withDates($service->serviceOccurrences->sortBy(function($s) { return $s->start; }))
-				->withPrice($service->present()->price);
+				->withPrice($service->present()->price)
+				->withLocation($service->present()->location);
 		}
 
 		return View::make('partials.common.alert')

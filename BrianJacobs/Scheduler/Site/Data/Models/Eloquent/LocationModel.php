@@ -33,6 +33,11 @@ class LocationModel extends Model {
 		return $this->hasMany('StaffAppointmentModel', 'location_id');
 	}
 
+	public function services()
+	{
+		return $this->hasMany('ServiceModel', 'location_id');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Getters/Setters

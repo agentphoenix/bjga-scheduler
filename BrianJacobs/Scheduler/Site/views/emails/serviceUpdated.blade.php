@@ -13,13 +13,14 @@
 		<h3>Details</h3>
 
 		<p><strong>Description</strong> - {{ $description }}</p>
+		<p><strong>Location</strong> - {{ $location }}</p>
 		<p><strong>Price</strong> - {{ $price }}</p>
 
 		<h3>Schedule</h3>
 
 		<ul>
 		@foreach ($schedule as $s)
-			<li>{{ $s['start'] - {{ $s['end'] }}</li>
+			<li>{{ $s['start'] }} - {{ $s['end'] }}</li>
 		@endforeach
 		</ul>
 	</body>
