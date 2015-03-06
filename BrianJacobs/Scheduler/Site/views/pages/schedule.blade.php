@@ -50,7 +50,7 @@
 		@foreach ($schedule as $days => $appointments)
 			@if ($_currentUser->isStaff())
 				<div class="visible-md visible-lg">
-					<a class="btn btn-info btn-sm icn-size-16 pull-right js-changeLocation js-tooltip-top" data-title="Change Location for This Day">{{ $_icons['map'] }}</a>
+					<a class="btn btn-default btn-sm icn-size-16 pull-right js-changeLocation">Change Location for This Day</a>
 				</div>
 			@endif
 
@@ -64,7 +64,7 @@
 
 			@if ($_currentUser->isStaff())
 				<div class="visible-xs visible-sm">
-					<p><a class="btn btn-info btn-lg btn-block js-changeLocation">Change Location for This Day</a></p>
+					<p><a class="btn btn-default btn-lg btn-block js-changeLocation">Change Location for This Day</a></p>
 				</div>
 			@endif
 
@@ -99,10 +99,10 @@
 		
 		<div class="row">
 			<div class="col-sm-6 col-md-4 col-lg-3">
-				<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
+				<p><a href="{{ route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
 			</div>
 			<div class="col-sm-6 col-md-4 col-lg-3">
-				<p><a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-block btn-primary">Enroll in a Program</a></p>
+				<p><a href="{{ route('book.program') }}" class="btn btn-lg btn-block btn-primary">Enroll in a Program</a></p>
 			</div>
 		</div>
 	@endif
@@ -114,12 +114,12 @@
 	{{ modal(['id' => 'studentCancel', 'header' => "Cancel Appointment"]) }}
 	{{ modal(['id' => 'attendees', 'header' => "Attendees"]) }}
 	{{ modal(['id' => 'apptDetails', 'header' => 'Appointment Details']) }}
+	{{ modal(['id' => 'changeLocation', 'header' => 'Change Location for This Day']) }}
 @stop
 
 @section('scripts')
 	{{ View::make('partials.jsMarkAsPaid') }}
 	<script>
-
 		$('.js-attendees').on('click', function(e)
 		{
 			e.preventDefault();
@@ -186,5 +186,13 @@
 			}
 		});
 
+		$('.js-changeLocation').on('click', function(e)
+		{
+			e.preventDefault();
+
+			$('#changeLocation').modal({
+				remote: "{{ URL::to('admin/locations/change') }}"
+			}).modal('show');
+		});
 	</script>
 @stop
