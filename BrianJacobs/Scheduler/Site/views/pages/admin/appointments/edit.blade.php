@@ -38,7 +38,7 @@
 		<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">Start Time</label>
 			<div class="col-sm-3">
-				{{ Form::text('staff[start]', $appointment->start->format('g:i A'), ['class' => 'form-control js-timepicker']) }}
+				{{ Form::text('staff[start]', $appointment->start->format('g:i A'), ['class' => 'form-control js-timepicker-start']) }}
 				{{ $errors->first('start', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 		<div class="form-group{{ ($errors->has('end')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">End Time</label>
 			<div class="col-sm-3">
-				{{ Form::text('staff[end]', $appointment->end->format('g:i A'), ['class' => 'form-control js-timepicker']) }}
+				{{ Form::text('staff[end]', $appointment->end->format('g:i A'), ['class' => 'form-control js-timepicker-end']) }}
 				{{ $errors->first('end', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -56,6 +56,7 @@
 			<div class="col-sm-5">
 				{{ Form::select('staff[location_id]', $locations, $appointment->location_id, ['class' => 'form-control']) }}
 				{{ $errors->first('location_id', '<p class="help-block">:message</p>') }}
+				<p class="help-block text-danger"><strong>Warning:</strong> Only change the location of this appointment if you <em>know</em> you'll be at the specified location on the date shown above!</p>
 			</div>
 		</div>
 
@@ -108,6 +109,7 @@
 	{{ HTML::script('js/picker.date.js') }}
 	{{ HTML::script('js/picker.time.js') }}
 	{{ HTML::script('js/picker.legacy.js') }}
+	{{ HTML::script('js/moment.min.js') }}
 	<script>
 		$(function()
 		{
@@ -116,10 +118,26 @@
 				formatSubmit: "yyyy-mm-dd",
 				hiddenName: true,
 				max: false,
-				container: '.container-fluid'
+				container: '.container-fluid',
+				onSet: function(context)
+				{
+					var $day = moment(this.get(), "dddd, MMM D, YYYY");
+
+					$.ajax({
+						type: "GET",
+						url: "{{ URL::to('ajax/staff') }}/{{ $service->staff_id }}",
+						dataType: "json",
+						success: function(data)
+						{
+							var dayOfWeek = $day.format("dddd");
+
+							$('[name="staff[location_id]"]').val(data.schedule[dayOfWeek].locationId);
+						}
+					});
+				}
 			});
 
-			$('.js-timepicker').pickatime({
+			var $end = $('.js-timepicker-end').pickatime({
 				format: "h:i A",
 				formatSubmit: "HH:i",
 				hiddenName: true,
@@ -127,6 +145,22 @@
 				min: [6, 0],
 				max: [22, 0],
 				container: '.container-fluid'
+			});
+
+			$('.js-timepicker-start').pickatime({
+				format: "h:i A",
+				formatSubmit: "HH:i",
+				hiddenName: true,
+				interval: 15,
+				min: [6, 0],
+				max: [22, 0],
+				container: '.container-fluid',
+				onSet: function(context)
+				{
+					var newEndTime = moment(this.get(), "h:mm A").add("{{ $service->duration }}", 'minute');
+
+					$end.pickatime('picker').set('select', newEndTime.toDate());
+				}
 			});
 		});
 	</script>
