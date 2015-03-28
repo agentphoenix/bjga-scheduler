@@ -48,25 +48,33 @@
 
 	@if (count($schedule) > 0)
 		@foreach ($schedule as $days => $appointments)
-			@if ($_currentUser->isStaff())
-				<div class="visible-md visible-lg">
-					<a class="btn btn-info btn-sm icn-size-16 pull-right js-changeLocation js-tooltip-top" data-title="Change Location for This Day">{{ $_icons['map'] }}</a>
-				</div>
-			@endif
-
-			@if ($days === 0)
-				<h2>Today <small>{{ $now->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
-			@elseif ($days === 1)
-				<h2>Tomorrow <small>{{ $now->copy()->addDay()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+			@if ($appointments[0] instanceof Scheduler\Data\Models\Eloquent\UserAppointmentModel)
+				<?php $locationAppt = $appointments[0]->appointment;?>
 			@else
-				<h2>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+				<?php $locationAppt = $appointments[0];?>
 			@endif
 
-			@if ($_currentUser->isStaff())
-				<div class="visible-xs visible-sm">
-					<p><a class="btn btn-info btn-lg btn-block js-changeLocation">Change Location for This Day</a></p>
+			<div class="row">
+				<div class="col-sm-8">
+					@if ($days === 0)
+						<h2 class="no-margin">Today <small>{{ $now->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+					@elseif ($days === 1)
+						<h2 class="no-margin">Tomorrow <small>{{ $now->copy()->addDay()->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+					@else
+						<h2 class="no-margin">{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.day.long')) }} <small>{{ $now->copy()->addDays($days)->format(Config::get('bjga.dates.dateNoDay')) }}</small></h2>
+					@endif
 				</div>
-			@endif
+				<div class="col-sm-4">
+					@if ($_currentUser->isStaff())
+						<div class="visible-xs visible-sm">
+							<p><a class="btn btn-default btn-lg btn-block js-changeLocation" data-appointment="{{ $locationAppt->id }}">{{ $locationAppt->location->present()->name }}</a></p>
+						</div>
+						<div class="visible-md visible-lg pull-right">
+							<a class="btn btn-default btn-sm js-changeLocation" data-appointment="{{ $locationAppt->id }}"><span class="icn-size-16">{{ $_icons['map'] }}</span>{{ $locationAppt->location->present()->name }}</a>
+						</div>
+					@endif
+				</div>
+			</div>
 
 			<div class="data-table data-table-striped data-table-bordered">
 			@foreach ($appointments as $a)
@@ -114,6 +122,7 @@
 	{{ modal(['id' => 'studentCancel', 'header' => "Cancel Appointment"]) }}
 	{{ modal(['id' => 'attendees', 'header' => "Attendees"]) }}
 	{{ modal(['id' => 'apptDetails', 'header' => 'Appointment Details']) }}
+	{{ modal(['id' => 'changeLocation', 'header' => 'Change Location for This Day']) }}
 @stop
 
 @section('scripts')
@@ -186,5 +195,15 @@
 			}
 		});
 
+		$('.js-changeLocation').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var firstAppointment = $(this).data('appointment');
+
+			$('#changeLocation').modal({
+				remote: "{{ URL::to('ajax/change-location') }}/" + firstAppointment
+			}).modal('show');
+		});
 	</script>
 @stop

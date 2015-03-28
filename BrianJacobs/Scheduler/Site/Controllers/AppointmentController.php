@@ -304,4 +304,63 @@ class AppointmentController extends BaseController {
 		));
 	}
 
+	public function ajaxChangeLocation($firstAppointmentId)
+	{
+		// Get the appointment
+		$appointment = $this->appts->find($firstAppointmentId);
+
+		// Get all the locations
+		$locations = $this->locations->listAll('id', 'name');
+
+		return partial('common/modal_content', [
+			'modalHeader'	=> "Change Location for This Day",
+			'modalBody'		=> View::make('pages.admin.appointments.ajax.change-location')
+								->withAppt($appointment)
+								->withLocations($locations),
+			'modalFooter'	=> false,
+		]);
+	}
+
+	public function changeLocation()
+	{
+		$message = false;
+		$messageStatus = false;
+
+		if ($this->currentUser->isStaff())
+		{
+			// Get the first appointment
+			$firstAppt = $this->appts->find(Input::get('firstAppointment'));
+
+			if ($firstAppt)
+			{
+				$appointments = $this->currentUser->staff->appointments;
+
+				$apptCollection = $appointments->filter(function($a) use ($firstAppt)
+				{
+					return $a->start->startOfDay() == $firstAppt->start->startOfDay();
+				});
+
+				if ($apptCollection->count() > 0)
+				{
+					foreach ($apptCollection as $appt)
+					{
+						$appt->fill([
+							'location_id' => Input::get('new_location')
+						])->save();
+
+						// Fire the event
+						Event::fire('appointment.updated', [$appt, $appt->userAppointments->first()]);
+					}
+
+					$messageStatus = 'success';
+					$message = "Appointment location updated.";
+				}
+			}
+		}
+
+		return Redirect::route('home')
+			->with('message', $message)
+			->with('messageStatus', $messageStatus);
+	}
+
 }

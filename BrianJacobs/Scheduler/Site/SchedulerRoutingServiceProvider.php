@@ -184,6 +184,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('appointment/details/{id}', [
 				'as'	=> 'appointment.details',
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@details']);
+			Route::put('appointment/change-location', [
+				'as'	=> 'admin.appointment.changeLocation',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@changeLocation']);
 
 			Route::get('credits/delete/{id}', 'Scheduler\Controllers\CreditsController@delete');
 			Route::post('credits/search', [
@@ -268,6 +271,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'uses'	=> 'Scheduler\Controllers\AjaxController@sendEmail'));
 
 			Route::get('cancel/{type}/{id}', 'Scheduler\Controllers\AjaxController@cancelModal');
+
+			Route::get('change-location/{firstAppointmentId}', 'Scheduler\Controllers\AppointmentController@ajaxChangeLocation');
 		});
 	}
 
