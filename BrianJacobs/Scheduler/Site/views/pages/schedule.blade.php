@@ -48,11 +48,7 @@
 
 	@if (count($schedule) > 0)
 		@foreach ($schedule as $days => $appointments)
-			@if ($appointments[0] instanceof Scheduler\Data\Models\Eloquent\UserAppointmentModel)
-				<?php $locationAppt = $appointments[0]->appointment;?>
-			@else
-				<?php $locationAppt = $appointments[0];?>
-			@endif
+			<?php $locationAppt = $appointments[0]->getStaffAppointment();?>
 
 			<div class="row">
 				<div class="col-sm-8">
@@ -78,21 +74,8 @@
 
 			<div class="data-table data-table-striped data-table-bordered">
 			@foreach ($appointments as $a)
-				@if ($a instanceof Scheduler\Data\Models\Eloquent\UserAppointmentModel)
-					<?php
-
-					$appt = $a->appointment;
-					$type = 'user';
-
-					?>
-				@else
-					<?php
-
-					$appt = $a;
-					$type = 'staff';
-
-					?>
-				@endif
+				<?php $appt = $a->getStaffAppointment();?>
+				<?php $type = ($a instanceof Scheduler\Data\Models\Eloquent\UserAppointmentModel) ? 'user' : 'staff';?>
 
 				@if ($type == 'user')
 					{{ View::make('partials.appointments.studentRow')->withAppt($appt) }}

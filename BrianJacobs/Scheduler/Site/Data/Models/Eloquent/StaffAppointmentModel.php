@@ -79,6 +79,21 @@ class StaffAppointmentModel extends Model {
 		return $collection;
 	}
 
+	public function getAllUserAppointments()
+	{
+		return $this->userAppointments;
+	}
+
+	public function getStaffAppointment()
+	{
+		return $this;
+	}
+
+	public function getUserAppointment()
+	{
+		return $this->userAppointments->first();
+	}
+
 	public function hasEnded()
 	{
 		// Get right now
