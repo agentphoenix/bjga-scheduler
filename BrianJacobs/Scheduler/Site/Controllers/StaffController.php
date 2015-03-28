@@ -335,4 +335,59 @@ class StaffController extends BaseController {
 		}
 	}
 
+	public function ajaxGetStaff($staffId)
+	{
+		// Get the staff member
+		$staff = $this->staff->find($staffId);
+
+		if ($staff)
+		{
+			$staff = $staff->load('user', 'schedule', 'schedule.location', 'services');
+
+			$data['staff'] = [
+				'id' => (int) $staff->id,
+				'title' => $staff->title,
+				'instructor' => (bool) $staff->instruction,
+			];
+
+			$data['user'] = [
+				'id' => (int) $staff->user->id,
+				'name' => $staff->user->name,
+				'email' => $staff->user->email,
+			];
+
+			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+			foreach ($staff->schedule as $day)
+			{
+				$start = false;
+				$end = false;
+				$available = false;
+
+				if ( ! empty($day->availability))
+				{
+					list($start, $end) = explode('-', $day->availability);
+
+					$start = Date::createFromFormat('H:i', $start)->format('g:i A');
+					$end = Date::createFromFormat('H:i', $end)->format('g:i A');
+					$available = "{$start} - {$end}";
+				}
+
+				$data['schedule'][$days[$day->day]] = [
+					'availability' => $available,
+					'availabilityStart' => $start,
+					'availabilityEnd' => $end,
+					'locationId' => $day->location_id,
+					'location' => $day->location->name,
+				];
+			}
+
+			$data['services'] = [];
+
+			return json_encode($data);
+		}
+
+		return json_encode([]);
+	}
+
 }

@@ -107,10 +107,10 @@
 		
 		<div class="row">
 			<div class="col-sm-6 col-md-4 col-lg-3">
-				<p><a href="{{ URL::route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
+				<p><a href="{{ route('book.lesson') }}" class="btn btn-lg btn-block btn-primary">Book a Lesson</a></p>
 			</div>
 			<div class="col-sm-6 col-md-4 col-lg-3">
-				<p><a href="{{ URL::route('book.program') }}" class="btn btn-lg btn-block btn-primary">Enroll in a Program</a></p>
+				<p><a href="{{ route('book.program') }}" class="btn btn-lg btn-block btn-primary">Enroll in a Program</a></p>
 			</div>
 		</div>
 	@endif
@@ -128,7 +128,6 @@
 @section('scripts')
 	{{ View::make('partials.jsMarkAsPaid') }}
 	<script>
-
 		$('.js-attendees').on('click', function(e)
 		{
 			e.preventDefault();

@@ -122,7 +122,7 @@ class LocationsController extends BaseController {
 
 	public function destroy($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff() and $this->currentUser->access() == 3)
 		{
 			// Delete the location
 			$location = $this->locations->delete($id);
@@ -137,6 +137,20 @@ class LocationsController extends BaseController {
 		}
 
 		return $this->unauthorized("You do not have permission to remove locations!");
+	}
+
+	public function getLocationChange()
+	{
+		return partial('common/modal_content', array(
+			'modalHeader'	=> "Change Location for XX/XX/XXXX",
+			'modalBody'		=> false,
+			'modalFooter'	=> false,
+		));
+	}
+
+	public function postLocationChange()
+	{
+		# code...
 	}
 
 }

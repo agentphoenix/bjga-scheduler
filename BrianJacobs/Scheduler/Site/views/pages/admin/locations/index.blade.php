@@ -37,9 +37,11 @@
 								<a href="{{ route('admin.locations.edit', array($location->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Location">{{ $_icons['edit'] }}</a>
 							</div>
 
-							<div class="btn-group">
-								<a href="#" class="btn btn-sm btn-danger icn-size-16 js-location-action js-tooltip-top" data-title="Delete Location" data-action="delete" data-id="{{ $location->id }}">{{ $_icons['remove'] }}</a>
-							</div>
+							@if ($_currentUser->access() == 3)
+								<div class="btn-group">
+									<a href="#" class="btn btn-sm btn-danger icn-size-16 js-location-action js-tooltip-top" data-title="Delete Location" data-action="delete" data-id="{{ $location->id }}">{{ $_icons['remove'] }}</a>
+								</div>
+							@endif
 						</div>
 					</div>
 					<div class="visible-xs visible-sm">
@@ -48,9 +50,11 @@
 								<p><a href="{{ route('admin.locations.edit', array($location->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit Location</a></p>
 							</div>
 							
-							<div class="col-sm-6">
-								<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-location-action" data-action="delete" data-id="{{ $location->id }}">Delete Location</a></p>
-							</div>
+							@if ($_currentUser->access() == 3)
+								<div class="col-sm-6">
+									<p><a href="#" class="btn btn-block btn-lg btn-danger icn-size-16 js-location-action" data-action="delete" data-id="{{ $location->id }}">Delete Location</a></p>
+								</div>
+							@endif
 						</div>
 					</div>
 				</div>

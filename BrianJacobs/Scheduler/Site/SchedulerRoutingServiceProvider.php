@@ -194,6 +194,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'uses'	=> 'Scheduler\Controllers\CreditsController@doSearch']);
 
 			Route::get('locations/delete/{id}', 'Scheduler\Controllers\LocationsController@delete');
+			Route::get('locations/change', 'Scheduler\Controllers\LocationsController@getLocationChange');
+			Route::post('locations/change', 'Scheduler\Controllers\LocationsController@postLocationChange');
 
 			/**
 			 * Resourceful controllers.
@@ -273,6 +275,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('cancel/{type}/{id}', 'Scheduler\Controllers\AjaxController@cancelModal');
 
 			Route::get('change-location/{firstAppointmentId}', 'Scheduler\Controllers\AppointmentController@ajaxChangeLocation');
+			Route::get('staff/{staffId}', 'Scheduler\Controllers\StaffController@ajaxGetStaff');
 		});
 	}
 

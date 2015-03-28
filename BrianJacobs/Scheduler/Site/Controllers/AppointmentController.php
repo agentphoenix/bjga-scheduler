@@ -97,9 +97,12 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			$appt = $this->appts->find($id);
+
 			return View::make('pages.admin.appointments.edit')
-				->withAppointment($this->appts->find($id))
-				->withLocations($this->locations->listAll('id', 'name'));
+				->withAppointment($appt)
+				->withLocations($this->locations->listAll('id', 'name'))
+				->withService($appt->service);
 		}
 		else
 		{
