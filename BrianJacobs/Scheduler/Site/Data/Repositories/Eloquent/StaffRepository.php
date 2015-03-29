@@ -215,7 +215,38 @@ class StaffRepository implements StaffRepositoryInterface {
 		return false;
 	}
 
-	public function updateSchedule($staffId, $day, $availability)
+	public function updateAppointmentLocations($staffId, $dayNum)
+	{
+		// Get the staff member
+		$staff = $this->find($staffId);
+
+		if ($staff)
+		{
+			// Get their schedule
+			$schedule = $staff->getScheduleForDay($dayNum);
+
+			// Get their appointments
+			$appointments = $staff->appointments;
+
+			// Filter the appointments to just the day we're working with
+			$appointmentCollection = $appointments->filter(function($a) use ($schedule)
+			{
+				return ($a->start->startOfDay() >= Date::now()->startOfDay())
+					and ($a->start->dayOfWeek == $schedule->day);
+			});
+
+			foreach ($appointmentCollection as $appt)
+			{
+				$appt->fill(['location_id' => $schedule->location_id])->save();
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public function updateSchedule($staffId, $day, array $data)
 	{
 		// Get the staff member
 		$staff = $this->find($staffId);
@@ -228,7 +259,7 @@ class StaffRepository implements StaffRepositoryInterface {
 				return (int) $s->day === (int) $day;
 			})->first();
 
-			return $daySchedule->update(array('availability' => $availability));
+			return $daySchedule->update($data);
 		}
 
 		return false;

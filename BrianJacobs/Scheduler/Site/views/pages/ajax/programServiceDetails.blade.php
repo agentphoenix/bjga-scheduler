@@ -11,6 +11,13 @@
 
 		<div class="col-lg-4">
 			<div class="form-group">
+				<label class="control-label">Location</label>
+				<h3 class="text-success price-details">{{ $location }}</h3>
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="form-group">
 				<label class="control-label">Date(s)</label>
 				<div class="controls">
 					<dl>

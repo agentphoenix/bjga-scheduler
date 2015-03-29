@@ -8,6 +8,7 @@
 		@endif
 			
 		<li class="{{ (Request::is('event*') ? 'active' : '') }}"><a href="{{ route('events') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Upcoming Programs</a></li>
+		<li class="{{ (Request::is('locations') ? 'active' : '') }}"><a href="{{ route('locations') }}"><span class="icn-size-16">{{ $_icons['map'] }}</span>Our Locations</a></li>
 
 		@if (Auth::check())
 			<li class="{{ (Request::is('admin/user/'.$_currentUser->id.'/edit') ? 'active' : '') }}"><a href="{{ route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
@@ -45,6 +46,7 @@
 				@if ($_currentUser->access() > 1)
 					<li class="{{ ((Request::is('admin/user*') and ! Request::is('admin/user/'.$_currentUser->id.'/edit')) ? 'active' : '') }}"><a href="{{ route('admin.user.index') }}"><span class="icn-size-16">{{ $_icons['users'] }}</span>Users</a></li>
 					<li class="{{ (Request::is('admin/staff*') ? 'active' : '') }}"><a href="{{ route('admin.staff.index') }}"><span class="icn-size-16">{{ $_icons['school'] }}</span>Staff</a></li>
+					<li class="{{ (Request::is('admin/locations*') ? 'active' : '') }}"><a href="{{ route('admin.locations.index') }}"><span class="icn-size-16">{{ $_icons['map'] }}</span>Locations</a></li>
 				@endif
 
 				<li class="{{ (Request::is('admin/credits*') ? 'active' : '') }}"><a href="{{ route('admin.credits.index') }}"><span class="icn-size-16">{{ $_icons['money'] }}</span>Credits</a></li>

@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<p>Don't forget that the {{ $service }} you booked is tomorrow from {{ $start }} to {{ $end }}!</p>
+		<p>Don't forget that the {{ $service }} you booked is tomorrow from {{ $start }} to {{ $end }} at {{ $location }}!</p>
 
 		<p>Make sure that you arrive at least 10 minutes before the start time so we can get everything started right on time. If you cannot make your appointment, please make sure to <a href="{{ URL::route('home') }}">log in</a> to the scheduler and cancel the appointment.</p>
 

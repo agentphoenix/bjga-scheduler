@@ -6,20 +6,23 @@ use View,
 	Redirect,
 	ServiceValidator,
 	StaffRepositoryInterface,
-	ServiceRepositoryInterface;
+	ServiceRepositoryInterface,
+	LocationRepositoryInterface;
 
 class ServiceController extends BaseController {
 
 	protected $staff;
 	protected $service;
+	protected $locations;
 
 	public function __construct(ServiceRepositoryInterface $service,
-			StaffRepositoryInterface $staff)
+			StaffRepositoryInterface $staff, LocationRepositoryInterface $locations)
 	{
 		parent::__construct();
 
 		$this->staff = $staff;
 		$this->service = $service;
+		$this->locations = $locations;
 
 		$this->beforeFilter(function()
 		{
@@ -112,10 +115,17 @@ class ServiceController extends BaseController {
 
 			if ($service->isProgram())
 			{
+				// Set up the locations array
+				$locations = array_merge(
+					['Please choose a location'],
+					$this->locations->listAll('id', 'name')
+				);
+
 				return View::make('pages.admin.services.editProgramService')
 					->withService($service)
 					->withStaff($staff)
-					->withSchedule($service->serviceOccurrences);
+					->withSchedule($service->serviceOccurrences)
+					->withLocations($locations);
 			}
 		}
 		else
@@ -213,9 +223,16 @@ class ServiceController extends BaseController {
 			$services[] = 'Please choose a service';
 			$services += $this->service->allForDropdownByCategory();
 
+			// Set up the locations array
+			$locations = array_merge(
+				['Please choose a location'],
+				$this->locations->listAll('id', 'name')
+			);
+
 			return View::make('pages.admin.services.createProgramService')
 				->withStaff($staff)
-				->withServices($services);
+				->withServices($services)
+				->withLocations($locations);
 		}
 		else
 		{

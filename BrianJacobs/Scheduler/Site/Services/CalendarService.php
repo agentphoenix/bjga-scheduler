@@ -43,6 +43,7 @@ class CalendarService {
 			// Set the start time and end time
 			$event['DTSTART'] = $a->start;
 			$event['DTEND'] = $a->end;
+			$event['LOCATION'] = $a->location->present()->name;
 
 			if ( ! empty($a->notes))
 			{

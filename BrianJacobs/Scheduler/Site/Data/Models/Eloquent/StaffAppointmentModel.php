@@ -13,7 +13,7 @@ class StaffAppointmentModel extends Model {
 
 	protected $fillable = array(
 		'staff_id', 'service_id', 'recur_id', 'occurrence_id', 'start', 'end', 
-		'notes',
+		'notes', 'location_id',
 	);
 
 	protected $dates = array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
@@ -51,6 +51,11 @@ class StaffAppointmentModel extends Model {
 		return $this->belongsTo('ServiceOccurrenceModel', 'occurrence_id');
 	}
 
+	public function location()
+	{
+		return $this->belongsTo('LocationModel', 'location_id');
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Model Methods
@@ -72,6 +77,21 @@ class StaffAppointmentModel extends Model {
 		}
 
 		return $collection;
+	}
+
+	public function getAllUserAppointments()
+	{
+		return $this->userAppointments;
+	}
+
+	public function getStaffAppointment()
+	{
+		return $this;
+	}
+
+	public function getUserAppointment()
+	{
+		return $this->userAppointments->first();
 	}
 
 	public function hasEnded()

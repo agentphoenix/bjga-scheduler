@@ -197,6 +197,7 @@ return array(
 		 */
 		'AppointmentValidator'	=> 'Scheduler\Validators\AppointmentValidator',
 		'CreditValidator'		=> 'Scheduler\Validators\CreditValidator',
+		'LocationValidator'		=> 'Scheduler\Validators\LocationValidator',
 		'ServiceValidator'		=> 'Scheduler\Validators\ServiceValidator',
 		'StaffValidator'		=> 'Scheduler\Validators\StaffValidator',
 		'UserValidator'			=> 'Scheduler\Validators\UserValidator',
@@ -206,6 +207,7 @@ return array(
 		 */
 		'BookingMetaModel'				=> 'Scheduler\Data\Models\Eloquent\BookingMetaModel',
 		'CreditModel'					=> 'Scheduler\Data\Models\Eloquent\CreditModel',
+		'LocationModel'					=> 'Scheduler\Data\Models\Eloquent\LocationModel',
 		'ServiceModel'					=> 'Scheduler\Data\Models\Eloquent\ServiceModel',
 		'ServiceOccurrenceModel'		=> 'Scheduler\Data\Models\Eloquent\ServiceOccurrenceModel',
 		'StaffModel'					=> 'Scheduler\Data\Models\Eloquent\StaffModel',
@@ -219,6 +221,7 @@ return array(
 		 * Repositories
 		 */
 		'CreditRepository'				=> 'Scheduler\Data\Repositories\Eloquent\CreditRepository',
+		'LocationRepository'			=> 'Scheduler\Data\Repositories\Eloquent\LocationRepository',
 		'ServiceRepository'				=> 'Scheduler\Data\Repositories\Eloquent\ServiceRepository',
 		'StaffRepository'				=> 'Scheduler\Data\Repositories\Eloquent\StaffRepository',
 		'StaffAppointmentRepository'	=> 'Scheduler\Data\Repositories\Eloquent\StaffAppointmentRepository',
@@ -229,6 +232,7 @@ return array(
 		 * Repository Interfaces
 		 */
 		'CreditRepositoryInterface'				=> 'Scheduler\Data\Interfaces\CreditRepositoryInterface',
+		'LocationRepositoryInterface'			=> 'Scheduler\Data\Interfaces\LocationRepositoryInterface',
 		'ServiceRepositoryInterface'			=> 'Scheduler\Data\Interfaces\ServiceRepositoryInterface',
 		'StaffRepositoryInterface'				=> 'Scheduler\Data\Interfaces\StaffRepositoryInterface',
 		'StaffAppointmentRepositoryInterface'	=> 'Scheduler\Data\Interfaces\StaffAppointmentRepositoryInterface',

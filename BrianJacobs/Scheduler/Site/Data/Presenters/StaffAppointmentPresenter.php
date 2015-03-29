@@ -20,6 +20,11 @@ class StaffAppointmentPresenter extends Presenter {
 		return $this->entity->start->format(Config::get('bjga.dates.date')).", ".$this->entity->start->format(Config::get('bjga.dates.time'))." - ".$this->entity->end->format(Config::get('bjga.dates.time'));
 	}
 
+	public function location()
+	{
+		return $this->entity->location->present()->name;
+	}
+
 	public function notes()
 	{
 		return Markdown::parse($this->entity->notes);

@@ -8,20 +8,24 @@ use Book,
 	Redirect,
 	StaffValidator,
 	UserRepositoryInterface,
-	StaffRepositoryInterface;
+	StaffRepositoryInterface,
+	LocationRepositoryInterface;
 
 class StaffController extends BaseController {
 
 	protected $user;
 	protected $staff;
+	protected $location;
 
 	public function __construct(StaffRepositoryInterface $staff,
-			UserRepositoryInterface $user)
+			UserRepositoryInterface $user,
+			LocationRepositoryInterface $location)
 	{
 		parent::__construct();
 
 		$this->staff = $staff;
 		$this->user = $user;
+		$this->location = $location;
 
 		$this->beforeFilter(function()
 		{
@@ -285,6 +289,8 @@ class StaffController extends BaseController {
 				$end = Date::createFromFormat('G:i', $end)->format('g:i A');
 			}
 
+			$locations = $this->location->listAll('id', 'name');
+
 			return partial('common/modal_content', array(
 				'modalHeader'	=> "Edit {$days[$day]} Schedule",
 				'modalBody'		=> View::make('pages.admin.staff.ajax.editSchedule')
@@ -292,7 +298,8 @@ class StaffController extends BaseController {
 									->withDay($days[$day])
 									->withDaynum($day)
 									->withStart($start)
-									->withEnd($end),
+									->withEnd($end)
+									->withLocations($locations),
 				'modalFooter'	=> false,
 			));
 		}
@@ -316,12 +323,75 @@ class StaffController extends BaseController {
 				$availability = "{$start}-{$end}";
 			}
 
-			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), $availability);
+			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), [
+				'availability'	=> $availability,
+				'location_id'	=> Input::get('location')
+			]);
 
-			return Redirect::route('admin.staff.schedule', array($id))
+			if (Input::get('oldLocation') != Input::get('location'))
+			{
+				$this->staff->updateAppointmentLocations($id, Input::get('dayNum'));
+			}
+
+			return Redirect::route('admin.staff.schedule', [$id])
 				->with('message', "Schedule was successfully updated.")
 				->with('messageStatus', 'success');
 		}
+	}
+
+	public function ajaxGetStaff($staffId)
+	{
+		// Get the staff member
+		$staff = $this->staff->find($staffId);
+
+		if ($staff)
+		{
+			$staff = $staff->load('user', 'schedule', 'schedule.location', 'services');
+
+			$data['staff'] = [
+				'id' => (int) $staff->id,
+				'title' => $staff->title,
+				'instructor' => (bool) $staff->instruction,
+			];
+
+			$data['user'] = [
+				'id' => (int) $staff->user->id,
+				'name' => $staff->user->name,
+				'email' => $staff->user->email,
+			];
+
+			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+			foreach ($staff->schedule as $day)
+			{
+				$start = false;
+				$end = false;
+				$available = false;
+
+				if ( ! empty($day->availability))
+				{
+					list($start, $end) = explode('-', $day->availability);
+
+					$start = Date::createFromFormat('H:i', $start)->format('g:i A');
+					$end = Date::createFromFormat('H:i', $end)->format('g:i A');
+					$available = "{$start} - {$end}";
+				}
+
+				$data['schedule'][$days[$day->day]] = [
+					'availability' => $available,
+					'availabilityStart' => $start,
+					'availabilityEnd' => $end,
+					'locationId' => $day->location_id,
+					'location' => $day->location->name,
+				];
+			}
+
+			$data['services'] = [];
+
+			return json_encode($data);
+		}
+
+		return json_encode([]);
 	}
 
 }

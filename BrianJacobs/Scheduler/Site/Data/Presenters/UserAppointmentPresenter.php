@@ -23,4 +23,9 @@ class UserAppointmentPresenter extends Presenter {
 		return '$'.str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
 	}
 
+	public function location()
+	{
+		return $this->entity->appointment->location->present()->name;
+	}
+
 }

@@ -14,6 +14,7 @@ use App,
 	UserRepositoryInterface,
 	StaffRepositoryInterface,
 	ServiceRepositoryInterface,
+	LocationRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
 class HomeController extends BaseController {
@@ -22,10 +23,12 @@ class HomeController extends BaseController {
 	protected $staff;
 	protected $service;
 	protected $appointment;
+	protected $locations;
 
 	public function __construct(UserRepositoryInterface $user,
 			StaffAppointmentRepositoryInterface $appointment,
 			ServiceRepositoryInterface $service,
+			LocationRepositoryInterface $locations,
 			StaffRepositoryInterface $staff)
 	{
 		parent::__construct();
@@ -34,6 +37,7 @@ class HomeController extends BaseController {
 		$this->staff = $staff;
 		$this->service = $service;
 		$this->appointment = $appointment;
+		$this->locations = $locations;
 	}
 
 	public function mySchedule($days = 10)
@@ -279,6 +283,12 @@ class HomeController extends BaseController {
 		}
 
 		return Redirect::route('login');
+	}
+
+	public function locations()
+	{
+		return View::make('pages.locations')
+			->withLocations($this->locations->all());
 	}
 
 	public function search()

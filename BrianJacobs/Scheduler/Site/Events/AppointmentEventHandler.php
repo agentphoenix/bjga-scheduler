@@ -70,6 +70,7 @@ class AppointmentEventHandler {
 			$output = $s->start->format(Config::get('bjga.dates.date'))." ";
 			$output.= $s->start->format(Config::get('bjga.dates.time'))." - ";
 			$output.= $s->end->format(Config::get('bjga.dates.time'));
+			$output.= " at ".$s->present()->location;
 
 			$data['appointments'][] = $output;
 		}
