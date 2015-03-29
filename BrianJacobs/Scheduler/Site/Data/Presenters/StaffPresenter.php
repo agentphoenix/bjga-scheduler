@@ -7,10 +7,7 @@ class StaffPresenter extends Presenter {
 
 	public function niceAvailability($day)
 	{
-		$daySchedule = $this->entity->schedule->filter(function($s) use ($day)
-		{
-			return (int) $s->day === (int) $day;
-		})->first();
+		$daySchedule = $this->entity->getScheduleForDay($day);
 
 		if ( ! empty($daySchedule->availability))
 		{
@@ -25,6 +22,18 @@ class StaffPresenter extends Presenter {
 		}
 
 		return '<p class="text-info"><strong>No availability</strong></p>';
+	}
+
+	public function niceLocation($day)
+	{
+		$daySchedule = $this->entity->getScheduleForDay($day);
+
+		if ($daySchedule->location)
+		{
+			return "<p>{$daySchedule->location->present()->name}</p>";
+		}
+
+		return '<p class="text-danger"><strong>No location set</strong></p>';
 	}
 
 }

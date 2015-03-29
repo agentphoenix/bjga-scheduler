@@ -82,12 +82,7 @@
 							</div>
 							<div class="col-xs-6 col-sm-4 col-md-3 col-lg-5">
 								{{ $staff->present()->niceAvailability($d) }}
-
-								@if ($staff->getScheduleForDay($d)->location)
-									<p>{{ $staff->getScheduleForDay($d)->location->name }}</p>
-								@else
-									<p class="text-danger"><strong>No location set</strong></p>
-								@endif
+								{{ $staff->present()->niceLocation($d) }}
 							</div>
 							<div class="col-xs-12 col-sm-4 col-md-6 col-lg-3">
 								<div class="visible-md visible-lg">
