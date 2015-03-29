@@ -82,20 +82,11 @@
 							</div>
 							<div class="col-xs-6 col-sm-4 col-md-3 col-lg-5">
 								{{ $staff->present()->niceAvailability($d) }}
-							</div>
-							<div class="col-xs-6 col-sm-4 col-md-3 col-lg-4">
-								<?php $available = $schedule->filter(function($s) use ($d){ return $s->day == $d; })->first();?>
 
-								@if ( ! empty($available->availability))
-									<p>{{ $available->availability }}</p>
-
-									@if ($available->location)
-										<p>{{ $available->location->name }}</p>
-									@else
-										<p class="text-danger"><strong>No location set</strong></p>
-									@endif
+								@if ($staff->getScheduleForDay($d)->location)
+									<p>{{ $staff->getScheduleForDay($d)->location->name }}</p>
 								@else
-									<p class="text-info"><strong>No availability</strong></p>
+									<p class="text-danger"><strong>No location set</strong></p>
 								@endif
 							</div>
 							<div class="col-xs-12 col-sm-4 col-md-6 col-lg-3">
