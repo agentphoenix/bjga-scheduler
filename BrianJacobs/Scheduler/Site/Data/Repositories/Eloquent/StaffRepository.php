@@ -237,7 +237,14 @@ class StaffRepository implements StaffRepositoryInterface {
 
 			foreach ($appointmentCollection as $appt)
 			{
+				// Update the staff appointment
 				$appt->fill(['location_id' => $schedule->location_id])->save();
+
+				if ($appt->recur)
+				{
+					// Update the recur record
+					$appt->recur->fill(['location_id' => $schedule->location_id])->save();
+				}
 			}
 
 			return true;
