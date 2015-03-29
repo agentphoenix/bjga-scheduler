@@ -43,5 +43,19 @@ class StaffModel extends Model {
 	{
 		return $this->hasMany('CreditModel', 'staff_id');
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Model Methods
+	|--------------------------------------------------------------------------
+	*/
+
+	public function getScheduleForDay($day)
+	{
+		return $this->schedule->filter(function($s) use ($day)
+		{
+			return $s->day == $day;
+		})->first();
+	}
 	
 }

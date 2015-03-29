@@ -329,7 +329,12 @@ class StaffController extends BaseController {
 				'location_id'	=> Input::get('location')
 			]);
 
-			return Redirect::route('admin.staff.schedule', array($id))
+			if (Input::get('oldLocation') != Input::get('location'))
+			{
+				$this->staff->updateAppointmentLocations($id, Input::get('dayNum'));
+			}
+
+			return Redirect::route('admin.staff.schedule', [$id])
 				->with('message', "Schedule was successfully updated.")
 				->with('messageStatus', 'success');
 		}

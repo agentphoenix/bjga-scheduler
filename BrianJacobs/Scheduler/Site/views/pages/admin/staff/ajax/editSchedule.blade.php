@@ -35,6 +35,7 @@
 		</div>
 	</div>
 
+	{{ Form::hidden('oldLocation', $staff->getScheduleForDay($daynum)->location_id) }}
 	{{ Form::hidden('dayNum', $daynum) }}
 
 	<div class="visible-md visible-lg">
