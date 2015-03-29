@@ -44,7 +44,7 @@
 		<div class="col-lg-6">
 			<div class="form-group">
 				<label class="control-label">Location</label>
-				{{ Form::select('location', $locations, null, ['class' => 'form-control']) }}
+				{{ Form::select('location', $locations, $staffLocation, ['class' => 'form-control']) }}
 			</div>
 		</div>
 	</div>

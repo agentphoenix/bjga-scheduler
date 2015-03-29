@@ -302,7 +302,8 @@ class StaffController extends BaseController {
 									->withStart($start)
 									->withEnd($end)
 									->withLocations($locations)
-									->with('noAvailability', $noAvailability),
+									->with('noAvailability', $noAvailability)
+									->with('staffLocation', $schedule->location_id),
 				'modalFooter'	=> false,
 			));
 		}
