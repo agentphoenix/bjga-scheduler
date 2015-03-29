@@ -13,7 +13,7 @@
 			<div class="form-group">
 				<div class="checkbox text-sm">
 					<label>
-						{{ Form::checkbox('no_times', 1, false) }} No availability on {{ $day }}s
+						{{ Form::checkbox('no_times', 1, $noAvailability) }} No availability on {{ $day }}s
 					</label>
 				</div>
 			</div>
@@ -100,5 +100,10 @@
 			max: [22, 0],
 			container: '.container-fluid'
 		});
+
+		if ($('[name="no_times"]').is(':checked'))
+			$('#scheduleTimes').addClass('hide');
+		else
+			$('#scheduleTimes').removeClass('hide');
 	});
 </script>

@@ -273,10 +273,7 @@ class StaffController extends BaseController {
 			$staff = $this->staff->find($staffId);
 
 			// Get the schedule for the day
-			$schedule = $staff->schedule->filter(function($s) use ($day)
-			{
-				return (int) $s->day === (int) $day;
-			})->first();
+			$schedule = $staff->getScheduleForDay($day);
 
 			$start = false;
 			$end = false;
@@ -287,6 +284,11 @@ class StaffController extends BaseController {
 
 				$start = Date::createFromFormat('G:i', $start)->format('g:i A');
 				$end = Date::createFromFormat('G:i', $end)->format('g:i A');
+				$noAvailability = false;
+			}
+			else
+			{
+				$noAvailability = true;
 			}
 
 			$locations = $this->location->listAll('id', 'name');
@@ -299,7 +301,8 @@ class StaffController extends BaseController {
 									->withDaynum($day)
 									->withStart($start)
 									->withEnd($end)
-									->withLocations($locations),
+									->withLocations($locations)
+									->with('noAvailability', $noAvailability),
 				'modalFooter'	=> false,
 			));
 		}
