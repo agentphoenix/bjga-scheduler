@@ -44,6 +44,9 @@ class CreateLocations extends Migration {
 			$table->integer('location_id')->after('availability');
 		});
 
+		// Fill the locations table
+		$this->populateTables();
+
 		// Get staff instructors
 		$instructors = StaffModel::where('instruction', (int) true)->get();
 
@@ -55,7 +58,8 @@ class CreateLocations extends Migration {
 			}
 		}
 
-		$this->populateTables();
+		// Update all the staff appointments
+		StaffAppointmentModel::query()->update(['location_id' => 1]);
 	}
 
 	/**
