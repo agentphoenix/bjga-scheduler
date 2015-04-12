@@ -29,8 +29,8 @@
 	{{ Form::model($appointment, ['route' => ['admin.appointment.update', $appointment->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
 		<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">Date</label>
-			<div class="col-sm-3">
-				{{ Form::text('staff[date]', $appointment->start->format('l, M d, Y'), ['class' => 'form-control js-datepicker']) }}
+			<div class="col-sm-4">
+				{{ Form::text('staff[date]', $appointment->start->format('l, M d, Y'), ['class' => 'form-control input-lg js-datepicker']) }}
 				{{ $errors->first('start', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 		<div class="form-group{{ ($errors->has('start')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">Start Time</label>
 			<div class="col-sm-3">
-				{{ Form::text('staff[start]', $appointment->start->format('g:i A'), ['class' => 'form-control js-timepicker-start']) }}
+				{{ Form::text('staff[start]', $appointment->start->format('g:i A'), ['class' => 'form-control input-lg js-timepicker-start']) }}
 				{{ $errors->first('start', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 		<div class="form-group{{ ($errors->has('end')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">End Time</label>
 			<div class="col-sm-3">
-				{{ Form::text('staff[end]', $appointment->end->format('g:i A'), ['class' => 'form-control js-timepicker-end']) }}
+				{{ Form::text('staff[end]', $appointment->end->format('g:i A'), ['class' => 'form-control input-lg js-timepicker-end']) }}
 				{{ $errors->first('end', '<p class="help-block">:message</p>') }}
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 		<div class="form-group{{ ($errors->has('location_id')) ? ' has-error' : '' }}">
 			<label class="col-sm-2 control-label">Location</label>
 			<div class="col-sm-5">
-				{{ Form::select('staff[location_id]', $locations, $appointment->location_id, ['class' => 'form-control']) }}
+				{{ Form::select('staff[location_id]', $locations, $appointment->location_id, ['class' => 'form-control input-lg']) }}
 				{{ $errors->first('location_id', '<p class="help-block">:message</p>') }}
 				<p class="help-block text-danger"><strong>Warning:</strong> Only change the location of this appointment if you <em>know</em> you'll be at the specified location on the date shown above!</p>
 			</div>
@@ -65,7 +65,7 @@
 			<div class="col-sm-3">
 				<div class="input-group">
 					<span class="input-group-addon"><strong>$</strong></span>
-					{{ Form::text('user[amount]', $appointment->userAppointments->first()->amount, array('class' => 'form-control')) }}
+					{{ Form::text('user[amount]', $appointment->userAppointments->first()->amount, array('class' => 'form-control input-lg')) }}
 				</div>
 			</div>
 		</div>
@@ -83,7 +83,7 @@
 		<div class="form-group">
 			<label class="col-sm-2 control-label">Notes</label>
 			<div class="col-sm-8">
-				{{ Form::textarea('notes', null, array('class' => 'form-control', 'rows' => 5)) }}
+				{{ Form::textarea('notes', null, array('class' => 'form-control input-lg', 'rows' => 5)) }}
 			</div>
 		</div>
 
