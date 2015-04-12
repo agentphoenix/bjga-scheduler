@@ -61,7 +61,7 @@
 					@endif
 				</div>
 				<div class="col-sm-4">
-					@if ($_currentUser->isStaff())
+					@if ($_currentUser->isStaff() and (bool) $_currentUser->staff->instruction)
 						<div class="visible-xs visible-sm">
 							<p><a class="btn btn-default btn-lg btn-block js-changeLocation" data-appointment="{{ $locationAppt->id }}">{{ $locationAppt->location->present()->name }}</a></p>
 						</div>
