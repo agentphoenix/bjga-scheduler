@@ -14,7 +14,7 @@
 			<li class="{{ (Request::is('admin/user/'.$_currentUser->id.'/edit') ? 'active' : '') }}"><a href="{{ route('admin.user.edit', array($_currentUser->id)) }}"><span class="icn-size-16">{{ $_icons['user'] }}</span>My Account</a></li>
 
 			@if ($_currentUser->isStaff())
-				<li><a href="{{ route('admin.staff.schedule', array(Auth::user()->staff->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage My Schedule</a></li>
+				<li><a href="{{ route('admin.staff.schedule', array(Auth::user()->staff->id)) }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Manage Schedule</a></li>
 			@endif
 			
 			<li><a href="{{ route('logout') }}"><span class="icn-size-16">{{ $_icons['logout'] }}</span>Log Out</a></li>
