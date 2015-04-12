@@ -351,12 +351,15 @@ class AppointmentController extends BaseController {
 				{
 					foreach ($apptCollection as $appt)
 					{
-						$appt->fill([
-							'location_id' => Input::get('new_location')
-						])->save();
+						if ($appt->service->isLesson())
+						{
+							$appt->fill([
+								'location_id' => Input::get('new_location')
+							])->save();
 
-						// Fire the event
-						Event::fire('appointment.updated', [$appt, $appt->userAppointments->first()]);
+							// Fire the event
+							Event::fire('appointment.updated', [$appt, $appt->userAppointments->first()]);
+						}
 					}
 
 					$messageStatus = 'success';
