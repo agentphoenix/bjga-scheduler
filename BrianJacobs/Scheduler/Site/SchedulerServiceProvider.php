@@ -110,6 +110,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Event::listen('user.updated', 'Scheduler\Events\UserEventHandler@onUserUpdated');
 
 		Event::listen('appointment.created', 'Scheduler\Events\AppointmentEventHandler@onCreated');
+		Event::listen('appointment.location', 'Scheduler\Events\AppointmentEventHandler@onLocationChange');
 		Event::listen('appointment.updated', 'Scheduler\Events\AppointmentEventHandler@onUpdated');
 
 		Event::listen('credit.created', 'Scheduler\Events\CreditEventHandler@onCreate');
