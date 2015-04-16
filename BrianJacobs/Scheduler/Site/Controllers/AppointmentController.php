@@ -259,8 +259,10 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			// Get the recurring lessons
 			$recurring = $this->appts->getRecurringLessons($id);
 
+			// Make sure we only have appointments from today forward
 			$starting = $recurring->staffAppointments->filter(function($a)
 			{
 				return $a->start >= Date::now()->startOfDay();
@@ -271,15 +273,16 @@ class AppointmentController extends BaseController {
 				$startingDropdown[$s->start->format(Config::get('bjga.dates.dateFormal'))] = $s->start->format(Config::get('bjga.dates.date'));
 			}
 
+			// Sort the dropdown
+			ksort($startingDropdown);
+
 			return View::make('pages.admin.appointments.recurringEdit')
 				->withRecurring($recurring)
 				->withToday(Date::now()->startOfDay())
 				->with('startingWith', $startingDropdown);
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit recurring appointments!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit recurring appointments!");
 	}
 
 	public function updateRecurring($id)
