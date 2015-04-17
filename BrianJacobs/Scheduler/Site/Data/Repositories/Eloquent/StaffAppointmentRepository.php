@@ -33,7 +33,8 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 
 		if ($staff)
 		{
-			return StaffAppointmentRecurModel::where('staff_id', $staff)
+			return StaffAppointmentRecurModel::with(['staffAppointments', 'staffAppointments.service', 'userAppointments', 'userAppointments.user'])
+				->where('staff_id', $staff)
 				->orderBy('id', 'desc')
 				->get();
 		}
