@@ -281,18 +281,26 @@
 		{
 			resetOptions();
 
-			$.ajax({
-				url: "{{ URL::route('ajax.getLessonService') }}",
-				data: {
-					service: $('[name="service_id"] option:selected').val(),
-					user: $('[name="user"]').val(),
-					date: $('[name="date"]').val()
-				},
-				success: function(data)
-				{
-					$('#lessonServiceDetails').html(data);
-				}
-			});
+			if ($('[name="date"]').val() == "")
+			{
+				$(this).val("");
+				alert("Please select a date");
+			}
+			else
+			{
+				$.ajax({
+					url: "{{ URL::route('ajax.getLessonService') }}",
+					data: {
+						service: $('[name="service_id"] option:selected').val(),
+						user: $('[name="user"]').val(),
+						date: $('[name="date"]').val()
+					},
+					success: function(data)
+					{
+						$('#lessonServiceDetails').html(data);
+					}
+				});
+			}
 		});
 
 		$('.js-change-time').on('click', function(e)
