@@ -187,6 +187,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::put('appointment/change-location', [
 				'as'	=> 'admin.appointment.changeLocation',
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@changeLocation']);
+			Route::post('appointment/cancel-remaining-series', [
+				'as'	=> 'admin.appointment.cancelRemainingSeries',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@cancelRemainingSeries']);
 
 			Route::get('credits/delete/{id}', 'Scheduler\Controllers\CreditsController@delete');
 			Route::post('credits/search', [

@@ -259,8 +259,10 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			// Get the recurring lessons
 			$recurring = $this->appts->getRecurringLessons($id);
 
+			// Make sure we only have appointments from today forward
 			$starting = $recurring->staffAppointments->filter(function($a)
 			{
 				return $a->start >= Date::now()->startOfDay();
@@ -271,15 +273,16 @@ class AppointmentController extends BaseController {
 				$startingDropdown[$s->start->format(Config::get('bjga.dates.dateFormal'))] = $s->start->format(Config::get('bjga.dates.date'));
 			}
 
+			// Sort the dropdown
+			ksort($startingDropdown);
+
 			return View::make('pages.admin.appointments.recurringEdit')
 				->withRecurring($recurring)
 				->withToday(Date::now()->startOfDay())
 				->with('startingWith', $startingDropdown);
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit recurring appointments!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit recurring appointments!");
 	}
 
 	public function updateRecurring($id)
@@ -290,7 +293,7 @@ class AppointmentController extends BaseController {
 
 			return Redirect::route('admin.appointment.recurring.edit', array($id))
 				->with('message', "Recurring appointment series was successfully updated.")
-				->with('messageStatus', 'success');;
+				->with('messageStatus', 'success');
 		}
 		else
 		{
@@ -374,6 +377,47 @@ class AppointmentController extends BaseController {
 		return Redirect::route('home')
 			->with('message', $message)
 			->with('messageStatus', $messageStatus);
+	}
+
+	public function cancelRemainingSeries()
+	{
+		if ($this->currentUser->access() == 4)
+		{
+			// Get all appointments in the series
+			$series = $this->appts->getRecurringLessons(Input::get('series'));
+
+			// Get the start of today
+			$today = Date::now()->startOfDay();
+
+			$series->staffAppointments->each(function($s) use ($today)
+			{
+				if ($s->start->gte($today))
+				{
+					// Remove the user appointment
+					$s->userAppointments->first()->forceDelete();
+
+					// Now remove the staff appointment
+					$s->forceDelete();
+				}
+			});
+
+			return json_encode([]);
+
+			/*// Filter down to just things moving forward
+			$series = $series->filter(function($s) use ($today)
+			{
+				return $s->start->gte($today);
+			});
+
+			foreach ($series as $lesson)
+			{
+				// Remove the user lesson
+				$lesson->userAppointments->first()->forceDelete();
+
+				// Remove the staff lesson
+				$lesson->forceDelete();
+			}*/
+		}
 	}
 
 }

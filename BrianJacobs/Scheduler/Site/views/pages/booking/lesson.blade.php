@@ -8,9 +8,9 @@
 	<h1>Book a Lesson</h1>
 
 	<div class="alert alert-info">
-		<a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-sm btn-info pull-right hidden-xs">Apply User Credit</a>
-		<p>Apply any user credit code(s) before attempting to book your lesson!</p>
-		<p class="visible-xs"><a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-lg btn-block btn-info">Apply User Credit</a></p>
+		<p>If you've been given a credit code by a Brian Jacobs Golf staff member, you can apply that credit to your account here. If you want to use the credit for the lesson(s) you're about to book, make sure you apply the credit <em>before</em> attempting to book your lesson!</p>
+		<p class="visible-xs visible-sm"><a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-lg btn-block btn-info">Apply User Credit</a></p>
+		<p class="visible-md visible-lg"><a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-sm btn-info">Apply User Credit</a></p>
 	</div>
 
 	{{ Form::open(array('route' => 'book.lesson.store')) }}
