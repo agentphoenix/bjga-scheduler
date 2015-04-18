@@ -28,6 +28,17 @@
 		@endif
 
 		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+				<div class="form-group">
+					<label class="control-label">Date</label>
+					<div class="controls">
+						{{ Form::text('date', null, array('class' => 'form-control js-datepicker')) }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-sm-6 col-lg-4">
 				<div class="form-group">
 					<label class="control-label">Service</label>
@@ -39,17 +50,6 @@
 			</div>
 			<div class="col-sm-6 col-lg-8">
 				<div id="lessonServiceDetails"></div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-4 col-lg-2">
-				<div class="form-group">
-					<label class="control-label">Date</label>
-					<div class="controls">
-						{{ Form::text('date', null, array('class' => 'form-control js-datepicker')) }}
-					</div>
-				</div>
 			</div>
 		</div>
 
@@ -286,6 +286,7 @@
 				data: {
 					service: $('[name="service_id"] option:selected').val(),
 					user: $('[name="user"]').val(),
+					date: $('[name="date"]').val()
 				},
 				success: function(data)
 				{

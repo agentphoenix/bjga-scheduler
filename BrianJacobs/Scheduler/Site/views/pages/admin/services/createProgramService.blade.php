@@ -85,6 +85,14 @@
 		</div>
 
 		<div class="row">
+			<div class="col-lg-4">
+				<label class="control-label">Location</label>
+				{{ Form::select('location_id', $locations, null, ['class' => 'form-control']) }}
+				<p class="help-block">Where will this program take place?</p>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-lg-3">
 				<div class="form-group">
 					<label class="control-label">Status</label>

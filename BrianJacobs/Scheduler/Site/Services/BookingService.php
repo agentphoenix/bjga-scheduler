@@ -84,7 +84,15 @@ class BookingService {
 		}
 
 		// Build the price
+		//$servicePrice = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
 		$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
+		//$price = ($service->occurrences % 4 == 0) ? $servicePrice * 4 : $servicePrice;
+
+		// Get the location
+		$location = $service->staff->schedule->filter(function($s) use ($start)
+		{
+			return (int) $s->day === (int) $start->dayOfWeek;
+		})->first()->location;
 
 		// Set the initial appointment record
 		$apptRecord = array(
@@ -93,6 +101,7 @@ class BookingService {
 			'start'			=> $start,
 			'end'			=> $end,
 			'notes'			=> $data['notes'],
+			'location_id'	=> $location->id,
 		);
 
 		// Set the initial user appointment record
@@ -154,8 +163,12 @@ class BookingService {
 						? $newStartDate->addDays($service->occurrences_schedule) : null,
 					'end'			=> ($service->occurrences_schedule > 0) 
 						? $newEndDate->addDays($service->occurrences_schedule) : null,
+					'location_id'	=> $recurItem->location_id,
 				));
 				$bookStaffIds[] = $sa->id;
+
+				// Set the additional pricing
+				//$additionalPrice = ($i % 4 == 1) ? $price : 0.00;
 
 				// Create the user appointments
 				$ua = UserAppointmentModel::create(array(
@@ -163,7 +176,9 @@ class BookingService {
 					'user_id'			=> $user->id,
 					'recur_id'			=> $recurItem->id,
 					'amount'			=> ($user->isStaff()) ? 0 : $price,
+					//'amount'			=> ($user->isStaff()) ? 0 : $additionalPrice,
 					'paid'				=> ($user->isStaff() or $price == 0) ? (int) true : (int) false,
+					//'paid'				=> ($user->isStaff() or $additionalPrice == 0) ? (int) true : (int) false,
 				));
 				$bookUserIds[] = $ua->id;
 

@@ -12,6 +12,7 @@ use Book,
 	StaffAppointmentModel,
 	UserRepositoryInterface,
 	ServiceRepositoryInterface,
+	LocationRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
 class AppointmentController extends BaseController {
@@ -19,16 +20,19 @@ class AppointmentController extends BaseController {
 	protected $user;
 	protected $appts;
 	protected $service;
+	protected $locations;
 
 	public function __construct(ServiceRepositoryInterface $service,
 			StaffAppointmentRepositoryInterface $appts,
-			UserRepositoryInterface $user)
+			UserRepositoryInterface $user,
+			LocationRepositoryInterface $locations)
 	{
 		parent::__construct();
 
 		$this->user = $user;
 		$this->appts = $appts;
 		$this->service = $service;
+		$this->locations = $locations;
 
 		$this->beforeFilter(function()
 		{
@@ -93,8 +97,12 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			$appt = $this->appts->find($id);
+
 			return View::make('pages.admin.appointments.edit')
-				->withAppointment($this->appts->find($id));
+				->withAppointment($appt)
+				->withLocations($this->locations->listAll('id', 'name'))
+				->withService($appt->service);
 		}
 		else
 		{
@@ -120,6 +128,7 @@ class AppointmentController extends BaseController {
 
 			// Clear the date
 			unset($staffData['date']);
+			unset($staffData['date_submit']);
 
 			// Update the staff appointment
 			$sa = StaffAppointmentModel::find(Input::get('staff_appointment_id'));
@@ -300,6 +309,71 @@ class AppointmentController extends BaseController {
 								->withAppt($appointment),
 			'modalFooter'	=> false,
 		));
+	}
+
+	public function ajaxChangeLocation($firstAppointmentId)
+	{
+		// Get the appointment
+		$appointment = $this->appts->find($firstAppointmentId);
+
+		// Get all the locations
+		$locations = $this->locations->listAll('id', 'name');
+
+		return partial('common/modal_content', [
+			'modalHeader'	=> "Change Location for This Day",
+			'modalBody'		=> View::make('pages.admin.appointments.ajax.change-location')
+								->withAppt($appointment)
+								->withLocations($locations),
+			'modalFooter'	=> false,
+		]);
+	}
+
+	public function changeLocation()
+	{
+		$message = false;
+		$messageStatus = false;
+
+		if ($this->currentUser->isStaff())
+		{
+			// Get the first appointment
+			$firstAppt = $this->appts->find(Input::get('firstAppointment'));
+
+			if ($firstAppt)
+			{
+				$appointments = $this->currentUser->staff->appointments;
+
+				$apptCollection = $appointments->filter(function($a) use ($firstAppt)
+				{
+					return $a->start->startOfDay() == $firstAppt->start->startOfDay();
+				});
+
+				if ($apptCollection->count() > 0)
+				{
+					foreach ($apptCollection as $appt)
+					{
+						if ($appt->service->isLesson())
+						{
+							$updatedAppt = $appt->fill(['location_id' => Input::get('new_location')]);
+
+							$appt->save();
+
+							// Fire the event
+							Event::fire('appointment.location', [
+								$updatedAppt,
+								$appt->userAppointments->first()
+							]);
+						}
+					}
+
+					$messageStatus = 'success';
+					$message = "Appointment location updated.";
+				}
+			}
+		}
+
+		return Redirect::route('home')
+			->with('message', $message)
+			->with('messageStatus', $messageStatus);
 	}
 
 }

@@ -14,7 +14,7 @@ class ServiceModel extends Model {
 	protected $fillable = array(
 		'category', 'staff_id', 'name', 'slug', 'description', 'price', 
 		'occurrences', 'duration', 'user_limit', 'order', 'status', 'loyalty',
-		'occurrences_schedule',
+		'occurrences_schedule', 'location_id',
 	);
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
@@ -40,6 +40,11 @@ class ServiceModel extends Model {
 	public function serviceOccurrences()
 	{
 		return $this->hasMany('ServiceOccurrenceModel', 'service_id');
+	}
+
+	public function location()
+	{
+		return $this->belongsTo('LocationModel', 'location_id');
 	}
 	
 	/*
