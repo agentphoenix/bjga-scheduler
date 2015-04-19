@@ -122,7 +122,7 @@ class LocationsController extends BaseController {
 
 	public function destroy($id)
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() == 3)
+		if ($this->currentUser->isStaff() and $this->currentUser->access() >= 3)
 		{
 			// Delete the location
 			$location = $this->locations->delete($id);

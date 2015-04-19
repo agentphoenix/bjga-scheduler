@@ -27,7 +27,7 @@
 			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('staff_id')) ? ' has-error' : '' }}">
 					<label class="control-label">Staff Member</label>
-					@if ($_currentUser->access() == 3)
+					@if ($_currentUser->access() >= 3)
 						{{ Form::select('staff_id', $staff, null, array('class' => 'form-control input-with-feedback')) }}
 						{{ $errors->first('staff_id', '<p class="help-block">:message</p>') }}
 					@else

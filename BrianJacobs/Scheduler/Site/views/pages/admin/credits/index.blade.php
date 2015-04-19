@@ -62,7 +62,7 @@
 							<br><span class="text-muted"><span class="tab-icon tab-icon-down1">{{ $_icons['email'] }}</span><em>{{ $c->present()->email }}</em></span>
 						@endif
 
-						@if ($_currentUser->access() == 3)
+						@if ($_currentUser->access() >= 3)
 							<div style="clear:both"></div>
 							<span class="text-muted"><span class="tab-icon tab-icon-down1">{{ $_icons['school'] }}</span><em>{{ $c->present()->staff }}</em></span>
 						@endif
