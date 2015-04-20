@@ -18,7 +18,7 @@
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('events') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ route('events') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 
 			@if (Auth::check())
@@ -39,7 +39,7 @@
 	<div class="visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-6 col-sm-3">
-				<p><a href="{{ URL::route('events') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
+				<p><a href="{{ route('events') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 			</div>
 
 			@if (Auth::check())
@@ -96,15 +96,16 @@
 
 @section('scripts')
 	<script>
-		
 		$(document).on('click', '.js-enroll', function(e)
 		{
 			e.preventDefault();
 
 			$.ajax({
-				url: "{{ URL::route('book.enroll') }}",
+				url: "{{ route('book.enroll') }}",
 				type: "POST",
-				data: { service: $(this).data('service') },
+				data: {
+					service: $(this).data('service')
+				},
 				success: function(data)
 				{
 					location.reload();
@@ -118,14 +119,15 @@
 
 			$.ajax({
 				type: "POST",
-				data: { appointment: $(this).data('appointment') },
-				url: "{{ URL::route('ajax.withdraw') }}",
-				success: function(data)
+				data: {
+					appointment: $(this).data('appointment')
+				},
+				url: "{{ route('ajax.withdraw') }}",
+				success: function (data)
 				{
 					location.reload();
 				}
 			});
 		});
-
 	</script>
 @stop
