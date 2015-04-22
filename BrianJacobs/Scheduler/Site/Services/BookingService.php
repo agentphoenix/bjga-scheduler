@@ -921,4 +921,27 @@ class BookingService {
 		}
 	}
 
+	/**
+	 * Withdraw from a service
+	 */
+	public function withdraw($serviceId, $userId)
+	{
+		// Get the service
+		$service = $this->serviceRepo->find($serviceId);
+
+		if ($service)
+		{
+			foreach ($service->appointments as $sa)
+			{
+				foreach ($sa->userAppointments as $ua)
+				{
+					if ($ua->user_id == $userId)
+					{
+						$ua->delete();
+					}
+				}
+			}
+		}
+	}
+
 }
