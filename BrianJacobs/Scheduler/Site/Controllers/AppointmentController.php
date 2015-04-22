@@ -174,12 +174,15 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			// Get the appointment
+			// Withdraw the user
+			Book::withdraw(Input::get('service'), Input::get('user'));
+
+			/*// Get the appointment
 			$appointment = $this->appts->find(Input::get('appt'));
 
 			if ($appointment)
 			{
-				$user = Input::get('user');
+				//$user = Input::get('user');
 
 				// Get the user record for this appointment
 				$userAppt = $appointment->userAppointments->filter(function($a) use ($user)
@@ -192,7 +195,7 @@ class AppointmentController extends BaseController {
 				{
 					$userAppt->forceDelete();
 				}
-			}
+			}*/
 		}
 	}
 

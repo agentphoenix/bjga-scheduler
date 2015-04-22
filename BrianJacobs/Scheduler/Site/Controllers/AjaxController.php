@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Controllers;
 
 use Auth,
+	Book,
 	Date,
 	Mail,
 	View,
@@ -355,16 +356,10 @@ class AjaxController extends BaseController {
 
 	public function postWithdraw()
 	{
-		// Get the user appointment ID
-		$id = (is_numeric(Input::get('appointment'))) ? Input::get('appointment') : false;
+		// Withdraw from the service
+		Book::withdraw(Input::get('service'), Auth::user()->id);
 
-		// Get the user appointment object
-		$appointment = $this->user->getAppointment($id);
-
-		// Cancel the appointment
-		\Book::cancel($appointment->appointment->id, false);
-
-		Session::flash('message', "You've successfully canceled the appointment.");
+		Session::flash('message', "You've successfully withdrawn from the program.");
 		Session::flash('messageStatus', "success");
 	}
 

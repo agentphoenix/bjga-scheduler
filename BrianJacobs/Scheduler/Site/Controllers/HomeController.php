@@ -188,7 +188,7 @@ class HomeController extends BaseController {
 
 		if ($event)
 		{
-			// Get the appointment record
+			// Get the staff appointment record
 			$appointment = $event->appointments->first();
 
 			return View::make('pages.event')

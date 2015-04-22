@@ -86,10 +86,10 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 	 * @param	int		$id		Service ID
 	 * @return	bool
 	 */
-	public function isAttending($id)
+	public function isAttending($serviceId)
 	{
 		// Get the service
-		$service = ServiceModel::find($id);
+		$service = ServiceModel::find($serviceId);
 
 		if ($service)
 		{

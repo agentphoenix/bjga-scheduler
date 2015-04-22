@@ -26,11 +26,9 @@
 					<div class="btn-group">
 						<a href="#" class="btn btn-primary icn-size-16 js-enroll icn-size-16-with-text" data-service="{{ $event->id }}">Enroll Now</a>
 					</div>
-				@endif
-
-				@if ($_currentUser->isAttending($event->id))
+				@else
 					<div class="btn-group">
-						<a href="#" class="btn btn-danger icn-size-16 js-withdraw icn-size-16-with-text" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a>
+						<a href="#" class="btn btn-danger icn-size-16 js-withdraw icn-size-16-with-text" data-service="{{ $event->id }}">Withdraw Now</a>
 					</div>
 				@endif
 			@endif
@@ -47,11 +45,9 @@
 					<div class="col-xs-6 col-sm-3">
 						<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16-with-text js-enroll" data-service="{{ $event->id }}">Enroll Now</a></p>
 					</div>
-				@endif
-
-				@if ($_currentUser->isAttending($event->id))
+				@else
 					<div class="col-xs-6 col-sm-3">
-						<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16-with-text js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a></p>
+						<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16-with-text js-withdraw" data-service="{{ $event->id }}">Withdraw Now</a></p>
 					</div>
 				@endif
 			@endif
@@ -120,7 +116,7 @@
 			$.ajax({
 				type: "POST",
 				data: {
-					appointment: $(this).data('appointment')
+					service: $(this).data('service')
 				},
 				url: "{{ route('ajax.withdraw') }}",
 				success: function (data)
