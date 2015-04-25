@@ -177,6 +177,7 @@ class ServiceRepository implements ServiceRepositoryInterface {
 						'occurrence_id'	=> $serviceOccurrence->id,
 						'start'			=> $start,
 						'end'			=> $end,
+						'location_id'	=> $data['location_id'],
 					));
 
 					++$i;
@@ -394,7 +395,11 @@ class ServiceRepository implements ServiceRepositoryInterface {
 							{
 								foreach ($occurrence->staffAppointments as $sa)
 								{
-									$sa->fill(array('start' => $start, 'end' => $end))->save();
+									$sa->fill([
+										'start' => $start,
+										'end' => $end,
+										'location_id' => $data['location_id']
+									])->save();
 								}
 							}
 						}

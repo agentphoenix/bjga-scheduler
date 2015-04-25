@@ -27,16 +27,19 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 		return new Collection;
 	}
 
-	public function getRecurringLessons($id = false)
+	public function getRecurringLessons($id = false, $staff = false)
 	{
-		if ($id)
+		if ($id) return StaffAppointmentRecurModel::find($id);
+
+		if ($staff)
 		{
-			return StaffAppointmentRecurModel::find($id);
+			return StaffAppointmentRecurModel::with(['staffAppointments', 'staffAppointments.service', 'userAppointments', 'userAppointments.user'])
+				->where('staff_id', $staff)
+				->orderBy('id', 'desc')
+				->get();
 		}
 
 		return StaffAppointmentRecurModel::orderBy('id', 'desc')->get();
-
-		return StaffAppointmentRecurModel::where('start', '>', Date::now()->startOfDay())->get();
 	}
 	
 	/**

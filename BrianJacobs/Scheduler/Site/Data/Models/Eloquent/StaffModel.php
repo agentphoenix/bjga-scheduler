@@ -1,10 +1,12 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
 use Model;
+use Laracasts\Presenter\PresentableTrait;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class StaffModel extends Model {
 
+	use PresentableTrait;
 	use SoftDeletingTrait;
 
 	protected $table = 'staff';
@@ -12,6 +14,8 @@ class StaffModel extends Model {
 	protected $fillable = array('user_id', 'title', 'bio', 'access', 'instruction');
 
 	protected $dates = array('created_at', 'updated_at', 'deleted_at');
+
+	protected $presenter = 'Scheduler\Data\Presenters\StaffPresenter';
 
 	/*
 	|--------------------------------------------------------------------------
@@ -42,6 +46,30 @@ class StaffModel extends Model {
 	public function plans()
 	{
 		return $this->hasManyThrough('PlanModel', 'development_plans_instructors', 'plan_id', 'staff_id');
+	}
+
+	public function credits()
+	{
+		return $this->hasMany('CreditModel', 'staff_id');
+	}
+
+	public function recurringAppointments()
+	{
+		return $this->hasMany('StaffAppointmentRecurModel', 'staff_id');
+	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Model Methods
+	|--------------------------------------------------------------------------
+	*/
+
+	public function getScheduleForDay($day)
+	{
+		return $this->schedule->filter(function($s) use ($day)
+		{
+			return $s->day == $day;
+		})->first();
 	}
 	
 }

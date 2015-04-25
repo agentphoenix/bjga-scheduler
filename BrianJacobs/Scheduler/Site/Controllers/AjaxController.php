@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Controllers;
 
 use Auth,
+	Book,
 	Date,
 	Mail,
 	View,
@@ -13,6 +14,7 @@ use Auth,
 	UserRepositoryInterface,
 	StaffRepositoryInterface,
 	ServiceRepositoryInterface,
+	LocationRepositoryInterface,
 	StaffScheduleRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
@@ -24,12 +26,14 @@ class AjaxController extends BaseController {
 	protected $appointment;
 	protected $staff;
 	protected $icons;
+	protected $location;
 
 	public function __construct(StaffScheduleRepositoryInterface $schedule,
 			ServiceRepositoryInterface $service,
 			UserRepositoryInterface $user,
 			StaffAppointmentRepositoryInterface $appointment,
-			StaffRepositoryInterface $staff)
+			StaffRepositoryInterface $staff,
+			LocationRepositoryInterface $location)
 	{
 		parent::__construct();
 
@@ -38,6 +42,7 @@ class AjaxController extends BaseController {
 		$this->user = $user;
 		$this->appointment = $appointment;
 		$this->staff = $staff;
+		$this->location = $location;
 
 		$this->icons = Config::get('icons');
 	}
@@ -153,7 +158,8 @@ class AjaxController extends BaseController {
 		{
 			return View::make('pages.ajax.programServiceDetails')
 				->withDates($service->serviceOccurrences->sortBy(function($s) { return $s->start; }))
-				->withPrice($service->present()->price);
+				->withPrice($service->present()->price)
+				->withLocation($service->present()->location);
 		}
 
 		return View::make('partials.common.alert')
@@ -169,8 +175,18 @@ class AjaxController extends BaseController {
 
 		if ($service)
 		{
+			// Build a date object
+			$date = Date::createFromFormat('Y-m-d', Input::get('date'));
+
+			// Get the location from the instructor
+			$location = $service->staff->schedule->filter(function($s) use ($date)
+			{
+				return (int) $s->day === (int) $date->dayOfWeek;
+			})->first()->location;
+
 			return View::make('pages.ajax.lessonServiceDetails')
-				->withService($service);
+				->withService($service)
+				->withLocation($location->present()->name);
 		}
 
 		return View::make('partials.common.alert')
@@ -340,16 +356,10 @@ class AjaxController extends BaseController {
 
 	public function postWithdraw()
 	{
-		// Get the user appointment ID
-		$id = (is_numeric(Input::get('appointment'))) ? Input::get('appointment') : false;
+		// Withdraw from the service
+		Book::withdraw(Input::get('service'), Auth::user()->id);
 
-		// Get the user appointment object
-		$appointment = $this->user->getAppointment($id);
-
-		// Cancel the appointment
-		\Book::cancel($appointment->appointment->id, false);
-
-		Session::flash('message', "You've successfully canceled the appointment.");
+		Session::flash('message', "You've successfully withdrawn from the program.");
 		Session::flash('messageStatus', "success");
 	}
 

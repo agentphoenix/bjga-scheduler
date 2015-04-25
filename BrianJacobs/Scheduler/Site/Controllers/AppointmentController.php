@@ -12,6 +12,7 @@ use Book,
 	StaffAppointmentModel,
 	UserRepositoryInterface,
 	ServiceRepositoryInterface,
+	LocationRepositoryInterface,
 	StaffAppointmentRepositoryInterface;
 
 class AppointmentController extends BaseController {
@@ -19,16 +20,19 @@ class AppointmentController extends BaseController {
 	protected $user;
 	protected $appts;
 	protected $service;
+	protected $locations;
 
 	public function __construct(ServiceRepositoryInterface $service,
 			StaffAppointmentRepositoryInterface $appts,
-			UserRepositoryInterface $user)
+			UserRepositoryInterface $user,
+			LocationRepositoryInterface $locations)
 	{
 		parent::__construct();
 
 		$this->user = $user;
 		$this->appts = $appts;
 		$this->service = $service;
+		$this->locations = $locations;
 
 		$this->beforeFilter(function()
 		{
@@ -93,8 +97,12 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			$appt = $this->appts->find($id);
+
 			return View::make('pages.admin.appointments.edit')
-				->withAppointment($this->appts->find($id));
+				->withAppointment($appt)
+				->withLocations($this->locations->listAll('id', 'name'))
+				->withService($appt->service);
 		}
 		else
 		{
@@ -120,6 +128,7 @@ class AppointmentController extends BaseController {
 
 			// Clear the date
 			unset($staffData['date']);
+			unset($staffData['date_submit']);
 
 			// Update the staff appointment
 			$sa = StaffAppointmentModel::find(Input::get('staff_appointment_id'));
@@ -165,12 +174,15 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			// Get the appointment
+			// Withdraw the user
+			Book::withdraw(Input::get('service'), Input::get('user'));
+
+			/*// Get the appointment
 			$appointment = $this->appts->find(Input::get('appt'));
 
 			if ($appointment)
 			{
-				$user = Input::get('user');
+				//$user = Input::get('user');
 
 				// Get the user record for this appointment
 				$userAppt = $appointment->userAppointments->filter(function($a) use ($user)
@@ -183,7 +195,7 @@ class AppointmentController extends BaseController {
 				{
 					$userAppt->forceDelete();
 				}
-			}
+			}*/
 		}
 	}
 
@@ -233,8 +245,12 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			$staff = ((bool) $this->currentUser->staff->instruction) 
+				? $this->currentUser->staff->id 
+				: false;
+
 			return View::make('pages.admin.appointments.recurring')
-				->withRecurring($this->appts->getRecurringLessons());
+				->withRecurring($this->appts->getRecurringLessons(false, $staff));
 		}
 		else
 		{
@@ -246,8 +262,10 @@ class AppointmentController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
+			// Get the recurring lessons
 			$recurring = $this->appts->getRecurringLessons($id);
 
+			// Make sure we only have appointments from today forward
 			$starting = $recurring->staffAppointments->filter(function($a)
 			{
 				return $a->start >= Date::now()->startOfDay();
@@ -258,15 +276,16 @@ class AppointmentController extends BaseController {
 				$startingDropdown[$s->start->format(Config::get('bjga.dates.dateFormal'))] = $s->start->format(Config::get('bjga.dates.date'));
 			}
 
+			// Sort the dropdown
+			ksort($startingDropdown);
+
 			return View::make('pages.admin.appointments.recurringEdit')
 				->withRecurring($recurring)
 				->withToday(Date::now()->startOfDay())
 				->with('startingWith', $startingDropdown);
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit recurring appointments!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit recurring appointments!");
 	}
 
 	public function updateRecurring($id)
@@ -277,7 +296,7 @@ class AppointmentController extends BaseController {
 
 			return Redirect::route('admin.appointment.recurring.edit', array($id))
 				->with('message', "Recurring appointment series was successfully updated.")
-				->with('messageStatus', 'success');;
+				->with('messageStatus', 'success');
 		}
 		else
 		{
@@ -296,6 +315,112 @@ class AppointmentController extends BaseController {
 								->withAppt($appointment),
 			'modalFooter'	=> false,
 		));
+	}
+
+	public function ajaxChangeLocation($firstAppointmentId)
+	{
+		// Get the appointment
+		$appointment = $this->appts->find($firstAppointmentId);
+
+		// Get all the locations
+		$locations = $this->locations->listAll('id', 'name');
+
+		return partial('common/modal_content', [
+			'modalHeader'	=> "Change Location for This Day",
+			'modalBody'		=> View::make('pages.admin.appointments.ajax.change-location')
+								->withAppt($appointment)
+								->withLocations($locations),
+			'modalFooter'	=> false,
+		]);
+	}
+
+	public function changeLocation()
+	{
+		$message = false;
+		$messageStatus = false;
+
+		if ($this->currentUser->isStaff())
+		{
+			// Get the first appointment
+			$firstAppt = $this->appts->find(Input::get('firstAppointment'));
+
+			if ($firstAppt)
+			{
+				$appointments = $this->currentUser->staff->appointments;
+
+				$apptCollection = $appointments->filter(function($a) use ($firstAppt)
+				{
+					return $a->start->startOfDay() == $firstAppt->start->startOfDay();
+				});
+
+				if ($apptCollection->count() > 0)
+				{
+					foreach ($apptCollection as $appt)
+					{
+						if ($appt->service->isLesson())
+						{
+							$updatedAppt = $appt->fill(['location_id' => Input::get('new_location')]);
+
+							$appt->save();
+
+							// Fire the event
+							Event::fire('appointment.location', [
+								$updatedAppt,
+								$appt->userAppointments->first()
+							]);
+						}
+					}
+
+					$messageStatus = 'success';
+					$message = "Appointment location updated.";
+				}
+			}
+		}
+
+		return Redirect::route('home')
+			->with('message', $message)
+			->with('messageStatus', $messageStatus);
+	}
+
+	public function cancelRemainingSeries()
+	{
+		if ($this->currentUser->access() == 4)
+		{
+			// Get all appointments in the series
+			$series = $this->appts->getRecurringLessons(Input::get('series'));
+
+			// Get the start of today
+			$today = Date::now()->startOfDay();
+
+			$series->staffAppointments->each(function($s) use ($today)
+			{
+				if ($s->start->gte($today))
+				{
+					// Remove the user appointment
+					$s->userAppointments->first()->forceDelete();
+
+					// Now remove the staff appointment
+					$s->forceDelete();
+				}
+			});
+
+			return json_encode([]);
+
+			/*// Filter down to just things moving forward
+			$series = $series->filter(function($s) use ($today)
+			{
+				return $s->start->gte($today);
+			});
+
+			foreach ($series as $lesson)
+			{
+				// Remove the user lesson
+				$lesson->userAppointments->first()->forceDelete();
+
+				// Remove the staff lesson
+				$lesson->forceDelete();
+			}*/
+		}
 	}
 
 }

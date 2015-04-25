@@ -40,7 +40,7 @@
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="{{ ($errors->has('access')) ? 'form-group has-error' : '' }}">
 						<label class="control-label">Access Level</label>
-						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), 1, array('class' => 'form-control input-with-feedback')) }}
+						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3', '4' => 'Level 4'), 1, array('class' => 'form-control input-with-feedback')) }}
 						{{ $errors->first('access', '<p class="help-block">:message</p>') }}
 					</div>
 				</div>

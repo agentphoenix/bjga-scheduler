@@ -73,9 +73,19 @@ class UserAppointmentModel extends Model {
 		return (float) $this->amount - (float) $this->received;
 	}
 
-	public function isPaid()
+	public function getAllUserAppointments()
 	{
-		return (bool) $this->paid;
+		return $this->appointment->userAppointments;
+	}
+
+	public function getStaffAppointment()
+	{
+		return $this->appointment;
+	}
+
+	public function getUserAppointment()
+	{
+		return $this;
 	}
 
 	public function hasEnded()
@@ -86,6 +96,11 @@ class UserAppointmentModel extends Model {
 	public function hasStarted()
 	{
 		return (bool) Date::now() >= $this->appointment->start;
+	}
+
+	public function isPaid()
+	{
+		return (bool) $this->paid;
 	}
 	
 }

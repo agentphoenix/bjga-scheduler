@@ -52,7 +52,7 @@
 								<span class="label label-warning">Inactive</span>
 							@endif
 						</p>
-						@if ($_currentUser->access() == 3)
+						@if ($_currentUser->access() >= 3)
 							<p class="text-sm">{{ $service->staff->user->name }}</p>
 						@endif
 					</div>

@@ -14,10 +14,10 @@
 					<a href="{{ URL::route('admin.staff.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 				</div>
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.user.edit', array($_currentUser->id)) }}" class="btn btn-default icn-size-16-with-text">Edit My User Account</a>
+					<a href="{{ URL::route('admin.user.edit', array($staff->user->id)) }}" class="btn btn-default icn-size-16-with-text">Edit My User Account</a>
 				</div>
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-default icn-size-16-with-text">Manage My Schedule</a>
+					<a href="{{ URL::route('admin.staff.schedule', array($staff->id)) }}" class="btn btn-default icn-size-16-with-text">Manage My Schedule</a>
 				</div>
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 				<div class="col-sm-6 col-md-4 col-lg-2">
 					<div class="form-group{{ ($errors->has('access')) ? ' has-error' : '' }}">
 						<label class="control-label">Access Level</label>
-						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3'), null, array('class' => 'form-control input-with-feedback')) }}
+						{{ Form::select('access', array('1' => 'Level 1', '2' => 'Level 2', '3' => 'Level 3', '4' => 'Level 4'), null, array('class' => 'form-control input-with-feedback')) }}
 						{{ $errors->first('access', '<p class="help-block">:message</p>') }}
 					</div>
 				</div>

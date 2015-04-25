@@ -4,4 +4,4 @@ A simple, straightforward, easy-to-use golf scheduling system built for Brian Ja
 
 ### Copyright
 
-(c) 2014 Brian Jacobs Golf
+(c) 2015 Brian Jacobs Golf

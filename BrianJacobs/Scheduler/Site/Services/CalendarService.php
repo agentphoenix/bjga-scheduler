@@ -44,6 +44,11 @@ class CalendarService {
 			$event['DTSTART'] = $a->start;
 			$event['DTEND'] = $a->end;
 
+			if ($a->location)
+			{
+				$event['LOCATION'] = $a->location->present()->name;
+			}
+
 			if ( ! empty($a->notes))
 			{
 				$event['DESCRIPTION'] = $a->notes;

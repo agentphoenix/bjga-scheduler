@@ -36,6 +36,8 @@ class SchedulerCreateUsers extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
+		$this->populateTables();
 	}
 
 	/**
@@ -47,6 +49,51 @@ class SchedulerCreateUsers extends Migration {
 	{
 		Schema::drop('users');
 		Schema::drop('users_appointments');
+	}
+
+	protected function populateTables()
+	{
+		$users = [
+			[
+				'name' => "Brian Jacobs",
+				'email' => "bjacobs1@rochester.rr.com",
+				'password' => "nikegolf",
+				'phone' => '585-415-9323',
+				'address' => '284 Chambers St. Spencerport, NY',
+			],
+			[
+				'name' => "David VanScott",
+				'email' => "david.vanscott@gmail.com",
+				'password' => "alpha312",
+				'phone' => '585-576-8260',
+				'address' => '2145 East Ave. Apt H Rochester, NY 14610',
+			],
+		];
+
+		foreach ($users as $user)
+		{
+			UserModel::create($user);
+		}
+
+		$staff = [
+			['user_id' => 1, 'access' => 2, 'title' => "Director of Instruction", 'instruction' => (int) true],
+			['user_id' => 2, 'access' => 3, 'title' => "Web Developer"],
+		];
+
+		foreach ($staff as $s)
+		{
+			$item = StaffModel::create($s);
+
+			// Create general availability
+			for ($d = 0; $d <=6; $d++)
+			{
+				StaffScheduleModel::create([
+					'staff_id'		=> $item->id,
+					'day'			=> $d,
+					'availability'	=> '9:00-17:00',
+				]);
+			}
+		}
 	}
 
 }

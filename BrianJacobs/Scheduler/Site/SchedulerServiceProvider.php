@@ -16,10 +16,11 @@ class SchedulerServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->setupMarkdown();
-		$this->setupBombBomb();
+		//$this->setupBombBomb();
 		$this->setupBrowser();
 		$this->setupMacros();
 		$this->setupFlashNotifier();
+		$this->setupAvailability();
 	}
 
 	public function boot()
@@ -78,6 +79,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 		App::bind($a['StaffAppointmentRepositoryInterface'], $a['StaffAppointmentRepository']);
 		App::bind($a['StaffScheduleRepositoryInterface'], $a['StaffScheduleRepository']);
 		App::bind($a['UserRepositoryInterface'], $a['UserRepository']);
+		App::bind($a['LocationRepositoryInterface'], $a['LocationRepository']);
 
 		// Make sure we some variables available on all views
 		View::share('_currentUser', Auth::user());
@@ -108,11 +110,16 @@ class SchedulerServiceProvider extends ServiceProvider {
 		Event::listen('user.updated', 'Scheduler\Events\UserEventHandler@onUserUpdated');
 
 		Event::listen('appointment.created', 'Scheduler\Events\AppointmentEventHandler@onCreated');
+		Event::listen('appointment.location', 'Scheduler\Events\AppointmentEventHandler@onLocationChange');
 		Event::listen('appointment.updated', 'Scheduler\Events\AppointmentEventHandler@onUpdated');
 
 		Event::listen('credit.created', 'Scheduler\Events\CreditEventHandler@onCreate');
 		Event::listen('credit.deleted', 'Scheduler\Events\CreditEventHandler@onDelete');
 		Event::listen('credit.updated', 'Scheduler\Events\CreditEventHandler@onUpdate');
+
+		Event::listen('location.created', 'Scheduler\Events\LocationEventHandler@onCreate');
+		Event::listen('location.deleted', 'Scheduler\Events\LocationEventHandler@onDelete');
+		Event::listen('location.updated', 'Scheduler\Events\LocationEventHandler@onUpdate');
 
 		/**
 		 * If a queue item fails, send an email.
@@ -168,6 +175,14 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->app['scheduler.flash'] = $this->app->share(function($app)
 		{
 			return new Services\FlashNotifierService($app['session.store']);
+		});
+	}
+
+	protected function setupAvailability()
+	{
+		$this->app['scheduler.availability'] = $this->app->share(function($app)
+		{
+			return new Services\AvailabilityService;
 		});
 	}
 

@@ -8,20 +8,24 @@ use Book,
 	Redirect,
 	StaffValidator,
 	UserRepositoryInterface,
-	StaffRepositoryInterface;
+	StaffRepositoryInterface,
+	LocationRepositoryInterface;
 
 class StaffController extends BaseController {
 
 	protected $user;
 	protected $staff;
+	protected $location;
 
 	public function __construct(StaffRepositoryInterface $staff,
-			UserRepositoryInterface $user)
+			UserRepositoryInterface $user,
+			LocationRepositoryInterface $location)
 	{
 		parent::__construct();
 
 		$this->staff = $staff;
 		$this->user = $user;
+		$this->location = $location;
 
 		$this->beforeFilter(function()
 		{
@@ -44,10 +48,8 @@ class StaffController extends BaseController {
 			return View::make('pages.admin.staff.index')
 				->withStaff($this->staff->all());
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to manage staff!");
-		}
+		
+		return $this->unauthorized("You do not have permission to manage staff!");
 	}
 
 	public function create()
@@ -57,10 +59,8 @@ class StaffController extends BaseController {
 			return View::make('pages.admin.staff.create')
 				->withUsers($this->user->getNonStaff());
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create staff members!");
-		}
+		
+		return $this->unauthorized("You do not have permission to create staff members!");
 	}
 
 	public function store()
@@ -88,10 +88,8 @@ class StaffController extends BaseController {
 				->with('message', 'Staff member was successfully added.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create staff members!");
-		}
+
+		return $this->unauthorized("You do not have permission to create staff members!");
 	}
 
 	public function edit($id)
@@ -99,17 +97,13 @@ class StaffController extends BaseController {
 		// Get the staff member
 		$staff = $this->staff->find($id);
 
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1
-				or ($this->currentUser->isStaff() and $this->currentUser->access() == 1 and 
-					$this->currentUser->staff->id == $staff->id))
+		if ($this->currentUser->access() > 1 or ($this->currentUser->access() == 1 and $staff->user->id == $this->currentUser->id))
 		{
 			return View::make('pages.admin.staff.edit')
 				->withStaff($staff);
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit staff members!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit staff members!");
 	}
 
 	public function update($id)
@@ -117,9 +111,7 @@ class StaffController extends BaseController {
 		// Get the staff member
 		$staff = $this->staff->find($id);
 
-		if (($staff->user->isStaff() and $staff->user->access() > 1) 
-				or ($staff->user->isStaff() and $staff->user->access == 1 and $staff->user == $this->currentUser)
-				or ( ! $staff->user->isStaff() and $staff->user == $this->currentUser))
+		if ($this->currentUser->access() > 1 or ($this->currentUser->access() == 1 and $staff->user->id == $this->currentUser->id))
 		{
 			$validator = new StaffValidator;
 
@@ -140,10 +132,8 @@ class StaffController extends BaseController {
 				->with('message', 'Staff member was successfully updated.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit this staff member!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit this staff member!");
 	}
 
 	public function destroy($id)
@@ -267,26 +257,53 @@ class StaffController extends BaseController {
 				->withStaff($staff)
 				->withBlocks($this->staff->getBlocks($staff->user))
 				->withSchedule($staff->schedule)
-				->withDays(array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'));
+				->withDays(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
 		}
-		else
-		{
-			return $this->unauthorized("Only staff members can view schedules!");
-		}
+		
+		return $this->unauthorized("Only staff members can view schedules!");
 	}
 
 	public function editSchedule($staffId, $day)
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+			// Get the staff member
+			$staff = $this->staff->find($staffId);
+
+			// Get the schedule for the day
+			$schedule = $staff->getScheduleForDay($day);
+
+			$start = false;
+			$end = false;
+
+			if ( ! empty($schedule->availability))
+			{
+				list($start, $end) = explode('-', $schedule->availability);
+
+				$start = Date::createFromFormat('G:i', $start)->format('g:i A');
+				$end = Date::createFromFormat('G:i', $end)->format('g:i A');
+				$noAvailability = false;
+			}
+			else
+			{
+				$noAvailability = true;
+			}
+
+			$locations = $this->location->listAll('id', 'name');
 
 			return partial('common/modal_content', array(
 				'modalHeader'	=> "Edit {$days[$day]} Schedule",
 				'modalBody'		=> View::make('pages.admin.staff.ajax.editSchedule')
-									->withStaff($this->staff->find($staffId))
+									->withStaff($staff)
 									->withDay($days[$day])
-									->withDaynum($day),
+									->withDaynum($day)
+									->withStart($start)
+									->withEnd($end)
+									->withLocations($locations)
+									->with('noAvailability', $noAvailability)
+									->with('staffLocation', $schedule->location_id),
 				'modalFooter'	=> false,
 			));
 		}
@@ -296,33 +313,89 @@ class StaffController extends BaseController {
 	{
 		if ($this->currentUser->isStaff())
 		{
-			$availability = "";
+			$availability = false;
 
-			// Get the start value
-			$start = Input::get('start');
-
-			if ($start)
+			if (Input::get('no_times') != "1")
 			{
-				$rawStart = str_replace(' AM', '', $start);
-				$rawStart = str_replace(' PM', '', $rawStart);
-				$rawEnd = str_replace(' AM', '', Input::get('end'));
-				$rawEnd = str_replace(' PM', '', $rawEnd);
-
 				// Get the start
-				$start = Date::createFromFormat('H:i', $rawStart)->format('G:i');
+				$start = Date::createFromFormat('H:i', Input::get('start'))->format('G:i');
 
 				// Get the end
-				$end = Date::createFromFormat('H:i', $rawEnd)->format('G:i');
+				$end = Date::createFromFormat('H:i', Input::get('end'))->format('G:i');
 
+				// Build the availability string
 				$availability = "{$start}-{$end}";
 			}
 
-			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), $availability);
+			$item = $this->staff->updateSchedule($id, Input::get('dayNum'), [
+				'availability'	=> $availability,
+				'location_id'	=> Input::get('location')
+			]);
 
-			return Redirect::route('admin.staff.schedule', array($id))
+			if (Input::get('oldLocation') != Input::get('location'))
+			{
+				$this->staff->updateAppointmentLocations($id, Input::get('dayNum'));
+			}
+
+			return Redirect::route('admin.staff.schedule', [$id])
 				->with('message', "Schedule was successfully updated.")
 				->with('messageStatus', 'success');
 		}
+	}
+
+	public function ajaxGetStaff($staffId)
+	{
+		// Get the staff member
+		$staff = $this->staff->find($staffId);
+
+		if ($staff)
+		{
+			$staff = $staff->load('user', 'schedule', 'schedule.location', 'services');
+
+			$data['staff'] = [
+				'id' => (int) $staff->id,
+				'title' => $staff->title,
+				'instructor' => (bool) $staff->instruction,
+			];
+
+			$data['user'] = [
+				'id' => (int) $staff->user->id,
+				'name' => $staff->user->name,
+				'email' => $staff->user->email,
+			];
+
+			$days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+			foreach ($staff->schedule as $day)
+			{
+				$start = false;
+				$end = false;
+				$available = false;
+
+				if ( ! empty($day->availability))
+				{
+					list($start, $end) = explode('-', $day->availability);
+
+					$start = Date::createFromFormat('H:i', $start)->format('g:i A');
+					$end = Date::createFromFormat('H:i', $end)->format('g:i A');
+					$available = "{$start} - {$end}";
+				}
+
+				$data['schedule'][$days[$day->day]] = [
+					'availability' => $available,
+					'availabilityStart' => $start,
+					'availabilityEnd' => $end,
+					'locationId' => $day->location_id,
+					'location' => $day->location->name,
+				];
+			}
+
+			$data['services'] = [];
+
+			return json_encode($data);
+		}
+
+		return json_encode([]);
 	}
 
 }

@@ -70,7 +70,8 @@
 			type: "POST",
 			data: {
 				appt: $(this).data('appt'),
-				user: $(this).data('user')
+				user: $(this).data('user'),
+				service: "{{ $service->id }}"
 			},
 			success: function(data)
 			{

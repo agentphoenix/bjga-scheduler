@@ -8,9 +8,9 @@
 	<h1>Book a Lesson</h1>
 
 	<div class="alert alert-info">
-		<a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-sm btn-info pull-right hidden-xs">Apply User Credit</a>
-		<p>Apply any user credit code(s) before attempting to book your lesson!</p>
-		<p class="visible-xs"><a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-lg btn-block btn-info">Apply User Credit</a></p>
+		<p>If you've been given a credit code by a Brian Jacobs Golf staff member, you can apply that credit to your account here. If you want to use the credit for the lesson(s) you're about to book, make sure you apply the credit <em>before</em> attempting to book your lesson!</p>
+		<p class="visible-xs visible-sm"><a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-lg btn-block btn-info">Apply User Credit</a></p>
+		<p class="visible-md visible-lg"><a href="#" data-toggle="modal" data-target="#applyCredit" class="btn btn-sm btn-info">Apply User Credit</a></p>
 	</div>
 
 	{{ Form::open(array('route' => 'book.lesson.store')) }}
@@ -28,6 +28,17 @@
 		@endif
 
 		<div class="row">
+			<div class="col-sm-4 col-lg-2">
+				<div class="form-group">
+					<label class="control-label">Date</label>
+					<div class="controls">
+						{{ Form::text('date', null, array('class' => 'form-control js-datepicker')) }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-sm-6 col-lg-4">
 				<div class="form-group">
 					<label class="control-label">Service</label>
@@ -39,17 +50,6 @@
 			</div>
 			<div class="col-sm-6 col-lg-8">
 				<div id="lessonServiceDetails"></div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-4 col-lg-2">
-				<div class="form-group">
-					<label class="control-label">Date</label>
-					<div class="controls">
-						{{ Form::text('date', null, array('class' => 'form-control js-datepicker')) }}
-					</div>
-				</div>
 			</div>
 		</div>
 
@@ -281,17 +281,26 @@
 		{
 			resetOptions();
 
-			$.ajax({
-				url: "{{ URL::route('ajax.getLessonService') }}",
-				data: {
-					service: $('[name="service_id"] option:selected').val(),
-					user: $('[name="user"]').val(),
-				},
-				success: function(data)
-				{
-					$('#lessonServiceDetails').html(data);
-				}
-			});
+			if ($('[name="date"]').val() == "")
+			{
+				$(this).val("");
+				alert("Please select a date");
+			}
+			else
+			{
+				$.ajax({
+					url: "{{ URL::route('ajax.getLessonService') }}",
+					data: {
+						service: $('[name="service_id"] option:selected').val(),
+						user: $('[name="user"]').val(),
+						date: $('[name="date"]').val()
+					},
+					success: function(data)
+					{
+						$('#lessonServiceDetails').html(data);
+					}
+				});
+			}
 		});
 
 		$('.js-change-time').on('click', function(e)

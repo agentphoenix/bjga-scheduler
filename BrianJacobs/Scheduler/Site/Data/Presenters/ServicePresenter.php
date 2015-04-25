@@ -10,6 +10,16 @@ class ServicePresenter extends Presenter {
 		return Markdown::parse($this->entity->description);
 	}
 
+	public function location()
+	{
+		if ($this->entity->location_id)
+		{
+			return $this->entity->location->present()->name;
+		}
+
+		return false;
+	}
+
 	public function name()
 	{
 		return trim($this->entity->name);

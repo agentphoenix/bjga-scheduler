@@ -21,9 +21,9 @@
 				</div>
 			@endif
 
-			@if ($_currentUser->isStaff())
+			@if ($user->isStaff())
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-default icn-size-16-with-text">My Staff Account</a>
+					<a href="{{ URL::route('admin.staff.edit', array($user->staff->id)) }}" class="btn btn-default icn-size-16-with-text">My Staff Account</a>
 				</div>
 			@endif
 		</div>
@@ -42,9 +42,9 @@
 				</div>
 			@endif
 
-			@if ($_currentUser->isStaff())
+			@if ($user->isStaff())
 				<div class="col-xs-12 col-sm-4">
-					<p><a href="{{ URL::route('admin.staff.edit', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default">My Staff Account</a></p>
+					<p><a href="{{ URL::route('admin.staff.edit', array($user->staff->id)) }}" class="btn btn-lg btn-block btn-default">My Staff Account</a></p>
 				</div>
 			@endif
 		</div>

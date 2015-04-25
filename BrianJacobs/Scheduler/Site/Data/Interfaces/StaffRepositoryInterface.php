@@ -2,7 +2,7 @@
 
 interface StaffRepositoryInterface {
 
-	public function all();
+	public function all($onlyInstructors = false);
 	public function allForDropdown($onlyInstructors = true);
 	public function create(array $data);
 	public function delete($id);
@@ -12,6 +12,7 @@ interface StaffRepositoryInterface {
 	public function getBlocks($user);
 	public function getSchedule($staffId, $days);
 	public function update($id, array $data);
-	public function updateSchedule($staffId, $day, $availability);
+	public function updateAppointmentLocations($staffId, $dayNum);
+	public function updateSchedule($staffId, $day, array $data);
 	
 }

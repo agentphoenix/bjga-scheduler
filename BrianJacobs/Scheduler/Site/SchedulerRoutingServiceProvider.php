@@ -86,6 +86,17 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 		Route::get('my-history', [
 			'as'	=> 'history',
 			'uses'	=> 'Scheduler\Controllers\HomeController@studentHistory']);
+
+		Route::get('locations', [
+			'as'	=> 'locations',
+			'uses'	=> 'Scheduler\Controllers\HomeController@locations']);
+
+		Route::get('search', [
+			'as'	=> 'search',
+			'uses'	=> 'Scheduler\Controllers\HomeController@search']);
+		Route::post('search', [
+			'as'	=> 'search.do',
+			'uses'	=> 'Scheduler\Controllers\HomeController@doSearch']);
 	}
 
 	protected function adminRoutes()
@@ -173,11 +184,21 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::get('appointment/details/{id}', [
 				'as'	=> 'appointment.details',
 				'uses'	=> 'Scheduler\Controllers\AppointmentController@details']);
+			Route::put('appointment/change-location', [
+				'as'	=> 'admin.appointment.changeLocation',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@changeLocation']);
+			Route::post('appointment/cancel-remaining-series', [
+				'as'	=> 'admin.appointment.cancelRemainingSeries',
+				'uses'	=> 'Scheduler\Controllers\AppointmentController@cancelRemainingSeries']);
 
 			Route::get('credits/delete/{id}', 'Scheduler\Controllers\CreditsController@delete');
 			Route::post('credits/search', [
 				'as'	=> 'admin.credits.search',
 				'uses'	=> 'Scheduler\Controllers\CreditsController@doSearch']);
+
+			Route::get('locations/delete/{id}', 'Scheduler\Controllers\LocationsController@delete');
+			Route::get('locations/change', 'Scheduler\Controllers\LocationsController@getLocationChange');
+			Route::post('locations/change', 'Scheduler\Controllers\LocationsController@postLocationChange');
 
 			/**
 			 * Resourceful controllers.
@@ -187,6 +208,7 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			 * staff
 			 * appointment
 			 * credits
+			 * locations
 			 */
 			Route::resource('service', 'Scheduler\Controllers\ServiceController', array(
 				'except' => array('show', 'create')));
@@ -197,6 +219,8 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 			Route::resource('appointment', 'Scheduler\Controllers\AppointmentController', array(
 				'except' => array('show', 'destroy')));
 			Route::resource('credits', 'Scheduler\Controllers\CreditsController', [
+				'except' => ['show']]);
+			Route::resource('locations', 'Scheduler\Controllers\LocationsController', [
 				'except' => ['show']]);
 		});
 	}
@@ -252,6 +276,9 @@ class SchedulerRoutingServiceProvider extends ServiceProvider {
 				'uses'	=> 'Scheduler\Controllers\AjaxController@sendEmail'));
 
 			Route::get('cancel/{type}/{id}', 'Scheduler\Controllers\AjaxController@cancelModal');
+
+			Route::get('change-location/{firstAppointmentId}', 'Scheduler\Controllers\AppointmentController@ajaxChangeLocation');
+			Route::get('staff/{staffId}', 'Scheduler\Controllers\StaffController@ajaxGetStaff');
 		});
 	}
 

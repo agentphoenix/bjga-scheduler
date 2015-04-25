@@ -43,6 +43,7 @@ return array(
 	'school' => '<span class="icn" data-icon="s"></span>',
 	'star' => '<span class="icn" data-icon="1"></span>',
 	'stats' => '<span class="icn" data-icon="q"></span>',
+	'search' => '<span class="icn" data-icon="h"></span>',
 
 	'target' => '<span class="icn" data-icon="9"></span>',
 	'twitter' => '<span class="icn" data-icon="w"></span>',

@@ -1,5 +1,7 @@
 <h2>Total</h2>
 
+{{ alert('alert-warning', "Any credit on your account can only be used with the instructor who originally issued it.") }}
+
 <div class="data-table data-table-bordered data-table-striped">
 	<div class="row">
 		<div class="col-xs-6 col-sm-7"><p>

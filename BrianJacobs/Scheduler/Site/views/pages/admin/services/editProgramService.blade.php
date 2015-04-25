@@ -27,7 +27,7 @@
 			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('staff_id')) ? ' has-error' : '' }}">
 					<label class="control-label">Instructor</label>
-					@if ($_currentUser->access() == 3)
+					@if ($_currentUser->access() >= 3)
 						{{ Form::select('staff_id', $staff, null, array('class' => 'form-control')) }}
 						{{ $errors->first('staff_id', '<p class="help-block">:message</p>') }}
 					@else
@@ -91,6 +91,14 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<p class="help-block">What is the maximum number of people who can attend?</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-4">
+				<label class="control-label">Location</label>
+				{{ Form::select('location_id', $locations, null, ['class' => 'form-control']) }}
+				<p class="help-block">Where will this program take place?</p>
 			</div>
 		</div>
 
@@ -212,7 +220,6 @@
 	{{ HTML::script('js/picker.js') }}
 	{{ HTML::script('js/picker.date.js') }}
 	{{ HTML::script('js/picker.time.js') }}
-	{{ HTML::script('js/picker.legacy.js') }}
 	<script>
 		$(document).on('click', '.js-addSchedule-action', function(e)
 		{

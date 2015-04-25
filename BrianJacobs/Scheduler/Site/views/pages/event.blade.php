@@ -18,7 +18,7 @@
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('events') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ route('events') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 
 			@if (Auth::check())
@@ -26,11 +26,9 @@
 					<div class="btn-group">
 						<a href="#" class="btn btn-primary icn-size-16 js-enroll icn-size-16-with-text" data-service="{{ $event->id }}">Enroll Now</a>
 					</div>
-				@endif
-
-				@if ($_currentUser->isAttending($event->id))
+				@else
 					<div class="btn-group">
-						<a href="#" class="btn btn-danger icn-size-16 js-withdraw icn-size-16-with-text" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a>
+						<a href="#" class="btn btn-danger icn-size-16 js-withdraw icn-size-16-with-text" data-service="{{ $event->id }}">Withdraw Now</a>
 					</div>
 				@endif
 			@endif
@@ -39,7 +37,7 @@
 	<div class="visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-6 col-sm-3">
-				<p><a href="{{ URL::route('events') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
+				<p><a href="{{ route('events') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 			</div>
 
 			@if (Auth::check())
@@ -47,11 +45,9 @@
 					<div class="col-xs-6 col-sm-3">
 						<p><a href="#" class="btn btn-lg btn-block btn-primary icn-size-16-with-text js-enroll" data-service="{{ $event->id }}">Enroll Now</a></p>
 					</div>
-				@endif
-
-				@if ($_currentUser->isAttending($event->id))
+				@else
 					<div class="col-xs-6 col-sm-3">
-						<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16-with-text js-withdraw" data-appointment="{{ $_currentUser->getAppointment($appointment->id)->first()->id }}">Withdraw Now</a></p>
+						<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16-with-text js-withdraw" data-service="{{ $event->id }}">Withdraw Now</a></p>
 					</div>
 				@endif
 			@endif
@@ -96,15 +92,16 @@
 
 @section('scripts')
 	<script>
-		
 		$(document).on('click', '.js-enroll', function(e)
 		{
 			e.preventDefault();
 
 			$.ajax({
-				url: "{{ URL::route('book.enroll') }}",
+				url: "{{ route('book.enroll') }}",
 				type: "POST",
-				data: { service: $(this).data('service') },
+				data: {
+					service: $(this).data('service')
+				},
 				success: function(data)
 				{
 					location.reload();
@@ -118,14 +115,15 @@
 
 			$.ajax({
 				type: "POST",
-				data: { appointment: $(this).data('appointment') },
-				url: "{{ URL::route('ajax.withdraw') }}",
-				success: function(data)
+				data: {
+					service: $(this).data('service')
+				},
+				url: "{{ route('ajax.withdraw') }}",
+				success: function (data)
 				{
 					location.reload();
 				}
 			});
 		});
-
 	</script>
 @stop

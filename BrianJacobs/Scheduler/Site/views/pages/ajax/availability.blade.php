@@ -19,7 +19,7 @@
 	<div style="clear:both;"></div>
 	
 	@if ($avail === 0)
-		<p class="alert alert-warning">We're sorry, but we couldn't find enough available time for that service on {{ $date->format(Config::get('bjga.dates.date')) }}. Please choose a different date and try again.</p>
+		<p class="alert alert-warning">We're sorry, but we couldn't find enough available time for that service on {{ $date->format(Config::get('bjga.dates.date')) }}. Please choose a different date and try again. You can search for available lesson times from the <a href="{{ route('search') }}">Find a Lesson Time</a> page.</p>
 	@endif
 @stop
 

@@ -8,19 +8,23 @@ use View,
 	Redirect,
 	CreditValidator,
 	UserRepositoryInterface,
+	StaffRepositoryInterface,
 	CreditRepositoryInterface;
 
 class CreditsController extends BaseController {
 
+	protected $staff;
 	protected $users;
 	protected $credits;
 	protected $validator;
 
 	public function __construct(CreditRepositoryInterface $credits,
-			UserRepositoryInterface $users, CreditValidator $validator)
+			UserRepositoryInterface $users, CreditValidator $validator,
+			StaffRepositoryInterface $staff)
 	{
 		parent::__construct();
 
+		$this->staff = $staff;
 		$this->users = $users;
 		$this->credits = $credits;
 		$this->validator = $validator;
@@ -43,7 +47,7 @@ class CreditsController extends BaseController {
 	public function index()
 	{
 		return View::make('pages.admin.credits.index')
-			->withCredits($this->credits->allPaginated());
+			->withCredits($this->credits->allPaginated($this->currentUser));
 	}
 
 	public function create()
@@ -51,6 +55,7 @@ class CreditsController extends BaseController {
 		return View::make('pages.admin.credits.create')
 			->withCode(\Str::creditCode(12))
 			->withUsers($this->users->allForDropdown())
+			->withStaff($this->staff->allForDropdown())
 			->withTypes(['time' => 'Time Credit', 'money' => 'Monetary Credit']);
 	}
 
@@ -76,6 +81,7 @@ class CreditsController extends BaseController {
 		return View::make('pages.admin.credits.edit')
 			->withCredit($this->credits->find($id))
 			->withUsers($this->users->allForDropdown())
+			->withStaff($this->staff->allForDropdown())
 			->withTypes(['time' => 'Time Credit', 'money' => 'Monetary Credit']);
 	}
 
