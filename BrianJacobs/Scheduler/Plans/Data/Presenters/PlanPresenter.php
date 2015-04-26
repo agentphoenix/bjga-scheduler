@@ -29,4 +29,14 @@ class PlanPresenter extends Presenter {
 		return $this->entity->created_at->format(Config::get('bjga.dates.dateNoDay'));
 	}
 
+	public function instructors()
+	{
+		foreach ($this->entity->instructors as $instructor)
+		{
+			$staff[] = $instructor->user->present()->name;
+		}
+
+		return implode(', ', $staff);
+	}
+
 }

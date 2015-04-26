@@ -350,5 +350,15 @@ class UserRepository implements UserRepositoryInterface {
 			break;
 		}
 	}
+
+	public function withDevelopmentPlan()
+	{
+		return UserModel::has('plan')->lists('name', 'id');
+	}
+
+	public function withoutDevelopmentPlan()
+	{
+		return UserModel::has('plan', '=', 0)->lists('name', 'id');
+	}
 	
 }

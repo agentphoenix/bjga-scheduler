@@ -45,7 +45,7 @@ class StaffModel extends Model {
 
 	public function plans()
 	{
-		return $this->hasManyThrough('PlanModel', 'development_plans_instructors', 'plan_id', 'staff_id');
+		return $this->belongsToMany('Plan', 'plans_instructors', 'staff_id', 'plan_id');
 	}
 
 	public function credits()

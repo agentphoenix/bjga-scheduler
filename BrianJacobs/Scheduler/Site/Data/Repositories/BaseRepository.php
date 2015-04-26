@@ -2,9 +2,9 @@
 
 abstract class BaseRepository {
 
-	public function all()
+	public function all(array $with = [])
 	{
-		return $this->model->all();
+		return $this->make($with)->get();
 	}
 
 	public function countBy($key, $value, array $with = [])
@@ -70,6 +70,22 @@ abstract class BaseRepository {
 	{
 		return $this->model->where($key, '=', $value)
 			->lists($displayValue, $displayKey);
+	}
+
+	public function listAllFiltered($value, $key, $filters)
+	{
+		// Get the list of all the items
+		$items = $this->listAll($value, $key);
+
+		// Make sure we have an array of filters
+		$filters = ( ! is_array($filters)) ? [$filters] : $filters;
+
+		foreach ($filters as $filter)
+		{
+			unset($items[$filter]);
+		}
+
+		return $items;
 	}
 
 	public function make(array $with = [])

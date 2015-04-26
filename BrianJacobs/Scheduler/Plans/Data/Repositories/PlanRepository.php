@@ -2,6 +2,7 @@
 
 use Plan as Model,
 	UserModel as User,
+	StaffModel as Staff,
 	PlanRepositoryInterface;
 use Scheduler\Data\Repositories\BaseRepository;
 
@@ -14,9 +15,77 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 		$this->model = $model;
 	}
 
-	public function create(array $data)
+	public function addInstructor($planId, $instructorId)
 	{
-		return $this->model->create($data);
+		// Get the plan
+		$plan = $this->getById($planId);
+
+		if ($plan)
+		{
+			// Attach the instructor
+			$plan->instructors()->attach($plan->id, ['staff_id' => $instructorId]);
+
+			return $plan;
+		}
+
+		return false;
+	}
+
+	public function create(array $data, Staff $instructor)
+	{
+		// Create the plan
+		$plan = $this->model->create($data);
+
+		// Associate the instructor with the plan
+		$plan->instructors()->attach($plan->id, ['staff_id' => $instructor->id]);
+
+		return $plan;
+	}
+
+	public function delete($id)
+	{
+		// Get the plan
+		$plan = $this->getById($id, ['goals', 'goals.conversations', 'goals.stats']);
+
+		if ($plan)
+		{
+			// Make sure we have a copy of the plan
+			$item = $plan;
+
+			if ($plan->goals->count() > 0)
+			{
+				foreach ($plan->goals as $goal)
+				{
+					$goal->conversations->each(function($g)
+					{
+						$g->delete();
+					});
+
+					$goal->stats->each(function($s)
+					{
+						$s->delete();
+					});
+
+					// Remove the goal
+					$goal->delete();
+				}
+			}
+
+			// Remove all the instructors
+			$plan->instructors()->detach();
+
+			// Remove the plan
+			$plan->delete();
+
+			return $item;
+		}
+
+		return false;
+	}
+
+	public function getInstructorPlans(Staff $instructor)
+	{
+		return $instructor->plans->load('user', 'activeGoals', 'instructors', 'instructors.user');
 	}
 
 	public function getUserPlanTimeline(User $user)
@@ -71,6 +140,22 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 		krsort($timeline);
 
 		return $timeline;
+	}
+
+	public function removeInstructor($planId, $instructorId)
+	{
+		// Get the plan
+		$plan = $this->getById($planId);
+
+		if ($plan)
+		{
+			// Detach the instructor
+			$plan->instructors()->detach([$plan->id => ['staff_id' => $instructorId]]);
+
+			return $plan;
+		}
+
+		return false;
 	}
 
 }

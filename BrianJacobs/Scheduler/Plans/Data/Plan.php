@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Plan extends Model {
 
-	use PresentableTrait;
-	use SoftDeletingTrait;
+	use PresentableTrait, SoftDeletingTrait;
 
 	protected $table = 'plans';
 
@@ -28,9 +27,14 @@ class Plan extends Model {
 		return $this->hasMany('Goal');
 	}
 
+	public function activeGoals()
+	{
+		return $this->hasMany('Goal')->where('completed', '!=', 1);
+	}
+
 	public function instructors()
 	{
-		return $this->belongsToMany('StaffModel', 'development_plans_instructors', 'staff_id', 'plan_id');
+		return $this->belongsToMany('StaffModel', 'plans_instructors', 'plan_id', 'staff_id');
 	}
 
 	public function user()

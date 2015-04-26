@@ -13,7 +13,14 @@ class PlanServiceProvider extends ServiceProvider {
 
 	public function boot()
 	{
-		//
+		$this->setupEventListeners();
+	}
+
+	protected function setupEventListeners()
+	{
+		$this->app['events']->listen('plan.created', 'Plans\Events\PlanEventHandler@onCreate');
+		$this->app['events']->listen('plan.deleted', 'Plans\Events\PlanEventHandler@onDelete');
+		$this->app['events']->listen('plan.updated', 'Plans\Events\PlanEventHandler@onUpdate');
 	}
 
 	protected function setRepositoryBindings()
