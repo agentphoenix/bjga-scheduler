@@ -28,11 +28,11 @@ class PlanController extends BaseController {
 		{
 			if ( ! $this->currentUser->isStaff())
 			{
-				return $this->unauthorized("You do not have permission to see development plans for other students!");
+				return $this->unauthorized("You don't have permission to see development plans for other students!");
 			}
-			elseif ($this->currentUser->isStaff() and $this->currentUser->access() == 1)
+			elseif ($this->currentUser->isStaff() and $this->currentUser->access() < 3)
 			{
-				return $this->unauthorized("You do not have access to the development plan feature yet.");
+				return $this->unauthorized("You don't have access to the development plan feature yet.");
 			}
 
 			// Get the user
@@ -44,16 +44,27 @@ class PlanController extends BaseController {
 			$user = $this->currentUser;
 		}
 
-		return View::make('pages.plan.show')
-			->withPlan($this->plans->getFirstBy('user_id', $user->id))
-			->withTimeline($this->plans->getUserPlanTimeline($user));
+		// Load the plan from the user object
+		$user = $user->load('plan');
+
+		// Get the plan
+		$plan = $user->plan;
+
+		// Get the plan timeline
+		$timeline = $this->plans->getUserPlanTimeline($plan);
+
+		return View::make('pages.devplans.show', compact('plan', 'timeline'));
 	}
 
 	public function goal($id)
 	{
-		return View::make('pages.plan.goal')
-			->withGoal($this->goals->getById($id))
-			->withTimeline($this->goals->getUserGoalTimeline($this->currentUser, $id));
+		// Get the goal
+		$goal = $this->goals->getById($id);
+
+		// Get the goal timeline
+		$timeline = $this->goals->getUserGoalTimeline($this->currentUser, $id);
+
+		return View::make('pages.devplans.goal', compact('goal', 'timeline'));
 	}
 
 }

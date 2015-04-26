@@ -10,6 +10,12 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 		'before'	=> "auth",
 	];
 
+	protected $adminOptions = [
+		'namespace' => "Plans\\Controllers\\Admin",
+		'before'	=> "auth",
+		'prefix'	=> 'admin',
+	];
+
 	public function register()
 	{
 		//
@@ -23,7 +29,25 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 
 	protected function adminRoutes()
 	{
-		# code...
+		Route::group($this->adminOptions, function()
+		{
+			Route::get('plan/{id}/remove', [
+				'as'	=> 'admin.plan.remove',
+				'uses'	=> 'PlanController@remove']);
+			Route::post('plan/remove-instructor', [
+				'as'	=> 'admin.plan.removeInstructor',
+				'uses'	=> 'PlanController@removeInstructor']);
+
+			Route::get('goal/{id}/remove', [
+				'as'	=> 'admin.goal.remove',
+				'uses'	=> 'GoalController@remove']);
+			Route::get('goal/{id}/create', [
+				'as'	=> 'admin.goal.create',
+				'uses'	=> 'GoalController@create']);
+
+			Route::resource('plan', 'PlanController', ['except' => ['show']]);
+			Route::resource('goal', 'GoalController', ['except' => ['show']]);
+		});
 	}
 
 	protected function routes()
@@ -40,15 +64,6 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 			Route::get('plan/{id}', [
 				'as'	=> 'plan',
 				'uses'	=> 'PlanController@show']);
-
-			Route::get('admin/plan/{id}/remove', [
-				'as'	=> 'admin.plan.remove',
-				'uses'	=> 'Admin\PlanController@remove']);
-			Route::post('admin/plan/remove-instructor', [
-				'as'	=> 'admin.plan.removeInstructor',
-				'uses'	=> 'Admin\PlanController@removeInstructor']);
-
-			Route::resource('admin/plan', 'Admin\PlanController', ['except' => ['show']]);
 		});
 	}
 

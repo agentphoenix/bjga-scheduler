@@ -9,10 +9,10 @@
 
 	<div class="visible-xs visible-sm">
 		<div class="row">
-			<div class="col-xs-6 col-sm-3">
-				<p><a href="#" class="btn btn-block btn-lg btn-primary">Add New Goal</a></p>
+			<div class="col-xs-12 col-sm-6">
+				<p><a href="#" class="btn btn-block btn-lg btn-primary js-planAction" data-action="goal-add" data-plan="{{ $plan->id }}">Add a Goal</a></p>
 			</div>
-			<div class="col-xs-6 col-sm-3">
+			<div class="col-xs-12 col-sm-6">
 				<p><a class="btn btn-block btn-lg btn-primary js-toggleGoals">Only Show My Goals</a></p>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="#" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
+				<a href="#" class="btn btn-sm btn-primary icn-size-16 js-planAction" data-action="goal-add" data-plan="{{ $plan->id }}">{{ $_icons['add'] }}</a>
 			</div>
 			<div class="btn-group">
 				<a href="#" class="btn btn-sm btn-primary icn-size-16-with-text js-toggleGoals">Only Show My Goals</a>
@@ -29,6 +29,10 @@
 	</div>
 
 	{{ partial('timeline-plan', ['items' => $timeline, 'plan' => $plan]) }}
+@stop
+
+@section('modals')
+	{{ modal(['id' => 'addGoal', 'header' => "Add a Goal"]) }}
 @stop
 
 @section('styles')
@@ -87,6 +91,21 @@
 			{
 				$('.cd-timeline-block:not(.cd-timeline-goal)').removeClass('hide');
 				$(this).text("Only Show My Goals");
+			}
+		});
+
+		$('.js-planAction').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var action = $(this).data('action');
+			var plan = $(this).data('plan');
+
+			if (action == 'goal-add')
+			{
+				$('#addGoal').modal({
+					remote: "{{ URL::to('admin/goal') }}/" + plan + "/create"
+				}).modal('show');
 			}
 		});
 	</script>

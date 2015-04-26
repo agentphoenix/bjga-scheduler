@@ -88,9 +88,9 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 		return $instructor->plans->load('user', 'activeGoals', 'instructors', 'instructors.user');
 	}
 
-	public function getUserPlanTimeline(User $user)
+	public function getUserPlanTimeline(Model $plan)
 	{
-		$plan = $user->plan->load('goals', 'conversations', 'conversations.user', 'goals.conversations', 'goals.conversations.user', 'goals.conversations.goal', 'goals.stats', 'goals.stats.goal');
+		$plan = $plan->load('goals', 'conversations', 'conversations.user', 'goals.conversations', 'goals.conversations.user', 'goals.conversations.goal', 'goals.stats', 'goals.stats.goal');
 
 		$timeline = [];
 

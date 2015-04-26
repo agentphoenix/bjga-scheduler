@@ -6,6 +6,6 @@ use Scheduler\Data\Interfaces\BaseRepositoryInterface;
 interface GoalRepositoryInterface extends BaseRepositoryInterface {
 
 	public function create(array $data);
-	public function getUserGoalTimeline(User $user, $id);
+	public function getUserGoalTimeline(User $user, $goalId);
 
 }

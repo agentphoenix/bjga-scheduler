@@ -1,6 +1,7 @@
 <?php namespace Plans\Data\Interfaces;
 
-use UserModel as User,
+use Plan,
+	UserModel as User,
 	StaffModel as Staff;
 use Scheduler\Data\Interfaces\BaseRepositoryInterface;
 
@@ -10,7 +11,7 @@ interface PlanRepositoryInterface extends BaseRepositoryInterface {
 	public function create(array $data, Staff $instructor);
 	public function delete($id);
 	public function getInstructorPlans(Staff $instructor);
-	public function getUserPlanTimeline(User $user);
+	public function getUserPlanTimeline(Plan $plan);
 	public function removeInstructor($planId, $instructorId);
 
 }

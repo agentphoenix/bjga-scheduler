@@ -4,67 +4,57 @@ use View,
 	Event,
 	Input,
 	Redirect,
+	GoalRepositoryInterface,
 	PlanRepositoryInterface,
 	UserRepositoryInterface,
 	StaffRepositoryInterface;
 use Scheduler\Controllers\BaseController;
 
-class PlanController extends BaseController {
+class GoalController extends BaseController {
 
-	protected $plans;
+	protected $goals;
 	protected $users;
 	protected $staff;
+	protected $plans;
 
-	public function __construct(PlanRepositoryInterface $plans,
-			UserRepositoryInterface $users, StaffRepositoryInterface $staff)
+	public function __construct(GoalRepositoryInterface $goals,
+			UserRepositoryInterface $users, StaffRepositoryInterface $staff,
+			PlanRepositoryInterface $plans)
 	{
 		parent::__construct();
 
-		$this->plans = $plans;
+		$this->goals = $goals;
 		$this->users = $users;
 		$this->staff = $staff;
+		$this->plans = $plans;
 
 		// Before filter to check if the user has permissions
 		$this->beforeFilter('@checkPermissions');
 	}
 
-	public function index()
+	public function create($id)
 	{
-		// Get all the development plans
-		$plans = ($this->currentUser->access() == 4)
-			? $this->plans->all(['user', 'activeGoals', 'instructors', 'instructors.user'])
-			: $this->plans->getInstructorPlans($this->currentUser->staff);
-
-		// Can we create more plans?
-		$createAllowed = ($plans->count() < 3);
-
-		return View::make('pages.devplans.plans.index', compact('plans', 'createAllowed'));
-	}
-
-	public function create()
-	{
-		// Get all the users
-		$users[''] = "Please select a user";
-		$users += $this->users->withoutDevelopmentPlan();
+		// Get the plan
+		$plan = $this->plans->getById($id);
 
 		return partial('common/modal_content', [
-			'modalHeader'	=> "Add Development Plan",
-			'modalBody'		=> View::make('pages.devplans.plans.create', compact('users')),
+			'modalHeader'	=> "Add a Goal",
+			'modalBody'		=> View::make('pages.devplans.goals.create', compact('plan')),
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function store()
 	{
-		// Create the plan
-		$plan = $this->plans->create(Input::all(), $this->currentUser->staff);
+		// Create the goal
+		$goal = $this->goals->create(Input::all());
 
 		// Fire the event
-		Event::fire('plan.created', [$plan]);
+		Event::fire('goal.created', [$goal]);
 
-		return Redirect::route('admin.plan.index')
+		return Redirect::back()
 			->with('messageStatus', 'success')
-			->with('message', "Development plan created!");
+			->with('message', "Goal created!");
 	}
 
 	public function edit($id)
@@ -83,7 +73,7 @@ class PlanController extends BaseController {
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Add Instructor to Development Plan",
-			'modalBody'		=> View::make('pages.devplans.plans.instructors', compact('plan', 'staff')),
+			'modalBody'		=> View::make('pages.devplans.admin.instructors', compact('plan', 'staff')),
 			'modalFooter'	=> false,
 		]);
 	}
@@ -108,7 +98,7 @@ class PlanController extends BaseController {
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Development Plan",
-			'modalBody'		=> View::make('pages.devplans.plans.remove', compact('plan')),
+			'modalBody'		=> View::make('pages.devplans.admin.remove', compact('plan')),
 			'modalFooter'	=> false,
 		]);
 	}
@@ -126,19 +116,11 @@ class PlanController extends BaseController {
 			->with('message', "Development plan removed!");
 	}
 
-	public function removeInstructor()
-	{
-		// Remove the instructor
-		$this->plans->removeInstructor(Input::get('plan'), Input::get('instructor'));
-
-		return json_encode(['code' => 1]);
-	}
-
 	public function checkPermissions()
 	{
 		if ($this->currentUser->access() < 3)
 		{
-			return $this->unauthorized("You do not have permission to manage development plans!");
+			return $this->unauthorized("You do not have permission to manage development plan goals!");
 		}
 	}
 

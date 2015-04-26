@@ -19,11 +19,11 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		return $this->model->create($data);
 	}
 
-	public function getUserGoalTimeline(User $user, $id)
+	public function getUserGoalTimeline(User $user, $goalId)
 	{
-		$goal = $user->plan->goals->filter(function($g) use ($id)
+		$goal = $user->plan->goals->filter(function($g) use ($goalId)
 		{
-			return $g->id == $id;
+			return $g->id == $goalId;
 		})->first();
 
 		$timeline = [];
