@@ -22,10 +22,9 @@ class CreateDevelopmentPlansTables extends Migration {
 
 		Schema::create('plans_instructors', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->bigIncrements('id');
 			$table->integer('plan_id')->unsigned();
 			$table->integer('staff_id')->unsigned();
-			$table->timestamps();
 		});
 
 		Schema::create('plans_goals', function(Blueprint $table)
