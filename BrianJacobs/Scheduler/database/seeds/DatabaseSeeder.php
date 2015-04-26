@@ -15,7 +15,13 @@ class DatabaseSeeder extends Seeder {
 		//$this->call('SchedulerUserSeeder');
 		//$this->call('SchedulerLocationSeeder');
 		//$this->call('SchedulerCustomerSeeder');
-		$this->call('PlanSeeder');
+		//$this->call('PlanSeeder');
+
+		if (App::environment() != 'production')
+		{
+			$this->call('UserSeeder');
+			$this->call('StaffSeeder');
+		}
 	}
 
 }
