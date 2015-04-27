@@ -54,14 +54,17 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 	{
 		Route::group($this->options, function()
 		{
-			Route::get('my-plan', [
+			/*Route::get('my-plan', [
 				'as'	=> 'my-plan',
 				'uses'	=> 'PlanController@show']);
 			Route::get('my-plan/goal/{id}', [
 				'as'	=> 'my-plan.goal',
-				'uses'	=> 'PlanController@goal']);
+				'uses'	=> 'PlanController@goal']);*/
 
-			Route::get('plan/{id}', [
+			Route::get('plan/{userId?}/goal/{goalId}', [
+				'as'	=> 'plan.goal',
+				'uses'	=> 'PlanController@goal']);
+			Route::get('plan/{userId?}', [
 				'as'	=> 'plan',
 				'uses'	=> 'PlanController@show']);
 		});

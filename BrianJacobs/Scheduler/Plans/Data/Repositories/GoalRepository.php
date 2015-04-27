@@ -1,6 +1,7 @@
 <?php namespace Plans\Data\Repositories;
 
-use Goal as Model,
+use Plan,
+	Goal as Model,
 	UserModel as User,
 	GoalRepositoryInterface;
 use Scheduler\Data\Repositories\BaseRepository;
@@ -19,11 +20,11 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		return $this->model->create($data);
 	}
 
-	public function getUserGoalTimeline(User $user, $goalId)
+	public function getUserGoalTimeline(Plan $plan, $goalId)
 	{
-		$goal = $user->plan->goals->filter(function($g) use ($goalId)
+		$goal = $plan->goals->filter(function($g) use ($goalId)
 		{
-			return $g->id == $goalId;
+			return (int) $g->id === (int) $goalId;
 		})->first();
 
 		$timeline = [];

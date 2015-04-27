@@ -1,16 +1,16 @@
 @extends('layouts.master')
 
 @section('title')
-	{{ $goal->present()->title }} &bull; My Development Plan
+	{{ $goal->present()->title }} &bull; {{ ($userId) ? $user->present()->name."'s Development Plan" : "My Development Plan" }}
 @stop
 
 @section('content')
-	<h1>{{ $goal->present()->title }} <small>My Development Plan</small></h1>
+	<h1>{{ $goal->present()->title }} <small>{{ ($userId) ? $user->present()->name."'s Development Plan" : "My Development Plan" }}</small></h1>
 
 	<div class="visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-6 col-sm-3">
-				<p><a href="{{ route('my-plan') }}" class="btn btn-block btn-lg btn-primary">Back to My Plan</a></p>
+				<p><a href="{{ route('plan', [$userId]) }}" class="btn btn-block btn-lg btn-default">{{ ($userId) ? "Back to Plan" : "Back to My Plan" }}</a></p>
 			</div>
 			@if ( ! (bool) $goal->completed)
 				<div class="col-xs-6 col-sm-3">
@@ -22,7 +22,7 @@
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ route('my-plan') }}" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ route('plan', [$userId]) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 			@if ( ! (bool) $goal->completed)
 				<div class="btn-group">
@@ -32,7 +32,7 @@
 		</div>
 	</div>
 
-	{{ partial('timeline-goal', ['items' => $timeline, 'goal' => $goal]) }}
+	{{ partial('timeline-goal', ['items' => $timeline, 'goal' => $goal, 'userId' => $userId]) }}
 @stop
 
 @section('styles')

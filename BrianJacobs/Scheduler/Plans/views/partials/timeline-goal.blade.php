@@ -27,7 +27,7 @@
 							@endif
 						</h2>
 						{{ $item->present()->summary }}
-						<a href="{{ route('my-plan.goal', [$item->id]) }}" class="btn btn-default btn-sm">More Info</a>
+						<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-sm">More Info</a>
 						<span class="cd-date">{{ $item->present()->created }}</span>
 					</div> <!-- cd-timeline-content -->
 				</div> <!-- cd-timeline-block -->
