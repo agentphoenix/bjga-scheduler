@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-	My Development Plan
+	{{ ($userId) ? $user->present()->name."'s Development Plan" : "My Development Plan" }}
 @stop
 
 @section('content')
-	<h1>My Development Plan</h1>
+	<h1>{{ ($userId) ? $user->present()->name."'s Development Plan" : "My Development Plan" }}</h1>
 
 	<div class="visible-xs visible-sm">
 		<div class="row">
@@ -13,7 +13,7 @@
 				<p><a href="#" class="btn btn-block btn-lg btn-primary js-planAction" data-action="goal-add" data-plan="{{ $plan->id }}">Add a Goal</a></p>
 			</div>
 			<div class="col-xs-12 col-sm-6">
-				<p><a class="btn btn-block btn-lg btn-primary js-toggleGoals">Only Show My Goals</a></p>
+				<p><a class="btn btn-block btn-lg btn-primary js-toggleGoals">Only Show Goals</a></p>
 			</div>
 		</div>
 	</div>
@@ -23,16 +23,18 @@
 				<a href="#" class="btn btn-sm btn-primary icn-size-16 js-planAction" data-action="goal-add" data-plan="{{ $plan->id }}">{{ $_icons['add'] }}</a>
 			</div>
 			<div class="btn-group">
-				<a href="#" class="btn btn-sm btn-primary icn-size-16-with-text js-toggleGoals">Only Show My Goals</a>
+				<a href="#" class="btn btn-sm btn-primary icn-size-16-with-text js-toggleGoals">Only Show Goals</a>
 			</div>
 		</div>
 	</div>
 
-	{{ partial('timeline-plan', ['items' => $timeline, 'plan' => $plan]) }}
+	{{ partial('timeline-plan', ['items' => $timeline, 'plan' => $plan, 'userId' => $userId]) }}
 @stop
 
 @section('modals')
 	{{ modal(['id' => 'addGoal', 'header' => "Add a Goal"]) }}
+	{{ modal(['id' => 'editGoal', 'header' => "Edit Goal"]) }}
+	{{ modal(['id' => 'removeGoal', 'header' => "Remove Goal"]) }}
 @stop
 
 @section('styles')
