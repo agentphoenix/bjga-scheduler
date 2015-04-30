@@ -41,7 +41,7 @@
 					@endif
 					
 					@if ($plan->activeGoals->count() > 0)
-						<p class="text-sm text-muted">{{ Str::plural('goal', $plan->activeGoals->count()) }}</p>
+						<p class="text-sm text-muted">{{ $plan->activeGoals->count().' '.Str::plural('goal', $plan->activeGoals->count()) }}</p>
 					@endif
 				</div>
 				<div class="col-md-3">
