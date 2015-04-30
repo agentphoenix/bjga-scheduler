@@ -9,7 +9,10 @@
 		<p class="lead visible-md visible-lg">{{ $appt->service->present()->name }}</p>
 
 		<p>Location: <strong class="text-success">{{ $userAppt->present()->location }}</strong></p>
-		<p>Total Due: <strong class="text-success">{{ $userAppt->present()->due }}</strong></p>
+
+		@if ($userAppt->paid == 0)
+			<p>Total Due: <strong class="text-success">{{ $userAppt->present()->due }}</strong></p>
+		@endif
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 		<div class="visible-md visible-lg">
