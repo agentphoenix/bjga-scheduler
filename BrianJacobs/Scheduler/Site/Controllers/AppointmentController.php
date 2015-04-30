@@ -153,13 +153,24 @@ class AppointmentController extends BaseController {
 
 	public function attendees($type, $id)
 	{
-		// Get the service
-		$service = $this->service->find($id);
+		if ($type == 'service')
+		{
+			// Get the service
+			$service = $this->service->find($id);
 
-		// Get the attendees
-		$attendees = ($type == 'service')
-			? $this->service->getAttendees($id)
-			: $this->appts->getAttendees($id);
+			// Get the attendees
+			$attendees = $this->service->getAttendees($id);
+		}
+		else
+		{
+			// Get the attendees
+			$attendees = $this->appts->getAttendees($id);
+
+			// Get the service
+			$service = ($attendees->count() > 0)
+				? $attendees->first()->appointment->service
+				: null;
+		}
 
 		return partial('common/modal_content', array(
 			'modalHeader'	=> "Attendees",
