@@ -396,9 +396,10 @@ class ServiceRepository implements ServiceRepositoryInterface {
 								foreach ($occurrence->staffAppointments as $sa)
 								{
 									$sa->fill([
-										'start' => $start,
-										'end' => $end,
-										'location_id' => $data['location_id']
+										'start'			=> $start,
+										'end'			=> $end,
+										'location_id'	=> $data['location_id'],
+										'staff_id'		=> $service->staff->id,
 									])->save();
 								}
 							}
