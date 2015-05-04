@@ -129,3 +129,43 @@
 		{{ partial('common/alert', array('class' => ' alert-warning', 'content' => "There are no scheduled events in the next 90 days. Check back regularly for more events.")) }}
 	@endif
 @stop
+
+@section('styles')
+	{{ HTML::style('css/timeline.css') }}
+	{{ HTML::script('js/modernizr.js') }}
+@stop
+
+@section('scripts')
+	<script>
+		jQuery(document).ready(function($)
+		{
+			var $timeline_block = $('.cd-timeline-block.unchanged');
+
+			// Hide timeline blocks which are outside the viewport
+			$timeline_block.each(function()
+			{
+				if ($(this).offset().top > $(window).scrollTop() + $(window).height() * 0.85)
+				{
+					$(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
+				}
+			});
+
+			// On scolling, show/animate timeline blocks when enter the viewport
+			$(window).on('scroll', function()
+			{
+				$timeline_block.each(function()
+				{
+					if ($(this).offset().top <= $(window).scrollTop() + $(window).height() * 0.85 && 
+							$(this).find('.cd-timeline-img').hasClass('is-hidden'))
+					{
+						$(this).find('.cd-timeline-img, .cd-timeline-content')
+							.removeClass('is-hidden')
+							.addClass('bounce-in');
+
+						$timeline_block.removeClass('unchanged');
+					}
+				});
+			});
+		});
+	</script>
+@stop
