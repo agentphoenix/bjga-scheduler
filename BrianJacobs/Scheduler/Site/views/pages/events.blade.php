@@ -8,6 +8,39 @@
 	<h1>Upcoming Programs</h1>
 
 	@if ($events->count() > 0)
+		<article id="cd-timeline" class="cd-container">
+		@foreach ($events as $event)
+			<div class="cd-timeline-block unchanged cd-timeline-goal">
+				<div class="cd-timeline-img">
+					<span class="icn-size-32">
+						@if ((bool) $item->completed)
+							{{ $_icons['check'] }}
+						@else
+							{{ $_icons['target'] }}
+						@endif
+					</span>
+				</div> <!-- cd-timeline-img -->
+
+				<div class="cd-timeline-content">
+					<h2>
+						{{ $item->present()->title }}
+						@if ((bool) $item->completed)
+							<small>Completed on {{ $item->present()->completedDate }}</small>
+						@endif
+					</h2>
+					{{ $item->present()->summary }}
+					<div class="visible-xs visible-sm">
+						<p><a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
+					</div>
+					<div class="visible-md visible-lg">
+						<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-sm">View Goal</a>
+					</div>
+					<span class="cd-date">{{ $item->present()->created }}</span>
+				</div> <!-- cd-timeline-content -->
+			</div> <!-- cd-timeline-block -->
+		@endforeach
+	</article>
+
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 visible-xs visible-sm">
 				<div class="panel panel-default">
