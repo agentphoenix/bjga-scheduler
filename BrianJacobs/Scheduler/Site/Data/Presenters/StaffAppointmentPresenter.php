@@ -22,7 +22,8 @@ class StaffAppointmentPresenter extends Presenter {
 
 	public function location()
 	{
-		return $this->entity->location->present()->name;
+		if ($this->entity->location)
+			return $this->entity->location->present()->name;
 	}
 
 	public function notes()
