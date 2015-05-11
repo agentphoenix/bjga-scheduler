@@ -84,9 +84,9 @@ class BookingService {
 		}
 
 		// Build the price
-		//$servicePrice = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
-		$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
-		//$price = ($service->occurrences % 4 == 0) ? $servicePrice * 4 : $servicePrice;
+		$servicePrice = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
+		//$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
+		$price = ($service->occurrences % 4 == 0) ? $servicePrice * 4 : $servicePrice;
 
 		// Get the location
 		$location = $service->staff->schedule->filter(function($s) use ($start)
@@ -95,20 +95,20 @@ class BookingService {
 		})->first()->location;
 
 		// Set the initial appointment record
-		$apptRecord = array(
+		$apptRecord = [
 			'staff_id'		=> $service->staff->id,
 			'service_id'	=> $service->id,
 			'start'			=> $start,
 			'end'			=> $end,
 			'notes'			=> $data['notes'],
 			'location_id'	=> $location->id,
-		);
+		];
 
 		// Set the initial user appointment record
-		$userApptRecord = array(
+		$userApptRecord = [
 			'user_id'	=> $user->id,
 			'amount'	=> $price,
-		);
+		];
 
 		// Automatically mark free services as paid
 		if ($userApptRecord['amount'] == 0)
@@ -119,7 +119,7 @@ class BookingService {
 		// Staff members get free lessons, so we need to take that into account
 		if ($user->isStaff())
 		{
-			$userApptRecord = array_merge($userApptRecord, array('paid' => (int) true, 'amount' => 0));
+			$userApptRecord = array_merge($userApptRecord, ['paid' => (int) true, 'amount' => 0]);
 		}
 
 		$bookStaffIds = [];
@@ -132,14 +132,14 @@ class BookingService {
 			$recurItem = StaffAppointmentRecurModel::create($apptRecord);
 
 			// Book the staff member
-			$bookApptArr = array_merge($apptRecord, array('recur_id' => $recurItem->id));
+			$bookApptArr = array_merge($apptRecord, ['recur_id' => $recurItem->id]);
 			$bookStaff = StaffAppointmentModel::create($bookApptArr);
 			$bookStaffIds[] = $bookStaff->id;
 
 			// Book the user
 			$userApptArr = array_merge(
 				$userApptRecord,
-				array('appointment_id' => $bookStaff->id, 'recur_id' => $recurItem->id)
+				['appointment_id' => $bookStaff->id, 'recur_id' => $recurItem->id]
 			);
 			$bookUser = UserAppointmentModel::create($userApptArr);
 			$bookUserIds[] = $bookUser->id;
@@ -155,31 +155,31 @@ class BookingService {
 			for ($i = 2; $i <= $service->occurrences; $i++)
 			{
 				// Create the staff appointments
-				$sa = StaffAppointmentModel::create(array(
-					'staff_id'		=> $service->staff->id,
-					'service_id'	=> $service->id,
-					'recur_id'		=> $recurItem->id,
-					'start'			=> ($service->occurrences_schedule > 0) 
+				$sa = StaffAppointmentModel::create([
+					'staff_id' => $service->staff->id,
+					'service_id' => $service->id,
+					'recur_id' => $recurItem->id,
+					'start' => ($service->occurrences_schedule > 0) 
 						? $newStartDate->addDays($service->occurrences_schedule) : null,
-					'end'			=> ($service->occurrences_schedule > 0) 
+					'end' => ($service->occurrences_schedule > 0) 
 						? $newEndDate->addDays($service->occurrences_schedule) : null,
-					'location_id'	=> $recurItem->location_id,
-				));
+					'location_id' => $recurItem->location_id,
+				]);
 				$bookStaffIds[] = $sa->id;
 
 				// Set the additional pricing
-				//$additionalPrice = ($i % 4 == 1) ? $price : 0.00;
+				$additionalPrice = ($i % 4 == 1) ? $price : 0.00;
 
 				// Create the user appointments
-				$ua = UserAppointmentModel::create(array(
-					'appointment_id'	=> $sa->id,
-					'user_id'			=> $user->id,
-					'recur_id'			=> $recurItem->id,
-					'amount'			=> ($user->isStaff()) ? 0 : $price,
-					//'amount'			=> ($user->isStaff()) ? 0 : $additionalPrice,
-					'paid'				=> ($user->isStaff() or $price == 0) ? (int) true : (int) false,
-					//'paid'				=> ($user->isStaff() or $additionalPrice == 0) ? (int) true : (int) false,
-				));
+				$ua = UserAppointmentModel::create([
+					'appointment_id' => $sa->id,
+					'user_id' => $user->id,
+					'recur_id' => $recurItem->id,
+					//'amount' => ($user->isStaff()) ? 0 : $price,
+					'amount' => ($user->isStaff()) ? 0 : $additionalPrice,
+					//'paid' => ($user->isStaff() or $price == 0) ? (int) true : (int) false,
+					'paid' => ($user->isStaff() or $additionalPrice == 0) ? (int) true : (int) false,
+				]);
 				$bookUserIds[] = $ua->id;
 
 				// Add to the collection of user appointments
@@ -193,7 +193,7 @@ class BookingService {
 			$bookStaffIds[] = $bookStaff->id;
 
 			// Book the user appointment
-			$userApptArr = array_merge($userApptRecord, array('appointment_id' => $bookStaff->id));
+			$userApptArr = array_merge($userApptRecord, ['appointment_id' => $bookStaff->id]);
 			$bookUser = UserAppointmentModel::create($userApptArr);
 			$bookUserIds[] = $bookUser->id;
 
@@ -208,23 +208,23 @@ class BookingService {
 		$browser = App::make('scheduler.browser');
 
 		// Create the meta record
-		BookingMetaModel::create(array(
+		BookingMetaModel::create([
 			'user_id'				=> $user->id,
 			'user_name'				=> $user->name,
 			'staff_appointment_ids'	=> implode(',', $bookStaffIds),
 			'user_appointment_ids'	=> implode(',', $bookUserIds),
 			'os'					=> $browser->getPlatform(),
 			'browser'				=> $browser->getBrowser().' '.$browser->getVersion(),
-		));
+		]);
 
 		// Fire the lesson booking event
 		if ($staffCreated)
 		{
-			Event::fire('appointment.created', array($service, $bookStaff, $bookUser, $sendEmail));
+			Event::fire('appointment.created', [$service, $bookStaff, $bookUser, $sendEmail]);
 		}
 		else
 		{
-			Event::fire('book.lesson.created', array($service, $bookStaff, $bookUser));
+			Event::fire('book.lesson.created', [$service, $bookStaff, $bookUser]);
 		}
 	}
 
@@ -613,7 +613,7 @@ class BookingService {
 			{
 				$userAppointments = ($service->isLesson()) 
 					? $staffAppt->userAppointments
-					: $staffAppt->userAppointments->filter(function($u) use ($user)
+					: $staffAppt->service->attendees()->filter(function($u) use ($user)
 						{
 							return (int) $u->user_id === (int) $user->id;
 						});

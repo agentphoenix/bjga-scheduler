@@ -28,6 +28,21 @@ class CreditRepository implements CreditRepositoryInterface {
 			->paginate($this->resultsPerPage);
 	}
 
+	public function cleanupMalformedCredits()
+	{
+		// Get the credits...
+		$credits = CreditModel::where('type', '=', 'time')
+			->where('claimed', '=', 1.00)->get();
+
+		if ($credits->count() > 0)
+		{
+			foreach ($credits as $credit)
+			{
+				$credit->update(['claimed' => 1.00]);
+			}
+		}
+	}
+
 	public function create(array $data)
 	{
 		return CreditModel::create($data);

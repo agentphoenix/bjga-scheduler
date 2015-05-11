@@ -45,6 +45,9 @@ class CreditCleanupCommand extends Command {
 	 */
 	public function fire()
 	{
+		// Clean up the mysterious "1.00" claimed credits
+		$this->credits->cleanupMalformedCredits();
+
 		// Remove any credits that have expired
 		$this->credits->removeExpired(Date::now()->startOfDay());
 

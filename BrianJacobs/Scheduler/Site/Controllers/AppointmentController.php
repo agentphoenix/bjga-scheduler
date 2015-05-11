@@ -340,7 +340,8 @@ class AppointmentController extends BaseController {
 			'modalHeader'	=> "Change Location for This Day",
 			'modalBody'		=> View::make('pages.admin.appointments.ajax.change-location')
 								->withAppt($appointment)
-								->withLocations($locations),
+								->withLocations($locations)
+								->withUser($this->currentUser),
 			'modalFooter'	=> false,
 		]);
 	}
