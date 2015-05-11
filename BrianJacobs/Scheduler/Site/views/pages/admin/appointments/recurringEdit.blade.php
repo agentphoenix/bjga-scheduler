@@ -10,14 +10,14 @@
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('admin.appointment.recurring.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ route('admin.appointment.recurring.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 		</div>
 	</div>
 	<div class="visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-6 col-sm-3">
-				<p><a href="{{ URL::route('admin.appointment.recurring.index') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
+				<p><a href="{{ route('admin.appointment.recurring.index') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 			</div>
 		</div>
 	</div>
@@ -54,10 +54,10 @@
 			<div class="col-md-3 col-lg-2">
 				<div class="visible-md visible-lg">
 					<label class="control-label">&nbsp;</label>
-					{{ Form::button('Change', array('type' => 'submit', 'class' => 'btn btn-sm btn-block btn-primary')) }}
+					{{ Form::button('Change', array('type' => 'submit', 'class' => 'btn btn-sm btn-block btn-default')) }}
 				</div>
 				<div class="visible-xs visible-sm">
-					<p>{{ Form::button('Change', array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-primary')) }}</p>
+					<p>{{ Form::button('Change', array('type' => 'submit', 'class' => 'btn btn-lg btn-block btn-default')) }}</p>
 				</div>
 			</div>
 		</div>
@@ -71,7 +71,7 @@
 	<h3>Series Schedule</h3>
 
 	<div class="row">
-		<div class="col-md-10 col-lg-8">
+		<div class="col-lg-9">
 			<div class="data-table data-table-striped data-table-bordered">
 			@foreach ($recurring->present()->staffAppointments as $sa)
 				<div class="row">
@@ -83,7 +83,7 @@
 						@endif
 						{{ $sa->present()->appointmentDate }}</p>
 					</div>
-					<div class="col-xs-6 col-md-4">
+					<div class="col-xs-6 col-md-3">
 						@if ($sa->start < $today)
 							<p class="text-muted">
 						@else
@@ -91,14 +91,20 @@
 						@endif
 						{{ $sa->present()->appointmentTime }}</p>
 					</div>
-					<div class="col-xs-12 col-md-3">
+					<div class="col-xs-12 col-md-4">
 						<div class="visible-md visible-lg">
 							<div class="btn-toolbar pull-right">
-								<div class="btn-group">
-									<a href="{{ URL::route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-sm icn-size-16">{{ $_icons['edit'] }}</a>
-								</div>
+								@if ((bool) $sa->userAppointments->first()->paid === false)
+									<div class="btn-group">
+										<a href="#" class="btn btn-sm btn-primary icn-size-16 js-markAsPaid js-tooltip-top" data-appt="{{ $sa->userAppointments->first()->id }}" data-title="Mark as Paid">{{ $_icons['check'] }}</a>
+									</div>
+								@endif
 
 								@if ( ! $sa->hasEnded())
+									<div class="btn-group">
+										<a href="{{ route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-sm icn-size-16">{{ $_icons['edit'] }}</a>
+									</div>
+
 									<div class="btn-group">
 										<a href="#" class="btn btn-danger btn-sm icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">{{ $_icons['reject'] }}</a>
 									</div>
@@ -107,13 +113,19 @@
 						</div>
 						<div class="visible-xs visible-sm">
 							<div class="row">
-								<div class="col-sm-6">
-									<p><a href="{{ URL::route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-lg btn-block">Edit Appointment</a></p>
-								</div>
-
 								@if ( ! $sa->hasEnded())
-									<div class="col-sm-6">
+									<div class="col-sm-4">
+										<p><a href="{{ route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-lg btn-block">Edit Appointment</a></p>
+									</div>
+									
+									<div class="col-sm-4">
 										<p><a href="#" class="btn btn-danger btn-lg btn-block js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">Cancel Appointment</a></p>
+									</div>
+								@endif
+
+								@if ((bool) $sa->userAppointments->first()->paid === false)
+									<div class="col-sm-4">
+										<p><a href="#" class="btn btn-lg btn-block btn-primary js-markAsPaid js-tooltip-top" data-appt="{{ $sa->userAppointments->first()->id }}">Mark As Paid</a>
 									</div>
 								@endif
 							</div>
@@ -140,6 +152,7 @@
 	{{ HTML::script('js/picker.js') }}
 	{{ HTML::script('js/picker.date.js') }}
 	{{ HTML::script('js/picker.time.js') }}
+	{{ View::make('partials.jsMarkAsPaid') }}
 	<script>
 		$(function()
 		{

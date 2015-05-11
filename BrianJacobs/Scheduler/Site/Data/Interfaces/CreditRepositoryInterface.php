@@ -7,6 +7,7 @@ interface CreditRepositoryInterface {
 
 	public function all();
 	public function allPaginated(User $user);
+	public function cleanupMalformedCredits();
 	public function create(array $data);
 	public function delete($id);
 	public function find($id);

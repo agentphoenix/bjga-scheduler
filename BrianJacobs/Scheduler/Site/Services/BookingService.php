@@ -84,22 +84,31 @@ class BookingService {
 		}
 
 		// Build the price
-		$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
+		$servicePrice = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
+		//$price = (array_key_exists('price', $data)) ? $data['price'] : $service->price;
+		$price = ($service->occurrences % 4 == 0) ? $servicePrice * 4 : $servicePrice;
+
+		// Get the location
+		$location = $service->staff->schedule->filter(function($s) use ($start)
+		{
+			return (int) $s->day === (int) $start->dayOfWeek;
+		})->first()->location;
 
 		// Set the initial appointment record
-		$apptRecord = array(
+		$apptRecord = [
 			'staff_id'		=> $service->staff->id,
 			'service_id'	=> $service->id,
 			'start'			=> $start,
 			'end'			=> $end,
 			'notes'			=> $data['notes'],
-		);
+			'location_id'	=> $location->id,
+		];
 
 		// Set the initial user appointment record
-		$userApptRecord = array(
+		$userApptRecord = [
 			'user_id'	=> $user->id,
 			'amount'	=> $price,
-		);
+		];
 
 		// Automatically mark free services as paid
 		if ($userApptRecord['amount'] == 0)
@@ -110,7 +119,7 @@ class BookingService {
 		// Staff members get free lessons, so we need to take that into account
 		if ($user->isStaff())
 		{
-			$userApptRecord = array_merge($userApptRecord, array('paid' => (int) true, 'amount' => 0));
+			$userApptRecord = array_merge($userApptRecord, ['paid' => (int) true, 'amount' => 0]);
 		}
 
 		$bookStaffIds = [];
@@ -123,14 +132,14 @@ class BookingService {
 			$recurItem = StaffAppointmentRecurModel::create($apptRecord);
 
 			// Book the staff member
-			$bookApptArr = array_merge($apptRecord, array('recur_id' => $recurItem->id));
+			$bookApptArr = array_merge($apptRecord, ['recur_id' => $recurItem->id]);
 			$bookStaff = StaffAppointmentModel::create($bookApptArr);
 			$bookStaffIds[] = $bookStaff->id;
 
 			// Book the user
 			$userApptArr = array_merge(
 				$userApptRecord,
-				array('appointment_id' => $bookStaff->id, 'recur_id' => $recurItem->id)
+				['appointment_id' => $bookStaff->id, 'recur_id' => $recurItem->id]
 			);
 			$bookUser = UserAppointmentModel::create($userApptArr);
 			$bookUserIds[] = $bookUser->id;
@@ -146,25 +155,31 @@ class BookingService {
 			for ($i = 2; $i <= $service->occurrences; $i++)
 			{
 				// Create the staff appointments
-				$sa = StaffAppointmentModel::create(array(
-					'staff_id'		=> $service->staff->id,
-					'service_id'	=> $service->id,
-					'recur_id'		=> $recurItem->id,
-					'start'			=> ($service->occurrences_schedule > 0) 
+				$sa = StaffAppointmentModel::create([
+					'staff_id' => $service->staff->id,
+					'service_id' => $service->id,
+					'recur_id' => $recurItem->id,
+					'start' => ($service->occurrences_schedule > 0) 
 						? $newStartDate->addDays($service->occurrences_schedule) : null,
-					'end'			=> ($service->occurrences_schedule > 0) 
+					'end' => ($service->occurrences_schedule > 0) 
 						? $newEndDate->addDays($service->occurrences_schedule) : null,
-				));
+					'location_id' => $recurItem->location_id,
+				]);
 				$bookStaffIds[] = $sa->id;
 
+				// Set the additional pricing
+				$additionalPrice = ($i % 4 == 1) ? $price : 0.00;
+
 				// Create the user appointments
-				$ua = UserAppointmentModel::create(array(
-					'appointment_id'	=> $sa->id,
-					'user_id'			=> $user->id,
-					'recur_id'			=> $recurItem->id,
-					'amount'			=> ($user->isStaff()) ? 0 : $price,
-					'paid'				=> ($user->isStaff() or $price == 0) ? (int) true : (int) false,
-				));
+				$ua = UserAppointmentModel::create([
+					'appointment_id' => $sa->id,
+					'user_id' => $user->id,
+					'recur_id' => $recurItem->id,
+					//'amount' => ($user->isStaff()) ? 0 : $price,
+					'amount' => ($user->isStaff()) ? 0 : $additionalPrice,
+					//'paid' => ($user->isStaff() or $price == 0) ? (int) true : (int) false,
+					'paid' => ($user->isStaff() or $additionalPrice == 0) ? (int) true : (int) false,
+				]);
 				$bookUserIds[] = $ua->id;
 
 				// Add to the collection of user appointments
@@ -178,7 +193,7 @@ class BookingService {
 			$bookStaffIds[] = $bookStaff->id;
 
 			// Book the user appointment
-			$userApptArr = array_merge($userApptRecord, array('appointment_id' => $bookStaff->id));
+			$userApptArr = array_merge($userApptRecord, ['appointment_id' => $bookStaff->id]);
 			$bookUser = UserAppointmentModel::create($userApptArr);
 			$bookUserIds[] = $bookUser->id;
 
@@ -193,23 +208,23 @@ class BookingService {
 		$browser = App::make('scheduler.browser');
 
 		// Create the meta record
-		BookingMetaModel::create(array(
+		BookingMetaModel::create([
 			'user_id'				=> $user->id,
 			'user_name'				=> $user->name,
 			'staff_appointment_ids'	=> implode(',', $bookStaffIds),
 			'user_appointment_ids'	=> implode(',', $bookUserIds),
 			'os'					=> $browser->getPlatform(),
 			'browser'				=> $browser->getBrowser().' '.$browser->getVersion(),
-		));
+		]);
 
 		// Fire the lesson booking event
 		if ($staffCreated)
 		{
-			Event::fire('appointment.created', array($service, $bookStaff, $bookUser, $sendEmail));
+			Event::fire('appointment.created', [$service, $bookStaff, $bookUser, $sendEmail]);
 		}
 		else
 		{
-			Event::fire('book.lesson.created', array($service, $bookStaff, $bookUser));
+			Event::fire('book.lesson.created', [$service, $bookStaff, $bookUser]);
 		}
 	}
 
@@ -335,6 +350,7 @@ class BookingService {
 							'value'		=> $service->duration / 60,
 							'user_id'	=> $userAppt->user->id,
 							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+							'staff_id'	=> $service->staff_id,
 						]);
 
 						// Delete the user appointment
@@ -355,6 +371,7 @@ class BookingService {
 							'value'		=> $minutesToCredit / 60,
 							'user_id'	=> $userAppt->user->id,
 							'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+							'staff_id'	=> $service->staff_id,
 						]);
 
 						// Delete the user appointment
@@ -436,6 +453,7 @@ class BookingService {
 										'value'		=> $service->duration / 60,
 										'user_id'	=> $userAppt->user->id,
 										'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+										'staff_id'	=> $service->staff_id,
 									]);
 
 									// Delete the user appointment
@@ -477,6 +495,7 @@ class BookingService {
 								'value'		=> $service->duration / 60,
 								'user_id'	=> $userAppt->user->id,
 								'expires'	=> Date::now()->addDay()->addYear()->startOfDay(),
+								'staff_id'	=> $service->staff_id,
 							]);
 
 							// Delete the user appointment
@@ -594,7 +613,7 @@ class BookingService {
 			{
 				$userAppointments = ($service->isLesson()) 
 					? $staffAppt->userAppointments
-					: $staffAppt->userAppointments->filter(function($u) use ($user)
+					: $staffAppt->service->attendees()->filter(function($u) use ($user)
 						{
 							return (int) $u->user_id === (int) $user->id;
 						});
@@ -782,57 +801,60 @@ class BookingService {
 			{
 				foreach ($credits as $credit)
 				{
-					// Get the remaining time on the credit
-					$remaining = $credit->value - $credit->claimed;
-
-					if ($remaining >= $service->duration)
+					if ($service->staff_id == $credit->staff_id)
 					{
-						// Update the credit
-						$newClaimed = ($credit->claimed + $service->duration) / 60;
-						$credit->fill(['claimed' => $newClaimed]);
-						$credit->save();
-						//$credit->update(['claimed' => $service->duration / 60]);
+						// Get the remaining time on the credit
+						$remaining = $credit->value - $credit->claimed;
 
-						// If we've used the credit up, remove it
-						if ($credit->value == $credit->claimed)
+						if ($remaining >= $service->duration)
 						{
+							// Update the credit
+							$newClaimed = ($credit->claimed + $service->duration) / 60;
+							$credit->fill(['claimed' => $newClaimed]);
+							$credit->save();
+							//$credit->update(['claimed' => $service->duration / 60]);
+
+							// If we've used the credit up, remove it
+							if ($credit->value == $credit->claimed)
+							{
+								$credit->delete();
+							}
+
+							// Update the item
+							$item->update([
+								'paid'		=> (int) true,
+								'amount'	=> 0,
+								'received'	=> 0,
+							]);
+						}
+						else
+						{
+							// Get the remaining time
+							$remainingTime = $service->duration - $remaining;
+
+							// Figure out the cost per minute
+							$costPerMinute = $service->price / $service->duration;
+
+							// Update the item
+							$item->update([
+								'amount'	=> $remainingTime * $costPerMinute,
+								'received'	=> 0,
+							]);
+
+							// Update the credit
+							$credit->update(['claimed' => $credit->value / 60]);
+
+							// Remove the credit
 							$credit->delete();
 						}
 
-						// Update the item
-						$item->update([
-							'paid'		=> (int) true,
-							'amount'	=> 0,
-							'received'	=> 0,
-						]);
-					}
-					else
-					{
-						// Get the remaining time
-						$remainingTime = $service->duration - $remaining;
+						// Get the staff appointment
+						$appt = $item->appointment;
 
-						// Figure out the cost per minute
-						$costPerMinute = $service->price / $service->duration;
-
-						// Update the item
-						$item->update([
-							'amount'	=> $remainingTime * $costPerMinute,
-							'received'	=> 0,
-						]);
-
-						// Update the credit
-						$credit->update(['claimed' => $credit->value / 60]);
-
-						// Remove the credit
-						$credit->delete();
+						// Add notes to the staff appointment
+						$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 					}
 				}
-
-				// Get the staff appointment
-				$appt = $item->appointment;
-
-				// Add notes to the staff appointment
-				$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 			}
 		}
 	}
@@ -847,47 +869,76 @@ class BookingService {
 				return $c->type == 'money';
 			});
 
+			// Get the service
+			$service = $item->appointment->service;
+
 			if ($credits->count() > 0)
 			{
 				foreach ($credits as $credit)
 				{
-					// Get the remaining credit available
-					$remaining = $credit->value - $credit->claimed;
-
-					if ($remaining >= $item->due())
+					if ($service->staff_id == $credit->staff_id)
 					{
-						// Update the credit
-						$credit->update(['claimed' => $credit->claimed + $item->due()]);
+						// Get the remaining credit available
+						$remaining = $credit->value - $credit->claimed;
 
-						// If we've used the credit up, remove it
-						if ($credit->value == $credit->claimed)
+						if ($remaining >= $item->due())
 						{
+							// Update the credit
+							$credit->update(['claimed' => $credit->claimed + $item->due()]);
+
+							// If we've used the credit up, remove it
+							if ($credit->value == $credit->claimed)
+							{
+								$credit->delete();
+							}
+
+							// Update the item
+							$item->update([
+								'paid'		=> (int) true,
+								'received'	=> $item->amount,
+							]);
+						}
+						else
+						{
+							// Update the item
+							$item->update(['received' => $item->received + $remaining]);
+
+							// Update the credit
+							$credit->update(['claimed' => $credit->claimed + $remaining]);
+
+							// Remove the credit
 							$credit->delete();
 						}
 
-						// Update the item
-						$item->update([
-							'paid'		=> (int) true,
-							'received'	=> $item->amount,
-						]);
+						// Get the staff appointment
+						$appt = $item->appointment;
+
+						// Add notes to the staff appointment
+						$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 					}
-					else
+				}
+			}
+		}
+	}
+
+	/**
+	 * Withdraw from a service
+	 */
+	public function withdraw($serviceId, $userId)
+	{
+		// Get the service
+		$service = $this->serviceRepo->find($serviceId);
+
+		if ($service)
+		{
+			foreach ($service->appointments as $sa)
+			{
+				foreach ($sa->userAppointments as $ua)
+				{
+					if ($ua->user_id == $userId)
 					{
-						// Update the item
-						$item->update(['received' => $item->received + $remaining]);
-
-						// Update the credit
-						$credit->update(['claimed' => $credit->claimed + $remaining]);
-
-						// Remove the credit
-						$credit->delete();
+						$ua->delete();
 					}
-
-					// Get the staff appointment
-					$appt = $item->appointment;
-
-					// Add notes to the staff appointment
-					$appt->update(['notes' => $appt->notes."\r\n(Code: ".$credit->code.")"]);
 				}
 			}
 		}

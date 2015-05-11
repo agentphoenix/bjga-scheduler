@@ -49,6 +49,16 @@
 		</div>
 
 		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label class="control-label">Summary</label>
+					{{ Form::textarea('summary', null, array('class' => 'form-control', 'rows' => 3)) }}
+					<p class="help-block">Provide a <em>brief</em> summary of the program and its goals for potential students.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-lg-4">
 				<div class="form-group{{ ($errors->has('slug')) ? ' has-error' : '' }}">
 					<label class="control-label">Slug</label>

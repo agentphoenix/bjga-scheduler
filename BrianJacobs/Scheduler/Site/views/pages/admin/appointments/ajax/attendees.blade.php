@@ -71,7 +71,7 @@
 			data: {
 				appt: $(this).data('appt'),
 				user: $(this).data('user'),
-				service: "{{ $service->id }}"
+				service: "{{ $service->id or '0' }}"
 			},
 			success: function(data)
 			{
