@@ -7,7 +7,7 @@
 			<li class="{{ ((Request::is('my-history')) ? 'active' : '') }}"><a href="{{ route('history') }}"><span class="icn-size-16">{{ $_icons['star'] }}</span>My History</a></li>
 		@endif
 			
-		<li class="{{ (Request::is('event*') ? 'active' : '') }}"><a href="{{ route('events') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Upcoming Programs</a></li>
+		<li class="{{ (Request::is('event*') ? 'active' : '') }}"><a href="{{ route('events') }}"><span class="icn-size-16">{{ $_icons['calendar'] }}</span>Upcoming Events</a></li>
 		<li class="{{ (Request::is('locations') ? 'active' : '') }}"><a href="{{ route('locations') }}"><span class="icn-size-16">{{ $_icons['map'] }}</span>Our Locations</a></li>
 
 		@if (Auth::check())

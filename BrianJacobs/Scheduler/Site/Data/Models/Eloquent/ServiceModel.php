@@ -127,6 +127,11 @@ class ServiceModel extends Model {
 		return $collection;
 	}
 
+	public function getFirstAppointment()
+	{
+		return $this->appointments->sortBy('start')->first();
+	}
+
 	public function isLesson()
 	{
 		return (bool) ($this->serviceOccurrences->count() == 0 and $this->user_limit == 1);
