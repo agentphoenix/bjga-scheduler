@@ -102,4 +102,9 @@ class ServicePresenter extends Presenter {
 		return false;
 	}
 
+	public function summary()
+	{
+		return Markdown::parse($this->entity->summary);
+	}
+
 }

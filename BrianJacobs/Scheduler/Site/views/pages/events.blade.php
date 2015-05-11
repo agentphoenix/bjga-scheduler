@@ -22,6 +22,9 @@
 							{{ $event->present()->name }}
 							<small>{{ $event->present()->price }}</small>
 						</h2>
+
+						{{ $event->present()->summary }}
+
 						<div class="visible-xs visible-sm">
 							<p><a href="{{ route('event', array($event->slug)) }}" class="btn btn-default btn-lg btn-block">More Info</a></p>
 							@if (Auth::check())
