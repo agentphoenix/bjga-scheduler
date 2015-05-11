@@ -100,11 +100,11 @@
 									</div>
 								@endif
 
-								<div class="btn-group">
-									<a href="{{ route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-sm icn-size-16">{{ $_icons['edit'] }}</a>
-								</div>
-
 								@if ( ! $sa->hasEnded())
+									<div class="btn-group">
+										<a href="{{ route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-sm icn-size-16">{{ $_icons['edit'] }}</a>
+									</div>
+
 									<div class="btn-group">
 										<a href="#" class="btn btn-danger btn-sm icn-size-16 js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">{{ $_icons['reject'] }}</a>
 									</div>
@@ -113,11 +113,11 @@
 						</div>
 						<div class="visible-xs visible-sm">
 							<div class="row">
-								<div class="col-sm-4">
-									<p><a href="{{ route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-lg btn-block">Edit Appointment</a></p>
-								</div>
-
 								@if ( ! $sa->hasEnded())
+									<div class="col-sm-4">
+										<p><a href="{{ route('admin.appointment.edit', array($sa->id)) }}" class="btn btn-default btn-lg btn-block">Edit Appointment</a></p>
+									</div>
+									
 									<div class="col-sm-4">
 										<p><a href="#" class="btn btn-danger btn-lg btn-block js-withdraw" data-type="staff" data-appointment="{{ $sa->id }}">Cancel Appointment</a></p>
 									</div>
