@@ -97,6 +97,8 @@
 			</div>
 		</div>
 	@endif
+
+	<div style="clear:both;"></div>
 @stop
 
 @section('modals')

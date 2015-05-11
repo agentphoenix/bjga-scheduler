@@ -38,6 +38,16 @@
 					</div>
 				@endif
 
+				@if ($appt->service->isLesson())
+					<?php $user = $appt->userAppointments->first()->user;?>
+
+					@if ($user->plan)
+						<div class="btn-group">
+							<a href="{{ route('plan', [$user->id]) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Student's Development Plan">{{ $_icons['target'] }}</a>
+						</div>
+					@endif
+				@endif
+
 				@if ($appt->service->isLesson() or $appt->service->isProgram())
 					@if ($appt->userAppointments->count() > 0)
 						<div class="btn-group">
