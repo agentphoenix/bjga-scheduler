@@ -40,7 +40,7 @@ class ServicePresenter extends Presenter {
 
 					//$formattedTotal = money_format('%i', $total);
 					$formattedTotal = sprintf('%01.2f', $total);
-					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
+					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ","));
 
 					$output = "$".$finalTotal;
 				}
@@ -50,7 +50,7 @@ class ServicePresenter extends Presenter {
 
 					//$formattedTotal = money_format('%i', $month);
 					$formattedTotal = sprintf('%01.2f', $month);
-					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
+					$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ","));
 					
 					$output = "$".$finalTotal." <small>per month</small>";
 				}
@@ -61,7 +61,7 @@ class ServicePresenter extends Presenter {
 
 				//$formattedTotal = money_format('%i', $total);
 				$formattedTotal = sprintf('%01.2f', $total);
-				$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
+				$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ","));
 
 				$output = "$".$finalTotal;
 			}
@@ -69,7 +69,7 @@ class ServicePresenter extends Presenter {
 			{
 				//$formattedTotal = money_format('%i', $entity->price);
 				$formattedTotal = sprintf('%01.2f', $entity->price);
-				$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ""));
+				$finalTotal = str_replace(".00", "", (string)number_format($formattedTotal, 2, ".", ","));
 
 				$output = "$".$finalTotal;
 			}
