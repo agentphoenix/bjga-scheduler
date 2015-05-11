@@ -34,7 +34,7 @@
 			<div class="btn-toolbar pull-right">
 				@if ($appt->service->isProgram())
 					<div class="btn-group">
-						<a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="More Info">{{ $_icons['info'] }}</a>
+						<a href="{{ route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="More Info">{{ $_icons['info'] }}</a>
 					</div>
 				@endif
 
@@ -47,17 +47,15 @@
 					
 					<div class="btn-group">
 						@if ($appt->service->isLesson())
-							<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Appointment">{{ $_icons['edit'] }}</a>
+							@if ($appt->service->isRecurring())
+								<a href="{{ route('admin.appointment.recurring.edit', array($appt->recur_id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Series">{{ $_icons['edit'] }}</a>
+							@else
+								<a href="{{ route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Appointment">{{ $_icons['edit'] }}</a>
+							@endif
 						@else
-							<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Service">{{ $_icons['edit'] }}</a>
+							<a href="{{ route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Service">{{ $_icons['edit'] }}</a>
 						@endif
 					</div>
-
-					@if ($appt->service->isRecurring())
-						<div class="btn-group">
-							<a href="{{ URL::route('admin.appointment.recurring.edit', array($appt->recur_id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Series">{{ $_icons['recur'] }}</a>
-						</div>
-					@endif
 
 					@if ($appt->service->isLesson())
 						@if ((bool) $appt->userAppointments->first()->paid === false)
@@ -71,12 +69,14 @@
 						</div>
 					@endif
 
-					<div class="btn-group">
-						<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw js-tooltip-top" data-type="staff" data-appointment="{{ $appt->id }}" data-title="Cancel Appointment">{{ $_icons['reject'] }}</a>
-					</div>
+					@if ($appt->service->isLesson() and ! $appt->service->isRecurring())
+						<div class="btn-group">
+							<a href="#" class="btn btn-sm btn-danger icn-size-16 js-withdraw js-tooltip-top" data-type="staff" data-appointment="{{ $appt->id }}" data-title="Cancel Appointment">{{ $_icons['reject'] }}</a>
+						</div>
+					@endif
 				@else
 					<div class="btn-group">
-						<a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="View Schedule">{{ $_icons['calendar'] }}</a>
+						<a href="{{ route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="View Schedule">{{ $_icons['calendar'] }}</a>
 					</div>
 				@endif
 			</div>

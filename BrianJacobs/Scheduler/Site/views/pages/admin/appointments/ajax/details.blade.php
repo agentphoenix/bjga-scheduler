@@ -45,7 +45,7 @@
 </div>
 
 @if ($appt->service->isProgram())
-	<p><a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">More Info</a></p>
+	<p><a href="{{ route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">More Info</a></p>
 @endif
 
 @if ($appt->service->isLesson() or $appt->service->isProgram())
@@ -55,15 +55,15 @@
 	
 	<p>
 		@if ($appt->service->isLesson())
-			<a href="{{ URL::route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Appointment</a>
+			@if ($appt->service->isRecurring())
+				<a href="{{ route('admin.appointment.recurring.edit', array($appt->recur_id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Series</a>
+			@else
+				<a href="{{ route('admin.appointment.edit', array($appt->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Appointment</a>
+			@endif
 		@else
-			<a href="{{ URL::route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Service</a>
+			<a href="{{ route('admin.service.edit', array($appt->service->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Service</a>
 		@endif
 	</p>
-
-	@if ($appt->service->isRecurring())
-		<p><a href="{{ URL::route('admin.appointment.recurring.edit', array($appt->recur_id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">Edit Series</a></p>
-	@endif
 
 	@if ($appt->service->isLesson())
 		@if ((bool) $appt->userAppointments->first()->paid === false)
@@ -73,9 +73,11 @@
 		<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-mobile-attendees" data-id="{{ $appt->id }}">See All Attendees</a></p>
 	@endif
 
-	<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-mobile-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
+	@if ($appt->service->isLesson() and ! $appt->service->isRecurring())
+		<p><a href="#" class="btn btn-lg btn-block btn-danger icn-size-16 js-mobile-withdraw" data-type="staff" data-appointment="{{ $appt->id }}">Cancel Appointment</a></p>
+	@endif
 @else
-	<p><a href="{{ URL::route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">View Schedule</a></p>
+	<p><a href="{{ route('admin.staff.schedule', array($_currentUser->staff->id)) }}" class="btn btn-lg btn-block btn-default icn-size-16">View Schedule</a></p>
 @endif
 
 <p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16" data-dismiss="modal">Close</a></p>
