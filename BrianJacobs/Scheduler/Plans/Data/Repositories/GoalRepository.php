@@ -61,4 +61,19 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		return $timeline;
 	}
 
+	public function update($id, array $data)
+	{
+		// Get the goal
+		$goal = $this->getById($id);
+
+		if ($goal)
+		{
+			$goal->fill($data)->save();
+
+			return $goal;
+		}
+
+		return false;
+	}
+
 }

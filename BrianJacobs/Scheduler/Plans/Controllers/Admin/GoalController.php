@@ -59,36 +59,34 @@ class GoalController extends BaseController {
 
 	public function edit($id)
 	{
-		// Get the plan
-		$plan = $this->plans->getById($id, ['user', 'instructors', 'instructors.user']);
-
-		// Get all the instructors
-		$staff[''] = "Please select an instructor";
-		$staff += $this->staff->allForDropdown();
-
-		foreach ($plan->instructors as $instructor)
-		{
-			unset($staff[$instructor->id]);
-		}
+		// Get the goal
+		$goal = $this->goals->getById($id);
 
 		return partial('common/modal_content', [
-			'modalHeader'	=> "Add Instructor to Development Plan",
-			'modalBody'		=> View::make('pages.devplans.admin.instructors', compact('plan', 'staff')),
+			'modalHeader'	=> "Edit Goal",
+			'modalBody'		=> View::make('pages.devplans.goals.edit', compact('goal')),
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function update($id)
 	{
-		// Update the plan
-		$plan = $this->plans->addInstructor($id, Input::get('instructor'));
+		// Update the goal
+		$goal = $this->goals->update($id, Input::all());
 
 		// Fire the event
-		Event::fire('plan.updated', [$plan, Input::get('instructor')]);
+		Event::fire('goal.updated', [$goal]);
 
-		return Redirect::route('admin.plan.index')
+		if ($goal->user->id != $this->currentUser->isStaff())
+		{
+			return Redirect::route('plan', [$goal->plan->user_id])
+				->with('messageStatus', 'success')
+				->with('message', "Goal was successfully updated!");
+		}
+
+		return Redirect::route('plan')
 			->with('messageStatus', 'success')
-			->with('message', "Instructor added to development plan!");
+			->with('message', "Goal was successfully updated!");
 	}
 
 	public function remove($id)

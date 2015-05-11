@@ -38,5 +38,16 @@ class Goal extends Model {
 	{
 		return $this->hasMany('Stat');
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Model Methods
+	|--------------------------------------------------------------------------
+	*/
+
+	public function isComplete()
+	{
+		return (bool) ($this->completed == 1);
+	}
 	
 }
