@@ -25,10 +25,27 @@
 							<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a><br><br>
 
 							<a href="#" class="btn btn-default btn-lg btn-block js-planAction" data-action="goal-edit" data-item="{{ $item->id }}">Edit Goal</a>
+
+							<a href="#" class="btn btn-danger btn-lg btn-block js-planAction" data-action="goal-remove" data-item="{{ $item->id }}">Remove Goal</a>
+
+							@if ($item->isComplete())
+								<a href="#" class="btn btn-default btn-lg btn-block js-planAction" data-action="goal-status" data-status="open" data-item="{{ $item->id }}">Re-Open Goal</a>
+							@else
+								<a href="#" class="btn btn-primary btn-lg btn-block js-planAction" data-action="goal-status" data-status="complete" data-item="{{ $item->id }}">Mark Complete</a>
+							@endif
 						</div>
 						<div class="visible-md visible-lg">
 							<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-sm">View Goal</a>
+
 							<a href="#" class="btn btn-link js-planAction" data-action="goal-edit" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
+							
+							<a href="#" class="btn btn-link js-planAction" data-action="goal-remove" data-item="{{ $item->id }}">{{ $_icons['remove'] }}</a>
+
+							@if ($item->isComplete())
+								<a href="#" class="btn btn-link js-planAction js-tooltip-top" title="Re-Open Goal" data-action="goal-status" data-status="open" data-item="{{ $item->id }}">{{ $_icons['target'] }}</a>
+							@else
+								<a href="#" class="btn btn-link js-planAction js-tooltip-top" title="Mark Goal Complete" data-action="goal-status" data-status="complete" data-item="{{ $item->id }}">{{ $_icons['check'] }}</a>
+							@endif
 						</div>
 						<span class="cd-date">{{ $item->present()->created }}</span>
 					</div> <!-- cd-timeline-content -->

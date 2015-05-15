@@ -102,11 +102,12 @@
 
 			var action = $(this).data('action');
 			var item = $(this).data('item');
+			var status = $(this).data('status');
 
 			if (action == 'goal-add')
 			{
 				$('#addGoal').modal({
-					remote: "{{ URL::to('admin/goal') }}/" + plan + "/create"
+					remote: "{{ URL::to('admin/goal') }}/" + item + "/create"
 				}).modal('show');
 			}
 
@@ -115,6 +116,30 @@
 				$('#editGoal').modal({
 					remote: "{{ URL::to('admin/goal') }}/" + item + "/edit"
 				}).modal('show');
+			}
+
+			if (action == 'goal-remove')
+			{
+				$('#removeGoal').modal({
+					remote: "{{ URL::to('admin/goal') }}/" + item + "/remove"
+				}).modal('show');
+			}
+
+			if (action == 'goal-status')
+			{
+				$.ajax({
+					url: "{{ route('admin.goal.update-status') }}",
+					type: "POST",
+					data: {
+						"_token": "{{ csrf_token() }}",
+						goal: item,
+						status: status
+					},
+					success: function (data)
+					{
+						window.location.reload(true);
+					}
+				});
 			}
 		});
 	</script>

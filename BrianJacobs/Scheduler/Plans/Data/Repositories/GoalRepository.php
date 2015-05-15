@@ -20,6 +20,32 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		return $this->model->create($data);
 	}
 
+	public function delete($id)
+	{
+		// Get the goal
+		$goal = $this->getById($id, ['conversations', 'stats']);
+
+		if ($goal)
+		{
+			$goal->conversations->each(function($g)
+			{
+				$g->delete();
+			});
+
+			$goal->stats->each(function($s)
+			{
+				$s->delete();
+			});
+
+			// Remove the goal
+			$goal->delete();
+
+			return $goal;
+		}
+
+		return false;
+	}
+
 	public function getUserGoalTimeline(Plan $plan, $goalId)
 	{
 		$goal = $plan->goals->filter(function($g) use ($goalId)

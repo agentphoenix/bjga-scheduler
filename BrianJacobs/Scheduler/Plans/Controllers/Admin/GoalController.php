@@ -1,8 +1,10 @@
 <?php namespace Plans\Controllers\Admin;
 
-use View,
+use Date,
+	View,
 	Event,
 	Input,
+	Session,
 	Redirect,
 	GoalRepositoryInterface,
 	PlanRepositoryInterface,
@@ -77,41 +79,60 @@ class GoalController extends BaseController {
 		// Fire the event
 		Event::fire('goal.updated', [$goal]);
 
-		if ($goal->user->id != $this->currentUser->isStaff())
+		return Redirect::back()
+			->with('messageStatus', 'success')
+			->with('message', "Goal was updated.");
+
+		/*if ($this->currentUser->isStaff())
 		{
-			return Redirect::route('plan', [$goal->plan->user_id])
+			return Redirect::route('plan', [$goal->plan->user->id])
 				->with('messageStatus', 'success')
 				->with('message', "Goal was successfully updated!");
 		}
 
 		return Redirect::route('plan')
 			->with('messageStatus', 'success')
-			->with('message', "Goal was successfully updated!");
+			->with('message', "Goal was successfully updated!");*/
 	}
 
 	public function remove($id)
 	{
-		// Get the plan
-		$plan = $this->plans->getById($id, ['user']);
+		// Get the goal
+		$goal = $this->goals->getById($id, ['plan', 'plan.user']);
 
 		return partial('common/modal_content', [
-			'modalHeader'	=> "Remove Development Plan",
-			'modalBody'		=> View::make('pages.devplans.admin.remove', compact('plan')),
+			'modalHeader'	=> "Remove Goal",
+			'modalBody'		=> View::make('pages.devplans.goals.remove', compact('goal')),
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function destroy($id)
 	{
-		// Remove the plan
-		$plan = $this->plans->delete($id);
+		// Remove the goal
+		$goal = $this->goals->delete($id);
 
 		// Fire the event
-		Event::fire('plan.deleted', [$plan]);
+		Event::fire('goal.deleted', [$goal]);
 
-		return Redirect::route('admin.plan.index')
+		return Redirect::back()
 			->with('messageStatus', 'success')
-			->with('message', "Development plan removed!");
+			->with('message', "Goal was removed.");
+	}
+
+	public function changeStatus()
+	{
+		$updateData = [
+			'completed' => (Input::get('status') == 'complete') ? 1 : 0,
+			'completed_date' => (Input::get('status') == 'complete') ? Date::now() : null
+		];
+
+		// Update the goal
+		$goal = $this->goals->update(Input::get('goal'), $updateData);
+
+		// Flash the message
+		Session::flash('messageStatus', 'success');
+		Session::flash('message', (Input::get('status') == 'complete') ? "Goal has been completed." : "Goal has been re-opened.");
 	}
 
 	public function checkPermissions()

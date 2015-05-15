@@ -44,6 +44,9 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 			Route::get('goal/{id}/create', [
 				'as'	=> 'admin.goal.create',
 				'uses'	=> 'GoalController@create']);
+			Route::post('goal/{id}/update-status', [
+				'as'	=> 'admin.goal.update-status',
+				'uses'	=> 'GoalController@changeStatus']);
 
 			Route::resource('plan', 'PlanController', ['except' => ['show']]);
 			Route::resource('goal', 'GoalController', ['except' => ['show']]);
