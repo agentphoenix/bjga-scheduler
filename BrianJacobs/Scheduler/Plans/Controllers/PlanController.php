@@ -46,10 +46,15 @@ class PlanController extends BaseController {
 		// Get the plan
 		$plan = $user->plan;
 
-		// Get the plan timeline
-		$timeline = $this->plans->getUserPlanTimeline($plan);
+		if ($plan)
+		{
+			// Get the plan timeline
+			$timeline = $this->plans->getUserPlanTimeline($plan);
 
-		return View::make('pages.devplans.plan', compact('plan', 'timeline', 'userId', 'user'));
+			return View::make('pages.devplans.plan', compact('plan', 'timeline', 'userId', 'user'));
+		}
+
+		return $this->errorNotFound("This user does not have a development plan.");
 	}
 
 	public function goal($userId = false, $goalId)

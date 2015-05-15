@@ -28,4 +28,12 @@ abstract class BaseController extends Controller {
 			return View::make('pages.admin.error')->withError($message);
 	}
 
+	protected function errorNotFound($message = false)
+	{
+		Log::error("{$this->currentUser->name} attempted to access {$this->request->fullUrl()}");
+
+		if ($message)
+			return View::make('pages.admin.error')->withError($message);
+	}
+
 }
