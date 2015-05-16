@@ -20,7 +20,7 @@
 					<div class="form-group">
 						<label class="control-label">Student</label>
 						<div class="controls">
-							{{ Form::select('user', UserModel::all()->lists('name', 'id'), $_currentUser->id, array('class' => 'form-control')) }}
+							{{ Form::select('user', UserModel::all()->sortBy('name')->lists('name', 'id'), $_currentUser->id, array('class' => 'form-control')) }}
 						</div>
 					</div>
 				</div>
