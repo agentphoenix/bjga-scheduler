@@ -93,12 +93,42 @@ class StaffRepository implements StaffRepositoryInterface {
 
 		if ($staff)
 		{
-			// First, we need to clear out their schedule so we don't have any
-			// orphaned rows of data
-			foreach ($staff->schedule as $schedule)
+			// Remove any credits
+			$staff->credits->each(function($c)
 			{
-				$schedule->delete();
-			}
+				$c->delete();
+			});
+
+			// Remove any recurring appointments
+			$staff->recurringAppointments->each(function($r)
+			{
+				$r->delete();
+			});
+
+			// Remove staff and user appointments
+			$staff->appointments()->withTrashed()->get()->each(function($a)
+			{
+				// Remove the user appointments for the staff appointment
+				$a->userAppointments()->withTrashed()->get()->each(function($u)
+				{
+					$u->forceDelete();
+				});
+
+				// Remove the staff appointment
+				$a->forceDelete();
+			});
+
+			// Remove services
+			$staff->services->each(function($s)
+			{
+				$s->delete();
+			});
+
+			// Remove the schedule
+			$staff->schedule->each(function($s)
+			{
+				$s->delete();
+			});
 
 			// Now we can delete the staff member
 			$delete = $staff->delete();
