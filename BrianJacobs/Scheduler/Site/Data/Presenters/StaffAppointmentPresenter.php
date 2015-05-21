@@ -10,6 +10,11 @@ class StaffAppointmentPresenter extends Presenter {
 		return $this->entity->start->format(Config::get('bjga.dates.date'));
 	}
 
+	public function appointmentDateForPlan()
+	{
+		return $this->entity->start->format(Config::get('bjga.dates.dateNoDay'));
+	}
+
 	public function appointmentTime()
 	{
 		return $this->entity->start->format(Config::get('bjga.dates.time'))." - ".$this->entity->end->format(Config::get('bjga.dates.time'));
