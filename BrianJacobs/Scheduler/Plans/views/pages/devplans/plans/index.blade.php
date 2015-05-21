@@ -46,11 +46,19 @@
 				</div>
 				<div class="col-md-3">
 					<div class="visible-xs visible-sm">
-						<p><a href="{{ route('plan', [$plan->user_id]) }}" class="btn btn-default btn-lg btn-block">View Development Plan</a></p>
+						<div class="row">
+							<div class="col-xs-12">
+								<p><a href="{{ route('plan', [$plan->user_id]) }}" class="btn btn-default btn-lg btn-block">View Development Plan</a></p>
+							</div>
 
-						<p><a href="#" class="btn btn-default btn-lg btn-block js-planAction" data-action="instructor" data-id="{{ $plan->id }}">Manage Instructors</a></p>
-						
-						<p><a href="#" class="btn btn-danger btn-lg btn-block js-planAction" data-action="remove" data-id="{{ $plan->id }}">Remove Development Plan</a></p>
+							<div class="col-xs-12 col-sm-6">
+								<p><a href="#" class="btn btn-default btn-lg btn-block js-planAction" data-action="instructor" data-id="{{ $plan->id }}">Manage Instructors</a></p>
+							</div>
+
+							<div class="col-xs-12 col-sm-6">
+								<p><a href="#" class="btn btn-danger btn-lg btn-block js-planAction" data-action="remove" data-id="{{ $plan->id }}">Remove Development Plan</a></p>
+							</div>
+						</div>
 					</div>
 					<div class="visible-md visible-lg">
 						<div class="btn-toolbar pull-right">
