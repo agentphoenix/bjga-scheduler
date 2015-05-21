@@ -48,8 +48,29 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 				'as'	=> 'admin.goal.update-status',
 				'uses'	=> 'GoalController@changeStatus']);
 
+			Route::get('conversation/{goalId}/create', [
+				'as'	=> 'admin.conversation.create',
+				'uses'	=> 'ConversationController@create']);
+			Route::post('conversation/{goalId}', [
+				'as'	=> 'admin.conversation.store',
+				'uses'	=> 'ConversationController@store']);
+			Route::get('conversation/{id}/remove', [
+				'as'	=> 'admin.conversation.remove',
+				'uses'	=> 'ConversationController@remove']);
+			Route::delete('conversation/{id}', [
+				'as'	=> 'admin.conversation.destroy',
+				'uses'	=> 'ConversationController@destroy']);
+
+			Route::get('stats/{goalId}/create', [
+				'as'	=> 'admin.stats.create',
+				'uses'	=> 'StatsController@create']);
+			Route::post('stats/{goalId}', [
+				'as'	=> 'admin.stats.store',
+				'uses'	=> 'StatsController@store']);
+
 			Route::resource('plan', 'PlanController', ['except' => ['show']]);
 			Route::resource('goal', 'GoalController', ['except' => ['show']]);
+			Route::resource('stats', 'StatsController', ['except' => ['index', 'show']]);
 		});
 	}
 
