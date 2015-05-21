@@ -71,5 +71,13 @@ class StaffModel extends Model {
 			return $s->day == $day;
 		})->first();
 	}
+
+	public function isPlanInstructor($plan)
+	{
+		return (bool) $this->plans->filter(function($p) use ($plan)
+		{
+			return $p->id == $plan;
+		})->count() > 0;
+	}
 	
 }

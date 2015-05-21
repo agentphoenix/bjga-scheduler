@@ -42,7 +42,6 @@ class CreateDevelopmentPlansTables extends Migration {
 		Schema::create('plans_conversations', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
-			$table->integer('plan_id')->unsigned();
 			$table->bigInteger('goal_id')->unsigned();
 			$table->integer('user_id')->unsigned();
 			$table->text('content');
@@ -60,9 +59,17 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->integer('gir')->nullable();
 			$table->integer('putts')->nullable();
 			$table->integer('penalties')->nullable();
+			$table->integer('minutes')->nullable();
+			$table->integer('balls')->nullable();
+			$table->integer('holes')->nullable();
 			$table->text('notes')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
+		});
+
+		Schema::table('staff_appointments', function(Blueprint $table)
+		{
+			$table->bigInteger('plan_goal_id')->unsigned()->nullable()->after('occurrence_id');
 		});
 	}
 
@@ -78,6 +85,11 @@ class CreateDevelopmentPlansTables extends Migration {
 		Schema::dropIfExists('plans_goals');
 		Schema::dropIfExists('plans_conversations');
 		Schema::dropIfExists('plans_goals_stats');
+
+		Schema::table('staff_appointments', function(Blueprint $table)
+		{
+			$table->dropColumn('plan_goal_id');
+		});
 	}
 
 }

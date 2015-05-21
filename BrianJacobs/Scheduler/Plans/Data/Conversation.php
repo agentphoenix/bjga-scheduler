@@ -9,7 +9,7 @@ class Conversation extends Model {
 
 	protected $table = 'plans_conversations';
 
-	protected $fillable = ['plan_id', 'goal_id', 'user_id', 'content'];
+	protected $fillable = ['goal_id', 'user_id', 'content'];
 
 	protected $dates = ['created_at', 'updated_at'];
 
@@ -20,11 +20,6 @@ class Conversation extends Model {
 	| Relationships
 	|--------------------------------------------------------------------------
 	*/
-
-	public function plan()
-	{
-		return $this->belongsTo('Plan');
-	}
 
 	public function goal()
 	{

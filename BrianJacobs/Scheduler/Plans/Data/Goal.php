@@ -34,6 +34,11 @@ class Goal extends Model {
 		return $this->hasMany('Conversation');
 	}
 
+	public function lessons()
+	{
+		return $this->hasMany('StaffAppointmentModel', 'plan_goal_id');
+	}
+
 	public function stats()
 	{
 		return $this->hasMany('Stat');

@@ -13,7 +13,7 @@ class StaffAppointmentModel extends Model {
 
 	protected $fillable = array(
 		'staff_id', 'service_id', 'recur_id', 'occurrence_id', 'start', 'end', 
-		'notes', 'location_id',
+		'notes', 'location_id', 'plan_goal_id',
 	);
 
 	protected $dates = array('start', 'end', 'created_at', 'updated_at', 'deleted_at');
@@ -54,6 +54,11 @@ class StaffAppointmentModel extends Model {
 	public function location()
 	{
 		return $this->belongsTo('LocationModel', 'location_id');
+	}
+
+	public function goal()
+	{
+		return $this->belongsTo('Goal', 'plan_goal_id');
 	}
 
 	/*
