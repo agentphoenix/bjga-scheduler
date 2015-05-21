@@ -90,7 +90,7 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 
 	public function getUserPlanTimeline(Model $plan)
 	{
-		$plan = $plan->load('goals', 'conversations', 'conversations.user', 'goals.conversations', 'goals.conversations.user', 'goals.conversations.goal', 'goals.stats', 'goals.stats.goal');
+		$plan = $plan->load('goals', 'goals.conversations', 'goals.conversations.user', 'goals.conversations.goal', 'goals.stats', 'goals.stats.goal', 'goals.lessons', 'goals.lessons.service');
 
 		$timeline = [];
 
@@ -125,15 +125,16 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 					$timeline[$timestamp] = $stat;
 				}
 			}
-		}
 
-		if ($plan->conversations->count() > 0)
-		{
-			foreach ($plan->conversations as $conversation)
+			// Goal lessons
+			if ($goal->lessons->count() > 0)
 			{
-				$timestamp = $conversation->created_at->format('U');
+				foreach ($goal->lessons as $lesson)
+				{
+					$timestamp = $lesson->start->format('U');
 
-				$timeline[$timestamp] = $conversation;
+					$timeline[$timestamp] = $lesson;
+				}
 			}
 		}
 

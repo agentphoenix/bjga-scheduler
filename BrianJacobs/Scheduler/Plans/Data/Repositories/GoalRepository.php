@@ -57,7 +57,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 
 		if ($goal)
 		{
-			$goal = $goal->load('conversations', 'conversations.user', 'stats', 'plan', 'plan.user');
+			$goal = $goal->load('conversations', 'conversations.user', 'stats', 'lessons', 'lessons.service', 'plan', 'plan.user');
 
 			// Goal conversations
 			if ($goal->conversations->count() > 0)
@@ -78,6 +78,17 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 					$timestamp = $stat->created_at->format('U');
 
 					$timeline[$timestamp] = $stat;
+				}
+			}
+
+			// Lessons
+			if ($goal->lessons->count() > 0)
+			{
+				foreach ($goal->lessons as $lesson)
+				{
+					$timestamp = $lesson->start->format('U');
+
+					$timeline[$timestamp] = $lesson;
 				}
 			}
 
