@@ -18,4 +18,19 @@ class ConversationRepository extends BaseRepository implements ConversationRepos
 		return $this->model->create($data);
 	}
 
+	public function delete($id)
+	{
+		// Get the comment
+		$comment = $this->getById($id);
+
+		if ($comment)
+		{
+			$comment->delete();
+
+			return $comment;
+		}
+
+		return false;
+	}
+
 }

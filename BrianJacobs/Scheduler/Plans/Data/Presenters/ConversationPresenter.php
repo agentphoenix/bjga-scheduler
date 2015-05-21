@@ -15,7 +15,7 @@ class ConversationPresenter extends Presenter {
 		return partial('common.blockquote', [
 			'author'	=> $this->entity->user->present()->name,
 			'content'	=> Markdown::parse($this->entity->content),
-			'class'		=> false,
+			'class'		=> ($this->entity->user->isStaff() and $this->entity->user->staff->isPlanInstructor($this->entity->goal->plan->id)) ? 'quote-staff' : false,
 		]);
 	}
 
