@@ -41,10 +41,5 @@ class Plan extends Model {
 	{
 		return $this->belongsTo('UserModel', 'user_id');
 	}
-
-	public function conversations()
-	{
-		return $this->hasMany('Conversation')->orderBy('created_at', 'desc');
-	}
 	
 }
