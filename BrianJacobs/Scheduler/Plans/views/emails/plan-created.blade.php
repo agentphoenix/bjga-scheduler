@@ -12,7 +12,7 @@
 
 		<p>Within your development plan, we'll be able to create goals, have conversations about those goals, and even enter statistics for practice, TrackMan Combine results, and rounds on the golf course. This is a great way to keep track of everything related to your instruction with us and we encourage you to take advantage of it. You can use the link below to get to your development plan and start setting goals today!</p>
 
-		<p><a href="{{ route('my-plan') }}">Your Personal Development Plan</a></p>
+		<p><a href="{{ route('plan') }}">Your Personal Development Plan</a></p>
 
 		<p>Thank you, we look forward to serving you.</p>
 	</body>
