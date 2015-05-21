@@ -15,6 +15,15 @@ class StatPresenter extends Presenter {
 		return $this->entity->goal->present()->title;
 	}
 
+	public function header()
+	{
+		if ($this->entity->type == 'round') return "On-Course Round Stats";
+
+		if ($this->entity->type == 'trackman') return "TrackMan Combine Results";
+		
+		if ($this->entity->type == 'practice') return "Practice Session Stats";
+	}
+
 	public function notes()
 	{
 		return Markdown::parse($this->entity->notes);
