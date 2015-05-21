@@ -15,9 +15,9 @@ if ( ! function_exists('partial'))
 
 		// Make sure we have data before attaching it
 		if ($data !== false)
-			return $viewObj->with($data);
+			return $viewObj->with($data)->render();
 
-		return $viewObj;
+		return $viewObj->render();
 	}
 }
 
@@ -35,7 +35,8 @@ if ( ! function_exists('modal'))
 			->with('modalId', (array_key_exists('id', $data)) ? $data['id'] : false)
 			->with('modalHeader', (array_key_exists('header', $data)) ? $data['header'] : false)
 			->with('modalBody', (array_key_exists('body', $data)) ? $data['body'] : false)
-			->with('modalFooter', (array_key_exists('footer', $data)) ? $data['footer'] : false);
+			->with('modalFooter', (array_key_exists('footer', $data)) ? $data['footer'] : false)
+			->render();
 	}
 }
 
@@ -45,6 +46,7 @@ if ( ! function_exists('alert'))
 	{
 		return View::make('partials.common.alert')
 			->withClass($level)
-			->withContent($message);
+			->withContent($message)
+			->render();
 	}
 }
