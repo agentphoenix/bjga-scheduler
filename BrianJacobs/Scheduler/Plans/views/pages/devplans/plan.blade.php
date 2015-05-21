@@ -44,14 +44,14 @@
 
 @section('scripts')
 	<script>
-		jQuery(document).ready(function($)
+		$(function($)
 		{
 			var $timeline_block = $('.cd-timeline-block.unchanged');
 
 			// Hide timeline blocks which are outside the viewport
 			$timeline_block.each(function()
 			{
-				if ($(this).offset().top > $(window).scrollTop() + $(window).height() * 0.85)
+				if ($(this).offset().top > $(window).scrollTop() + $(window).height() * 0.95)
 				{
 					$(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
 				}
@@ -62,7 +62,7 @@
 			{
 				$timeline_block.each(function()
 				{
-					if ($(this).offset().top <= $(window).scrollTop() + $(window).height() * 0.85 && 
+					if ($(this).offset().top <= $(window).scrollTop() + $(window).height() * 0.95 && 
 							$(this).find('.cd-timeline-img').hasClass('is-hidden'))
 					{
 						$(this).find('.cd-timeline-img, .cd-timeline-content')
@@ -81,7 +81,7 @@
 
 			var text = $(this).text();
 
-			if (text == "Only Show My Goals")
+			if (text == "Only Show Goals")
 			{
 				$('.cd-timeline-block:not(.cd-timeline-goal)').addClass('hide');
 				$('.cd-timeline-block.cd-timeline-goal')
@@ -92,7 +92,7 @@
 			else
 			{
 				$('.cd-timeline-block:not(.cd-timeline-goal)').removeClass('hide');
-				$(this).text("Only Show My Goals");
+				$(this).text("Only Show Goals");
 			}
 		});
 

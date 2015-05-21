@@ -9,12 +9,15 @@
 
 	<div class="visible-xs visible-sm">
 		<div class="row">
-			<div class="col-xs-6 col-sm-3">
+			<div class="col-xs-12 col-sm-4">
 				<p><a href="{{ route('plan', [$userId]) }}" class="btn btn-block btn-lg btn-default">{{ ($userId) ? "Back to Plan" : "Back to My Plan" }}</a></p>
 			</div>
 			@if ( ! (bool) $goal->completed)
-				<div class="col-xs-6 col-sm-3">
-					<p><a href="#" class="btn btn-block btn-lg btn-primary">Add New Stat</a></p>
+				<div class="col-xs-6 col-sm-4">
+					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Add Comment</a></p>
+				</div>
+				<div class="col-xs-6 col-sm-4">
+					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="stats-add" data-item="{{ $goal->id }}">Add Stats</a></p>
 				</div>
 			@endif
 		</div>
@@ -26,13 +29,25 @@
 			</div>
 			@if ( ! (bool) $goal->completed)
 				<div class="btn-group">
-					<a href="#" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
+					<button type="button" class="btn btn-sm btn-primary icn-size-16 dropdown-toggle" data-toggle="dropdown">{{ $_icons['add'] }}</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#" class="js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Add Comment</a></li>
+						<li><a href="#" class="js-goalAction" data-action="stats-add" data-item="{{ $goal->id }}">Add Stats</a></li>
+					</ul>
 				</div>
 			@endif
 		</div>
 	</div>
 
 	{{ partial('timeline-goal', ['items' => $timeline, 'goal' => $goal, 'userId' => $userId]) }}
+@stop
+
+@section('modals')
+	{{ modal(['id' => 'addComment', 'header' => 'Add to the Conversation']) }}
+	{{ modal(['id' => 'removeComment', 'header' => 'Remove Comment']) }}
+	{{ modal(['id' => 'addStats', 'header' => 'Add Stats']) }}
+	{{ modal(['id' => 'editStats', 'header' => 'Edit Stats']) }}
+	{{ modal(['id' => 'removeStats', 'header' => 'Remove Stats']) }}
 @stop
 
 @section('styles')
@@ -42,14 +57,14 @@
 
 @section('scripts')
 	<script>
-		jQuery(document).ready(function($)
+		$(function($)
 		{
 			var $timeline_block = $('.cd-timeline-block.unchanged');
 
 			// Hide timeline blocks which are outside the viewport
 			$timeline_block.each(function()
 			{
-				if ($(this).offset().top > $(window).scrollTop() + $(window).height() * 0.75)
+				if ($(this).offset().top > $(window).scrollTop() + $(window).height() * 0.95)
 				{
 					$(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
 				}
@@ -60,7 +75,7 @@
 			{
 				$timeline_block.each(function()
 				{
-					if ($(this).offset().top <= $(window).scrollTop() + $(window).height() * 0.75 && 
+					if ($(this).offset().top <= $(window).scrollTop() + $(window).height() * 0.95 && 
 							$(this).find('.cd-timeline-img').hasClass('is-hidden'))
 					{
 						$(this).find('.cd-timeline-img, .cd-timeline-content')
@@ -91,6 +106,35 @@
 			{
 				$('.cd-timeline-block:not(.cd-timeline-goal)').removeClass('hide');
 				$(this).text("Show Only Goals");
+			}
+		});
+
+		$('.js-goalAction').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var action = $(this).data('action');
+			var item = $(this).data('item');
+
+			if (action == "conversation-add")
+			{
+				$('#addComment').modal({
+					remote: "{{ URL::to('admin/conversation') }}/" + item + "/create"
+				}).modal('show');
+			}
+
+			if (action == "conversation-remove")
+			{
+				$('#removeComment').modal({
+					remote: "{{ URL::to('admin/conversation') }}/" + item + "/remove"
+				}).modal('show');
+			}
+
+			if (action == "stats-add")
+			{
+				$('#addStats').modal({
+					remote: "{{ URL::to('admin/stats') }}/" + item + "/create"
+				}).modal('show');
 			}
 		});
 	</script>

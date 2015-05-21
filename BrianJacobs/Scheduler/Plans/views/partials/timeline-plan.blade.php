@@ -20,7 +20,25 @@
 								<small>Completed on {{ $item->present()->completedDate }}</small>
 							@endif
 						</h2>
+
 						{{ $item->present()->summary }}
+
+						<p class="text-muted">
+						@if ($item->conversations->count() > 0)
+							<span class="icn-size-16">{{ $_icons['comments'] }}</span>
+							&nbsp;<em>{{ $item->conversations->count() }}</em>
+							
+							@if ($item->stats->count() > 0)
+								&nbsp;&nbsp;&nbsp;
+							@endif
+						@endif
+
+						@if ($item->stats->count() > 0)
+							<span class="icn-size-16">{{ $_icons['stats'] }}</span>
+							&nbsp;<em>{{ $item->conversations->count() }}</em>
+						@endif
+						</p>
+
 						<div class="visible-xs visible-sm">
 							<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a><br><br>
 
@@ -62,9 +80,6 @@
 						@if ( ! empty($item->goal_id))
 							<h2>Comment Added to &ldquo;{{ $item->present()->goal }}&rdquo;</h2>
 						@endif
-						@if ( ! empty($item->plan_id))
-							<h2>Comment Added to Development Plan</h2>
-						@endif
 						{{ $item->present()->content }}
 						@if ( ! empty($item->goal_id))
 							<div class="visible-xs visible-sm">
@@ -86,7 +101,7 @@
 					</div> <!-- cd-timeline-img -->
 
 					<div class="cd-timeline-content">
-						<h2>Stats Added to &ldquo;{{ $item->present()->goal }}&rdquo;</h2>
+						<h2>{{ $item->present()->header }} Added to &ldquo;{{ $item->present()->goal }}&rdquo;</h2>
 						{{ $item->present()->summary }}
 						<div class="visible-xs visible-sm">
 							<p><a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
@@ -95,6 +110,35 @@
 							<a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 						</div>
 						<span class="cd-date">{{ $item->present()->created }}</span>
+					</div> <!-- cd-timeline-content -->
+				</div> <!-- cd-timeline-block -->
+			@endif
+
+			@if ($item instanceof StaffAppointmentModel)
+				<div class="cd-timeline-block unchanged cd-timeline-stat">
+					<div class="cd-timeline-img">
+						<span class="icn-size-32">{{ $_icons['golf'] }}</span>
+					</div> <!-- cd-timeline-img -->
+
+					<div class="cd-timeline-content">
+						@if ($item->service->isRecurring())
+							<h2>{{ $item->service->present()->name }} Lesson Added to &ldquo;{{ $item->goal->present()->title }}&rdquo;</h2>
+						@else
+							<h2>{{ $item->service->present()->name }} Added to &ldquo;{{ $item->goal->present()->title }}&rdquo;</h2>
+						@endif
+
+						<p>
+							{{ $item->present()->appointmentDate }}, {{ $item->present()->appointmentTime }}<br>
+							<span class="text-sm text-muted">{{ $item->present()->location }}</span>
+						</p>
+						
+						<div class="visible-xs visible-sm">
+							<p><a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
+						</div>
+						<div class="visible-md visible-lg">
+							<a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
+						</div>
+						<span class="cd-date">{{ $item->present()->appointmentDateForPlan }}</span>
 					</div> <!-- cd-timeline-content -->
 				</div> <!-- cd-timeline-block -->
 			@endif
