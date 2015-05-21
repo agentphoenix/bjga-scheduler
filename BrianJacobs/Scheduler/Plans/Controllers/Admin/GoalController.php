@@ -31,7 +31,7 @@ class GoalController extends BaseController {
 		$this->plans = $plans;
 
 		// Before filter to check if the user has permissions
-		$this->beforeFilter('@checkPermissions');
+		//$this->beforeFilter('@checkPermissions');
 	}
 
 	public function create($id)

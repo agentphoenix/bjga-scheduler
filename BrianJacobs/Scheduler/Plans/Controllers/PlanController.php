@@ -26,7 +26,7 @@ class PlanController extends BaseController {
 	{
 		if ($userId)
 		{
-			if ( ! $this->currentUser->isStaff())
+			if ( ! $this->currentUser->isStaff() and $this->currentUser->id != $userId)
 			{
 				return $this->unauthorized("You don't have permission to see development plans for other students!");
 			}
@@ -38,6 +38,9 @@ class PlanController extends BaseController {
 		{
 			// Get the user
 			$user = $this->currentUser;
+
+			// Set the user ID
+			$userId = $user->id;
 		}
 
 		// Load the plan from the user object
@@ -61,7 +64,7 @@ class PlanController extends BaseController {
 	{
 		if ($userId)
 		{
-			if ( ! $this->currentUser->isStaff())
+			if ( ! $this->currentUser->isStaff() and $this->currentUser->id != $userId)
 			{
 				return $this->unauthorized("You don't have permission to see development plans for other students!");
 			}
