@@ -40,7 +40,7 @@
 						</p>
 
 						<div class="visible-xs visible-sm">
-							<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a><br><br>
+							<a href="{{ route('goal.show', [$userId, $item->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a><br><br>
 
 							<a href="#" class="btn btn-default btn-lg btn-block js-planAction" data-action="goal-edit" data-item="{{ $item->id }}">Edit Goal</a>
 
@@ -53,7 +53,7 @@
 							@endif
 						</div>
 						<div class="visible-md visible-lg">
-							<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-sm">View Goal</a>
+							<a href="{{ route('goal.show', [$userId, $item->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 
 							<a href="#" class="btn btn-link js-planAction" data-action="goal-edit" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
 							
@@ -83,10 +83,10 @@
 						{{ $item->present()->content }}
 						@if ( ! empty($item->goal_id))
 							<div class="visible-xs visible-sm">
-								<p><a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
+								<p><a href="{{ route('goal.show', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
 							</div>
 							<div class="visible-md visible-lg">
-								<a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
+								<a href="{{ route('goal.show', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 							</div>
 						@endif
 						<span class="cd-date">{{ $item->present()->created }}</span>
@@ -104,10 +104,10 @@
 						<h2>{{ $item->present()->header }} Added to &ldquo;{{ $item->present()->goal }}&rdquo;</h2>
 						{{ $item->present()->summary }}
 						<div class="visible-xs visible-sm">
-							<p><a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
+							<p><a href="{{ route('goal.show', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
 						</div>
 						<div class="visible-md visible-lg">
-							<a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
+							<a href="{{ route('goal.show', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 						</div>
 						<span class="cd-date">{{ $item->present()->created }}</span>
 					</div> <!-- cd-timeline-content -->
@@ -133,10 +133,10 @@
 						</p>
 						
 						<div class="visible-xs visible-sm">
-							<p><a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
+							<p><a href="{{ route('goal.show', [$userId, $item->goal->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a></p>
 						</div>
 						<div class="visible-md visible-lg">
-							<a href="{{ route('plan.goal', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
+							<a href="{{ route('goal.show', [$userId, $item->goal->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 						</div>
 						<span class="cd-date">{{ $item->present()->appointmentDateForPlan }}</span>
 					</div> <!-- cd-timeline-content -->

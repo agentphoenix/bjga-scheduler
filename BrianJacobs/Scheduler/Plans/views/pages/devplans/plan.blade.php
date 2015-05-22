@@ -128,7 +128,7 @@
 			if (action == 'goal-status')
 			{
 				$.ajax({
-					url: "{{ route('admin.goal.update-status') }}",
+					url: "{{ route('goal.update-status') }}",
 					type: "POST",
 					data: {
 						"_token": "{{ csrf_token() }}",
