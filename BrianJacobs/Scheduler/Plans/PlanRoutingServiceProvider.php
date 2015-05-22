@@ -11,7 +11,7 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 	];
 
 	protected $adminOptions = [
-		'namespace' => "Plans\\Controllers\\Admin",
+		'namespace' => "Plans\\Controllers",
 		'before'	=> "auth",
 		'prefix'	=> 'admin',
 	];
@@ -23,8 +23,10 @@ class PlanRoutingServiceProvider extends ServiceProvider {
 
 	public function boot()
 	{
-		$this->adminRoutes();
-		$this->routes();
+		require __DIR__.'/routes.php';
+
+		//$this->adminRoutes();
+		//$this->routes();
 	}
 
 	protected function adminRoutes()
