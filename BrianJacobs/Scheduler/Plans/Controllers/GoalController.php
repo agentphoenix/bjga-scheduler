@@ -1,4 +1,4 @@
-<?php namespace Plans\Controllers\Admin;
+<?php namespace Plans\Controllers;
 
 use Date,
 	View,
@@ -7,63 +7,91 @@ use Date,
 	Session,
 	Redirect,
 	GoalRepositoryInterface,
-	StatRepositoryInterface;
+	PlanRepositoryInterface,
+	UserRepositoryInterface,
+	StaffRepositoryInterface;
 use Scheduler\Controllers\BaseController;
 
-class StatsController extends BaseController {
+class GoalController extends BaseController {
 
 	protected $goals;
-	protected $repo;
+	protected $users;
+	protected $staff;
+	protected $plans;
 
 	public function __construct(GoalRepositoryInterface $goals,
-			StatRepositoryInterface $stats)
+			UserRepositoryInterface $users, StaffRepositoryInterface $staff,
+			PlanRepositoryInterface $plans)
 	{
 		parent::__construct();
 
 		$this->goals = $goals;
-		$this->repo = $stats;
+		$this->users = $users;
+		$this->staff = $staff;
+		$this->plans = $plans;
 
 		// Before filter to check if the user has permissions
 		//$this->beforeFilter('@checkPermissions');
 	}
 
-	public function create($goalId)
+	public function show($userId = false, $goalId)
 	{
+		if ($userId)
+		{
+			if ( ! $this->currentUser->isStaff() and $this->currentUser->id != $userId)
+			{
+				return $this->unauthorized("You don't have permission to see development plans for other students!");
+			}
+
+			// Get the user
+			$user = $this->users->find($userId);
+		}
+		else
+		{
+			// Get the user
+			$user = $this->currentUser;
+		}
+
+		// Load the plan and goals from the user object
+		$user = $user->load('plan');
+
 		// Get the goal
 		$goal = $this->goals->getById($goalId);
 
-		// Build the types
-		$types = [
-			'' => "Choose a stat type",
-			'round' => "On-course Round",
-			'practice' => "Practice Session",
-			'trackman' => "TrackMan Combine",
-		];
+		if ( ! $goal)
+		{
+			//
+		}
 
-		$holes = [
-			9 => '9 holes',
-			18 => '18 holes',
-			'other' => 'Other',
-		];
+		// Get the goal timeline
+		$timeline = $this->goals->getUserGoalTimeline($user->plan, $goalId);
+
+		return View::make('pages.devplans.goal', compact('goal', 'timeline', 'userId', 'user'));
+	}
+
+	public function create($id)
+	{
+		// Get the plan
+		$plan = $this->plans->getById($id);
 
 		return partial('common/modal_content', [
-			'modalHeader'	=> "Add Stats",
-			'modalBody'		=> View::make('pages.devplans.stats.create', compact('goal', 'types', 'holes')),
+			'modalHeader'	=> "Add a Goal",
+			'modalBody'		=> View::make('pages.devplans.goals.create', compact('plan')),
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function store()
 	{
-		// Create the stats
-		$stats = $this->repo->create(Input::except(['numHoles']));
+		// Create the goal
+		$goal = $this->goals->create(Input::all());
 
 		// Fire the event
-		Event::fire('stats.created', [$stats]);
+		Event::fire('goal.created', [$goal]);
 
 		return Redirect::back()
 			->with('messageStatus', 'success')
-			->with('message', "Stats created!");
+			->with('message', "Goal created!");
 	}
 
 	public function edit($id)
@@ -89,17 +117,6 @@ class StatsController extends BaseController {
 		return Redirect::back()
 			->with('messageStatus', 'success')
 			->with('message', "Goal was updated.");
-
-		/*if ($this->currentUser->isStaff())
-		{
-			return Redirect::route('plan', [$goal->plan->user->id])
-				->with('messageStatus', 'success')
-				->with('message', "Goal was successfully updated!");
-		}
-
-		return Redirect::route('plan')
-			->with('messageStatus', 'success')
-			->with('message', "Goal was successfully updated!");*/
 	}
 
 	public function remove($id)

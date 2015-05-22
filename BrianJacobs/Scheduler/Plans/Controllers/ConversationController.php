@@ -1,10 +1,8 @@
-<?php namespace Plans\Controllers\Admin;
+<?php namespace Plans\Controllers;
 
-use Date,
-	View,
+use View,
 	Event,
 	Input,
-	Session,
 	Redirect,
 	GoalRepositoryInterface,
 	ConversationRepositoryInterface;

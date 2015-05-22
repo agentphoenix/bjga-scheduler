@@ -1,62 +1,67 @@
-<?php namespace Plans\Controllers\Admin;
+<?php namespace Plans\Controllers;
 
-use Date,
-	View,
+use View,
 	Event,
 	Input,
-	Session,
 	Redirect,
 	GoalRepositoryInterface,
-	PlanRepositoryInterface,
-	UserRepositoryInterface,
-	StaffRepositoryInterface;
+	StatRepositoryInterface;
 use Scheduler\Controllers\BaseController;
 
-class GoalController extends BaseController {
+class StatsController extends BaseController {
 
 	protected $goals;
-	protected $users;
-	protected $staff;
-	protected $plans;
+	protected $repo;
 
 	public function __construct(GoalRepositoryInterface $goals,
-			UserRepositoryInterface $users, StaffRepositoryInterface $staff,
-			PlanRepositoryInterface $plans)
+			StatRepositoryInterface $stats)
 	{
 		parent::__construct();
 
 		$this->goals = $goals;
-		$this->users = $users;
-		$this->staff = $staff;
-		$this->plans = $plans;
+		$this->repo = $stats;
 
 		// Before filter to check if the user has permissions
 		//$this->beforeFilter('@checkPermissions');
 	}
 
-	public function create($id)
+	public function create($goalId)
 	{
-		// Get the plan
-		$plan = $this->plans->getById($id);
+		// Get the goal
+		$goal = $this->goals->getById($goalId);
+
+		// Build the types
+		$types = [
+			'' => "Choose a stat type",
+			'round' => "On-course Round",
+			'practice' => "Practice Session",
+			'trackman' => "TrackMan Combine",
+		];
+
+		$holes = [
+			9 => '9 holes',
+			18 => '18 holes',
+			'other' => 'Other',
+		];
 
 		return partial('common/modal_content', [
-			'modalHeader'	=> "Add a Goal",
-			'modalBody'		=> View::make('pages.devplans.goals.create', compact('plan')),
+			'modalHeader'	=> "Add Stats",
+			'modalBody'		=> View::make('pages.devplans.stats.create', compact('goal', 'types', 'holes')),
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function store()
 	{
-		// Create the goal
-		$goal = $this->goals->create(Input::all());
+		// Create the stats
+		$stats = $this->repo->create(Input::except(['numHoles']));
 
 		// Fire the event
-		Event::fire('goal.created', [$goal]);
+		Event::fire('stats.created', [$stats]);
 
 		return Redirect::back()
 			->with('messageStatus', 'success')
-			->with('message', "Goal created!");
+			->with('message', "Stats created!");
 	}
 
 	public function edit($id)
@@ -81,18 +86,7 @@ class GoalController extends BaseController {
 
 		return Redirect::back()
 			->with('messageStatus', 'success')
-			->with('message', "Goal was updated.");
-
-		/*if ($this->currentUser->isStaff())
-		{
-			return Redirect::route('plan', [$goal->plan->user->id])
-				->with('messageStatus', 'success')
-				->with('message', "Goal was successfully updated!");
-		}
-
-		return Redirect::route('plan')
-			->with('messageStatus', 'success')
-			->with('message', "Goal was successfully updated!");*/
+			->with('message', "Stats were updated.");
 	}
 
 	public function remove($id)
@@ -117,22 +111,7 @@ class GoalController extends BaseController {
 
 		return Redirect::back()
 			->with('messageStatus', 'success')
-			->with('message', "Goal was removed.");
-	}
-
-	public function changeStatus()
-	{
-		$updateData = [
-			'completed' => (Input::get('status') == 'complete') ? 1 : 0,
-			'completed_date' => (Input::get('status') == 'complete') ? Date::now() : null
-		];
-
-		// Update the goal
-		$goal = $this->goals->update(Input::get('goal'), $updateData);
-
-		// Flash the message
-		Session::flash('messageStatus', 'success');
-		Session::flash('message', (Input::get('status') == 'complete') ? "Goal has been completed." : "Goal has been re-opened.");
+			->with('message', "Stats were removed.");
 	}
 
 	public function checkPermissions()
