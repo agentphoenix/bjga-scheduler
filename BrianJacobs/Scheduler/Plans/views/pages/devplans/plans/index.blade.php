@@ -112,21 +112,21 @@
 			if (action == 'create')
 			{
 				$('#addPlan').modal({
-					remote: "{{ route('admin.plan.create') }}"
+					remote: "{{ route('plan.create') }}"
 				}).modal('show');
 			}
 
 			if (action == 'remove')
 			{
 				$('#removePlan').modal({
-					remote: "{{ URL::to('admin/plan') }}/" + id + "/remove"
+					remote: "{{ URL::to('plan') }}/" + id + "/remove"
 				}).modal('show');
 			}
 
 			if (action == 'instructor')
 			{
 				$('#instructor').modal({
-					remote: "{{ URL::to('admin/plan') }}/" + id + "/edit"
+					remote: "{{ URL::to('plan') }}/" + id + "/edit"
 				}).modal('show');
 			}
 		});
@@ -138,7 +138,7 @@
 			var button = $(this);
 
 			$.ajax({
-				url: "{{ route('admin.plan.removeInstructor') }}",
+				url: "{{ route('plan.removeInstructor') }}",
 				type: "POST",
 				dataType: "json",
 				data: {

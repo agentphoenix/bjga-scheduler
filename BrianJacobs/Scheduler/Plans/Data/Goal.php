@@ -50,6 +50,22 @@ class Goal extends Model {
 	|--------------------------------------------------------------------------
 	*/
 
+	public function countStats()
+	{
+		return (int) $this->stats->filter(function($s)
+		{
+			return $s->type != 'tournament' and $s->type != 'message';
+		})->count();
+	}
+
+	public function countTournaments()
+	{
+		return (int) $this->stats->filter(function($s)
+		{
+			return $s->type == 'tournament';
+		})->count();
+	}
+
 	public function isComplete()
 	{
 		return (bool) ($this->completed == 1);

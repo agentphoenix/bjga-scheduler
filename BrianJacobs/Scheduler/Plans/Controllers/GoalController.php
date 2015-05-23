@@ -50,6 +50,9 @@ class GoalController extends BaseController {
 		{
 			// Get the user
 			$user = $this->currentUser;
+
+			// Set the userId
+			$userId = $user->id;
 		}
 
 		// Load the plan and goals from the user object

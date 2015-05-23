@@ -107,21 +107,21 @@
 			if (action == 'goal-add')
 			{
 				$('#addGoal').modal({
-					remote: "{{ URL::to('admin/goal') }}/" + item + "/create"
+					remote: "{{ URL::to('goal') }}/" + item + "/create"
 				}).modal('show');
 			}
 
 			if (action == 'goal-edit')
 			{
 				$('#editGoal').modal({
-					remote: "{{ URL::to('admin/goal') }}/" + item + "/edit"
+					remote: "{{ URL::to('goal') }}/" + item + "/edit"
 				}).modal('show');
 			}
 
 			if (action == 'goal-remove')
 			{
 				$('#removeGoal').modal({
-					remote: "{{ URL::to('admin/goal') }}/" + item + "/remove"
+					remote: "{{ URL::to('goal') }}/" + item + "/remove"
 				}).modal('show');
 			}
 

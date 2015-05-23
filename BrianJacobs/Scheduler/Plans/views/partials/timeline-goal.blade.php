@@ -7,32 +7,6 @@
 @if (count($items) > 0)
 	<article id="cd-timeline" class="cd-container">
 		@foreach ($items as $item)
-			@if ($item instanceof Goal)
-				<div class="cd-timeline-block unchanged cd-timeline-goal">
-					<div class="cd-timeline-img">
-						<span class="icn-size-32">
-							@if ((bool) $item->completed)
-								{{ $_icons['check'] }}
-							@else
-								{{ $_icons['target'] }}
-							@endif
-						</span>
-					</div> <!-- cd-timeline-img -->
-
-					<div class="cd-timeline-content">
-						<h2>
-							{{ $item->present()->title }}
-							@if ((bool) $item->completed)
-								<small>Completed on {{ $item->present()->completed }}</small>
-							@endif
-						</h2>
-						{{ $item->present()->summary }}
-						<a href="{{ route('plan.goal', [$userId, $item->id]) }}" class="btn btn-default btn-sm">More Info</a>
-						<span class="cd-date">{{ $item->present()->created }}</span>
-					</div> <!-- cd-timeline-content -->
-				</div> <!-- cd-timeline-block -->
-			@endif
-
 			@if ($item instanceof Conversation)
 				<div class="cd-timeline-block unchanged cd-timeline-conversation">
 					<div class="cd-timeline-img">
@@ -62,7 +36,17 @@
 			@if ($item instanceof Stat)
 				<div class="cd-timeline-block unchanged cd-timeline-stat">
 					<div class="cd-timeline-img">
-						<span class="icn-size-32">{{ $_icons['stats'] }}</span>
+						<span class="icn-size-32">
+							@if ($item->type != 'message' and $item->type != 'tournament')
+								{{ $_icons['stats'] }}
+							@else
+								@if ($item->type == 'tournament')
+									{{ $_icons['podium'] }}
+								@else
+									{{ $_icons[$item->icon] }}
+								@endif
+							@endif
+						</span>
 					</div> <!-- cd-timeline-img -->
 
 					<div class="cd-timeline-content">

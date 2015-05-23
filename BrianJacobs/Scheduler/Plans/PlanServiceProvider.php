@@ -21,6 +21,8 @@ class PlanServiceProvider extends ServiceProvider {
 		$this->app['events']->listen('plan.created', 'Plans\Events\PlanEventHandler@onCreate');
 		$this->app['events']->listen('plan.deleted', 'Plans\Events\PlanEventHandler@onDelete');
 		$this->app['events']->listen('plan.updated', 'Plans\Events\PlanEventHandler@onUpdate');
+
+		$this->app['events']->listen('stats.created', 'Plans\Events\StatsEventHandler@onCreate');
 	}
 
 	protected function setRepositoryBindings()

@@ -1,6 +1,6 @@
 <p>You can add as little or as much of the information below about your stats for your round/practice session/TrackMan Combine for you and your instructor(s) to use working toward your goals.</p>
 
-{{ Form::open(['route' => ['admin.stats.store', $goal->id], 'class' => 'form-horizontal']) }}
+{{ Form::open(['route' => ['stats.store', $goal->id], 'class' => 'form-horizontal']) }}
 	<div class="form-group">
 		<label class="control-label col-md-3">Type</label>
 		<div class="col-md-6">
@@ -90,6 +90,29 @@
 		</div>
 	</div>
 
+	<div id="tournamentStats" class="hide">
+		<div class="form-group">
+			<label class="control-label col-md-3">Tournament</label>
+			<div class="col-md-9">
+				{{ Form::text('tournament', null, ['class' => 'form-control input-lg']) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-md-3">No. of Players</label>
+			<div class="col-md-3">
+				{{ Form::text('players', null, ['class' => 'form-control input-lg']) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-md-3">Place</label>
+			<div class="col-md-3">
+				{{ Form::text('place', null, ['class' => 'form-control input-lg']) }}
+			</div>
+		</div>
+	</div>
+
 	<div id="controls" class="hide">
 		<div class="form-group">
 			<label class="control-label col-md-3">Notes</label>
@@ -121,6 +144,7 @@
 		resetSection('#practiceStats');
 		resetSection('#trackmanStats');
 		resetSection('#roundStats');
+		resetSection('#tournamentStats');
 
 		$("#" + selected + "Stats").removeClass('hide');
 		$('#controls').removeClass('hide');

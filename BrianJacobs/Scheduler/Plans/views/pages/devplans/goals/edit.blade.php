@@ -1,4 +1,4 @@
-{{ Form::model($goal, ['route' => ['admin.goal.update', $goal->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
+{{ Form::model($goal, ['route' => ['goal.update', $goal->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
 	<div class="form-group">
 		<label class="control-label col-md-2">Name</label>
 		<div class="col-md-10">

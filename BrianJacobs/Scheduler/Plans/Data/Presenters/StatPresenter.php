@@ -22,6 +22,10 @@ class StatPresenter extends Presenter {
 		if ($this->entity->type == 'trackman') return "TrackMan Combine Results";
 		
 		if ($this->entity->type == 'practice') return "Practice Session Stats";
+
+		if ($this->entity->type == 'tournament') return "Tournament Results";
+
+		if ($this->entity->type == 'message') return "Congratulations!";
 	}
 
 	public function notes()

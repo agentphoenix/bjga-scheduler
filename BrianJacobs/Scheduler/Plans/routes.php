@@ -8,36 +8,38 @@ $options = [
 $adminOptions = [
 	'namespace' => "Plans\\Controllers",
 	'before'	=> "auth",
-	'prefix'	=> 'admin',
 ];
 
 Route::group($adminOptions, function()
 {
+	Route::get('admin/plan', [
+		'as'	=> 'plan.index',
+		'uses'	=> 'PlanController@index']);
 	Route::get('plan/{id}/remove', [
-		'as'	=> 'admin.plan.remove',
+		'as'	=> 'plan.remove',
 		'uses'	=> 'PlanController@remove']);
 	Route::post('plan/remove-instructor', [
-		'as'	=> 'admin.plan.removeInstructor',
+		'as'	=> 'plan.removeInstructor',
 		'uses'	=> 'PlanController@removeInstructor']);
 
 	Route::get('conversation/{goalId}/create', [
-		'as'	=> 'admin.conversation.create',
+		'as'	=> 'conversation.create',
 		'uses'	=> 'ConversationController@create']);
 	Route::post('conversation/{goalId}', [
-		'as'	=> 'admin.conversation.store',
+		'as'	=> 'conversation.store',
 		'uses'	=> 'ConversationController@store']);
 	Route::get('conversation/{id}/remove', [
-		'as'	=> 'admin.conversation.remove',
+		'as'	=> 'conversation.remove',
 		'uses'	=> 'ConversationController@remove']);
 	Route::delete('conversation/{id}', [
-		'as'	=> 'admin.conversation.destroy',
+		'as'	=> 'conversation.destroy',
 		'uses'	=> 'ConversationController@destroy']);
 
 	Route::get('stats/{goalId}/create', [
-		'as'	=> 'admin.stats.create',
+		'as'	=> 'stats.create',
 		'uses'	=> 'StatsController@create']);
 	Route::post('stats/{goalId}', [
-		'as'	=> 'admin.stats.store',
+		'as'	=> 'stats.store',
 		'uses'	=> 'StatsController@store']);
 
 	Route::resource('plan', 'PlanController', ['except' => ['show']]);
@@ -59,7 +61,7 @@ Route::group($options, function()
 		'as'	=> 'goal.update-status',
 		'uses'	=> 'GoalController@changeStatus']);
 
-	Route::resource('goal', 'GoalController', ['except' => ['index']]);
+	Route::resource('goal', 'GoalController', ['except' => ['index', 'show']]);
 
 	Route::get('plan/{userId}', [
 		'as'	=> 'plan',

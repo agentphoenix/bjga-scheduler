@@ -119,21 +119,21 @@
 			if (action == "conversation-add")
 			{
 				$('#addComment').modal({
-					remote: "{{ URL::to('admin/conversation') }}/" + item + "/create"
+					remote: "{{ URL::to('conversation') }}/" + item + "/create"
 				}).modal('show');
 			}
 
 			if (action == "conversation-remove")
 			{
 				$('#removeComment').modal({
-					remote: "{{ URL::to('admin/conversation') }}/" + item + "/remove"
+					remote: "{{ URL::to('conversation') }}/" + item + "/remove"
 				}).modal('show');
 			}
 
 			if (action == "stats-add")
 			{
 				$('#addStats').modal({
-					remote: "{{ URL::to('admin/stats') }}/" + item + "/create"
+					remote: "{{ URL::to('stats') }}/" + item + "/create"
 				}).modal('show');
 			}
 		});

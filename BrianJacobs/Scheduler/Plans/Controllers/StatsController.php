@@ -36,6 +36,7 @@ class StatsController extends BaseController {
 			'round' => "On-course Round",
 			'practice' => "Practice Session",
 			'trackman' => "TrackMan Combine",
+			'tournament' => "Tournament Results",
 		];
 
 		$holes = [

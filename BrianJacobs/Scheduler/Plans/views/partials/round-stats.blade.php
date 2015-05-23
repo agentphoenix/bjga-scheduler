@@ -92,6 +92,29 @@
 			</div>
 		@endif
 	@endif
+
+	@if ($stats->type == 'tournament')
+		<div class="form-group">
+			<label class="control-label col-sm-4">Tournament</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{ $stats->present()->tournament }}</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Players</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{ $stats->present()->players }}</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Place</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{ $stats->present()->place }}</p>
+			</div>
+		</div>
+	@endif
 </form>
 
 {{ $stats->present()->notes }}

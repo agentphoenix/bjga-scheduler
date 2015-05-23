@@ -27,15 +27,25 @@
 						@if ($item->conversations->count() > 0)
 							<span class="icn-size-16">{{ $_icons['comments'] }}</span>
 							&nbsp;<em>{{ $item->conversations->count() }}</em>
-							
-							@if ($item->stats->count() > 0)
-								&nbsp;&nbsp;&nbsp;
-							@endif
+							&nbsp;&nbsp;&nbsp;
 						@endif
 
-						@if ($item->stats->count() > 0)
+						@if ($item->lessons->count() > 0)
+							<span class="icn-size-16">{{ $_icons['golf'] }}</span>
+							&nbsp;<em>{{ $item->lessons->count() }}</em>
+							&nbsp;&nbsp;&nbsp;
+						@endif
+
+						@if ($item->countStats() > 0)
 							<span class="icn-size-16">{{ $_icons['stats'] }}</span>
-							&nbsp;<em>{{ $item->conversations->count() }}</em>
+							&nbsp;<em>{{ $item->countStats() }}</em>
+							&nbsp;&nbsp;&nbsp;
+						@endif
+
+						@if ($item->countTournaments() > 0)
+							<span class="icn-size-16">{{ $_icons['podium'] }}</span>
+							&nbsp;<em>{{ $item->countTournaments() }}</em>
+							&nbsp;&nbsp;&nbsp;
 						@endif
 						</p>
 
@@ -94,10 +104,20 @@
 				</div> <!-- cd-timeline-block -->
 			@endif
 
-			@if ($item instanceof Stat)
+			@if ($item instanceof Stat and $item->type != 'message')
 				<div class="cd-timeline-block unchanged cd-timeline-stat">
 					<div class="cd-timeline-img">
-						<span class="icn-size-32">{{ $_icons['stats'] }}</span>
+						<span class="icn-size-32">
+							@if ($item->type != 'message' and $item->type != 'tournament')
+								{{ $_icons['stats'] }}
+							@else
+								@if ($item->type == 'tournament')
+									{{ $_icons['podium'] }}
+								@else
+									{{ $_icons[$item->icon] }}
+								@endif
+							@endif
+						</span>
 					</div> <!-- cd-timeline-img -->
 
 					<div class="cd-timeline-content">

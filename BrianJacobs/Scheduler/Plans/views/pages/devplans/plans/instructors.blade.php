@@ -1,4 +1,4 @@
-{{ Form::open(['route' => ['admin.plan.update', $plan->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
+{{ Form::open(['route' => ['plan.update', $plan->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
 	<div class="form-group">
 		<label class="control-label col-md-2">Student</label>
 		<div class="col-md-8">

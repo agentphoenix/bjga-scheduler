@@ -62,7 +62,7 @@ class PlanController extends BaseController {
 		// Fire the event
 		Event::fire('plan.created', [$plan]);
 
-		return Redirect::route('admin.plan.index')
+		return Redirect::route('plan.index')
 			->with('messageStatus', 'success')
 			->with('message', "Development plan created!");
 	}
@@ -96,7 +96,7 @@ class PlanController extends BaseController {
 		// Fire the event
 		Event::fire('plan.updated', [$plan, Input::get('instructor')]);
 
-		return Redirect::route('admin.plan.index')
+		return Redirect::route('plan.index')
 			->with('messageStatus', 'success')
 			->with('message', "Instructor added to development plan!");
 	}
@@ -121,7 +121,7 @@ class PlanController extends BaseController {
 		// Fire the event
 		Event::fire('plan.deleted', [$plan]);
 
-		return Redirect::route('admin.plan.index')
+		return Redirect::route('plan.index')
 			->with('messageStatus', 'success')
 			->with('message', "Development plan removed!");
 	}

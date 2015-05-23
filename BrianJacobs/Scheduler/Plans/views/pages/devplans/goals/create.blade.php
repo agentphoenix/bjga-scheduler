@@ -1,4 +1,4 @@
-{{ Form::open(['route' => 'admin.goal.store', 'class' => 'form-horizontal']) }}
+{{ Form::open(['route' => 'goal.store', 'class' => 'form-horizontal']) }}
 	<div class="form-group">
 		<label class="control-label col-md-2">Name</label>
 		<div class="col-md-10">

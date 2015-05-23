@@ -353,12 +353,12 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function withDevelopmentPlan()
 	{
-		return UserModel::has('plan')->lists('name', 'id');
+		return UserModel::has('plan')->orderBy('name', 'asc')->lists('name', 'id');
 	}
 
 	public function withoutDevelopmentPlan()
 	{
-		return UserModel::has('plan', '=', 0)->lists('name', 'id');
+		return UserModel::has('plan', '=', 0)->orderBy('name', 'asc')->lists('name', 'id');
 	}
 	
 }
