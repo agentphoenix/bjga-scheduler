@@ -62,6 +62,10 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->integer('minutes')->nullable();
 			$table->integer('balls')->nullable();
 			$table->integer('holes')->nullable();
+			$table->integer('players')->nullable();
+			$table->integer('place')->nullable();
+			$table->string('icon')->nullable();
+			$table->string('tournament')->nullable();
 			$table->text('notes')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
