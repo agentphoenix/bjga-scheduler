@@ -32,6 +32,10 @@ return array(
 	'money' => '<span class="icn" data-icon="n"></span>',
 
 	'phone' => '<span class="icn" data-icon="p"></span>',
+	'place1' => '<span class="icn" data-icon="#"></span>',
+	'place2' => '<span class="icn" data-icon="#"></span>',
+	'place3' => '<span class="icn" data-icon="$"></span>',
+	'podium' => '<span class="icn" data-icon="%"></span>',
 
 	'recur' => '<span class="icn" data-icon="6"></span>',
 	'reject' => '<span class="icn" data-icon="b"></span>',
