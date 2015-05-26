@@ -6,12 +6,16 @@ class ConversationEventHandler {
 
 	public function onCreate($comment)
 	{
+		$author = ($comment->goal->plan->user->id == $comment->user->id)
+			? "You"
+			: $comment->user->present()->name;
+
 		App::make('NotificationRepository')->create([
 			'user_id'	=> $comment->goal->plan->user->id,
 			'type'		=> 'plan',
 			'category'	=> 'comment',
 			'action'	=> 'create',
-			'content'	=> "{$comment->user->present()->name} commented on the \"{$comment->goal->title}\" goal.",
+			'content'	=> "{$author} commented on the \"{$comment->goal->title}\" goal.",
 		]);
 	}
 
