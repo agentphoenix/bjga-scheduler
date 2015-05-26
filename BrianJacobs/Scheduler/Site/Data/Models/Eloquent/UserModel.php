@@ -1,7 +1,6 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
-use Hash,
-	Model;
+use Date, Hash, Model;
 use Illuminate\Auth\UserInterface,
 	Illuminate\Auth\Reminders\RemindableInterface;
 use Laracasts\Presenter\PresentableTrait;
@@ -56,9 +55,9 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return $this->hasMany('Conversation', 'user_id');
 	}
 
-	public function stats()
+	public function notifications()
 	{
-		return $this->hasMany('Stat', 'user_id');
+		return $this->hasMany('Notification', 'user_id');
 	}
 
 	/*
@@ -205,6 +204,23 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		}
 
 		return $finalCredits;
+	}
+
+	public function getNotificationsByDate($date = null)
+	{
+		$date = ($date) ?: Date::now();
+
+		return $this->notifications->filter(function($n) use ($date)
+		{
+			return $n->created_at->gte($date->startOfDay()) and $n->created_at->lte($date->endOfDay());
+		})->sortByDesc('created_at');
+	}
+
+	public function countNotificationsByDate($date = null)
+	{
+		$date = ($date) ?: Date::now();
+
+		return (int) $this->getNotificationsByDate($date)->count();
 	}
 
 	/*

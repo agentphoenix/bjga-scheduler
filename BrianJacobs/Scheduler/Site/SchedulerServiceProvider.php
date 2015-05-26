@@ -13,6 +13,8 @@ use League\CommonMark\CommonMarkConverter;
 
 class SchedulerServiceProvider extends ServiceProvider {
 
+	protected $aliases;
+
 	public function register()
 	{
 		$this->setupMarkdown();
@@ -21,6 +23,7 @@ class SchedulerServiceProvider extends ServiceProvider {
 		$this->setupMacros();
 		$this->setupFlashNotifier();
 		$this->setupAvailability();
+		$this->setRepositoryBindings();
 	}
 
 	public function boot()
@@ -71,15 +74,6 @@ class SchedulerServiceProvider extends ServiceProvider {
 	{
 		// Get the aliases from the app config
 		$a = Config::get('app.aliases');
-
-		// Bind the repositories to any calls to their interfaces
-		App::bind($a['CreditRepositoryInterface'], $a['CreditRepository']);
-		App::bind($a['ServiceRepositoryInterface'], $a['ServiceRepository']);
-		App::bind($a['StaffRepositoryInterface'], $a['StaffRepository']);
-		App::bind($a['StaffAppointmentRepositoryInterface'], $a['StaffAppointmentRepository']);
-		App::bind($a['StaffScheduleRepositoryInterface'], $a['StaffScheduleRepository']);
-		App::bind($a['UserRepositoryInterface'], $a['UserRepository']);
-		App::bind($a['LocationRepositoryInterface'], $a['LocationRepository']);
 
 		// Make sure we some variables available on all views
 		View::share('_currentUser', Auth::user());
@@ -184,6 +178,34 @@ class SchedulerServiceProvider extends ServiceProvider {
 		{
 			return new Services\AvailabilityService;
 		});
+	}
+
+	protected function setRepositoryBindings()
+	{
+		// Grab the aliases from the config
+		$this->aliases = $this->app['config']['app.aliases'];
+
+		// Set the items being bound
+		$bindings = ['Credit', 'Service', 'Staff', 'StaffAppointment', 'StaffSchedule',
+			'User', 'Location', 'Notification'];
+
+		foreach ($bindings as $binding)
+		{
+			$this->bindRepository($binding);
+		}
+	}
+
+	private function bindRepository($item)
+	{
+		// Set the concrete and abstract names
+		$abstract = "{$item}RepositoryInterface";
+		$concrete = "{$item}Repository";
+
+		// Bind to the container
+		$this->app->bind(
+			[$abstract => $this->aliases[$abstract]], 
+			$this->aliases[$concrete]
+		);
 	}
 
 }
