@@ -8,6 +8,38 @@
 		</div>
 	</div>
 
+	<div id="tournamentStats" class="hide">
+		<div class="form-group">
+			<label class="control-label col-md-3">Tournament</label>
+			<div class="col-md-9">
+				{{ Form::text('tournament', null, ['class' => 'form-control input-lg']) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-md-3">No. of Players</label>
+			<div class="col-md-3">
+				{{ Form::text('players', null, ['class' => 'form-control input-lg']) }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-md-3">Place</label>
+			<div class="col-md-3">
+				{{ Form::text('place', null, ['class' => 'form-control input-lg']) }}
+			</div>
+		</div>
+	</div>
+
+	<div id="scoreStats" class="hide">
+		<div class="form-group">
+			<label class="control-label col-md-3">Score</label>
+			<div class="col-md-3">
+				{{ Form::text('score', null, ['class' => 'form-control input-lg']) }}
+			</div>
+		</div>
+	</div>
+
 	<div id="roundStats" class="hide">
 		<div class="form-group">
 			<label class="control-label col-md-3">Course</label>
@@ -26,13 +58,6 @@
 		<div class="form-group hide" id="otherHoles">
 			<div class="col-md-6 col-md-offset-3">
 				{{ Form::text('holes', 9, ['class' => 'form-control input-lg', 'placeholder' => 'Number of holes']) }}
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="control-label col-md-3">Score</label>
-			<div class="col-md-3">
-				{{ Form::text('score', null, ['class' => 'form-control input-lg']) }}
 			</div>
 		</div>
 
@@ -81,38 +106,6 @@
 		</div>
 	</div>
 
-	<div id="trackmanStats" class="hide">
-		<div class="form-group">
-			<label class="control-label col-md-3">Score</label>
-			<div class="col-md-3">
-				{{ Form::text('score', null, ['class' => 'form-control input-lg']) }}
-			</div>
-		</div>
-	</div>
-
-	<div id="tournamentStats" class="hide">
-		<div class="form-group">
-			<label class="control-label col-md-3">Tournament</label>
-			<div class="col-md-9">
-				{{ Form::text('tournament', null, ['class' => 'form-control input-lg']) }}
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="control-label col-md-3">No. of Players</label>
-			<div class="col-md-3">
-				{{ Form::text('players', null, ['class' => 'form-control input-lg']) }}
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label class="control-label col-md-3">Place</label>
-			<div class="col-md-3">
-				{{ Form::text('place', null, ['class' => 'form-control input-lg']) }}
-			</div>
-		</div>
-	</div>
-
 	<div id="controls" class="hide">
 		<div class="form-group">
 			<label class="control-label col-md-3">Notes</label>
@@ -142,11 +135,15 @@
 		var selected = $('[name="type"] option:selected').val();
 
 		resetSection('#practiceStats');
-		resetSection('#trackmanStats');
 		resetSection('#roundStats');
 		resetSection('#tournamentStats');
+		resetSection('#scoreStats');
 
 		$("#" + selected + "Stats").removeClass('hide');
+
+		if (selected == "round" || selected == "trackman" || selected == "tournament")
+			$("#scoreStats").removeClass('hide');
+
 		$('#controls').removeClass('hide');
 	});
 

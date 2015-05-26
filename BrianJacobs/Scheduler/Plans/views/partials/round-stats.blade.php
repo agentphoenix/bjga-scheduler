@@ -18,7 +18,7 @@
 			</div>
 		@endif
 
-		@if ($stats->score !== null)
+		@if ($stats->score !== null and $stats->score > 0)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Score</label>
 				<div class="col-sm-8">
@@ -27,7 +27,7 @@
 			</div>
 		@endif
 
-		@if ($stats->fir !== null)
+		@if ($stats->fir !== null and $stats->fir > 0)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Fairways</label>
 				<div class="col-sm-8">
@@ -36,7 +36,7 @@
 			</div>
 		@endif
 
-		@if ($stats->gir !== null)
+		@if ($stats->gir !== null and $stats->gir > 0)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Greens</label>
 				<div class="col-sm-8">
@@ -45,7 +45,7 @@
 			</div>
 		@endif
 
-		@if ($stats->putts !== null)
+		@if ($stats->putts !== null and $stats->putts > 0)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Putts</label>
 				<div class="col-sm-8">
@@ -54,7 +54,7 @@
 			</div>
 		@endif
 
-		@if ($stats->penalties !== null)
+		@if ($stats->penalties !== null and $stats->penalties > 0)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Penalties</label>
 				<div class="col-sm-8">
@@ -112,6 +112,13 @@
 			<label class="control-label col-sm-4">Place</label>
 			<div class="col-sm-8">
 				<p class="form-control-static">{{ $stats->present()->place }}</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Score</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{ $stats->present()->score }}</p>
 			</div>
 		</div>
 	@endif

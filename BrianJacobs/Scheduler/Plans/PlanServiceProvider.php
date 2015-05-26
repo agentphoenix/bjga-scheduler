@@ -22,7 +22,19 @@ class PlanServiceProvider extends ServiceProvider {
 		$this->app['events']->listen('plan.deleted', 'Plans\Events\PlanEventHandler@onDelete');
 		$this->app['events']->listen('plan.updated', 'Plans\Events\PlanEventHandler@onUpdate');
 
+		$this->app['events']->listen('goal.created', 'Plans\Events\GoalEventHandler@onCreate');
+		$this->app['events']->listen('goal.deleted', 'Plans\Events\GoalEventHandler@onDelete');
+		$this->app['events']->listen('goal.updated', 'Plans\Events\GoalEventHandler@onUpdate');
+		$this->app['events']->listen('goal.reopened', 'Plans\Events\GoalEventHandler@onReOpen');
+		$this->app['events']->listen('goal.completed', 'Plans\Events\GoalEventHandler@onComplete');
+
+		$this->app['events']->listen('comment.created', 'Plans\Events\ConversationEventHandler@onCreate');
+		$this->app['events']->listen('comment.deleted', 'Plans\Events\ConversationEventHandler@onDelete');
+		$this->app['events']->listen('comment.updated', 'Plans\Events\ConversationEventHandler@onUpdate');
+
 		$this->app['events']->listen('stats.created', 'Plans\Events\StatsEventHandler@onCreate');
+		$this->app['events']->listen('stats.deleted', 'Plans\Events\StatsEventHandler@onDelete');
+		$this->app['events']->listen('stats.updated', 'Plans\Events\StatsEventHandler@onUpdate');
 	}
 
 	protected function setRepositoryBindings()

@@ -33,4 +33,19 @@ class ConversationRepository extends BaseRepository implements ConversationRepos
 		return false;
 	}
 
+	public function update($id, array $data)
+	{
+		// Get the comment
+		$comment = $this->getById($id);
+
+		if ($comment)
+		{
+			$comment->fill($data)->save();
+
+			return $comment;
+		}
+
+		return false;
+	}
+
 }

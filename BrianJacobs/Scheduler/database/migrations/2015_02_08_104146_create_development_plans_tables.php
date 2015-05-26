@@ -52,6 +52,7 @@ class CreateDevelopmentPlansTables extends Migration {
 		{
 			$table->bigIncrements('id');
 			$table->bigInteger('goal_id')->unsigned();
+			$table->bigInteger('stat_id')->unsigned()->nullable();
 			$table->string('type', 25)->default('round');
 			$table->string('course')->nullable();
 			$table->string('score')->nullable();

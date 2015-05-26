@@ -6,6 +6,14 @@ class PlanEventHandler {
 
 	public function onCreate($plan)
 	{
+		App::make('NotificationRepository')->create([
+			'user_id'	=> $plan->user->id,
+			'type'		=> 'plan',
+			'category'	=> 'plan',
+			'action'	=> 'create',
+			'content'	=> "Development plan was created.",
+		]);
+
 		$data = [
 			'name'	=> explode(' ', $plan->user->name)[0],
 		];
@@ -21,11 +29,25 @@ class PlanEventHandler {
 
 	public function onDelete($plan)
 	{
-		//
+		App::make('NotificationRepository')->create([
+			'user_id'	=> $plan->user->id,
+			'type'		=> 'plan',
+			'category'	=> 'plan',
+			'action'	=> 'delete',
+			'content'	=> "Development plan was removed.",
+		]);
 	}
 
 	public function onUpdate($plan, $instructorId)
 	{
+		App::make('NotificationRepository')->create([
+			'user_id'	=> $plan->user->id,
+			'type'		=> 'plan',
+			'category'	=> 'plan',
+			'action'	=> 'update',
+			'content'	=> "Development plan was updated.",
+		]);
+
 		// Get the instructor
 		$instructor = App::make('StaffRepository')->find($instructorId);
 

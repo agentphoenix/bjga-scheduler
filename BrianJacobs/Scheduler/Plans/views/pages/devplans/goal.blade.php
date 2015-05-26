@@ -44,6 +44,7 @@
 
 @section('modals')
 	{{ modal(['id' => 'addComment', 'header' => 'Add to the Conversation']) }}
+	{{ modal(['id' => 'editComment', 'header' => 'Edit Comment']) }}
 	{{ modal(['id' => 'removeComment', 'header' => 'Remove Comment']) }}
 	{{ modal(['id' => 'addStats', 'header' => 'Add Stats']) }}
 	{{ modal(['id' => 'editStats', 'header' => 'Edit Stats']) }}
@@ -123,6 +124,13 @@
 				}).modal('show');
 			}
 
+			if (action == "conversation-edit")
+			{
+				$('#editComment').modal({
+					remote: "{{ URL::to('conversation') }}/" + item + "/edit"
+				}).modal('show');
+			}
+
 			if (action == "conversation-remove")
 			{
 				$('#removeComment').modal({
@@ -134,6 +142,20 @@
 			{
 				$('#addStats').modal({
 					remote: "{{ URL::to('stats') }}/" + item + "/create"
+				}).modal('show');
+			}
+
+			if (action == "stats-edit")
+			{
+				$('#editStats').modal({
+					remote: "{{ URL::to('stats') }}/" + item + "/edit"
+				}).modal('show');
+			}
+
+			if (action == "stats-remove")
+			{
+				$('#removeStats').modal({
+					remote: "{{ URL::to('stats') }}/" + item + "/remove"
 				}).modal('show');
 			}
 		});

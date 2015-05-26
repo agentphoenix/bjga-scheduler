@@ -11,7 +11,7 @@ class Stat extends Model {
 
 	protected $fillable = ['goal_id', 'user_id', 'type', 'course', 'score', 'fir',
 		'gir', 'putts', 'penalties', 'notes', 'balls', 'minutes', 'holes', 'players',
-		'place', 'icon', 'tournament'];
+		'place', 'icon', 'tournament', 'stat_id'];
 
 	protected $dates = ['created_at', 'updated_at'];
 
@@ -26,6 +26,11 @@ class Stat extends Model {
 	public function goal()
 	{
 		return $this->belongsTo('Goal');
+	}
+
+	public function message()
+	{
+		return $this->hasMany('Stat', 'stat_id');
 	}
 
 	public function user()

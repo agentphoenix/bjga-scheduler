@@ -66,10 +66,49 @@ class ConversationController extends BaseController {
 			->with('message', "Comment added!");
 	}
 
+	public function edit($commentId)
+	{
+		// Get the comment
+		$comment = $this->repo->getById($commentId, ['goal']);
+
+		// Get the current user (for brevity)
+		$user = $this->currentUser;
+
+		// Get the goal
+		$goal = $comment->goal;
+
+		// Initial content
+		$content = alert('alert-danger', "You do not have permission to add comments to this development plan.");
+
+		if (($user->isStaff() and $user->staff->isPlanInstructor($goal->plan->id)) or ( ! $user->isStaff() and $user->plan and $user->plan->id == $goal->plan->id))
+		{
+			$content = View::make('pages.devplans.conversations.edit', compact('comment'));
+		}
+
+		return partial('common/modal_content', [
+			'modalHeader'	=> "Edit Comment",
+			'modalBody'		=> $content,
+			'modalFooter'	=> false,
+		]);
+	}
+
+	public function update($commentId)
+	{
+		// Update the comment
+		$comment = $this->repo->update($commentId, Input::all());
+
+		// Fire the event
+		Event::fire('comment.updated', [$comment]);
+
+		return Redirect::back()
+			->with('messageStatus', 'success')
+			->with('message', "Comment updated!");
+	}
+
 	public function remove($id)
 	{
 		// Get the comment
-		$comment = $this->goals->getById($id, ['plan', 'plan.user']);
+		$comment = $this->repo->getById($id);
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Goal",

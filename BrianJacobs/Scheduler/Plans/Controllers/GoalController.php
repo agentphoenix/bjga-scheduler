@@ -157,6 +157,11 @@ class GoalController extends BaseController {
 		// Update the goal
 		$goal = $this->goals->update(Input::get('goal'), $updateData);
 
+		if (Input::get('status') == 'complete')
+			Event::fire('goal.completed', [$goal]);
+		else
+			Event::fire('goal.reopened', [$goal]);
+
 		// Flash the message
 		Session::flash('messageStatus', 'success');
 		Session::flash('message', (Input::get('status') == 'complete') ? "Goal has been completed." : "Goal has been re-opened.");

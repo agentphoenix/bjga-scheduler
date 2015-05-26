@@ -20,14 +20,29 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 
 	public function delete($id)
 	{
-		// Get the comment
-		$comment = $this->getById($id);
+		// Get the stat
+		$stat = $this->getById($id);
 
-		if ($comment)
+		if ($stat)
 		{
-			$comment->delete();
+			$stat->delete();
 
-			return $comment;
+			return $stat;
+		}
+
+		return false;
+	}
+
+	public function update($id, array $data)
+	{
+		// Get the stat
+		$stat = $this->getById($id);
+
+		if ($stat)
+		{
+			$stat->fill($data)->save();
+
+			return $stat;
 		}
 
 		return false;
