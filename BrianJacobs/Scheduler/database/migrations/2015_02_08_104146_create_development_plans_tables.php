@@ -48,7 +48,7 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('plans_goals_stats', function(Blueprint $table)
+		Schema::create('plans_stats', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
 			$table->bigInteger('goal_id')->unsigned();
@@ -89,7 +89,7 @@ class CreateDevelopmentPlansTables extends Migration {
 		Schema::dropIfExists('plans_instructors');
 		Schema::dropIfExists('plans_goals');
 		Schema::dropIfExists('plans_conversations');
-		Schema::dropIfExists('plans_goals_stats');
+		Schema::dropIfExists('plans_stats');
 
 		Schema::table('staff_appointments', function(Blueprint $table)
 		{

@@ -7,7 +7,7 @@ class Stat extends Model {
 
 	use PresentableTrait;
 
-	protected $table = 'plans_goals_stats';
+	protected $table = 'plans_stats';
 
 	protected $fillable = ['goal_id', 'user_id', 'type', 'course', 'score', 'fir',
 		'gir', 'putts', 'penalties', 'notes', 'balls', 'minutes', 'holes', 'players',
