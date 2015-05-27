@@ -15,7 +15,18 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 
 	public function create(array $data)
 	{
-		return $this->model->create($data);
+		// An array for storing the cleaned data
+		$input = [];
+
+		foreach ($data as $key => $value)
+		{
+			if ( ! empty($value))
+			{
+				$input[$key] = $value;
+			}
+		}
+
+		return $this->model->create($input);
 	}
 
 	public function delete($id)

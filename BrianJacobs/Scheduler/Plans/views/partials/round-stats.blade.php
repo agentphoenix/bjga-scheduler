@@ -18,7 +18,7 @@
 			</div>
 		@endif
 
-		@if ($stats->score !== null and $stats->score > 0)
+		@if ($stats->score !== null)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Score</label>
 				<div class="col-sm-8">
@@ -27,7 +27,7 @@
 			</div>
 		@endif
 
-		@if ($stats->fir !== null and $stats->fir > 0)
+		@if ($stats->fir !== null)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Fairways</label>
 				<div class="col-sm-8">
@@ -36,7 +36,7 @@
 			</div>
 		@endif
 
-		@if ($stats->gir !== null and $stats->gir > 0)
+		@if ($stats->gir !== null)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Greens</label>
 				<div class="col-sm-8">
@@ -45,7 +45,7 @@
 			</div>
 		@endif
 
-		@if ($stats->putts !== null and $stats->putts > 0)
+		@if ($stats->putts !== null)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Putts</label>
 				<div class="col-sm-8">
@@ -54,7 +54,7 @@
 			</div>
 		@endif
 
-		@if ($stats->penalties !== null and $stats->penalties > 0)
+		@if ($stats->penalties !== null)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Penalties</label>
 				<div class="col-sm-8">
