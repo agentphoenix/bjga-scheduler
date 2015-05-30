@@ -102,6 +102,9 @@ class BookingEventHandler {
 			);
 		}
 
+		// Get a count of the occurences in the service
+		$data['occurrences'] = $occurrences->count();
+
 		// Get the user
 		$user = $userAppt->user;
 

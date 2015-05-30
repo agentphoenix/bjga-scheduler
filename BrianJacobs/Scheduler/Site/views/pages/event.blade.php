@@ -60,6 +60,10 @@
 
 	{{ $event->present()->description }}
 
+	@if ($event->isProgram())
+		<p class="text-success"><strong><em>Full payment for the program is due at the start of the first scheduled date for the program.</em></strong></p>
+	@endif
+
 	@if ( ! empty($appointment->notes) and $_currentUser and $_currentUser->isStaff())
 		<div class="panel panel-warning">
 			<div class="panel-heading">
