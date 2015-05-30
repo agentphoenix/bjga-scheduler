@@ -10,6 +10,8 @@
 
 		@if ($lesson)
 			<p>The total due for your {{ $service }} is <strong>{{ $due }}</strong>.</p>
+		@else
+			<p>Full payment for the program is due at the start of the first scheduled date for the program.</p>
 		@endif
 
 		<p>Thank you, we look forward to serving you.</p>
