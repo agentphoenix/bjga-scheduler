@@ -75,7 +75,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 			{
 				foreach ($goal->stats as $stat)
 				{
-					$timestamp = $stat->updated_at->format('U');
+					$timestamp = $stat->created_at->format('U');
 
 					$timeline[$timestamp] = $stat;
 				}

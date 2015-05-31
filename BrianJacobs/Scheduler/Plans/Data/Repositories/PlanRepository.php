@@ -99,7 +99,7 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 		{
 			// Use "updated_at" for goals so that when a goal is marked
 			// as complete it jumps up in the list
-			$timestamp = $goal->updated_at->format('U');
+			$timestamp = $goal->created_at->format('U');
 
 			// Store the goal
 			$timeline[$timestamp] = $goal;
