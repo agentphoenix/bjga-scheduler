@@ -12,9 +12,11 @@ class Goal extends Model {
 	protected $table = 'plans_goals';
 
 	protected $fillable = ['plan_id', 'title', 'summary', 'completed',
-		'completed_date'];
+		'completed_date', 'target_date', 'target_type', 'target_metric',
+		'target_operator', 'target_value'];
 
-	protected $dates = ['created_at', 'updated_at', 'deleted_at', 'completed_date'];
+	protected $dates = ['created_at', 'updated_at', 'deleted_at',
+		'completed_date', 'target_date'];
 
 	protected $touches = ['plan'];
 
