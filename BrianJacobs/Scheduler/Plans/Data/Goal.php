@@ -16,6 +16,8 @@ class Goal extends Model {
 
 	protected $dates = ['created_at', 'updated_at', 'deleted_at', 'completed_date'];
 
+	protected $touches = ['plan'];
+
 	protected $presenter = 'Plans\Data\Presenters\GoalPresenter';
 
 	/*

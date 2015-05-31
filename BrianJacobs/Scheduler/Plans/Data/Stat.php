@@ -15,6 +15,8 @@ class Stat extends Model {
 
 	protected $dates = ['created_at', 'updated_at'];
 
+	protected $touches = ['plan'];
+
 	protected $presenter = 'Plans\Data\Presenters\StatPresenter';
 
 	/*
@@ -31,6 +33,11 @@ class Stat extends Model {
 	public function message()
 	{
 		return $this->hasMany('Stat', 'stat_id');
+	}
+
+	public function plan()
+	{
+		return $this->goal->plan();
 	}
 
 	public function user()

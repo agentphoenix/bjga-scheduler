@@ -13,6 +13,8 @@ class Conversation extends Model {
 
 	protected $dates = ['created_at', 'updated_at'];
 
+	protected $touches = ['plan'];
+
 	protected $presenter = 'Plans\Data\Presenters\ConversationPresenter';
 
 	/*
@@ -24,6 +26,11 @@ class Conversation extends Model {
 	public function goal()
 	{
 		return $this->belongsTo('Goal');
+	}
+
+	public function plan()
+	{
+		return $this->goal->plan();
 	}
 
 	public function user()
