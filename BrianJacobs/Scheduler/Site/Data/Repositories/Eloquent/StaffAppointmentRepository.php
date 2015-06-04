@@ -158,12 +158,16 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 				// Start building the new date
 				$newDate = Date::createFromFormat('Y-m-d H:i', $data['newDate']." ".$data['newTime']);
 
+				// Update the location if necessary
+				$location = $service->staff->getScheduleForDay($newDate->dayOfWeek)->location_id;
+
 				foreach ($series as $item)
 				{
-					$item->update(array(
-						'start'	=> $newDate,
-						'end'	=> $newDate->copy()->addMinutes($service->duration),
-					));
+					$item->update([
+						'start'			=> $newDate,
+						'end'			=> $newDate->copy()->addMinutes($service->duration),
+						'location_id'	=> $location,
+					]);
 
 					// Add to the new date
 					$newDate->addDays($service->occurrences_schedule);
