@@ -13,12 +13,12 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<!--<div class="form-group">
 		<label class="control-label col-md-3">Target Date</label>
 		<div class="col-md-9">
 			{{ Form::text('target_date', null, ['class' => 'form-control input-lg js-datepicker']) }}
 		</div>
-	</div>
+	</div>-->
 
 	{{ Form::hidden('plan_id', $plan->id) }}
 

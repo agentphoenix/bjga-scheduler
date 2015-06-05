@@ -35,11 +35,11 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->text('summary');
 			$table->boolean('completed')->default((int) false);
 			$table->timestamp('completed_date')->nullable();
-			$table->date('target_date')->nullable();
-			$table->string('target_type')->nullable();
-			$table->string('target_metric')->nullable();
-			$table->string('target_operator', 5)->nullable();
-			$table->integer('target_value')->nullable();
+			//$table->date('target_date')->nullable();
+			//$table->string('target_type')->nullable();
+			//$table->string('target_metric')->nullable();
+			//$table->string('target_operator', 5)->nullable();
+			//$table->integer('target_value')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});
