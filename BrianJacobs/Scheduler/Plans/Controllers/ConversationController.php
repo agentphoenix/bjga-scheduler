@@ -78,7 +78,7 @@ class ConversationController extends BaseController {
 		$goal = $comment->goal;
 
 		// Initial content
-		$content = alert('alert-danger', "You do not have permission to add comments to this development plan.");
+		$content = alert('alert-danger', "You do not have permission to edit this comment.");
 
 		if (($user->isStaff() and $user->staff->isPlanInstructor($goal->plan->id)) or ( ! $user->isStaff() and $user->plan and $user->plan->id == $goal->plan->id))
 		{
