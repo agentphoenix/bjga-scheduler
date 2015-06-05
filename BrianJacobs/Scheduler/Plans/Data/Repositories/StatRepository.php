@@ -20,7 +20,7 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 
 		foreach ($data as $key => $value)
 		{
-			if ( ! empty($value))
+			if (strlen($value) > 0)
 			{
 				$input[$key] = $value;
 			}
@@ -51,7 +51,18 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 
 		if ($stat)
 		{
-			$stat->fill($data)->save();
+			// An array for storing the cleaned data
+			$input = [];
+
+			foreach ($data as $key => $value)
+			{
+				if (strlen($value) > 0)
+				{
+					$input[$key] = $value;
+				}
+			}
+
+			$stat->fill($input)->save();
 
 			return $stat;
 		}
