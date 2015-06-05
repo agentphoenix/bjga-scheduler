@@ -1,6 +1,6 @@
 <form class="form-horizontal">
 	@if ($stats->type == 'round')
-		@if ( ! empty($stats->course))
+		@if ($stats->course !== null)
 			<div class="form-group">
 				<label class="control-label col-sm-4">Course</label>
 				<div class="col-sm-8">
