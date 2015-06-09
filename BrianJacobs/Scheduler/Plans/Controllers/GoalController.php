@@ -1,6 +1,7 @@
 <?php namespace Plans\Controllers;
 
-use Date,
+use App,
+	Date,
 	View,
 	Event,
 	Input,
@@ -165,6 +166,25 @@ class GoalController extends BaseController {
 		// Flash the message
 		Session::flash('messageStatus', 'success');
 		Session::flash('message', (Input::get('status') == 'complete') ? "Goal has been completed." : "Goal has been re-opened.");
+	}
+
+	public function changeLessonGoalAssociation()
+	{
+		# code...
+	}
+
+	public function removeLessonGoalAssociation()
+	{
+		App::make('StaffAppointmentRepository')->associateLessonWithGoal([
+			'lesson' => Input::get('lesson'),
+			'goal' => null
+		]);
+
+		// Flash the message
+		Session::flash('messageStatus', 'success');
+		Session::flash('message', "Lesson removed from goal.");
+
+		return json_encode([]);
 	}
 
 	public function checkPermissions()

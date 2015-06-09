@@ -49,6 +49,7 @@
 	{{ modal(['id' => 'addStats', 'header' => 'Add Stats']) }}
 	{{ modal(['id' => 'editStats', 'header' => 'Edit Stats']) }}
 	{{ modal(['id' => 'removeStats', 'header' => 'Remove Stats']) }}
+	{{ modal(['id' => 'associateGoal', 'header' => 'Associate Lesson with Development Plan Goal']) }}
 @stop
 
 @section('styles')
@@ -158,6 +159,34 @@
 					remote: "{{ URL::to('stats') }}/" + item + "/remove"
 				}).modal('show');
 			}
+
+			if (action == "lesson-remove")
+			{
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: "{{ route('lessons.removeGoal') }}",
+					data: {
+						"_token": "{{ csrf_token() }}",
+						lesson: item
+					},
+					success: function(data)
+					{
+						window.location.reload();
+					}
+				});
+			}
+		});
+
+		$('.js-goalAssociation').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var lesson = $(this).data('item');
+
+			$('#associateGoal').modal({
+				remote: "{{ URL::to('ajax/associate-goal') }}/" + lesson
+			}).modal('show');
 		});
 	</script>
 @stop

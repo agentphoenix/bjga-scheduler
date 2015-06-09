@@ -435,4 +435,36 @@ class AppointmentController extends BaseController {
 		}
 	}
 
+	public function ajaxAssociateGoal($lessonId)
+	{
+		// Get the lesson
+		$lesson = $this->appts->find($lessonId);
+
+		// Get the user
+		$user = $lesson->userAppointments->first()->user->load('plan', 'plan.activeGoals');
+
+		// Get all the active goals
+		$goals = $user->plan->activeGoals->lists('title', 'id');
+
+		return partial('common/modal_content', [
+			'modalHeader'	=> "Associate Lesson with Development Plan Goal",
+			'modalBody'		=> View::make('pages.admin.appointments.ajax.associate-goal')
+								->withPlan($user->plan)
+								->withGoals($goals)
+								->withUser($user)
+								->withLesson($lesson),
+			'modalFooter'	=> false,
+		]);
+	}
+
+	public function associateGoal()
+	{
+		// Do the association
+		$this->appts->associateLessonWithGoal(Input::all());
+
+		return Redirect::back()
+			->with('message', "Lesson has been associated with the development plan goal.")
+			->with('messageStatus', 'success');
+	}
+
 }

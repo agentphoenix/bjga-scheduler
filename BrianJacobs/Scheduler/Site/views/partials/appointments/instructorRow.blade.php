@@ -1,3 +1,5 @@
+<?php $user = $appt->userAppointments->first()->user;?>
+
 <div class="row">
 	<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
 		<p class="lead visible-xs visible-sm{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
@@ -11,7 +13,7 @@
 		<p class="lead visible-xs visible-sm{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
 			<strong><a href="#" class="no-color js-details" data-id="{{ $appt->id }}">
 				@if ($appt->service->isLesson())
-					{{ trim($appt->userAppointments->first()->user->name) }}
+					{{ trim($user->name) }}
 				@else
 					{{ trim($appt->service->name) }}
 				@endif
@@ -20,11 +22,15 @@
 
 		<p class="lead visible-md visible-lg{{ ($appt->hasEnded()) ? ' text-muted' : '' }}">
 			@if ($appt->service->isLesson())
-				{{ trim($appt->userAppointments->first()->user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
+				{{ trim($user->name) }} <span class="text-muted text-sm">{{ trim($appt->service->name) }}</span>
 			@else
 				{{ trim($appt->service->name) }}
 			@endif
 		</p>
+		@if ($appt->goal)
+			<p class="text-sm text-success">Part of their <strong><em>{{ link_to_route('goal.show', $appt->goal->present()->title, [$user->id, $appt->goal->id]) }}</em></strong> development plan goal</p>
+		@endif
+
 		@if ( ! empty($appt->notes))
 			<span class="text-sm text-info">{{ $appt->present()->notes }}</span>
 		@endif
@@ -39,12 +45,16 @@
 				@endif
 
 				@if ($appt->service->isLesson())
-					<?php $user = $appt->userAppointments->first()->user;?>
-
 					@if ($user->plan)
 						<div class="btn-group">
 							<a href="{{ route('plan', [$user->id]) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Student's Development Plan">{{ $_icons['target'] }}</a>
 						</div>
+
+						@if ($user->plan->activeGoals->count() > 0 and ! $appt->goal)
+							<div class="btn-group">
+								<a href="#" class="btn btn-sm btn-default icn-size-16 js-tooltip-top js-goalAssociation" data-lesson="{{ $appt->id }}" data-title="Associate with Goal">{{ $_icons['star'] }}</a>
+							</div>
+						@endif
 					@endif
 				@endif
 

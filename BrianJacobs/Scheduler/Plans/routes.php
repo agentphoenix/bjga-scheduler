@@ -53,6 +53,10 @@ Route::group($adminOptions, function()
 
 	Route::resource('plan', 'PlanController', ['except' => ['show']]);
 	Route::resource('stats', 'StatsController', ['except' => ['index', 'show']]);
+
+	Route::post('remove-lesson-goal-association', [
+		'as'	=> 'lessons.removeGoal',
+		'uses'	=> 'GoalController@removeLessonGoalAssociation']);
 });
 
 Route::group($options, function()

@@ -21,7 +21,7 @@
 								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a><br><br>
 
 								@if ($_currentUser->isStaff() or ! $_currentUser->isStaff() and $_currentUser->id == $goal->plan->user->id)
-									<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="conversation-edit" data-item="{{ $item->id }}">Edit Comment</a>
+									<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="conversation-edit" data-item="{{ $item->id }}">Edit Comment</a>
 
 									<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="conversation-remove" data-item="{{ $item->id }}">Remove Comment</a>
 								@endif
@@ -69,7 +69,7 @@
 								@if ($item->type != 'message')
 									<br><br>
 
-									<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="stats-edit" data-item="{{ $item->id }}">Edit Stat</a>
+									<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="stats-edit" data-item="{{ $item->id }}">Edit Stat</a>
 
 									<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="stats-remove" data-item="{{ $item->id }}">Remove Stat</a>
 								@endif
@@ -106,6 +106,26 @@
 							{{ $item->present()->appointmentDate }}, {{ $item->present()->appointmentTime }}<br>
 							<span class="text-sm text-muted">{{ $item->present()->location }}</span>
 						</p>
+						@if ( ! (bool) $goal->completed)
+							<div class="visible-xs visible-sm">
+								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a><br><br>
+
+								@if ($goal->plan->activeGoals->count() > 1)
+									<a href="#" class="btn btn-default btn-lg btn-block js-goalAssociation" data-item="{{ $item->id }}">Edit Lesson</a>
+								@endif
+
+								<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="lesson-remove" data-item="{{ $item->id }}">Remove Lesson</a>
+							</div>
+							<div class="visible-md visible-lg">
+								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a>
+
+								@if ($goal->plan->activeGoals->count() > 1)
+									<a href="#" class="btn btn-link js-goalAssociation" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
+								@endif
+
+								<a href="#" class="btn btn-link js-goalAction" data-action="lesson-remove" data-item="{{ $item->id }}">{{ $_icons['remove'] }}</a>
+							</div>
+						@endif
 						<span class="cd-date">{{ $item->present()->appointmentDateForPlan }}</span>
 					</div> <!-- cd-timeline-content -->
 				</div> <!-- cd-timeline-block -->

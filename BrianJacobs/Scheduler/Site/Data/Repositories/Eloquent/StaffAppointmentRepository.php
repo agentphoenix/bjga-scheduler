@@ -11,6 +11,22 @@ use Illuminate\Support\Collection;
 
 class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface {
 
+	public function associateLessonWithGoal(array $data)
+	{
+		// Get the appointment
+		$appt = $this->find($data['lesson']);
+
+		if ($appt)
+		{
+			$appt->plan_goal_id = $data['goal'];
+			$appt->save();
+
+			return $appt;
+		}
+
+		return false;
+	}
+
 	public function create(array $data)
 	{
 		return StaffAppointmentModel::create($data);
