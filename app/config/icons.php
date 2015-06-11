@@ -24,6 +24,7 @@ return array(
 	'info' => '<span class="icn" data-icon="i"></span>',
 	'instagram' => '<span class="icn" data-icon="a"></span>',
 
+	'link' => '<span class="icn" data-icon="="></span>',
 	'list' => '<span class="icn" data-icon="5"></span>',
 	'login' => '<span class="icn" data-icon="4"></span>',
 	'logout' => '<span class="icn" data-icon="x"></span>',
