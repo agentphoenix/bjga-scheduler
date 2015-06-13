@@ -15,9 +15,11 @@ abstract class BaseController extends Controller {
 	public function __construct()
 	{
 		$this->currentUser	= (Auth::check())
-			? Auth::user()->load('appointments', 'appointments.appointment', 'appointments.appointment.service', 'credits', 'staff', 'staff.appointments', 'staff.appointments.userAppointments', 'staff.appointments.service', 'staff.appointments.recur', 'staff.appointments.occurrence', 'staff.appointments.userAppointments.user', 'staff.appointments.service.serviceOccurrences')
+			? Auth::user()->load('credits', 'staff')
 			: false;
 		$this->request		= Request::instance();
+
+		//Auth::user()->load('appointments', 'appointments.appointment', 'appointments.appointment.service', 'credits', 'staff', 'staff.appointments', 'staff.appointments.userAppointments', 'staff.appointments.service', 'staff.appointments.recur', 'staff.appointments.occurrence', 'staff.appointments.userAppointments.user', 'staff.appointments.service.serviceOccurrences')
 	}
 
 	protected function unauthorized($message = false)
