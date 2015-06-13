@@ -32,7 +32,7 @@ class PlanController extends BaseController {
 		}
 
 		// Get all the development plans
-		$plans = ($this->currentUser->access() == 4)
+		$plans = ($this->currentUser->access() > 3)
 			? $this->plansRepo->all(['user', 'activeGoals', 'instructors', 'instructors.user'])
 			: $this->plansRepo->getInstructorPlans($this->currentUser->staff);
 
