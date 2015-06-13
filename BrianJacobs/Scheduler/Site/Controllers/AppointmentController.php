@@ -462,6 +462,8 @@ class AppointmentController extends BaseController {
 		// Do the association
 		$this->appts->associateLessonWithGoal(Input::all());
 
+		Event::fire('goal.lesson.associate');
+
 		return Redirect::back()
 			->with('message', "Lesson has been associated with the development plan goal.")
 			->with('messageStatus', 'success');
