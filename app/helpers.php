@@ -11,7 +11,7 @@ if ( ! function_exists('partial'))
 {
 	function partial($view, $data = false)
 	{
-		$viewObj = View::make("partials.{$view}");
+		$viewObj = view("partials.{$view}");
 
 		// Make sure we have data before attaching it
 		if ($data !== false)
@@ -31,7 +31,7 @@ if ( ! function_exists('modal'))
 {
 	function modal(array $data = array())
 	{
-		return View::make('partials.common.modal')
+		return view('partials.common.modal')
 			->with('modalId', (array_key_exists('id', $data)) ? $data['id'] : false)
 			->with('modalHeader', (array_key_exists('header', $data)) ? $data['header'] : false)
 			->with('modalBody', (array_key_exists('body', $data)) ? $data['body'] : false)
@@ -44,9 +44,44 @@ if ( ! function_exists('alert'))
 {
 	function alert($level, $message)
 	{
-		return View::make('partials.common.alert')
+		return view('partials.common.alert')
 			->withClass($level)
 			->withContent($message)
 			->render();
+	}
+}
+
+if ( ! function_exists('view'))
+{
+	function view($view = null, $data = [], $mergeData = [])
+	{
+		$factory = app('view');
+
+		if (func_num_args() === 0) {
+			return $factory;
+		}
+
+		return $factory->make($view, $data, $mergeData);
+	}
+}
+
+if ( ! function_exists('redirect'))
+{
+	function redirect($to = null, $status = 302, $headers = [], $secure = null)
+	{
+		if (is_null($to))
+		{
+			return app('redirect');
+		}
+
+		return app('redirect')->to($to, $status, $headers, $secure);
+	}
+}
+
+if ( ! function_exists('event'))
+{
+	function event($event, $payload = [], $halt = false)
+	{
+		return app('events')->fire($event, $payload, $halt);
 	}
 }
