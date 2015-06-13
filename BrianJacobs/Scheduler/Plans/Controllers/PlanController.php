@@ -1,45 +1,45 @@
 <?php namespace Plans\Controllers;
 
-use View,
-	Event,
-	Input,
-	Redirect,
-	GoalRepositoryInterface,
-	PlanRepositoryInterface,
-	UserRepositoryInterface,
-	StaffRepositoryInterface;
+use Input,
+	GoalRepositoryInterface as GoalRepo,
+	PlanRepositoryInterface as PlanRepo,
+	UserRepositoryInterface as UserRepo,
+	StaffRepositoryInterface as StaffRepo;
 use Scheduler\Controllers\BaseController;
 
 class PlanController extends BaseController {
 
-	protected $goals;
-	protected $plans;
-	protected $users;
-	protected $staff;
+	protected $goalsRepo;
+	protected $plansRepo;
+	protected $usersRepo;
+	protected $staffRepo;
 
-	public function __construct(PlanRepositoryInterface $plans,
-			GoalRepositoryInterface $goals, UserRepositoryInterface $users,
-			StaffRepositoryInterface $staff)
+	public function __construct(PlanRepo $plans, GoalRepo $goals, UserRepo $users, StaffRepo $staff)
 	{
 		parent::__construct();
 
-		$this->goals = $goals;
-		$this->plans = $plans;
-		$this->users = $users;
-		$this->staff = $staff;
+		$this->goalsRepo = $goals;
+		$this->plansRepo = $plans;
+		$this->usersRepo = $users;
+		$this->staffRepo = $staff;
 	}
 
 	public function index()
 	{
+		if ( ! $this->currentUser->isStaff())
+		{
+			return $this->unauthorized("You do not have permission to manage development plans.");
+		}
+
 		// Get all the development plans
 		$plans = ($this->currentUser->access() == 4)
-			? $this->plans->all(['user', 'activeGoals', 'instructors', 'instructors.user'])
-			: $this->plans->getInstructorPlans($this->currentUser->staff);
+			? $this->plansRepo->all(['user', 'activeGoals', 'instructors', 'instructors.user'])
+			: $this->plansRepo->getInstructorPlans($this->currentUser->staff);
 
 		// Can we create more plans?
-		$createAllowed = ($plans->count() < 3);
+		$createAllowed = ($plans->count() < 4);
 
-		return View::make('pages.devplans.plans.index', compact('plans', 'createAllowed'));
+		return view('pages.devplans.plans.index', compact('plans', 'createAllowed'));
 	}
 
 	public function show($userId = false)
@@ -48,11 +48,14 @@ class PlanController extends BaseController {
 		{
 			if ( ! $this->currentUser->isStaff() and $this->currentUser->id != $userId)
 			{
+				if ($this->currentUser->plan)
+					return redirect()->route('plan', [$this->currentUser->id]);
+
 				return $this->unauthorized("You don't have permission to see development plans for other students!");
 			}
 
 			// Get the user
-			$user = $this->users->find($userId);
+			$user = $this->usersRepo->find($userId);
 		}
 		else
 		{
@@ -72,9 +75,9 @@ class PlanController extends BaseController {
 		if ($plan)
 		{
 			// Get the plan timeline
-			$timeline = $this->plans->getUserPlanTimeline($plan);
+			$timeline = $this->plansRepo->getUserPlanTimeline($plan);
 
-			return View::make('pages.devplans.plan', compact('plan', 'timeline', 'userId', 'user'));
+			return view('pages.devplans.plan', compact('plan', 'timeline', 'userId', 'user'));
 		}
 
 		return $this->errorNotFound("This user does not have a development plan.");
@@ -84,24 +87,33 @@ class PlanController extends BaseController {
 	{
 		// Get all the users
 		$users[''] = "Please select a user";
-		$users += $this->users->withoutDevelopmentPlan();
+		$users += $this->usersRepo->withoutDevelopmentPlan();
+
+		$message = ($this->currentUser->isStaff())
+			? view('pages.devplans.plans.create', compact('users'))
+			: alert('alert-danger', "You do not have permission to create development plans.");
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Add Development Plan",
-			'modalBody'		=> View::make('pages.devplans.plans.create', compact('users')),
+			'modalBody'		=> $message,
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function store()
 	{
+		if ( ! $this->currentUser->isStaff())
+		{
+			return $this->unauthorized("You do not have permission to create development plans.");
+		}
+
 		// Create the plan
-		$plan = $this->plans->create(Input::all(), $this->currentUser->staff);
+		$plan = $this->plansRepo->create(Input::all(), $this->currentUser->staff);
 
 		// Fire the event
-		Event::fire('plan.created', [$plan]);
+		event('plan.created', [$plan]);
 
-		return Redirect::route('plan.index')
+		return redirect()->route('plan.index')
 			->with('messageStatus', 'success')
 			->with('message', "Development plan created!");
 	}
@@ -109,33 +121,42 @@ class PlanController extends BaseController {
 	public function edit($id)
 	{
 		// Get the plan
-		$plan = $this->plans->getById($id, ['user', 'instructors', 'instructors.user']);
+		$plan = $this->plansRepo->getById($id, ['user', 'instructors', 'instructors.user']);
 
 		// Get all the instructors
 		$staff[''] = "Please select an instructor";
-		$staff += $this->staff->allForDropdown();
+		$staff += $this->staffRepo->allForDropdown();
 
 		foreach ($plan->instructors as $instructor)
 		{
 			unset($staff[$instructor->id]);
 		}
 
+		$message = ($this->currentUser->isStaff())
+			? view('pages.devplans.plans.instructors', compact('plan', 'staff'))
+			: alert('alert-danger', "You do not have permission to edit development plans.");
+
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Add Instructor to Development Plan",
-			'modalBody'		=> View::make('pages.devplans.plans.instructors', compact('plan', 'staff')),
+			'modalBody'		=> $message,
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function update($id)
 	{
+		if ( ! $this->currentUser->isStaff())
+		{
+			return $this->unauthorized("You do not have permission to edit development plans.");
+		}
+
 		// Update the plan
-		$plan = $this->plans->addInstructor($id, Input::get('instructor'));
+		$plan = $this->plansRepo->addInstructor($id, Input::get('instructor'));
 
 		// Fire the event
-		Event::fire('plan.updated', [$plan, Input::get('instructor')]);
+		event('plan.updated', [$plan, Input::get('instructor')]);
 
-		return Redirect::route('plan.index')
+		return redirect()->route('plan.index')
 			->with('messageStatus', 'success')
 			->with('message', "Instructor added to development plan!");
 	}
@@ -143,69 +164,48 @@ class PlanController extends BaseController {
 	public function remove($id)
 	{
 		// Get the plan
-		$plan = $this->plans->getById($id, ['user']);
+		$plan = $this->plansRepo->getById($id, ['user']);
+
+		$message = ($this->currentUser->isStaff())
+			? view('pages.devplans.plans.remove', compact('plan'))
+			: alert('alert-danger', "You do not have permission to remove development plans.");
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Development Plan",
-			'modalBody'		=> View::make('pages.devplans.plans.remove', compact('plan')),
+			'modalBody'		=> $message,
 			'modalFooter'	=> false,
 		]);
 	}
 
 	public function destroy($id)
 	{
+		if ( ! $this->currentUser->isStaff())
+		{
+			return $this->unauthorized("You do not have permission to remove development plans.");
+		}
+
 		// Remove the plan
-		$plan = $this->plans->delete($id);
+		$plan = $this->plansRepo->delete($id);
 
 		// Fire the event
-		Event::fire('plan.deleted', [$plan]);
+		event('plan.deleted', [$plan]);
 
-		return Redirect::route('plan.index')
+		return redirect()->route('plan.index')
 			->with('messageStatus', 'success')
 			->with('message', "Development plan removed!");
 	}
 
 	public function removeInstructor()
 	{
+		if ( ! $this->currentUser->isStaff())
+		{
+			return $this->unauthorized("You do not have permission to edit development plans.");
+		}
+
 		// Remove the instructor
-		$this->plans->removeInstructor(Input::get('plan'), Input::get('instructor'));
+		$this->plansRepo->removeInstructor(Input::get('plan'), Input::get('instructor'));
 
 		return json_encode(['code' => 1]);
-	}
-
-	public function goal($userId = false, $goalId)
-	{
-		if ($userId)
-		{
-			if ( ! $this->currentUser->isStaff() and $this->currentUser->id != $userId)
-			{
-				return $this->unauthorized("You don't have permission to see development plans for other students!");
-			}
-
-			// Get the user
-			$user = $this->users->find($userId);
-		}
-		else
-		{
-			// Get the user
-			$user = $this->currentUser;
-		}
-
-		// Load the plan and goals from the user object
-		$user = $user->load('plan');
-
-		// Get the goal
-		$goal = $this->goals->getById($goalId);
-
-		if ( ! $goal)
-		{
-			//
-		}
-
-		// Get the goal timeline
-		$timeline = $this->goals->getUserGoalTimeline($user->plan, $goalId);
-
-		return View::make('pages.devplans.goal', compact('goal', 'timeline', 'userId', 'user'));
 	}
 
 }
