@@ -168,17 +168,14 @@ class GoalController extends BaseController {
 		Session::flash('message', (Input::get('status') == 'complete') ? "Goal has been completed." : "Goal has been re-opened.");
 	}
 
-	public function changeLessonGoalAssociation()
-	{
-		# code...
-	}
-
 	public function removeLessonGoalAssociation()
 	{
 		App::make('StaffAppointmentRepository')->associateLessonWithGoal([
 			'lesson' => Input::get('lesson'),
 			'goal' => null
 		]);
+
+		Event::fire('goal.lesson.removed');
 
 		// Flash the message
 		Session::flash('messageStatus', 'success');
