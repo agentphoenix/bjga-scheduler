@@ -107,6 +107,21 @@
 	</div>
 
 	<div id="controls" class="hide">
+		@if (count($goals) > 1)
+			<div class="form-group">
+				<label class="control-label col-md-3">Add to Goals</label>
+				<div class="col-md-9">
+				@foreach ($goals as $g)
+					<div class="checkbox">
+						<label>{{ Form::checkbox('goals[]', $g->id, ($g->id == $goal->id)) }} {{ $g->present()->title }}</label>
+					</div>
+				@endforeach
+				</div>
+			</div>
+		@else
+			{{ Form::hidden('goals[]', $goals[0]) }}
+		@endif
+
 		<div class="form-group">
 			<label class="control-label col-md-3">Notes</label>
 			<div class="col-md-9">

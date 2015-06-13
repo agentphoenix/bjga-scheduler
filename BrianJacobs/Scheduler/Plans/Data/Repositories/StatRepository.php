@@ -18,15 +18,31 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 		// An array for storing the cleaned data
 		$input = [];
 
+		// Make sure we're only using the data that was entered
 		foreach ($data as $key => $value)
 		{
-			if (strlen($value) > 0)
+			if (is_string($value) and strlen($value) > 0)
 			{
 				$input[$key] = $value;
 			}
 		}
 
-		return $this->model->create($input);
+		// Make sure we have goals to add it to, otherwise use the goal
+		// we kicked the whole process off from as the goal to associate it with
+		if ( ! isset($data['goals']))
+		{
+			$data['goals'] = [$data['goal_id']];
+		}
+
+		// Loop through the goals and create stat records for each goal
+		foreach ($data['goals'] as $goal)
+		{
+			$input['goal_id'] = $goal;
+
+			$stat = $this->model->create($input);
+		}
+
+		return $stat;
 	}
 
 	public function delete($id)
