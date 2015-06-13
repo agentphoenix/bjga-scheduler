@@ -83,6 +83,11 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 		return false;
 	}
 
+	public function getActiveGoals(Model $plan)
+	{
+		return $plan->activeGoals;
+	}
+
 	public function getInstructorPlans(Staff $instructor)
 	{
 		return $instructor->plans->load('user', 'activeGoals', 'instructors', 'instructors.user');
