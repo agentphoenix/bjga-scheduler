@@ -6,7 +6,7 @@
 			<li class="{{ ((Request::is('/') or Request::is('days*')) ? 'active' : '') }}"><a href="{{ route('home') }}"><span class="icn-size-16">{{ $_icons['schedule'] }}</span>My Schedule</a></li>
 			
 			@if ($_currentUser->plan)
-				<li class="{{ ((Request::is('plan*')) ? 'active' : '') }}"><a href="{{ route('plan') }}"><span class="icn-size-16">{{ $_icons['target'] }}</span>My Plan</a></li>
+				<li class="{{ ((Request::is('plan*')) ? 'active' : '') }}"><a href="{{ route('plan', [$_currentUser->id]) }}"><span class="icn-size-16">{{ $_icons['target'] }}</span>My Plan</a></li>
 			@endif
 
 			<li class="{{ ((Request::is('my-history')) ? 'active' : '') }}"><a href="{{ route('history') }}"><span class="icn-size-16">{{ $_icons['star'] }}</span>My History</a></li>
