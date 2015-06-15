@@ -1,34 +1,27 @@
 <?php namespace Plans\Controllers;
 
-use View,
-	Event,
-	Input,
-	Redirect,
-	GoalRepositoryInterface,
-	StatRepositoryInterface;
+use Input,
+	GoalRepositoryInterface as GoalRepo,
+	StatRepositoryInterface as StatRepo;
 use Scheduler\Controllers\BaseController;
 
 class StatsController extends BaseController {
 
-	protected $goals;
+	protected $goalsRepo;
 	protected $repo;
 
-	public function __construct(GoalRepositoryInterface $goals,
-			StatRepositoryInterface $stats)
+	public function __construct(GoalRepo $goals, StatRepo $stats)
 	{
 		parent::__construct();
 
-		$this->goals = $goals;
+		$this->goalsRepo = $goals;
 		$this->repo = $stats;
-
-		// Before filter to check if the user has permissions
-		//$this->beforeFilter('@checkPermissions');
 	}
 
 	public function create($goalId)
 	{
 		// Get the goal
-		$goal = $this->goals->getById($goalId);
+		$goal = $this->goalsRepo->getById($goalId);
 
 		// Build the types
 		$types = [
@@ -45,9 +38,11 @@ class StatsController extends BaseController {
 			'other' => 'Other',
 		];
 
+		$goals = $goal->plan->activeGoals;
+
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Add Stats",
-			'modalBody'		=> View::make('pages.devplans.stats.create', compact('goal', 'types', 'holes')),
+			'modalBody'		=> view('pages.devplans.stats.create', compact('goal', 'types', 'holes', 'goals')),
 			'modalFooter'	=> false,
 		]);
 	}
@@ -58,9 +53,9 @@ class StatsController extends BaseController {
 		$stats = $this->repo->create(Input::except(['numHoles']));
 
 		// Fire the event
-		Event::fire('stats.created', [$stats]);
+		event('stats.created', [$stats]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Stats created!");
 	}
@@ -87,7 +82,7 @@ class StatsController extends BaseController {
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Edit Stats",
-			'modalBody'		=> View::make('pages.devplans.stats.edit', compact('stat', 'types', 'holes')),
+			'modalBody'		=> view('pages.devplans.stats.edit', compact('stat', 'types', 'holes')),
 			'modalFooter'	=> false,
 		]);
 	}
@@ -98,9 +93,9 @@ class StatsController extends BaseController {
 		$stat = $this->repo->update($id, Input::all());
 
 		// Fire the event
-		Event::fire('stats.updated', [$stat]);
+		event('stats.updated', [$stat]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Stats were updated.");
 	}
@@ -112,7 +107,7 @@ class StatsController extends BaseController {
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Stats",
-			'modalBody'		=> View::make('pages.devplans.stats.remove', compact('stat')),
+			'modalBody'		=> view('pages.devplans.stats.remove', compact('stat')),
 			'modalFooter'	=> false,
 		]);
 	}
@@ -123,19 +118,11 @@ class StatsController extends BaseController {
 		$stat = $this->repo->delete($id);
 
 		// Fire the event
-		Event::fire('stats.deleted', [$stat]);
+		event('stats.deleted', [$stat]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Stats were removed.");
-	}
-
-	public function checkPermissions()
-	{
-		if ($this->currentUser->access() < 3)
-		{
-			return $this->unauthorized("You do not have permission to manage development plan goals!");
-		}
 	}
 
 }

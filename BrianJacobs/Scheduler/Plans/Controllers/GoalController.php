@@ -1,38 +1,27 @@
 <?php namespace Plans\Controllers;
 
-use App,
-	Date,
-	View,
-	Event,
+use Date,
 	Input,
 	Session,
-	Redirect,
-	GoalRepositoryInterface,
-	PlanRepositoryInterface,
-	UserRepositoryInterface,
-	StaffRepositoryInterface;
+	UserModel as User,
+	GoalRepositoryInterface as GoalRepo,
+	PlanRepositoryInterface as PlanRepo,
+	UserRepositoryInterface as UserRepo;
 use Scheduler\Controllers\BaseController;
 
 class GoalController extends BaseController {
 
-	protected $goals;
-	protected $users;
-	protected $staff;
-	protected $plans;
+	protected $goalsRepo;
+	protected $usersRepo;
+	protected $plansRepo;
 
-	public function __construct(GoalRepositoryInterface $goals,
-			UserRepositoryInterface $users, StaffRepositoryInterface $staff,
-			PlanRepositoryInterface $plans)
+	public function __construct(GoalRepo $goals, UserRepo $users, PlanRepo $plans)
 	{
 		parent::__construct();
 
-		$this->goals = $goals;
-		$this->users = $users;
-		$this->staff = $staff;
-		$this->plans = $plans;
-
-		// Before filter to check if the user has permissions
-		//$this->beforeFilter('@checkPermissions');
+		$this->goalsRepo = $goals;
+		$this->usersRepo = $users;
+		$this->plansRepo = $plans;
 	}
 
 	public function show($userId = false, $goalId)
@@ -41,11 +30,16 @@ class GoalController extends BaseController {
 		{
 			if ( ! $this->currentUser->isStaff() and $this->currentUser->id != $userId)
 			{
+				if ($this->currentUser->plan)
+				{
+					return redirect()->route('plan', [$this->currentUser->id]);
+				}
+
 				return $this->unauthorized("You don't have permission to see development plans for other students!");
 			}
 
 			// Get the user
-			$user = $this->users->find($userId);
+			$user = $this->usersRepo->find($userId);
 		}
 		else
 		{
@@ -60,27 +54,31 @@ class GoalController extends BaseController {
 		$user = $user->load('plan');
 
 		// Get the goal
-		$goal = $this->goals->getById($goalId);
+		$goal = $this->goalsRepo->getById($goalId);
 
 		if ( ! $goal)
 		{
-			//
+			return $this->errorNotFound("No such goal exists in your development plan. Please try again.");
 		}
 
 		// Get the goal timeline
-		$timeline = $this->goals->getUserGoalTimeline($user->plan, $goalId);
+		$timeline = $this->goalsRepo->getUserGoalTimeline($user->plan, $goalId);
 
-		return View::make('pages.devplans.goal', compact('goal', 'timeline', 'userId', 'user'));
+		return view('pages.devplans.goal', compact('goal', 'timeline', 'userId', 'user'));
 	}
 
 	public function create($id)
 	{
 		// Get the plan
-		$plan = $this->plans->getById($id);
+		$plan = $this->plansRepo->getById($id);
+
+		$message = ( ! $this->hasPermission($this->currentUser, $plan))
+			? alert('alert-danger', "You don't have permission to create goals for this development plan.")
+			: view('pages.devplans.goals.create', compact('plan'));
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Add a Goal",
-			'modalBody'		=> View::make('pages.devplans.goals.create', compact('plan')),
+			'modalBody'		=> $message,
 			'modalFooter'	=> false,
 		]);
 	}
@@ -88,12 +86,12 @@ class GoalController extends BaseController {
 	public function store()
 	{
 		// Create the goal
-		$goal = $this->goals->create(Input::all());
+		$goal = $this->goalsRepo->create(Input::all());
 
 		// Fire the event
-		Event::fire('goal.created', [$goal]);
+		event('goal.created', [$goal]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Goal created!");
 	}
@@ -101,11 +99,11 @@ class GoalController extends BaseController {
 	public function edit($id)
 	{
 		// Get the goal
-		$goal = $this->goals->getById($id);
+		$goal = $this->goalsRepo->getById($id);
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Edit Goal",
-			'modalBody'		=> View::make('pages.devplans.goals.edit', compact('goal')),
+			'modalBody'		=> view('pages.devplans.goals.edit', compact('goal')),
 			'modalFooter'	=> false,
 		]);
 	}
@@ -113,12 +111,12 @@ class GoalController extends BaseController {
 	public function update($id)
 	{
 		// Update the goal
-		$goal = $this->goals->update($id, Input::all());
+		$goal = $this->goalsRepo->update($id, Input::all());
 
 		// Fire the event
-		Event::fire('goal.updated', [$goal]);
+		event('goal.updated', [$goal]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Goal was updated.");
 	}
@@ -126,11 +124,11 @@ class GoalController extends BaseController {
 	public function remove($id)
 	{
 		// Get the goal
-		$goal = $this->goals->getById($id, ['plan', 'plan.user']);
+		$goal = $this->goalsRepo->getById($id, ['plan', 'plan.user']);
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Goal",
-			'modalBody'		=> View::make('pages.devplans.goals.remove', compact('goal')),
+			'modalBody'		=> view('pages.devplans.goals.remove', compact('goal')),
 			'modalFooter'	=> false,
 		]);
 	}
@@ -138,12 +136,12 @@ class GoalController extends BaseController {
 	public function destroy($id)
 	{
 		// Remove the goal
-		$goal = $this->goals->delete($id);
+		$goal = $this->goalsRepo->delete($id);
 
 		// Fire the event
-		Event::fire('goal.deleted', [$goal]);
+		event('goal.deleted', [$goal]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Goal was removed.");
 	}
@@ -156,12 +154,16 @@ class GoalController extends BaseController {
 		];
 
 		// Update the goal
-		$goal = $this->goals->update(Input::get('goal'), $updateData);
+		$goal = $this->goalsRepo->update(Input::get('goal'), $updateData);
 
 		if (Input::get('status') == 'complete')
-			Event::fire('goal.completed', [$goal]);
+		{
+			event('goal.completed', [$goal]);
+		}
 		else
-			Event::fire('goal.reopened', [$goal]);
+		{
+			event('goal.reopened', [$goal]);
+		}
 
 		// Flash the message
 		Session::flash('messageStatus', 'success');
@@ -170,12 +172,12 @@ class GoalController extends BaseController {
 
 	public function removeLessonGoalAssociation()
 	{
-		App::make('StaffAppointmentRepository')->associateLessonWithGoal([
+		app('StaffAppointmentRepository')->associateLessonWithGoal([
 			'lesson' => Input::get('lesson'),
 			'goal' => null
 		]);
 
-		Event::fire('goal.lesson.removed');
+		event('goal.lesson.removed');
 
 		// Flash the message
 		Session::flash('messageStatus', 'success');
@@ -184,12 +186,13 @@ class GoalController extends BaseController {
 		return json_encode([]);
 	}
 
-	public function checkPermissions()
+	protected function hasPermission(User $user, $plan)
 	{
-		if ($this->currentUser->access() < 3)
-		{
-			return $this->unauthorized("You do not have permission to manage development plan goals!");
-		}
+		if ($user->isStaff()) return true;
+
+		if ( ! $user->isStaff() and $user->id == $plan->user_id) return true;
+
+		return false;
 	}
 
 }
