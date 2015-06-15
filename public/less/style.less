@@ -420,6 +420,11 @@ select {
 
 	&.alert-danger {
 		.alert-variant(lighten(@color-danger-alert, 38%), lighten(@color-danger-alert, 28%), @color-danger-alert);
+
+		a {
+			color: @color-danger-bright;
+			text-decoration: underline;
+		}
 	}
 
 	.btn {
