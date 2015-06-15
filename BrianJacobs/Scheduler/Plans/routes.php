@@ -15,7 +15,7 @@ Route::group($adminOptions, function()
 	Route::get('admin/plan', [
 		'as'	=> 'plan.index',
 		'uses'	=> 'PlanController@index']);
-	Route::get('plan/{id}/remove', [
+	Route::get('plan/{planId}/remove', [
 		'as'	=> 'plan.remove',
 		'uses'	=> 'PlanController@remove']);
 	Route::post('plan/remove-instructor', [
@@ -34,10 +34,10 @@ Route::group($adminOptions, function()
 	Route::put('conversation/{commentId}', [
 		'as'	=> 'conversation.update',
 		'uses'	=> 'ConversationController@update']);
-	Route::get('conversation/{id}/remove', [
+	Route::get('conversation/{conversationId}/remove', [
 		'as'	=> 'conversation.remove',
 		'uses'	=> 'ConversationController@remove']);
-	Route::delete('conversation/{id}', [
+	Route::delete('conversation/{conversationId}', [
 		'as'	=> 'conversation.destroy',
 		'uses'	=> 'ConversationController@destroy']);
 
@@ -47,7 +47,7 @@ Route::group($adminOptions, function()
 	Route::post('stats/{goalId}', [
 		'as'	=> 'stats.store',
 		'uses'	=> 'StatsController@store']);
-	Route::get('stats/{id}/remove', [
+	Route::get('stats/{statId}/remove', [
 		'as'	=> 'stats.remove',
 		'uses'	=> 'StatsController@remove']);
 
@@ -64,13 +64,13 @@ Route::group($options, function()
 	Route::get('plan/{userId}/goal/{goalId}', [
 		'as'	=> 'goal.show',
 		'uses'	=> 'GoalController@show']);
-	Route::get('goal/{id}/remove', [
+	Route::get('goal/{goalId}/remove', [
 		'as'	=> 'goal.remove',
 		'uses'	=> 'GoalController@remove']);
-	Route::get('goal/{id}/create', [
+	Route::get('goal/{planId}/create', [
 		'as'	=> 'goal.create',
 		'uses'	=> 'GoalController@create']);
-	Route::post('goal/{id}/update-status', [
+	Route::post('goal/update-status', [
 		'as'	=> 'goal.update-status',
 		'uses'	=> 'GoalController@changeStatus']);
 
