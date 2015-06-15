@@ -1,4 +1,4 @@
-<p>Are you sure you want to remove {{ $plan->user->name }}'s development plan? This will remove the plan and any goals, conversations, and statistics stored for the student and cannot be undone!</p>
+<p>Are you sure you want to remove {{ $plan->user->name }}'s development plan? This will remove the plan and any goals, comments, and statistics stored for the student and cannot be undone!</p>
 
 {{ Form::open(['route' => ['plan.destroy', $plan->id], 'method' => 'delete']) }}
 	<div class="form-group">

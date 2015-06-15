@@ -5,13 +5,13 @@ use Laracasts\Presenter\Presenter;
 
 class PlanPresenter extends Presenter {
 
-	public function conversation()
+	public function comments()
 	{
 		$output = '';
 
-		if ($this->entity->conversations->count() > 0)
+		if ($this->entity->comments->count() > 0)
 		{
-			foreach ($this->entity->conversations as $c)
+			foreach ($this->entity->comments as $c)
 			{
 				$output.= partial('common.blockquote', [
 					'author'	=> $c->user->present()->name,

@@ -220,10 +220,10 @@ return array(
 		'UserModel'						=> 'Scheduler\Data\Models\Eloquent\UserModel',
 		'UserAppointmentModel'			=> 'Scheduler\Data\Models\Eloquent\UserAppointmentModel',
 
-		'Conversation'	=> 'Plans\Data\Conversation',
-		'Goal'			=> 'Plans\Data\Goal',
-		'Plan'			=> 'Plans\Data\Plan',
-		'Stat'			=> 'Plans\Data\Stat',
+		'Comment'	=> 'Plans\Data\Comment',
+		'Goal'		=> 'Plans\Data\Goal',
+		'Plan'		=> 'Plans\Data\Plan',
+		'Stat'		=> 'Plans\Data\Stat',
 
 		/**
 		 * Repositories
@@ -237,10 +237,10 @@ return array(
 		'StaffScheduleRepository'		=> 'Scheduler\Data\Repositories\Eloquent\StaffScheduleRepository',
 		'UserRepository'				=> 'Scheduler\Data\Repositories\Eloquent\UserRepository',
 
-		'ConversationRepository'	=> 'Plans\Data\Repositories\ConversationRepository',
-		'GoalRepository'			=> 'Plans\Data\Repositories\GoalRepository',
-		'PlanRepository'			=> 'Plans\Data\Repositories\PlanRepository',
-		'StatRepository'			=> 'Plans\Data\Repositories\StatRepository',
+		'CommentRepository'	=> 'Plans\Data\Repositories\CommentRepository',
+		'GoalRepository'	=> 'Plans\Data\Repositories\GoalRepository',
+		'PlanRepository'	=> 'Plans\Data\Repositories\PlanRepository',
+		'StatRepository'	=> 'Plans\Data\Repositories\StatRepository',
 
 		/**
 		 * Repository Interfaces
@@ -254,10 +254,10 @@ return array(
 		'StaffScheduleRepositoryInterface'		=> 'Scheduler\Data\Interfaces\StaffScheduleRepositoryInterface',
 		'UserRepositoryInterface'				=> 'Scheduler\Data\Interfaces\UserRepositoryInterface',
 
-		'ConversationRepositoryInterface'	=> 'Plans\Data\Interfaces\ConversationRepositoryInterface',
-		'GoalRepositoryInterface'			=> 'Plans\Data\Interfaces\GoalRepositoryInterface',
-		'PlanRepositoryInterface'			=> 'Plans\Data\Interfaces\PlanRepositoryInterface',
-		'StatRepositoryInterface'			=> 'Plans\Data\Interfaces\StatRepositoryInterface',
+		'CommentRepositoryInterface'	=> 'Plans\Data\Interfaces\CommentRepositoryInterface',
+		'GoalRepositoryInterface'		=> 'Plans\Data\Interfaces\GoalRepositoryInterface',
+		'PlanRepositoryInterface'		=> 'Plans\Data\Interfaces\PlanRepositoryInterface',
+		'StatRepositoryInterface'		=> 'Plans\Data\Interfaces\StatRepositoryInterface',
 
 		/**
 		 * Transformers

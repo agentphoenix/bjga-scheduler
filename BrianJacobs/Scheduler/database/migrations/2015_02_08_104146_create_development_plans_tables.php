@@ -44,7 +44,7 @@ class CreateDevelopmentPlansTables extends Migration {
 			$table->softDeletes();
 		});
 
-		Schema::create('plans_conversations', function(Blueprint $table)
+		Schema::create('plans_comments', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
 			$table->bigInteger('goal_id')->unsigned();
@@ -93,7 +93,7 @@ class CreateDevelopmentPlansTables extends Migration {
 		Schema::dropIfExists('plans');
 		Schema::dropIfExists('plans_instructors');
 		Schema::dropIfExists('plans_goals');
-		Schema::dropIfExists('plans_conversations');
+		Schema::dropIfExists('plans_comments');
 		Schema::dropIfExists('plans_stats');
 
 		Schema::table('staff_appointments', function(Blueprint $table)

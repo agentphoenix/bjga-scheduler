@@ -45,7 +45,7 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 	public function delete($id)
 	{
 		// Get the plan
-		$plan = $this->getById($id, ['goals', 'goals.conversations', 'goals.stats']);
+		$plan = $this->getById($id, ['goals', 'goals.comments', 'goals.stats']);
 
 		if ($plan)
 		{
@@ -56,7 +56,7 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 			{
 				foreach ($plan->goals as $goal)
 				{
-					$goal->conversations->each(function($g)
+					$goal->comments->each(function($g)
 					{
 						$g->delete();
 					});
@@ -95,7 +95,7 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 
 	public function getUserPlanTimeline(Model $plan)
 	{
-		$plan = $plan->load('goals', 'goals.conversations', 'goals.conversations.user', 'goals.conversations.goal', 'goals.stats', 'goals.stats.goal', 'goals.lessons', 'goals.lessons.service');
+		$plan = $plan->load('goals', 'goals.comments', 'goals.comments.user', 'goals.comments.goal', 'goals.stats', 'goals.stats.goal', 'goals.lessons', 'goals.lessons.service');
 
 		$timeline = [];
 
@@ -109,10 +109,10 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 			// Store the goal
 			$timeline[$timestamp] = $goal;
 
-			// Goal conversations
-			if ($goal->conversations->count() > 0)
+			// Goal comments
+			if ($goal->comments->count() > 0)
 			{
-				foreach ($goal->conversations as $comment)
+				foreach ($goal->comments as $comment)
 				{
 					$timestamp = $comment->created_at->format('U');
 

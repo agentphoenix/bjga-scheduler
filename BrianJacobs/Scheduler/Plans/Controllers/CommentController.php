@@ -1,34 +1,27 @@
 <?php namespace Plans\Controllers;
 
-use View,
-	Event,
-	Input,
-	Redirect,
-	GoalRepositoryInterface,
-	ConversationRepositoryInterface;
+use Input,
+	GoalRepositoryInterface as GoalRepo,
+	CommentRepositoryInterface as CommentRepo;
 use Scheduler\Controllers\BaseController;
 
-class ConversationController extends BaseController {
+class CommentController extends BaseController {
 
 	protected $repo;
-	protected $goals;
+	protected $goalsRepo;
 
-	public function __construct(ConversationRepositoryInterface $repo,
-			GoalRepositoryInterface $goals)
+	public function __construct(CommentRepo $repo, GoalRepo $goals)
 	{
 		parent::__construct();
 
 		$this->repo = $repo;
-		$this->goals = $goals;
-
-		// Before filter to check if the user has permissions
-		//$this->beforeFilter('@checkPermissions');
+		$this->goalsRepo = $goals;
 	}
 
 	public function create($goalId)
 	{
 		// Get the goal
-		$goal = $this->goals->getById($goalId, ['plan']);
+		$goal = $this->goalsRepo->getById($goalId, ['plan']);
 
 		// Get the current user (for brevity)
 		$user = $this->currentUser;
@@ -38,11 +31,11 @@ class ConversationController extends BaseController {
 
 		if (($user->isStaff() and $user->staff->isPlanInstructor($goal->plan->id)) or ( ! $user->isStaff() and $user->plan and $user->plan->id == $goal->plan->id))
 		{
-			$content = View::make('pages.devplans.conversations.create', compact('goal'));
+			$content = view('pages.devplans.comments.create', compact('goal'));
 		}
 
 		return partial('common/modal_content', [
-			'modalHeader'	=> "Add to the Conversation",
+			'modalHeader'	=> "Add a Comment",
 			'modalBody'		=> $content,
 			'modalFooter'	=> false,
 		]);
@@ -51,7 +44,7 @@ class ConversationController extends BaseController {
 	public function store($goalId)
 	{
 		// Get the goal
-		$goal = $this->goals->getById($goalId, ['plan']);
+		$goal = $this->goalsRepo->getById($goalId, ['plan']);
 
 		// Can the current user actually store a comment here?
 
@@ -59,9 +52,9 @@ class ConversationController extends BaseController {
 		$comment = $this->repo->create(array_merge(Input::all(), ['user_id' => $this->currentUser->id]));
 
 		// Fire the event
-		Event::fire('comment.created', [$comment]);
+		event('comment.created', [$comment]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Comment added!");
 	}
@@ -82,7 +75,7 @@ class ConversationController extends BaseController {
 
 		if (($user->isStaff() and $user->staff->isPlanInstructor($goal->plan->id)) or ( ! $user->isStaff() and $user->plan and $user->plan->id == $goal->plan->id))
 		{
-			$content = View::make('pages.devplans.conversations.edit', compact('comment'));
+			$content = view('pages.devplans.comments.edit', compact('comment'));
 		}
 
 		return partial('common/modal_content', [
@@ -98,34 +91,34 @@ class ConversationController extends BaseController {
 		$comment = $this->repo->update($commentId, Input::all());
 
 		// Fire the event
-		Event::fire('comment.updated', [$comment]);
+		event('comment.updated', [$comment]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Comment updated!");
 	}
 
-	public function remove($id)
+	public function remove($commentId)
 	{
 		// Get the comment
-		$comment = $this->repo->getById($id);
+		$comment = $this->repo->getById($commentId);
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Goal",
-			'modalBody'		=> View::make('pages.devplans.conversations.remove', compact('comment')),
+			'modalBody'		=> view('pages.devplans.comments.remove', compact('comment')),
 			'modalFooter'	=> false,
 		]);
 	}
 
-	public function destroy($id)
+	public function destroy($commentId)
 	{
 		// Remove the comment
-		$comment = $this->repo->delete($id);
+		$comment = $this->repo->delete($commentId);
 
 		// Fire the event
-		Event::fire('comment.deleted', [$comment]);
+		event('comment.deleted', [$comment]);
 
-		return Redirect::back()
+		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Comment was removed.");
 	}

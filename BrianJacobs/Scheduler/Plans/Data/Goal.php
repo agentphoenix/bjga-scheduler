@@ -33,9 +33,9 @@ class Goal extends Model {
 		return $this->belongsTo('Plan');
 	}
 
-	public function conversations()
+	public function comments()
 	{
-		return $this->hasMany('Conversation');
+		return $this->hasMany('Comment');
 	}
 
 	public function lessons()

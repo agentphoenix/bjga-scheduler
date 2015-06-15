@@ -24,9 +24,9 @@
 						{{ $item->present()->summary }}
 
 						<p class="text-muted">
-						@if ($item->conversations->count() > 0)
+						@if ($item->comments->count() > 0)
 							<span class="icn-size-16">{{ $_icons['comments'] }}</span>
-							&nbsp;<em>{{ $item->conversations->count() }}</em>
+							&nbsp;<em>{{ $item->comments->count() }}</em>
 							&nbsp;&nbsp;&nbsp;
 						@endif
 
@@ -80,8 +80,8 @@
 				</div> <!-- cd-timeline-block -->
 			@endif
 
-			@if ($item instanceof Conversation)
-				<div class="cd-timeline-block unchanged cd-timeline-conversation">
+			@if ($item instanceof Comment)
+				<div class="cd-timeline-block unchanged cd-timeline-comment">
 					<div class="cd-timeline-img">
 						<span class="icn-size-32">{{ $_icons['comments'] }}</span>
 					</div> <!-- cd-timeline-img -->

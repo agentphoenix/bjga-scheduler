@@ -1,4 +1,4 @@
-<p>Are you sure you want to remove the <strong>{{ $goal->present()->title }}</strong> goal from {{ $goal->plan->user->name }}'s development plan? This will remove the goal and any conversations and statistics stored for the goal. This cannot be undone!</p>
+<p>Are you sure you want to remove the <strong>{{ $goal->present()->title }}</strong> goal from {{ $goal->plan->user->name }}'s development plan? This will remove the goal and any comments and statistics stored for the goal. This cannot be undone!</p>
 
 {{ Form::open(['route' => ['goal.destroy', $goal->id], 'method' => 'delete']) }}
 	<div class="form-group">

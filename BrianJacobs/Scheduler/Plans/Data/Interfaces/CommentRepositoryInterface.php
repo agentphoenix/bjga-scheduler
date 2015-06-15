@@ -2,7 +2,7 @@
 
 use Scheduler\Data\Interfaces\BaseRepositoryInterface;
 
-interface ConversationRepositoryInterface extends BaseRepositoryInterface {
+interface CommentRepositoryInterface extends BaseRepositoryInterface {
 
 	public function create(array $data);
 	public function delete($id);

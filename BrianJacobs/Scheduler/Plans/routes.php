@@ -22,24 +22,24 @@ Route::group($adminOptions, function()
 		'as'	=> 'plan.removeInstructor',
 		'uses'	=> 'PlanController@removeInstructor']);
 
-	Route::get('conversation/{goalId}/create', [
-		'as'	=> 'conversation.create',
-		'uses'	=> 'ConversationController@create']);
-	Route::post('conversation/{goalId}', [
-		'as'	=> 'conversation.store',
-		'uses'	=> 'ConversationController@store']);
-	Route::get('conversation/{commentId}/edit', [
-		'as'	=> 'conversation.edit',
-		'uses'	=> 'ConversationController@edit']);
-	Route::put('conversation/{commentId}', [
-		'as'	=> 'conversation.update',
-		'uses'	=> 'ConversationController@update']);
-	Route::get('conversation/{conversationId}/remove', [
-		'as'	=> 'conversation.remove',
-		'uses'	=> 'ConversationController@remove']);
-	Route::delete('conversation/{conversationId}', [
-		'as'	=> 'conversation.destroy',
-		'uses'	=> 'ConversationController@destroy']);
+	Route::get('comment/{goalId}/create', [
+		'as'	=> 'comment.create',
+		'uses'	=> 'CommentController@create']);
+	Route::post('comment/{goalId}', [
+		'as'	=> 'comment.store',
+		'uses'	=> 'CommentController@store']);
+	Route::get('comment/{commentId}/edit', [
+		'as'	=> 'comment.edit',
+		'uses'	=> 'CommentController@edit']);
+	Route::put('comment/{commentId}', [
+		'as'	=> 'comment.update',
+		'uses'	=> 'CommentController@update']);
+	Route::get('comment/{commentId}/remove', [
+		'as'	=> 'comment.remove',
+		'uses'	=> 'CommentController@remove']);
+	Route::delete('comment/{commentId}', [
+		'as'	=> 'comment.destroy',
+		'uses'	=> 'CommentController@destroy']);
 
 	Route::get('stats/{goalId}/create', [
 		'as'	=> 'stats.create',

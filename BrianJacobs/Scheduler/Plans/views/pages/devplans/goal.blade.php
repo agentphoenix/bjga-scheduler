@@ -14,7 +14,7 @@
 			</div>
 			@if ( ! (bool) $goal->completed)
 				<div class="col-xs-6 col-sm-4">
-					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Add Comment</a></p>
+					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Add Comment</a></p>
 				</div>
 				<div class="col-xs-6 col-sm-4">
 					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="stats-add" data-item="{{ $goal->id }}">Add Stats</a></p>
@@ -31,7 +31,7 @@
 				<div class="btn-group">
 					<button type="button" class="btn btn-sm btn-primary icn-size-16 dropdown-toggle" data-toggle="dropdown">{{ $_icons['add'] }}</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#" class="js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Add Comment</a></li>
+						<li><a href="#" class="js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Add Comment</a></li>
 						<li><a href="#" class="js-goalAction" data-action="stats-add" data-item="{{ $goal->id }}">Add Stats</a></li>
 					</ul>
 				</div>
@@ -43,7 +43,7 @@
 @stop
 
 @section('modals')
-	{{ modal(['id' => 'addComment', 'header' => 'Add to the Conversation']) }}
+	{{ modal(['id' => 'addComment', 'header' => 'Add a Comment']) }}
 	{{ modal(['id' => 'editComment', 'header' => 'Edit Comment']) }}
 	{{ modal(['id' => 'removeComment', 'header' => 'Remove Comment']) }}
 	{{ modal(['id' => 'addStats', 'header' => 'Add Stats']) }}
@@ -118,24 +118,24 @@
 			var action = $(this).data('action');
 			var item = $(this).data('item');
 
-			if (action == "conversation-add")
+			if (action == "comment-add")
 			{
 				$('#addComment').modal({
-					remote: "{{ URL::to('conversation') }}/" + item + "/create"
+					remote: "{{ URL::to('comment') }}/" + item + "/create"
 				}).modal('show');
 			}
 
-			if (action == "conversation-edit")
+			if (action == "comment-edit")
 			{
 				$('#editComment').modal({
-					remote: "{{ URL::to('conversation') }}/" + item + "/edit"
+					remote: "{{ URL::to('comment') }}/" + item + "/edit"
 				}).modal('show');
 			}
 
-			if (action == "conversation-remove")
+			if (action == "comment-remove")
 			{
 				$('#removeComment').modal({
-					remote: "{{ URL::to('conversation') }}/" + item + "/remove"
+					remote: "{{ URL::to('comment') }}/" + item + "/remove"
 				}).modal('show');
 			}
 

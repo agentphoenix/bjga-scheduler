@@ -1,10 +1,10 @@
 <?php namespace Plans\Data\Repositories;
 
-use Conversation as Model,
-	ConversationRepositoryInterface;
+use Comment as Model,
+	CommentRepositoryInterface;
 use Scheduler\Data\Repositories\BaseRepository;
 
-class ConversationRepository extends BaseRepository implements ConversationRepositoryInterface {
+class CommentRepository extends BaseRepository implements CommentRepositoryInterface {
 
 	protected $model;
 

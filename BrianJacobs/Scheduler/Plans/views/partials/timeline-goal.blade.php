@@ -7,8 +7,8 @@
 @if (count($items) > 0)
 	<article id="cd-timeline" class="cd-container">
 		@foreach ($items as $item)
-			@if ($item instanceof Conversation)
-				<div class="cd-timeline-block unchanged cd-timeline-conversation">
+			@if ($item instanceof Comment)
+				<div class="cd-timeline-block unchanged cd-timeline-comment">
 					<div class="cd-timeline-img">
 						<span class="icn-size-32">{{ $_icons['comments'] }}</span>
 					</div> <!-- cd-timeline-img -->
@@ -18,21 +18,21 @@
 
 						@if ( ! (bool) $goal->completed)
 							<div class="visible-xs visible-sm">
-								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a><br><br>
+								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a><br><br>
 
 								@if ($_currentUser->isStaff() or ! $_currentUser->isStaff() and $_currentUser->id == $goal->plan->user->id)
-									<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="conversation-edit" data-item="{{ $item->id }}">Edit Comment</a>
+									<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="comment-edit" data-item="{{ $item->id }}">Edit Comment</a>
 
-									<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="conversation-remove" data-item="{{ $item->id }}">Remove Comment</a>
+									<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="comment-remove" data-item="{{ $item->id }}">Remove Comment</a>
 								@endif
 							</div>
 							<div class="visible-md visible-lg">
-								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a>
+								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a>
 
 								@if ($_currentUser->isStaff() or ! $_currentUser->isStaff() and $_currentUser->id == $goal->plan->user->id)
-									<a href="#" class="btn btn-link js-goalAction" data-action="conversation-edit" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
+									<a href="#" class="btn btn-link js-goalAction" data-action="comment-edit" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
 
-									<a href="#" class="btn btn-link js-goalAction" data-action="conversation-remove" data-item="{{ $item->id }}">{{ $_icons['remove'] }}</a>
+									<a href="#" class="btn btn-link js-goalAction" data-action="comment-remove" data-item="{{ $item->id }}">{{ $_icons['remove'] }}</a>
 								@endif
 							</div>
 						@endif
@@ -64,7 +64,7 @@
 
 						@if ( ! (bool) $goal->completed)
 							<div class="visible-xs visible-sm">
-								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a>
+								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a>
 
 								@if ($item->type != 'message')
 									<br><br>
@@ -75,7 +75,7 @@
 								@endif
 							</div>
 							<div class="visible-md visible-lg">
-								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a>
+								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a>
 
 								@if ($item->type != 'message')
 									<a href="#" class="btn btn-link js-goalAction" data-action="stats-edit" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
@@ -108,7 +108,7 @@
 						</p>
 						@if ( ! (bool) $goal->completed)
 							<div class="visible-xs visible-sm">
-								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a><br><br>
+								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a><br><br>
 
 								@if ($goal->plan->activeGoals->count() > 1)
 									<a href="#" class="btn btn-default btn-lg btn-block js-goalAssociation" data-item="{{ $item->id }}">Edit Lesson</a>
@@ -117,7 +117,7 @@
 								<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="lesson-remove" data-item="{{ $item->id }}">Remove Lesson</a>
 							</div>
 							<div class="visible-md visible-lg">
-								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="conversation-add" data-item="{{ $goal->id }}">Reply</a>
+								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a>
 
 								@if ($goal->plan->activeGoals->count() > 1)
 									<a href="#" class="btn btn-link js-goalAssociation" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>

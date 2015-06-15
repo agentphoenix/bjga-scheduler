@@ -1,4 +1,4 @@
-{{ Form::open(['route' => ['conversation.store', $goal->id], 'class' => 'form-horizontal']) }}
+{{ Form::open(['route' => ['comment.store', $goal->id], 'class' => 'form-horizontal']) }}
 	<div class="form-group">
 		<label class="control-label col-md-2">Comment</label>
 		<div class="col-md-10">

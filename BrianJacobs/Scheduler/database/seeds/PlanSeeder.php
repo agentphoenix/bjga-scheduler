@@ -48,12 +48,12 @@ class PlanSeeder extends Seeder {
 		// Attach the goals to the plan
 		$plan->goals()->saveMany($goals);
 
-		// Create some conversations
+		// Create some comments
 		for ($i=0; $i<15; $i++)
 		{
 			$date = $faker->dateTimeBetween('-1 years');
 
-			Conversation::create([
+			Comment::create([
 				'goal_id'		=> mt_rand(1, 4),
 				'user_id'		=> mt_rand(1, 2),
 				'content'		=> $faker->text(mt_rand(10, 300)),

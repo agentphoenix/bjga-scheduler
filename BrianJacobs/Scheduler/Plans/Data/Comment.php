@@ -3,11 +3,11 @@
 use Model;
 use Laracasts\Presenter\PresentableTrait;
 
-class Conversation extends Model {
+class Comment extends Model {
 
 	use PresentableTrait;
 
-	protected $table = 'plans_conversations';
+	protected $table = 'plans_comments';
 
 	protected $fillable = ['goal_id', 'user_id', 'content'];
 
@@ -15,7 +15,7 @@ class Conversation extends Model {
 
 	protected $touches = ['plan'];
 
-	protected $presenter = 'Plans\Data\Presenters\ConversationPresenter';
+	protected $presenter = 'Plans\Data\Presenters\CommentPresenter';
 
 	/*
 	|--------------------------------------------------------------------------

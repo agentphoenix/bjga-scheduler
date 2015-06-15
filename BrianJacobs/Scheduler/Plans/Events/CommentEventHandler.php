@@ -1,8 +1,6 @@
 <?php namespace Plans\Events;
 
-use App;
-
-class ConversationEventHandler {
+class CommentEventHandler {
 
 	public function onCreate($comment)
 	{
@@ -10,7 +8,7 @@ class ConversationEventHandler {
 			? "You"
 			: $comment->user->present()->name;
 
-		App::make('NotificationRepository')->create([
+		app('NotificationRepository')->create([
 			'user_id'	=> $comment->goal->plan->user->id,
 			'type'		=> 'plan',
 			'category'	=> 'comment',
@@ -21,7 +19,7 @@ class ConversationEventHandler {
 
 	public function onDelete($comment)
 	{
-		App::make('NotificationRepository')->create([
+		app('NotificationRepository')->create([
 			'user_id'	=> $comment->goal->plan->user->id,
 			'type'		=> 'plan',
 			'category'	=> 'comment',
@@ -32,7 +30,7 @@ class ConversationEventHandler {
 
 	public function onUpdate($comment)
 	{
-		App::make('NotificationRepository')->create([
+		app('NotificationRepository')->create([
 			'user_id'	=> $comment->goal->plan->user->id,
 			'type'		=> 'plan',
 			'category'	=> 'comment',

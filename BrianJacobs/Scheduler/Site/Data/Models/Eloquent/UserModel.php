@@ -50,9 +50,9 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		return $this->hasOne('Plan', 'user_id');
 	}
 
-	public function conversations()
+	public function comments()
 	{
-		return $this->hasMany('Conversation', 'user_id');
+		return $this->hasMany('Comment', 'user_id');
 	}
 
 	public function notifications()

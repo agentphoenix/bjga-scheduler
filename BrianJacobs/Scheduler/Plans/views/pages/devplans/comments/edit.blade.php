@@ -1,4 +1,4 @@
-{{ Form::model($comment, ['route' => ['conversation.update', $comment->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
+{{ Form::model($comment, ['route' => ['comment.update', $comment->id], 'method' => 'put', 'class' => 'form-horizontal']) }}
 	<div class="form-group">
 		<label class="control-label col-md-2">Comment</label>
 		<div class="col-md-10">

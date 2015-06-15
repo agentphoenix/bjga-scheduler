@@ -23,11 +23,11 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 	public function delete($id)
 	{
 		// Get the goal
-		$goal = $this->getById($id, ['conversations', 'stats']);
+		$goal = $this->getById($id, ['comments', 'stats']);
 
 		if ($goal)
 		{
-			$goal->conversations->each(function($g)
+			$goal->comments->each(function($g)
 			{
 				$g->delete();
 			});
@@ -57,12 +57,12 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 
 		if ($goal)
 		{
-			$goal = $goal->load('conversations', 'conversations.user', 'conversations.user.staff', 'conversations.goal', 'stats', 'stats.goal', 'lessons', 'lessons.service', 'lessons.location', 'lessons.goal', 'plan', 'plan.user');
+			$goal = $goal->load('comments', 'comments.user', 'comments.user.staff', 'comments.goal', 'stats', 'stats.goal', 'lessons', 'lessons.service', 'lessons.location', 'lessons.goal', 'plan', 'plan.user');
 
-			// Goal conversations
-			if ($goal->conversations->count() > 0)
+			// Goal comments
+			if ($goal->comments->count() > 0)
 			{
-				foreach ($goal->conversations as $comment)
+				foreach ($goal->comments as $comment)
 				{
 					$timestamp = $comment->created_at->format('U');
 

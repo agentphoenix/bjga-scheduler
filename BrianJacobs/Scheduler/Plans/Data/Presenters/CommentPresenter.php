@@ -3,7 +3,7 @@
 use Config, Markdown;
 use Laracasts\Presenter\Presenter;
 
-class ConversationPresenter extends Presenter {
+class CommentPresenter extends Presenter {
 
 	public function author()
 	{
