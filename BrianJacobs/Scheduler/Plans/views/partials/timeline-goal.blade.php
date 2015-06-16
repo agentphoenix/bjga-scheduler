@@ -20,7 +20,7 @@
 							<div class="visible-xs visible-sm">
 								<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a><br><br>
 
-								@if ($_currentUser->isStaff() or ! $_currentUser->isStaff() and $_currentUser->id == $goal->plan->user->id)
+								@if ($_currentUser->isStaff() or ! $_currentUser->isStaff() and $_currentUser->id == $item->user_id)
 									<a href="#" class="btn btn-default btn-lg btn-block js-goalAction" data-action="comment-edit" data-item="{{ $item->id }}">Edit Comment</a>
 
 									<a href="#" class="btn btn-danger btn-lg btn-block js-goalAction" data-action="comment-remove" data-item="{{ $item->id }}">Remove Comment</a>
@@ -29,7 +29,7 @@
 							<div class="visible-md visible-lg">
 								<a href="#" class="btn btn-default btn-sm js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Reply</a>
 
-								@if ($_currentUser->isStaff() or ! $_currentUser->isStaff() and $_currentUser->id == $goal->plan->user->id)
+								@if ($_currentUser->isStaff() or ! $_currentUser->isStaff() and $_currentUser->id == $item->user_id)
 									<a href="#" class="btn btn-link js-goalAction" data-action="comment-edit" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
 
 									<a href="#" class="btn btn-link js-goalAction" data-action="comment-remove" data-item="{{ $item->id }}">{{ $_icons['remove'] }}</a>

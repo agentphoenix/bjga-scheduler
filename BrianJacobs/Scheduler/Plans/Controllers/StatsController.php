@@ -23,6 +23,11 @@ class StatsController extends BaseController {
 		// Get the goal
 		$goal = $this->goalsRepo->getById($goalId);
 
+		if ( ! $this->hasPermission($this->currentUser, $goal))
+		{
+			return $this->unauthorized("You do not have permission to create stats for this development plan.");
+		}
+
 		// Build the types
 		$types = [
 			'' => "Choose a stat type",
@@ -100,10 +105,10 @@ class StatsController extends BaseController {
 			->with('message', "Stats were updated.");
 	}
 
-	public function remove($id)
+	public function remove($statId)
 	{
 		// Get the stat
-		$stat = $this->repo->getById($id);
+		$stat = $this->repo->getById($statId);
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Stats",
@@ -123,6 +128,15 @@ class StatsController extends BaseController {
 		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Stats were removed.");
+	}
+
+	protected function hasPermission($user, $goal)
+	{
+		if ($user->isStaff()) return true;
+
+		if ( ! $user->isStaff() and $goal->plan->user_id == $user->id) return true;
+
+		return false;
 	}
 
 }

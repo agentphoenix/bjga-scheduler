@@ -49,13 +49,17 @@ class PlanController extends BaseController {
 			if ( ! $this->currentUser->isStaff() and $this->currentUser->id != $userId)
 			{
 				if ($this->currentUser->plan)
+				{
 					return redirect()->route('plan', [$this->currentUser->id]);
+				}
 
-				return $this->unauthorized("You don't have permission to see development plans for other students!");
+				return $this->unauthorized("You do not have permission to see development plans for other students.");
 			}
 
 			// Get the user
-			$user = $this->usersRepo->find($userId);
+			$user = ( ! $this->currentUser->isStaff() and $this->currentUser->id == $userId)
+				? $this->currentUser
+				: $this->usersRepo->find($userId);
 		}
 		else
 		{
@@ -161,10 +165,10 @@ class PlanController extends BaseController {
 			->with('message', "Instructor added to development plan!");
 	}
 
-	public function remove($id)
+	public function remove($planId)
 	{
 		// Get the plan
-		$plan = $this->plansRepo->getById($id, ['user']);
+		$plan = $this->plansRepo->getById($planId, ['user']);
 
 		$message = ($this->currentUser->isStaff())
 			? view('pages.devplans.plans.remove', compact('plan'))

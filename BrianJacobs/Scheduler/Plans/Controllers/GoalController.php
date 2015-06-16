@@ -35,11 +35,13 @@ class GoalController extends BaseController {
 					return redirect()->route('plan', [$this->currentUser->id]);
 				}
 
-				return $this->unauthorized("You don't have permission to see development plans for other students!");
+				return $this->unauthorized("You do not have permission to see development plans for other students.");
 			}
 
 			// Get the user
-			$user = $this->usersRepo->find($userId);
+			$user = ( ! $this->currentUser->isStaff() and $this->currentUser->id == $userId)
+				? $this->currentUser
+				: $this->usersRepo->find($userId);
 		}
 		else
 		{
@@ -58,7 +60,7 @@ class GoalController extends BaseController {
 
 		if ( ! $goal)
 		{
-			return $this->errorNotFound("No such goal exists in your development plan. Please try again.");
+			return $this->errorNotFound("No such goal exists in your development plan. Please return to your ".link_to_route('plan', 'development plan', [$this->currentUser->id])." and try again.");
 		}
 
 		// Get the goal timeline
@@ -67,13 +69,13 @@ class GoalController extends BaseController {
 		return view('pages.devplans.goal', compact('goal', 'timeline', 'userId', 'user'));
 	}
 
-	public function create($id)
+	public function create($planId)
 	{
 		// Get the plan
-		$plan = $this->plansRepo->getById($id);
+		$plan = $this->plansRepo->getById($planId);
 
 		$message = ( ! $this->hasPermission($this->currentUser, $plan))
-			? alert('alert-danger', "You don't have permission to create goals for this development plan.")
+			? alert('alert-danger', "You do not have permission to create goals for this development plan.")
 			: view('pages.devplans.goals.create', compact('plan'));
 
 		return partial('common/modal_content', [
@@ -121,10 +123,10 @@ class GoalController extends BaseController {
 			->with('message', "Goal was updated.");
 	}
 
-	public function remove($id)
+	public function remove($goalId)
 	{
 		// Get the goal
-		$goal = $this->goalsRepo->getById($id, ['plan', 'plan.user']);
+		$goal = $this->goalsRepo->getById($goalId, ['plan', 'plan.user']);
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Remove Goal",

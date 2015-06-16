@@ -26,17 +26,13 @@ class CommentController extends BaseController {
 		// Get the current user (for brevity)
 		$user = $this->currentUser;
 
-		// Initial content
-		$content = alert('alert-danger', "You do not have permission to add comments to this development plan.");
-
-		if (($user->isStaff() and $user->staff->isPlanInstructor($goal->plan->id)) or ( ! $user->isStaff() and $user->plan and $user->plan->id == $goal->plan->id))
-		{
-			$content = view('pages.devplans.comments.create', compact('goal'));
-		}
+		$message = ($user->isStaff() or ! $user->isStaff() and $user->id == $goal->plan->user_id)
+			? view('pages.devplans.comments.create', compact('goal'))
+			: alert('alert-danger', "You do not have permission to create comments on this development plan.");
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Add a Comment",
-			'modalBody'		=> $content,
+			'modalBody'		=> $message,
 			'modalFooter'	=> false,
 		]);
 	}
@@ -46,17 +42,20 @@ class CommentController extends BaseController {
 		// Get the goal
 		$goal = $this->goalsRepo->getById($goalId, ['plan']);
 
-		// Can the current user actually store a comment here?
+		if ($this->currentUser->isStaff() or ! $this->currentUser->isStaff() and $this->currentUser->id == $goal->plan->user_id)
+		{
+			// Create the comment
+			$comment = $this->repo->create(array_merge(Input::all(), ['user_id' => $this->currentUser->id]));
 
-		// Create the comment
-		$comment = $this->repo->create(array_merge(Input::all(), ['user_id' => $this->currentUser->id]));
+			// Fire the event
+			event('comment.created', [$comment]);
 
-		// Fire the event
-		event('comment.created', [$comment]);
+			return redirect()->back()
+				->with('messageStatus', 'success')
+				->with('message', "Comment added!");
+		}
 
-		return redirect()->back()
-			->with('messageStatus', 'success')
-			->with('message', "Comment added!");
+		return $this->unauthorized("You do not have permission to create comments for this development plan.");
 	}
 
 	public function edit($commentId)
@@ -67,20 +66,13 @@ class CommentController extends BaseController {
 		// Get the current user (for brevity)
 		$user = $this->currentUser;
 
-		// Get the goal
-		$goal = $comment->goal;
-
-		// Initial content
-		$content = alert('alert-danger', "You do not have permission to edit this comment.");
-
-		if (($user->isStaff() and $user->staff->isPlanInstructor($goal->plan->id)) or ( ! $user->isStaff() and $user->plan and $user->plan->id == $goal->plan->id))
-		{
-			$content = view('pages.devplans.comments.edit', compact('comment'));
-		}
+		$message = ($user->isStaff() or ! $user->isStaff() and $user->id == $comment->user_id)
+			? view('pages.devplans.comments.edit', compact('comment'))
+			: alert('alert-danger', "You do not have permission to edit this comment.");
 
 		return partial('common/modal_content', [
 			'modalHeader'	=> "Edit Comment",
-			'modalBody'		=> $content,
+			'modalBody'		=> $message,
 			'modalFooter'	=> false,
 		]);
 	}
@@ -103,9 +95,16 @@ class CommentController extends BaseController {
 		// Get the comment
 		$comment = $this->repo->getById($commentId);
 
+		// Get the current user (for brevity)
+		$user = $this->currentUser;
+
+		$message = ($user->isStaff() or ! $user->isStaff() and $user->id == $comment->user_id)
+			? view('pages.devplans.comments.remove', compact('comment'))
+			: alert('alert-danger', "You do not have permission to remove this comment.");
+
 		return partial('common/modal_content', [
-			'modalHeader'	=> "Remove Goal",
-			'modalBody'		=> view('pages.devplans.comments.remove', compact('comment')),
+			'modalHeader'	=> "Remove Comment",
+			'modalBody'		=> $message,
 			'modalFooter'	=> false,
 		]);
 	}
@@ -121,14 +120,6 @@ class CommentController extends BaseController {
 		return redirect()->back()
 			->with('messageStatus', 'success')
 			->with('message', "Comment was removed.");
-	}
-
-	public function checkPermissions()
-	{
-		if ($this->currentUser->access() < 3)
-		{
-			return $this->unauthorized("You do not have permission to manage development plan goals!");
-		}
 	}
 
 }
