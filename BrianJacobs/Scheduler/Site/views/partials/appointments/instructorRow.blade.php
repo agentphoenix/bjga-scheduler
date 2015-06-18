@@ -1,4 +1,4 @@
-<?php $user = $appt->userAppointments->first()->user;?>
+<?php $user = ($appt->userAppointments->count() > 0) ? $appt->userAppointments->first()->user : false;?>
 
 <div class="row">
 	<div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
