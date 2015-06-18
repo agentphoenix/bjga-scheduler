@@ -40,6 +40,8 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 			$input['goal_id'] = $goal;
 
 			$stat = $this->model->create($input);
+
+			sleep(1);
 		}
 
 		return $stat;
