@@ -52,7 +52,7 @@
 
 						@if ($user->plan->activeGoals->count() > 0 and ! $appt->goal)
 							<div class="btn-group">
-								<a href="#" class="btn btn-sm btn-default icn-size-16 js-tooltip-top js-goalAssociation" data-lesson="{{ $appt->id }}" data-title="Associate with Goal">{{ $_icons['star'] }}</a>
+								<a href="#" class="btn btn-sm btn-default icn-size-16 js-tooltip-top js-goalAssociation" data-lesson="{{ $appt->id }}" data-title="Associate with Goal">{{ $_icons['link'] }}</a>
 							</div>
 						@endif
 					@endif
