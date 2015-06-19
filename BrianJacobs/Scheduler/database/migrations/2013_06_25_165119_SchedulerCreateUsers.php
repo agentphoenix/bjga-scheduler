@@ -76,8 +76,8 @@ class SchedulerCreateUsers extends Migration {
 		}
 
 		$staff = [
-			['user_id' => 1, 'access' => 2, 'title' => "Director of Instruction", 'instruction' => (int) true],
-			['user_id' => 2, 'access' => 3, 'title' => "Web Developer"],
+			['user_id' => 1, 'access' => 3, 'title' => "Director of Instruction", 'instruction' => (int) true],
+			['user_id' => 2, 'access' => 4, 'title' => "Web Developer"],
 		];
 
 		foreach ($staff as $s)

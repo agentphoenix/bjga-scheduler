@@ -17,7 +17,7 @@ class StaffRepository implements StaffRepositoryInterface {
 	public function all($onlyInstructors = false)
 	{
 		if ($onlyInstructors)
-			return StaffModel::where('instruction', (int) true)->get();
+			return StaffModel::with('user')->where('instruction', (int) true)->get();
 		
 		return StaffModel::all();
 	}

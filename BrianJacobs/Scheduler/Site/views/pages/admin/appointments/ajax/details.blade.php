@@ -1,3 +1,5 @@
+<?php $user = $appt->userAppointments->first()->user;?>
+
 <div class="data-table data-table-bordered data-table-striped">
 	<div class="row">
 		<div class="col-xs-3">
@@ -46,6 +48,16 @@
 
 @if ($appt->service->isProgram())
 	<p><a href="{{ route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">More Info</a></p>
+@endif
+
+@if ($appt->service->isLesson())
+	@if ($user->plan)
+		<p><a href="{{ route('plan', [$user->id]) }}" class="btn btn-lg btn-block btn-default">Student's Development Plan</a></p>
+
+		@if ($user->plan->activeGoals->count() > 0 and ! $appt->goal)
+			<p><a href="#" class="btn btn-lg btn-block btn-default">Associate with Development Goal</a></p>
+		@endif
+	@endif
 @endif
 
 @if ($appt->service->isLesson() or $appt->service->isProgram())

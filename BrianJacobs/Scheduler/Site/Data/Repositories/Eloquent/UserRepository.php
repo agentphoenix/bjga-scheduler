@@ -170,7 +170,7 @@ class UserRepository implements UserRepositoryInterface {
 		// Get today
 		$today = Date::now();
 
-		$user = $user->load('appointments', 'appointments.appointment', 'appointments.appointment.service', 'appointments.appointment.service', 'appointments.appointment.userAppointments', 'appointments.appointment.location');
+		$user = $user->load('appointments', 'appointments.appointment', 'appointments.appointment.service', 'appointments.appointment.userAppointments', 'appointments.appointment.userAppointments.user', 'appointments.appointment.userAppointments.user.plan', 'appointments.appointment.location');
 
 		// Filter user appointments to only show today forward
 		$userAppointments = $user->appointments->filter(function($a) use ($today, $days)
@@ -349,6 +349,16 @@ class UserRepository implements UserRepositoryInterface {
 				return "$".$value;
 			break;
 		}
+	}
+
+	public function withDevelopmentPlan()
+	{
+		return UserModel::has('plan')->orderBy('name', 'asc')->lists('name', 'id');
+	}
+
+	public function withoutDevelopmentPlan()
+	{
+		return UserModel::has('plan', '=', 0)->orderBy('name', 'asc')->lists('name', 'id');
 	}
 	
 }

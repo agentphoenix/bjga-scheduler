@@ -2,6 +2,7 @@
 
 interface StaffAppointmentRepositoryInterface {
 
+	public function associateLessonWithGoal(array $data);
 	public function create(array $data);
 	public function find($id);
 	public function getAttendees($id);

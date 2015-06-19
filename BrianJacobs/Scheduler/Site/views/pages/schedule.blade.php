@@ -78,9 +78,9 @@
 				<?php $type = ($a instanceof Scheduler\Data\Models\Eloquent\UserAppointmentModel) ? 'user' : 'staff';?>
 
 				@if ($type == 'user')
-					{{ View::make('partials.appointments.studentRow')->withAppt($appt) }}
+					{{ View::make('partials.appointments.studentRow')->withAppt($appt)->render() }}
 				@else
-					{{ View::make('partials.appointments.instructorRow')->withAppt($appt) }}
+					{{ View::make('partials.appointments.instructorRow')->withAppt($appt)->render() }}
 				@endif
 			@endforeach
 			</div>
@@ -97,6 +97,8 @@
 			</div>
 		</div>
 	@endif
+
+	<div style="clear:both;"></div>
 @stop
 
 @section('modals')
@@ -106,6 +108,7 @@
 	{{ modal(['id' => 'attendees', 'header' => "Attendees"]) }}
 	{{ modal(['id' => 'apptDetails', 'header' => 'Appointment Details']) }}
 	{{ modal(['id' => 'changeLocation', 'header' => 'Change Location for This Day']) }}
+	{{ modal(['id' => 'associateGoal', 'header' => 'Associate Lesson with Development Plan Goal']) }}
 @stop
 
 @section('scripts')
@@ -185,6 +188,17 @@
 
 			$('#changeLocation').modal({
 				remote: "{{ URL::to('ajax/change-location') }}/" + firstAppointment
+			}).modal('show');
+		});
+
+		$('.js-goalAssociation').on('click', function(e)
+		{
+			e.preventDefault();
+
+			var lesson = $(this).data('lesson');
+
+			$('#associateGoal').modal({
+				remote: "{{ URL::to('ajax/associate-goal') }}/" + lesson
 			}).modal('show');
 		});
 	</script>

@@ -112,6 +112,8 @@ return array(
 		//'Dingo\Api\ApiServiceProvider',
 		'Scheduler\SchedulerServiceProvider',
 		'Scheduler\SchedulerRoutingServiceProvider',
+		'Plans\PlanServiceProvider',
+		'Plans\PlanRoutingServiceProvider',
 		//'Scheduler\Api\SchedulerApiServiceProvider',
 
 	),
@@ -208,6 +210,7 @@ return array(
 		'BookingMetaModel'				=> 'Scheduler\Data\Models\Eloquent\BookingMetaModel',
 		'CreditModel'					=> 'Scheduler\Data\Models\Eloquent\CreditModel',
 		'LocationModel'					=> 'Scheduler\Data\Models\Eloquent\LocationModel',
+		'Notification'					=> 'Scheduler\Data\Models\Eloquent\Notification',
 		'ServiceModel'					=> 'Scheduler\Data\Models\Eloquent\ServiceModel',
 		'ServiceOccurrenceModel'		=> 'Scheduler\Data\Models\Eloquent\ServiceOccurrenceModel',
 		'StaffModel'					=> 'Scheduler\Data\Models\Eloquent\StaffModel',
@@ -217,27 +220,44 @@ return array(
 		'UserModel'						=> 'Scheduler\Data\Models\Eloquent\UserModel',
 		'UserAppointmentModel'			=> 'Scheduler\Data\Models\Eloquent\UserAppointmentModel',
 
+		'Comment'	=> 'Plans\Data\Comment',
+		'Goal'		=> 'Plans\Data\Goal',
+		'Plan'		=> 'Plans\Data\Plan',
+		'Stat'		=> 'Plans\Data\Stat',
+
 		/**
 		 * Repositories
 		 */
 		'CreditRepository'				=> 'Scheduler\Data\Repositories\Eloquent\CreditRepository',
 		'LocationRepository'			=> 'Scheduler\Data\Repositories\Eloquent\LocationRepository',
+		'NotificationRepository'		=> 'Scheduler\Data\Repositories\Eloquent\NotificationRepository',
 		'ServiceRepository'				=> 'Scheduler\Data\Repositories\Eloquent\ServiceRepository',
 		'StaffRepository'				=> 'Scheduler\Data\Repositories\Eloquent\StaffRepository',
 		'StaffAppointmentRepository'	=> 'Scheduler\Data\Repositories\Eloquent\StaffAppointmentRepository',
 		'StaffScheduleRepository'		=> 'Scheduler\Data\Repositories\Eloquent\StaffScheduleRepository',
 		'UserRepository'				=> 'Scheduler\Data\Repositories\Eloquent\UserRepository',
 
+		'CommentRepository'	=> 'Plans\Data\Repositories\CommentRepository',
+		'GoalRepository'	=> 'Plans\Data\Repositories\GoalRepository',
+		'PlanRepository'	=> 'Plans\Data\Repositories\PlanRepository',
+		'StatRepository'	=> 'Plans\Data\Repositories\StatRepository',
+
 		/**
 		 * Repository Interfaces
 		 */
 		'CreditRepositoryInterface'				=> 'Scheduler\Data\Interfaces\CreditRepositoryInterface',
 		'LocationRepositoryInterface'			=> 'Scheduler\Data\Interfaces\LocationRepositoryInterface',
+		'NotificationRepositoryInterface'		=> 'Scheduler\Data\Interfaces\NotificationRepositoryInterface',
 		'ServiceRepositoryInterface'			=> 'Scheduler\Data\Interfaces\ServiceRepositoryInterface',
 		'StaffRepositoryInterface'				=> 'Scheduler\Data\Interfaces\StaffRepositoryInterface',
 		'StaffAppointmentRepositoryInterface'	=> 'Scheduler\Data\Interfaces\StaffAppointmentRepositoryInterface',
 		'StaffScheduleRepositoryInterface'		=> 'Scheduler\Data\Interfaces\StaffScheduleRepositoryInterface',
 		'UserRepositoryInterface'				=> 'Scheduler\Data\Interfaces\UserRepositoryInterface',
+
+		'CommentRepositoryInterface'	=> 'Plans\Data\Interfaces\CommentRepositoryInterface',
+		'GoalRepositoryInterface'		=> 'Plans\Data\Interfaces\GoalRepositoryInterface',
+		'PlanRepositoryInterface'		=> 'Plans\Data\Interfaces\PlanRepositoryInterface',
+		'StatRepositoryInterface'		=> 'Plans\Data\Interfaces\StatRepositoryInterface',
 
 		/**
 		 * Transformers

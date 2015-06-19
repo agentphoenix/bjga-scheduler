@@ -160,6 +160,7 @@ section {
 	margin-right: -@spacing;
 	padding: @spacing;
 	line-height: @line-height;
+	
 
 	background: #fbfbfb;
 
@@ -419,6 +420,11 @@ select {
 
 	&.alert-danger {
 		.alert-variant(lighten(@color-danger-alert, 38%), lighten(@color-danger-alert, 28%), @color-danger-alert);
+
+		a {
+			color: @color-danger-bright;
+			text-decoration: underline;
+		}
 	}
 
 	.btn {
@@ -773,6 +779,17 @@ code {
 				background-color: @color-success;
 				border-color: @color-success;
 			}
+		}
+	}
+}
+
+blockquote {
+	&.quote-staff {
+		color: @color-success;
+		border-color: fadeout(@color-success, 75%);
+
+		footer {
+			color: @color-success;
 		}
 	}
 }

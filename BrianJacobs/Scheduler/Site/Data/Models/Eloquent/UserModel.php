@@ -1,7 +1,6 @@
 <?php namespace Scheduler\Data\Models\Eloquent;
 
-use Hash,
-	Model;
+use Date, Hash, Model;
 use Illuminate\Auth\UserInterface,
 	Illuminate\Auth\Reminders\RemindableInterface;
 use Laracasts\Presenter\PresentableTrait;
@@ -44,6 +43,21 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 	public function credits()
 	{
 		return $this->hasMany('CreditModel', 'user_id');
+	}
+
+	public function plan()
+	{
+		return $this->hasOne('Plan', 'user_id');
+	}
+
+	public function comments()
+	{
+		return $this->hasMany('Comment', 'user_id');
+	}
+
+	public function notifications()
+	{
+		return $this->hasMany('Notification', 'user_id');
 	}
 
 	/*
@@ -190,6 +204,23 @@ class UserModel extends Model implements UserInterface, RemindableInterface {
 		}
 
 		return $finalCredits;
+	}
+
+	public function getNotificationsByDate($date = null)
+	{
+		$date = ($date) ?: Date::now();
+
+		return $this->notifications->filter(function($n) use ($date)
+		{
+			return $n->created_at->gte($date->startOfDay()) and $n->created_at->lte($date->endOfDay());
+		})->sortByDesc('created_at');
+	}
+
+	public function countNotificationsByDate($date = null)
+	{
+		$date = ($date) ?: Date::now();
+
+		return (int) $this->getNotificationsByDate($date)->count();
 	}
 
 	/*

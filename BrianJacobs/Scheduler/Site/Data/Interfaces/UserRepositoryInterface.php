@@ -23,5 +23,7 @@ interface UserRepositoryInterface {
 	public function getUserSchedule($id = false);
 	public function isStaff($id = false);
 	public function update($id, array $data);
+	public function withDevelopmentPlan();
+	public function withoutDevelopmentPlan();
 	
 }
