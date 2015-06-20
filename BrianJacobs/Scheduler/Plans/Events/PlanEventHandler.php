@@ -16,6 +16,7 @@ class PlanEventHandler {
 
 		$data = [
 			'name'	=> explode(' ', $plan->user->name)[0],
+			'userId' => $plan->user->id,
 		];
 
 		// Send the email
