@@ -119,7 +119,7 @@
 				</div>
 			</div>
 		@else
-			{{ Form::hidden('goals[]', $goals[0]) }}
+			{{ Form::hidden('goals[]', $goals->first()->id) }}
 		@endif
 
 		<div class="form-group">
