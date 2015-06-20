@@ -9,14 +9,14 @@
 
 	<div class="visible-xs visible-sm">
 		<div class="row">
-			<div class="col-xs-12 col-sm-4">
+			<div class="col-sm-4">
 				<p><a href="{{ route('plan', [$userId]) }}" class="btn btn-block btn-lg btn-default">{{ ($userId) ? "Back to Plan" : "Back to My Plan" }}</a></p>
 			</div>
 			@if ( ! (bool) $goal->completed)
-				<div class="col-xs-6 col-sm-4">
+				<div class="col-sm-4">
 					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Add Comment</a></p>
 				</div>
-				<div class="col-xs-6 col-sm-4">
+				<div class="col-sm-4">
 					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="stats-add" data-item="{{ $goal->id }}">Add Stats</a></p>
 				</div>
 			@endif
