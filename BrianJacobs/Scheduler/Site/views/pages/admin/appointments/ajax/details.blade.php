@@ -55,7 +55,7 @@
 		<p><a href="{{ route('plan', [$user->id]) }}" class="btn btn-lg btn-block btn-default">Student's Development Plan</a></p>
 
 		@if ($user->plan->activeGoals->count() > 0 and ! $appt->goal)
-			<p><a href="#" class="btn btn-lg btn-block btn-default">Associate with Development Goal</a></p>
+			<p><a href="#" class="btn btn-lg btn-block btn-default js-goalAssociation" data-lesson="{{ $appt->id }}">Link to Development Goal</a></p>
 		@endif
 	@endif
 @endif
@@ -96,7 +96,6 @@
 
 {{ View::make('partials.jsMarkAsPaid') }}
 <script>
-
 	$('.js-mobile-attendees').on('click', function(e)
 	{
 		e.preventDefault();
@@ -147,4 +146,14 @@
 		}
 	});
 
+	$('.js-goalAssociation').on('click', function(e)
+	{
+		e.preventDefault();
+
+		var lesson = $(this).data('lesson');
+
+		$('#associateGoal').modal({
+			remote: "{{ URL::to('ajax/associate-goal') }}/" + lesson
+		}).modal('show');
+	});
 </script>
