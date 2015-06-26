@@ -74,6 +74,28 @@ class GoalController extends BaseController {
 		// Get the plan
 		$plan = $this->plansRepo->getById($planId);
 
+		$types = [
+			'round'			=> "On-course Round",
+			'practice'		=> "Practice Session",
+			'trackman'		=> "TrackMan Combine",
+			'tournament'	=> "Tournament Results",
+		];
+
+		$metrics = [
+			'score'		=> "Score",
+		];
+
+		$operators = [
+			'='		=> "Equal to",
+			'<'		=> "Less than",
+			'<='	=> "Less than or equal to",
+			'>'		=> "Greater than",
+			'>='	=> "Greater than or equal to",
+			'!='	=> "Not equal to",
+		];
+
+		return view('pages.devplans.goals.create', compact('plan', 'operators', 'types', 'metrics'));
+
 		$message = ( ! $this->hasPermission($this->currentUser, $plan))
 			? alert('alert-danger', "You do not have permission to create goals for this development plan.")
 			: view('pages.devplans.goals.create', compact('plan'));

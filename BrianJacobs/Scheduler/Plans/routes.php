@@ -67,14 +67,15 @@ Route::group($options, function()
 	Route::get('goal/{goalId}/remove', [
 		'as'	=> 'goal.remove',
 		'uses'	=> 'GoalController@remove']);
-	Route::get('goal/{planId}/create', [
-		'as'	=> 'goal.create',
-		'uses'	=> 'GoalController@create']);
 	Route::post('goal/update-status', [
 		'as'	=> 'goal.update-status',
 		'uses'	=> 'GoalController@changeStatus']);
 
 	Route::resource('goal', 'GoalController', ['except' => ['index', 'show']]);
+
+	Route::get('goal/{planId}/create', [
+		'as'	=> 'goal.create',
+		'uses'	=> 'GoalController@create']);
 
 	Route::get('plan/{userId}', [
 		'as'	=> 'plan',
