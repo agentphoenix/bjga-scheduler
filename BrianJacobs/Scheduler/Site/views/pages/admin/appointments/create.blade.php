@@ -26,6 +26,17 @@
 
 	{{ Form::open(array('route' => array('admin.appointment.store'))) }}
 		<div class="row">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="control-label">Student</label>
+					<div class="controls">
+						{{ Form::select('user', UserModel::all()->sortBy('name')->lists('name', 'id'), $_currentUser->id, array('class' => 'form-control')) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
 			<div class="col-sm-8 col-md-6 col-lg-4">
 				<div class="form-group">
 					<label class="control-label">Service</label>
@@ -37,17 +48,6 @@
 			</div>
 			<div class="col-sm-4 col-md-6 col-lg-8">
 				<div id="lessonServiceDetails"></div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-3">
-				<div class="form-group">
-					<label class="control-label">Student</label>
-					<div class="controls">
-						{{ Form::select('user', UserModel::all()->sortBy('name')->lists('name', 'id'), $_currentUser->id, array('class' => 'form-control')) }}
-					</div>
-				</div>
 			</div>
 		</div>
 
