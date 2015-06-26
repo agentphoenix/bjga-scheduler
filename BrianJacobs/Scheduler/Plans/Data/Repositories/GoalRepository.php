@@ -54,6 +54,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		})->first();
 
 		$timeline = [];
+		$finalTimeline = [];
 
 		if ($goal)
 		{
@@ -66,7 +67,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 				{
 					$timestamp = $comment->created_at->format('U');
 
-					$timeline[$timestamp] = $comment;
+					$timeline[$timestamp][] = $comment;
 				}
 			}
 
@@ -77,7 +78,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 				{
 					$timestamp = $stat->created_at->format('U');
 
-					$timeline[$timestamp] = $stat;
+					$timeline[$timestamp][] = $stat;
 				}
 			}
 
@@ -88,14 +89,22 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 				{
 					$timestamp = $lesson->start->format('U');
 
-					$timeline[$timestamp] = $lesson;
+					$timeline[$timestamp][] = $lesson;
 				}
 			}
 
 			krsort($timeline);
+
+			foreach ($timeline as $timeArr)
+			{
+				foreach ($timeArr as $item)
+				{
+					$finalTimeline[] = $item;
+				}
+			}
 		}
 
-		return $timeline;
+		return $finalTimeline;
 	}
 
 	public function update($id, array $data)
