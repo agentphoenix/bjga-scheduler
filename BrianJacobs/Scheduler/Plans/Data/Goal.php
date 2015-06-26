@@ -38,6 +38,11 @@ class Goal extends Model {
 		return $this->hasMany('Comment');
 	}
 
+	public function completion()
+	{
+		return $this->hasOne('GoalCompletion');
+	}
+
 	public function lessons()
 	{
 		return $this->hasMany('StaffAppointmentModel', 'plan_goal_id');
