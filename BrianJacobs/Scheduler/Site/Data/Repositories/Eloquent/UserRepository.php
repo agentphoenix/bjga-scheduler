@@ -77,6 +77,16 @@ class UserRepository implements UserRepositoryInterface {
 		return UserAppointmentModel::find($id);
 	}
 
+	public function getNonInstructors()
+	{
+		$users = $this->all();
+
+		return $users->filter(function($u)
+		{
+			return ( ! $u->isStaff() or ($u->isStaff() and ! (bool) $u->staff->instruction));
+		})->sortBy('name')->lists('name', 'id');
+	}
+
 	public function getNonStaff()
 	{
 		$users = $this->all();
