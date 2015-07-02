@@ -1,31 +1,32 @@
 <?php namespace Scheduler\Controllers;
 
-use Hash,
+use URL,
+	Auth,
+	Hash,
 	Mail,
-	View,
-	Event,
 	Input,
-	Redirect,
-	MailChimp,
+	Session,
 	UserValidator,
 	UserRepositoryInterface;
 
 class UserController extends BaseController {
 
+	protected $userRepo;
+
 	public function __construct(UserRepositoryInterface $user)
 	{
 		parent::__construct();
 
-		$this->user = $user;
+		$this->userRepo = $user;
 
 		$this->beforeFilter(function()
 		{
-			if (\Auth::user() === null)
+			if (Auth::user() === null)
 			{
 				// Push the intended URL into the session
-				\Session::put('url.intended', \URL::full());
+				Session::put('url.intended', URL::full());
 
-				return Redirect::route('home')
+				return redirect()->route('home')
 					->with('message', "You must be logged in to continue.")
 					->with('messageStatus', 'danger');
 			}
@@ -34,38 +35,52 @@ class UserController extends BaseController {
 
 	public function index()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
+		if ($this->currentUser->isStaff())
 		{
-			return View::make('pages.admin.users.index')
-				->withUsers($this->user->all());
+			$users = $this->userRepo->all();
+
+			return view('pages.admin.users.index', compact('users'));
 		}
-		else
+		
+		return $this->unauthorized("You do not have permission to manage users.");
+	}
+
+	public function show($id)
+	{
+		if ($this->currentUser->isStaff())
 		{
-			return $this->unauthorized("You do not have permission to manage users!");
+			$user = $this->userRepo->find($id);
+
+			if ($user)
+			{
+				return view('pages.admin.users.show', compact('user'));
+			}
+
+			return $this->errorNotFound("User not found.");
 		}
+
+		return $this->unauthorized("You do not have permission to view user details.");
 	}
 
 	public function create()
 	{
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
-			return View::make('pages.admin.users.create');
+			return view('pages.admin.users.create');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create users!");
-		}
+		
+		return $this->unauthorized("You do not have permission to create users.");
 	}
 
 	public function store()
 	{
-		if ($this->currentUser->isStaff() and $this->currentUser->access() > 2)
+		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1)
 		{
 			$validator = new UserValidator;
 
 			if ( ! $validator->passes())
 			{
-				return Redirect::back()
+				return redirect()->back()
 					->withInput()
 					->withErrors($validator->getErrors())
 					->with('message', 'User could not be created because of errors. Please correct and try again.')
@@ -73,43 +88,37 @@ class UserController extends BaseController {
 			}
 
 			// Create the user
-			$user = $this->user->create(Input::all());
+			$user = $this->userRepo->create(Input::all());
 
 			// Fire the user created event
-			Event::fire('user.created', array($user, Input::all()));
+			event('user.created', [$user, Input::all()]);
 
-			return Redirect::route('admin.user.index')
+			return redirect()->route('admin.user.index')
 				->with('message', 'User was successfully created.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create users!");
-		}
+		
+		return $this->unauthorized("You do not have permission to create users.");
 	}
 
 	public function edit($id)
 	{
 		// Get the user
-		$user = $this->user->find($id);
+		$user = $this->userRepo->find($id);
 
 		if (($this->currentUser->isStaff() and $this->currentUser->access() > 1) 
 				or ($this->currentUser->id == $user->id))
 		{
-			return View::make('pages.admin.users.edit')
-				->withUser($user);
-				//->withSubscription(MailChimp::findUser($user));
+			return view('pages.admin.users.edit', compact('user'));
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit this user!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit this user.");
 	}
 
 	public function update($id)
 	{
 		// Get the user
-		$user = $this->user->find($id);
+		$user = $this->userRepo->find($id);
 
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 1
 			or $user->id == $this->currentUser->id)
@@ -118,7 +127,7 @@ class UserController extends BaseController {
 
 			if ( ! $validator->passes())
 			{
-				return Redirect::back()
+				return redirect()->back()
 					->withInput()
 					->withErrors($validator->getErrors())
 					->with('message', 'User could not be updated because of errors. Please correct and try again.')
@@ -129,35 +138,31 @@ class UserController extends BaseController {
 			{
 				if (Hash::check(Input::get('password_old'), $user->password))
 				{
-					$this->user->update($id, array('password' => Input::get('password')));
+					$this->userRepo->update($id, ['password' => Input::get('password')]);
 
-					return Redirect::route('admin.user.edit', array($user->id))
+					return redirect()->route('admin.user.edit', [$user->id])
 						->with('message', 'Your password was successfully changed.')
 						->with('messageStatus', 'success');
 				}
-				else
-				{
-					return Redirect::route('admin.user.edit', array($user->id))
-						->with('message', "Your password was wrong. Please try again.")
-						->with('messageStatus', 'danger');
-				}
+				
+				return redirect()->route('admin.user.edit', [$user->id])
+					->with('message', "Your password was wrong. Please try again.")
+					->with('messageStatus', 'danger');
 			}
 			else
 			{
-				$this->user->update($id, Input::all());
+				$this->userRepo->update($id, Input::all());
 			}
 
 			// Fire the user updated event
-			Event::fire('user.updated', array($user, Input::all()));
+			event('user.updated', [$user, Input::all()]);
 
-			return Redirect::route('admin.user.edit', array($user->id))
+			return redirect()->route('admin.user.edit', [$user->id])
 				->with('message', 'User was successfully updated.')
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to edit this user!");
-		}
+		
+		return $this->unauthorized("You do not have permission to edit this user.");
 	}
 
 	public function destroy($id)
@@ -165,19 +170,17 @@ class UserController extends BaseController {
 		if ($this->currentUser->isStaff() and $this->currentUser->access() > 2)
 		{
 			// Delete the user
-			$user = $this->user->delete($id);
+			$user = $this->userRepo->delete($id);
 
 			// Fire the user deleted event
-			Event::fire('user.deleted', array($user));
+			event('user.deleted', [$user]);
 
-			return Redirect::route('admin.user.index')
+			return redirect()->route('admin.user.index')
 				->with('message', "User was successfully deleted.")
 				->with('messageStatus', 'success');
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to remove users!");
-		}
+		
+		return $this->unauthorized("You do not have permission to remove users.");
 	}
 
 }
