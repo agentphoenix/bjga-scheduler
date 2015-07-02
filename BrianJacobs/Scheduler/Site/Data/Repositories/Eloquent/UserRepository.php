@@ -2,35 +2,35 @@
 
 use Auth,
 	Date,
-	UserModel,
-	CreditModel,
-	UserAppointmentModel,
-	UserRepositoryInterface;
+	UserModel as User,
+	CreditModel as Credit,
+	UserRepositoryInterface,
+	UserAppointmentModel as UserAppointment;
 use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface {
 
 	public function all()
 	{
-		return UserModel::all();
+		return User::all();
 	}
 
 	public function allForDropdown()
 	{
 		$users[''] = "Please select a user";
-		$users += UserModel::lists('name', 'id');
+		$users += User::lists('name', 'id');
 		
 		return $users;
 	}
 
 	public function allPaginated()
 	{
-		return UserModel::paginate(25);
+		return User::paginate(25);
 	}
 
 	public function create(array $data)
 	{
-		return UserModel::create($data);
+		return User::create($data);
 	}
 
 	public function delete($id)
@@ -51,7 +51,7 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function find($id)
 	{
-		return UserModel::find($id);
+		return User::find($id);
 	}
 
 	public function getAccessLevel($id = false)
@@ -74,7 +74,7 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function getAppointmentRecord($id)
 	{
-		return UserAppointmentModel::find($id);
+		return UserAppointment::find($id);
 	}
 
 	public function getNonInstructors()
@@ -120,7 +120,7 @@ class UserRepository implements UserRepositoryInterface {
 
 		if ($user)
 		{
-			return UserAppointmentModel::attendee($user->id)->date(Date::now())
+			return UserAppointment::attendee($user->id)->date(Date::now())
 				->orderBy('start', 'asc')->get();
 		}
 
@@ -147,7 +147,7 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function getUnpaid()
 	{
-		return UserAppointmentModel::date(Date::now()->startOfDay(), '<')
+		return UserAppointment::date(Date::now()->startOfDay(), '<')
 			->where('paid', (int) false)
 			//->orderBy('user_appointments.created_at', 'asc')
 			->get();
@@ -172,7 +172,7 @@ class UserRepository implements UserRepositoryInterface {
 		return $amount;
 	}
 
-	public function getSchedule(UserModel $user, $days = 90)
+	public function getSchedule(User $user, $days = 90)
 	{
 		// Start an array for holding everything
 		$schedule = array();
@@ -244,7 +244,7 @@ class UserRepository implements UserRepositoryInterface {
 		return $schedule;
 	}
 
-	public function getScheduleHistory(UserModel $user, $direction = 'asc')
+	public function getScheduleHistory(User $user, $direction = 'asc')
 	{
 		// Eager load...
 		$user = $user->load('credits', 'appointments', 'appointments.appointment', 'appointments.appointment.service');
@@ -317,7 +317,7 @@ class UserRepository implements UserRepositoryInterface {
 		return $results;
 
 		// Get all the credits
-		$credits = CreditModel::with('user')->get();
+		$credits = Credit::with('user')->get();
 
 		$creditsArr = [];
 
@@ -363,12 +363,12 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function withDevelopmentPlan()
 	{
-		return UserModel::has('plan')->orderBy('name', 'asc')->lists('name', 'id');
+		return User::has('plan')->orderBy('name', 'asc')->lists('name', 'id');
 	}
 
 	public function withoutDevelopmentPlan()
 	{
-		return UserModel::has('plan', '=', 0)->orderBy('name', 'asc')->lists('name', 'id');
+		return User::has('plan', '=', 0)->orderBy('name', 'asc')->lists('name', 'id');
 	}
 	
 }
