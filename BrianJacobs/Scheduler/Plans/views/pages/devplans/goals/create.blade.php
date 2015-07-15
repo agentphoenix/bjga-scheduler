@@ -7,6 +7,21 @@
 @section('content')
 	<h1>Add a Goal</h1>
 
+	<div class="visible-md visible-lg">
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<a href="{{ route('plan', $plan->user_id) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
+			</div>
+		</div>
+	</div>
+	<div class="visible-xs visible-sm">
+		<div class="row">
+			<div class="col-sm-3">
+				<p><a href="{{ route('plan', $plan->user_id) }}" class="btn btn-lg btn-block btn-default">Back to Plan</a></p>
+			</div>
+		</div>
+	</div>
+
 	{{ Form::open(['route' => 'goal.store', 'class' => 'form-horizontal']) }}
 		<div class="form-group">
 			<label class="control-label col-md-3">Name</label>
@@ -22,7 +37,7 @@
 			</div>
 		</div>
 
-		<div class="form-group">
+		<!--<div class="form-group">
 			<div class="col-md-7 col-md-offset-3">
 				<div class="checkbox">
 					<label>{{ Form::checkbox('completion', true, false) }} Allow goal auto-completion?</label>
@@ -55,7 +70,7 @@
 					<p>{{ Form::text('value', null, ['class' => 'form-control input-lg']) }}</p>
 				</div>
 			</div>
-		</div>
+		</div>-->
 
 		{{ Form::hidden('plan_id', $plan->id) }}
 
