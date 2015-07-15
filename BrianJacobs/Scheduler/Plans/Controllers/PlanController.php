@@ -37,7 +37,7 @@ class PlanController extends BaseController {
 			: $this->plansRepo->getInstructorPlans($this->currentUser->staff);
 
 		// Can we create more plans?
-		$createAllowed = ($plans->count() < 8);
+		$createAllowed = ($plans->count() < 10);
 
 		return view('pages.devplans.plans.index', compact('plans', 'createAllowed'));
 	}
