@@ -17,6 +17,7 @@ interface UserRepositoryInterface {
 	public function getNonStaff();
 	public function getSchedule(User $user, $days = 90);
 	public function getScheduleHistory(User $user);
+	public function getStudentsWithDevelopmentPlans();
 	public function getUnpaid();
 	public function getUnpaidAmount();
 	public function getUnscheduledAppointments($id = false);

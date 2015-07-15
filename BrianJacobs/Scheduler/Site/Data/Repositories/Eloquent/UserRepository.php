@@ -79,7 +79,7 @@ class UserRepository implements UserRepositoryInterface {
 
 	public function getNonInstructors()
 	{
-		$users = $this->all();
+		$users = User::with('staff')->get();
 
 		return $users->filter(function($u)
 		{
@@ -276,6 +276,11 @@ class UserRepository implements UserRepositoryInterface {
 		}
 
 		return $schedule;
+	}
+
+	public function getStudentsWithDevelopmentPlans()
+	{
+		return User::has('plan')->get();
 	}
 
 	public function getUnusedCredits()
