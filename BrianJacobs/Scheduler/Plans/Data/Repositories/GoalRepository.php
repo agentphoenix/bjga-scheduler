@@ -2,6 +2,7 @@
 
 use Plan,
 	Goal as Model,
+	GoalCompletion,
 	UserModel as User,
 	GoalRepositoryInterface;
 use Scheduler\Data\Repositories\BaseRepository;
@@ -17,7 +18,18 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 
 	public function create(array $data)
 	{
-		return $this->model->create($data);
+		$goal = $this->model->create($data);
+
+		if (array_key_exists('completion', $data))
+		{
+			// Create a new completion record
+			$completion = GoalCompletion::create($data['completion']);
+
+			// Link the completion to the goal we just created
+			$goal->completion()->save($completion);
+		}
+
+		return $goal;
 	}
 
 	public function delete($id)

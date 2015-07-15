@@ -12,7 +12,7 @@ class GoalCompletion extends Model {
 	protected $table = 'plans_goals_completion';
 
 	protected $fillable = ['goal_id', 'target_date', 'type', 'metric',
-		'operator', 'value'];
+		'operator', 'value', 'count'];
 
 	protected $dates = ['target_date'];
 

@@ -37,40 +37,40 @@
 			</div>
 		</div>
 
-		<!--<div class="form-group">
+		<div class="form-group">
 			<div class="col-md-7 col-md-offset-3">
 				<div class="checkbox">
-					<label>{{ Form::checkbox('completion', true, false) }} Allow goal auto-completion?</label>
+					<label>{{ Form::checkbox('completion_option', true, false) }} Allow goal auto-completion?</label>
 				</div>
 			</div>
 		</div>
 
-		<div id="completionControls" class="">
+		<div id="completionControls" class="hide">
 			<h2>Auto-Completion Criteria</h2>
 
 			<div class="form-group">
 				<label class="control-label col-md-3">Complete the Goal When</label>
 				<div class="col-md-2">
-					<p>{{ Form::text('count', 1, ['class' => 'form-control input-lg']) }}</p>
+					<p>{{ Form::text('completion[count]', 1, ['class' => 'form-control input-lg']) }}</p>
 				</div>
 				<div class="col-md-4">
-					<p>{{ Form::select('type', $types, null, ['class' => 'form-control input-lg']) }}</p>
+					<p>{{ Form::select('completion[type]', $types, null, ['class' => 'form-control input-lg']) }}</p>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-md-3">Have a</label>
 				<div class="col-md-3">
-					<p>{{ Form::select('metric', $metrics, null, ['class' => 'form-control input-lg']) }}</p>
+					<p>{{ Form::select('completion[metric]', [], null, ['class' => 'form-control input-lg']) }}</p>
 				</div>
 				<div class="col-md-3">
-					<p>{{ Form::select('operator', $operators, null, ['class' => 'form-control input-lg']) }}</p>
+					<p>{{ Form::select('completion[operator]', $operators, null, ['class' => 'form-control input-lg']) }}</p>
 				</div>
 				<div class="col-md-3">
-					<p>{{ Form::text('value', null, ['class' => 'form-control input-lg']) }}</p>
+					<p>{{ Form::text('completion[value]', null, ['class' => 'form-control input-lg']) }}</p>
 				</div>
 			</div>
-		</div>-->
+		</div>
 
 		{{ Form::hidden('plan_id', $plan->id) }}
 
@@ -109,7 +109,7 @@
 			});
 		});
 
-		$('[name="completion"]').on('change', function(e)
+		$('[name="completion_option"]').on('change', function(e)
 		{
 			var checked = $(this).is(':checked');
 
@@ -119,12 +119,62 @@
 			{
 				$('#completionControls').addClass('hide');
 
-				$('[name="count"]').val("0");
-				$('[name="type"]').val("");
-				$('[name="metric"]').val("");
-				$('[name="operator"]').val("");
-				$('[name="value"]').val("");
+				$('[name="completion[count]"]').val("0");
+				$('[name="completion[type]"]').val("");
+				$('[name="completion[metric]"]').val("");
+				$('[name="completion[operator]"]').val("");
+				$('[name="completion[value]"]').val("");
 			}
+		});
+
+		var metricOptions = {
+			"round": {
+				"score": "Score",
+				"fir": "FIRs",
+				"gir": "GIRs",
+				"putts": "Putts",
+				"penalties": "Penalties",
+				"holes": "Holes"
+			},
+			"practice": {
+				"minutes": "Minutes",
+				"balls": "Balls"
+			},
+			"tournament": {
+				"score": "Final Score",
+				"place": "Finishing Place"
+			},
+			"trackman": {
+				"score": "Combine Score"
+			}
+		};
+
+		$('[name="completion[type]"]').on('change', function(e)
+		{
+			// Clear the values
+			$('[name="completion[metric]"]').find('option').remove();
+
+			var selected = $('[name="completion[type]"] option:selected').val();
+			var items;
+
+			if (selected == "round")
+				items = metricOptions.round;
+
+			if (selected == "practice")
+				items = metricOptions.practice;
+
+			if (selected == "tournament")
+				items = metricOptions.tournament;
+
+			if (selected == "trackman")
+				items = metricOptions.trackman;
+
+			$.each(items, function(value, text)
+			{
+				$('[name="completion[metric]"]').append($('<option></option>').val(value).html(text));
+			});
+
+			e.preventDefault();
 		});
 	</script>
 @stop

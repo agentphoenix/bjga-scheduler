@@ -75,6 +75,7 @@ class GoalController extends BaseController {
 		$plan = $this->plansRepo->getById($planId);
 
 		$types = [
+			''				=> "Please Choose One",
 			'round'			=> "On-course Round",
 			'practice'		=> "Practice Session",
 			'trackman'		=> "TrackMan Combine",

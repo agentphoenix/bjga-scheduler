@@ -2,6 +2,10 @@
 	<div class="cd-ending">
 		<h2>{{ $_icons['check'] }} Goal Accomplished!<small>{{ $goal->present()->completedDate }}</small></h2>
 	</div>
+@else
+	@if ($goal->completion)
+		{{ alert('alert-info', $goal->present()->completionCriteria) }}
+	@endif
 @endif
 
 @if (count($items) > 0)
