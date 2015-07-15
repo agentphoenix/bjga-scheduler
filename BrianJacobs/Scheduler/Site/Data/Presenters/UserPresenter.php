@@ -26,4 +26,12 @@ class UserPresenter extends Presenter {
 		return "{$value} hours";
 	}
 
+	public function firstName()
+	{
+		// Break the name up into pieces
+		$namePieces = explode(' ', $this->entity->name);
+
+		if (is_array($namePieces)) return trim($namePieces[0]);
+	}
+
 }
