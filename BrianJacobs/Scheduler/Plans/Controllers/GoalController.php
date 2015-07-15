@@ -115,7 +115,7 @@ class GoalController extends BaseController {
 		// Fire the event
 		event('goal.created', [$goal]);
 
-		return redirect()->back()
+		return redirect()->route('plan', [$goal->plan->user_id])
 			->with('messageStatus', 'success')
 			->with('message', "Goal created!");
 	}
