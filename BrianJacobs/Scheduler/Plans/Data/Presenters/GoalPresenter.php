@@ -30,9 +30,9 @@ class GoalPresenter extends Presenter {
 			break;
 		}
 
-		# TODO: need to figure out the has/have stuff
+		$haveString = ($criteria->count == 1) ? 'has' : 'have';
 
-		return "This goal will be complete when {$criteria->count} {$type} have been recorded with {$this->formatCriteria($criteria)}.";
+		return "{$criteria->count} {$type} {$haveString} been recorded with {$this->formatCriteria($criteria)}";
 	}
 
 	public function created()
@@ -149,17 +149,17 @@ class GoalPresenter extends Presenter {
 
 	protected function formatCriteriaPracticeMinutes($criteria)
 	{
-		if ($criteria->operator == "=") return "of a final standing of ".ordinal($criteria->value)." place";
+		if ($criteria->operator == "=") return "{$criteria->value} minutes of practice time";
 
-		if ($criteria->operator == "!=") return "of a final standing that isn't ".ordinal($criteria->value)." place";
+		if ($criteria->operator == "!=") return "{$criteria->value} minutes of practice time";
 
-		if ($criteria->operator == ">") return "of a final standing better than ".ordinal($criteria->value)." place";
+		if ($criteria->operator == ">") return "more than {$criteria->value} minutes of practice time";
 
-		if ($criteria->operator == ">=") return "of a final standing of at least ".ordinal($criteria->value)." place";
+		if ($criteria->operator == ">=") return "at least {$criteria->value} minutes of practice time";
 
-		if ($criteria->operator == "<") return "of a final standing lower than ".ordinal($criteria->value)." place";
+		if ($criteria->operator == "<") return "less than {$criteria->value} minutes of practice time";
 
-		if ($criteria->operator == "<=") return "of a final standing no higher than ".ordinal($criteria->value)." place";
+		if ($criteria->operator == "<=") return "no more than {$criteria->value} minutes of practice time";
 	}
 
 }
