@@ -4,7 +4,10 @@
 	</div>
 @else
 	@if ($goal->completion)
-		{{ alert('alert-info', $goal->present()->completionCriteria) }}
+		<div class="cd-ending">
+			<h2>{{ $_icons['check'] }} Goal Will Be Complete When...</h2>
+			<p>{{ $goal->present()->completionCriteria }}</p>
+		</div>
 	@endif
 @endif
 
