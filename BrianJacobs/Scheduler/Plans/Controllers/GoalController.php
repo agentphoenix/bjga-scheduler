@@ -82,30 +82,15 @@ class GoalController extends BaseController {
 			'tournament'	=> "Tournament Results",
 		];
 
-		$metrics = [
-			'score'		=> "Score",
-		];
-
 		$operators = [
 			'='		=> "Equal to",
 			'<'		=> "Less than",
 			'<='	=> "Less than or equal to",
 			'>'		=> "Greater than",
 			'>='	=> "Greater than or equal to",
-			'!='	=> "Not equal to",
 		];
 
 		return view('pages.devplans.goals.create', compact('plan', 'operators', 'types', 'metrics'));
-
-		$message = ( ! $this->hasPermission($this->currentUser, $plan))
-			? alert('alert-danger', "You do not have permission to create goals for this development plan.")
-			: view('pages.devplans.goals.create', compact('plan'));
-
-		return partial('common/modal_content', [
-			'modalHeader'	=> "Add a Goal",
-			'modalBody'		=> $message,
-			'modalFooter'	=> false,
-		]);
 	}
 
 	public function store()
@@ -126,11 +111,26 @@ class GoalController extends BaseController {
 		// Get the goal
 		$goal = $this->goalsRepo->getById($id);
 
-		return partial('common/modal_content', [
-			'modalHeader'	=> "Edit Goal",
-			'modalBody'		=> view('pages.devplans.goals.edit', compact('goal')),
-			'modalFooter'	=> false,
-		]);
+		// Grab the plan
+		$plan = $goal->plan;
+
+		$types = [
+			''				=> "Please Choose One",
+			'round'			=> "On-course Round",
+			'practice'		=> "Practice Session",
+			'trackman'		=> "TrackMan Combine",
+			'tournament'	=> "Tournament Results",
+		];
+
+		$operators = [
+			'='		=> "Equal to",
+			'<'		=> "Less than",
+			'<='	=> "Less than or equal to",
+			'>'		=> "Greater than",
+			'>='	=> "Greater than or equal to",
+		];
+
+		return view('pages.devplans.goals.edit', compact('goal', 'plan', 'types', 'operators'));
 	}
 
 	public function update($id)
@@ -141,9 +141,9 @@ class GoalController extends BaseController {
 		// Fire the event
 		event('goal.updated', [$goal]);
 
-		return redirect()->back()
+		return redirect()->route('plan', [$goal->plan->user_id])
 			->with('messageStatus', 'success')
-			->with('message', "Goal was updated.");
+			->with('message', "Goal was updated!");
 	}
 
 	public function remove($goalId)

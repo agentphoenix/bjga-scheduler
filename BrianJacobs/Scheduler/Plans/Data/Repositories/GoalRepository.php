@@ -20,7 +20,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 	{
 		$goal = $this->model->create($data);
 
-		if (array_key_exists('completion', $data))
+		if (array_key_exists('completion_option', $data))
 		{
 			// Create a new completion record
 			$completion = GoalCompletion::create($data['completion']);
@@ -48,6 +48,11 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 			{
 				$s->delete();
 			});
+
+			if ($goal->completion)
+			{
+				$goal->completion->delete();
+			}
 
 			// Remove the goal
 			$goal->delete();
@@ -127,6 +132,30 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		if ($goal)
 		{
 			$goal->fill($data)->save();
+
+			if ($goal->completion)
+			{
+				if (array_key_exists('completion_option', $data))
+				{
+					// Update the completion record
+					$goal->completion->fill($data['completion'])->save();
+				}
+				else
+				{
+					$goal->completion->delete();
+				}
+			}
+			else
+			{
+				if (array_key_exists('completion_option', $data))
+				{
+					// Create a new completion record
+					$completion = GoalCompletion::create($data['completion']);
+
+					// Link the completion to the goal we just created
+					$goal->completion()->save($completion);
+				}
+			}
 
 			return $goal;
 		}
