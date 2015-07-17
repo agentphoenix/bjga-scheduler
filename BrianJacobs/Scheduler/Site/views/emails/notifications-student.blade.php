@@ -12,7 +12,7 @@
 
 		<dl>
 
-		@if ($notifications['goalCreate'] > 0 or $notifications['goalUpdate'] > 0)
+		@if ($notifications['goalCreate'] > 0 or $notifications['goalUpdate'] > 0 or $notifications['goalComplete'] > 0 or $notifications['goalReopen'] > 0)
 			<dt>Goals</dt>
 
 			@if ($notifications['goalCreate'] > 0)
@@ -20,6 +20,12 @@
 			@endif
 			@if ($notifications['goalUpdate'] > 0)
 				<dd>{{ $notifications['goalUpdate'] }} {{ Str::plural('goal', $notifications['goalUpdate']) }} updated</dd>
+			@endif
+			@if ($notifications['goalComplete'] > 0)
+				<dd>{{ $notifications['goalComplete'] }} {{ Str::plural('goal', $notifications['goalComplete']) }} completed</dd>
+			@endif
+			@if ($notifications['goalReopen'] > 0)
+				<dd>{{ $notifications['goalReopen'] }} {{ Str::plural('goal', $notifications['goalReopen']) }} re-opened</dd>
 			@endif
 		@endif
 
