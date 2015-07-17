@@ -9,15 +9,18 @@
 
 	<div class="visible-xs visible-sm">
 		<div class="row">
-			<div class="col-xs-12 col-sm-4">
+			<div class="col-xs-12">
 				<p><a href="{{ route('plan', [$userId]) }}" class="btn btn-block btn-lg btn-default">{{ ($userId) ? "Back to Plan" : "Back to My Plan" }}</a></p>
 			</div>
 			@if ( ! (bool) $goal->completed)
-				<div class="col-xs-6 col-sm-4">
+				<div class="col-xs-6">
 					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Add Comment</a></p>
 				</div>
-				<div class="col-xs-6 col-sm-4">
+				<div class="col-xs-6">
 					<p><a href="#" class="btn btn-block btn-lg btn-primary js-goalAction" data-action="stats-add" data-item="{{ $goal->id }}">Add Stats</a></p>
+				</div>
+				<div class="col-xs-12">
+					<p><a href="{{ route('goal.edit', [$goal->id]) }}" class="btn btn-lg btn-block btn-default">Edit Goal</a></p>
 				</div>
 			@endif
 		</div>
@@ -34,6 +37,9 @@
 						<li><a href="#" class="js-goalAction" data-action="comment-add" data-item="{{ $goal->id }}">Add Comment</a></li>
 						<li><a href="#" class="js-goalAction" data-action="stats-add" data-item="{{ $goal->id }}">Add Stats</a></li>
 					</ul>
+				</div>
+				<div class="btn-group">
+					<a href="{{ route('goal.edit', [$goal->id]) }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['edit'] }}</a>
 				</div>
 			@endif
 		</div>
