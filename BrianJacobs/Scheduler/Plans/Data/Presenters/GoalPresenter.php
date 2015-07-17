@@ -15,24 +15,40 @@ class GoalPresenter extends Presenter {
 		// Get the criteria object
 		$criteria = $this->entity->completion;
 
-		switch ($criteria->type)
+		if ($criteria)
 		{
-			case 'trackman':
-				$type = 'TrackMan Combine '.Str::plural('result', $criteria->count);
-			break;
+			$haveString = ($criteria->count == 1) ? 'has' : 'have';
 
-			case 'practice':
-				$type = 'practice '.Str::plural('session', $criteria->count);
-			break;
+			switch ($criteria->type)
+			{
+				case 'trackman':
+					$type = 'TrackMan Combine '.Str::plural('result', $criteria->count);
 
-			default:
-				$type = Str::plural($criteria->type, $criteria->count);
-			break;
+					return "{$criteria->count} {$type} {$haveString} been recorded with {$this->formatCriteria($criteria)}";
+				break;
+
+				case 'practice':
+					$type = 'practice '.Str::plural('session', $criteria->count);
+
+					switch ($criteria->metric)
+					{
+						case 'minutes':
+							return "{$criteria->count} {$type} of {$this->formatCriteria($criteria)} {$haveString} been recorded";
+						break;
+
+						case 'balls':
+							return "{$criteria->count} {$type} hitting {$this->formatCriteria($criteria)} {$haveString} been recorded";
+						break;
+					}
+				break;
+
+				default:
+					$type = Str::plural($criteria->type, $criteria->count);
+
+					return "{$criteria->count} {$type} {$haveString} been recorded with {$this->formatCriteria($criteria)}";
+				break;
+			}
 		}
-
-		$haveString = ($criteria->count == 1) ? 'has' : 'have';
-
-		return "{$criteria->count} {$type} {$haveString} been recorded with {$this->formatCriteria($criteria)}";
 	}
 
 	public function created()
@@ -92,7 +108,7 @@ class GoalPresenter extends Presenter {
 			break;
 
 			case 'balls':
-				$type = "practice ".Str::plural('ball', $criteria->value);
+				$type = Str::plural('ball', $criteria->value);
 			break;
 
 			case 'holes':
@@ -105,8 +121,6 @@ class GoalPresenter extends Presenter {
 		}
 
 		if ($criteria->operator == "=") return "{$criteria->value} {$type}";
-
-		if ($criteria->operator == "!=") return "a score that isn't {$criteria->value}";
 
 		if ($criteria->operator == ">") return "more than {$criteria->value} {$type}";
 
@@ -121,45 +135,39 @@ class GoalPresenter extends Presenter {
 	{
 		if ($criteria->operator == "=") return "a score of {$criteria->value}";
 
-		if ($criteria->operator == "!=") return "a score that isn't {$criteria->value}";
-
 		if ($criteria->operator == ">") return "a score higher than {$criteria->value}";
 
-		if ($criteria->operator == ">=") return "a score higher than or equal to {$criteria->value}";
+		if ($criteria->operator == ">=") return "a score of at least {$criteria->value}";
 
 		if ($criteria->operator == "<") return "a score lower than {$criteria->value}";
 
-		if ($criteria->operator == "<=") return "a score lower than or equal to {$criteria->value}";
+		if ($criteria->operator == "<=") return "a score no higher than {$criteria->value}";
 	}
 
 	protected function formatCriteriaTournamentPlace($criteria)
 	{
 		if ($criteria->operator == "=") return "a final standing of ".ordinal($criteria->value)." place";
 
-		if ($criteria->operator == "!=") return "a final standing that isn't ".ordinal($criteria->value)." place";
+		if ($criteria->operator == ">") return "a final standing lower than ".ordinal($criteria->value)." place";
 
-		if ($criteria->operator == ">") return "a final standing better than ".ordinal($criteria->value)." place";
+		if ($criteria->operator == ">=") return "a final standing no higher than ".ordinal($criteria->value)." place";
 
-		if ($criteria->operator == ">=") return "a final standing of at least ".ordinal($criteria->value)." place";
+		if ($criteria->operator == "<") return "a final standing better than ".ordinal($criteria->value)." place";
 
-		if ($criteria->operator == "<") return "a final standing lower than ".ordinal($criteria->value)." place";
-
-		if ($criteria->operator == "<=") return "a final standing no higher than ".ordinal($criteria->value)." place";
+		if ($criteria->operator == "<=") return "a final standing of at least ".ordinal($criteria->value)." place";
 	}
 
 	protected function formatCriteriaPracticeMinutes($criteria)
 	{
-		if ($criteria->operator == "=") return "{$criteria->value} minutes of practice time";
+		if ($criteria->operator == "=") return "{$criteria->value} minutes";
 
-		if ($criteria->operator == "!=") return "{$criteria->value} minutes of practice time";
+		if ($criteria->operator == ">") return "more than {$criteria->value} minutes";
 
-		if ($criteria->operator == ">") return "more than {$criteria->value} minutes of practice time";
+		if ($criteria->operator == ">=") return "at least {$criteria->value} minutes";
 
-		if ($criteria->operator == ">=") return "at least {$criteria->value} minutes of practice time";
+		if ($criteria->operator == "<") return "less than {$criteria->value} minutes";
 
-		if ($criteria->operator == "<") return "less than {$criteria->value} minutes of practice time";
-
-		if ($criteria->operator == "<=") return "no more than {$criteria->value} minutes of practice time";
+		if ($criteria->operator == "<=") return "no more than {$criteria->value} minutes";
 	}
 
 }
