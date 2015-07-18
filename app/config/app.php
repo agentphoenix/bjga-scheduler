@@ -220,10 +220,11 @@ return array(
 		'UserModel'						=> 'Scheduler\Data\Models\Eloquent\UserModel',
 		'UserAppointmentModel'			=> 'Scheduler\Data\Models\Eloquent\UserAppointmentModel',
 
-		'Comment'	=> 'Plans\Data\Comment',
-		'Goal'		=> 'Plans\Data\Goal',
-		'Plan'		=> 'Plans\Data\Plan',
-		'Stat'		=> 'Plans\Data\Stat',
+		'Comment'			=> 'Plans\Data\Comment',
+		'Goal'				=> 'Plans\Data\Goal',
+		'GoalCompletion'	=> 'Plans\Data\GoalCompletion',
+		'Plan'				=> 'Plans\Data\Plan',
+		'Stat'				=> 'Plans\Data\Stat',
 
 		/**
 		 * Repositories

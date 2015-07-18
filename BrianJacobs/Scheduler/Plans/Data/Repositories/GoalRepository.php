@@ -2,6 +2,7 @@
 
 use Plan,
 	Goal as Model,
+	GoalCompletion,
 	UserModel as User,
 	GoalRepositoryInterface;
 use Scheduler\Data\Repositories\BaseRepository;
@@ -17,7 +18,18 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 
 	public function create(array $data)
 	{
-		return $this->model->create($data);
+		$goal = $this->model->create($data);
+
+		if (array_key_exists('completion_option', $data))
+		{
+			// Create a new completion record
+			$completion = GoalCompletion::create($data['completion']);
+
+			// Link the completion to the goal we just created
+			$goal->completion()->save($completion);
+		}
+
+		return $goal;
 	}
 
 	public function delete($id)
@@ -37,6 +49,11 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 				$s->delete();
 			});
 
+			if ($goal->completion)
+			{
+				$goal->completion->delete();
+			}
+
 			// Remove the goal
 			$goal->delete();
 
@@ -54,6 +71,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		})->first();
 
 		$timeline = [];
+		$finalTimeline = [];
 
 		if ($goal)
 		{
@@ -66,7 +84,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 				{
 					$timestamp = $comment->created_at->format('U');
 
-					$timeline[$timestamp] = $comment;
+					$timeline[$timestamp][] = $comment;
 				}
 			}
 
@@ -77,7 +95,7 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 				{
 					$timestamp = $stat->created_at->format('U');
 
-					$timeline[$timestamp] = $stat;
+					$timeline[$timestamp][] = $stat;
 				}
 			}
 
@@ -88,14 +106,22 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 				{
 					$timestamp = $lesson->start->format('U');
 
-					$timeline[$timestamp] = $lesson;
+					$timeline[$timestamp][] = $lesson;
 				}
 			}
 
 			krsort($timeline);
+
+			foreach ($timeline as $timeArr)
+			{
+				foreach ($timeArr as $item)
+				{
+					$finalTimeline[] = $item;
+				}
+			}
 		}
 
-		return $timeline;
+		return $finalTimeline;
 	}
 
 	public function update($id, array $data)
@@ -106,6 +132,30 @@ class GoalRepository extends BaseRepository implements GoalRepositoryInterface {
 		if ($goal)
 		{
 			$goal->fill($data)->save();
+
+			if ($goal->completion)
+			{
+				if (array_key_exists('completion_option', $data))
+				{
+					// Update the completion record
+					$goal->completion->fill($data['completion'])->save();
+				}
+				else
+				{
+					$goal->completion->delete();
+				}
+			}
+			else
+			{
+				if (array_key_exists('completion_option', $data))
+				{
+					// Create a new completion record
+					$completion = GoalCompletion::create($data['completion']);
+
+					// Link the completion to the goal we just created
+					$goal->completion()->save($completion);
+				}
+			}
 
 			return $goal;
 		}

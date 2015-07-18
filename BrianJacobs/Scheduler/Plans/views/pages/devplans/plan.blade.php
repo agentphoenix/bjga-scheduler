@@ -10,7 +10,7 @@
 	<div class="visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
-				<p><a href="#" class="btn btn-block btn-lg btn-primary js-planAction" data-action="goal-add" data-item="{{ $plan->id }}">Add a Goal</a></p>
+				<p><a href="{{ route('goal.create', [$plan->id]) }}" class="btn btn-block btn-lg btn-primary">Add a Goal</a></p>
 			</div>
 			<div class="col-xs-12 col-sm-6">
 				<p><a class="btn btn-block btn-lg btn-primary js-toggleGoals">Only Show Goals</a></p>
@@ -20,7 +20,7 @@
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="#" class="btn btn-sm btn-primary icn-size-16 js-planAction" data-action="goal-add" data-item="{{ $plan->id }}">{{ $_icons['add'] }}</a>
+				<a href="{{ route('goal.create', [$plan->id]) }}" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
 			</div>
 			<div class="btn-group">
 				<a href="#" class="btn btn-sm btn-primary icn-size-16-with-text js-toggleGoals">Only Show Goals</a>

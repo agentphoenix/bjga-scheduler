@@ -23,6 +23,10 @@
 
 						{{ $item->present()->summary }}
 
+						@if ($item->completion)
+							{{ alert('alert-warning', "Goal will be complete when {$item->present()->completionCriteria}") }}
+						@endif
+
 						<p class="text-muted">
 						@if ($item->comments->count() > 0)
 							<span class="icn-size-16">{{ $_icons['comments'] }}</span>
@@ -52,7 +56,7 @@
 						<div class="visible-xs visible-sm">
 							<a href="{{ route('goal.show', [$userId, $item->id]) }}" class="btn btn-default btn-lg btn-block">View Goal</a><br><br>
 
-							<a href="#" class="btn btn-default btn-lg btn-block js-planAction" data-action="goal-edit" data-item="{{ $item->id }}">Edit Goal</a>
+							<a href="{{ route('goal.edit', [$item->id]) }}" class="btn btn-default btn-lg btn-block">Edit Goal</a>
 
 							<a href="#" class="btn btn-danger btn-lg btn-block js-planAction" data-action="goal-remove" data-item="{{ $item->id }}">Remove Goal</a>
 
@@ -65,7 +69,7 @@
 						<div class="visible-md visible-lg">
 							<a href="{{ route('goal.show', [$userId, $item->id]) }}" class="btn btn-default btn-sm">View Goal</a>
 
-							<a href="#" class="btn btn-link js-planAction" data-action="goal-edit" data-item="{{ $item->id }}">{{ $_icons['edit'] }}</a>
+							<a href="{{ route('goal.edit', [$item->id]) }}" class="btn btn-link">{{ $_icons['edit'] }}</a>
 							
 							<a href="#" class="btn btn-link js-planAction" data-action="goal-remove" data-item="{{ $item->id }}">{{ $_icons['remove'] }}</a>
 

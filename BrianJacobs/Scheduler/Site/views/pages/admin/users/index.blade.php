@@ -11,14 +11,14 @@
 		<div class="visible-md visible-lg">
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a href="{{ URL::route('admin.user.create') }}" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
+					<a href="{{ route('admin.user.create') }}" class="btn btn-sm btn-primary icn-size-16">{{ $_icons['add'] }}</a>
 				</div>
 			</div>
 		</div>
 		<div class="visible-xs visible-sm">
 			<div class="row">
 				<div class="col-xs-6 col-sm-3">
-					<p><a href="{{ URL::route('admin.user.create') }}" class="btn btn-block btn-lg btn-primary icn-size-16">{{ $_icons['add'] }}</a></p>
+					<p><a href="{{ route('admin.user.create') }}" class="btn btn-block btn-lg btn-primary icn-size-16">{{ $_icons['add'] }}</a></p>
 				</div>
 			</div>
 		</div>
@@ -47,12 +47,16 @@
 						@endif
 
 						<div class="btn-group">
-							<a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Student">{{ $_icons['edit'] }}</a>
+							<a href="{{ route('admin.user.show', [$user->id]) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="User Detail">{{ $_icons['info'] }}</a>
 						</div>
 
 						@if ($_currentUser->access() > 2)
 							<div class="btn-group">
-								<a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-sm btn-danger icn-size-16 js-user-action js-tooltip-top" data-title="Remove Student" data-action="delete" data-id="{{ $user->id }}">{{ $_icons['remove'] }}</a>
+								<a href="{{ route('admin.user.edit', array($user->id)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="Edit Student">{{ $_icons['edit'] }}</a>
+							</div>
+
+							<div class="btn-group">
+								<a href="{{ route('admin.user.destroy', array($user->id)) }}" class="btn btn-sm btn-danger icn-size-16 js-user-action js-tooltip-top" data-title="Remove Student" data-action="delete" data-id="{{ $user->id }}">{{ $_icons['remove'] }}</a>
 							</div>
 						@endif
 					</div>
@@ -71,13 +75,17 @@
 							</div>
 						@endif
 
-						<div class="col-xs-12 col-sm-6">
-							<p><a href="{{ URL::route('admin.user.edit', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit Student</a></p>
+						<div class="col-xs-12">
+							<p><a href="{{ route('admin.user.show', [$user->id]) }}" class="btn btn-block btn-lg btn-default icn-size-16">User Detail</a></p>
 						</div>
 
 						@if ($_currentUser->access() > 2)
 							<div class="col-xs-12 col-sm-6">
-								<p><a href="{{ URL::route('admin.user.destroy', array($user->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-user-action" data-action="delete" data-id="{{ $user->id }}">Remove Student</a></p>
+								<p><a href="{{ route('admin.user.edit', array($user->id)) }}" class="btn btn-block btn-lg btn-default icn-size-16">Edit Student</a></p>
+							</div>
+
+							<div class="col-xs-12 col-sm-6">
+								<p><a href="{{ route('admin.user.destroy', array($user->id)) }}" class="btn btn-block btn-lg btn-danger icn-size-16 js-user-action" data-action="delete" data-id="{{ $user->id }}">Remove Student</a></p>
 							</div>
 						@endif
 					</div>

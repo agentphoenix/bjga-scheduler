@@ -1,6 +1,6 @@
 <?php namespace Scheduler\Data\Interfaces;
 
-use UserModel;
+use UserModel as User;
 
 interface UserRepositoryInterface {
 
@@ -13,9 +13,11 @@ interface UserRepositoryInterface {
 	public function getAccessLevel($id = false);
 	public function getAppointment($id, $user = false);
 	public function getAppointmentRecord($id);
+	public function getNonInstructors();
 	public function getNonStaff();
-	public function getSchedule(UserModel $user, $days = 90);
-	public function getScheduleHistory(UserModel $user);
+	public function getSchedule(User $user, $days = 90);
+	public function getScheduleHistory(User $user);
+	public function getStudentsWithDevelopmentPlans();
 	public function getUnpaid();
 	public function getUnpaidAmount();
 	public function getUnscheduledAppointments($id = false);

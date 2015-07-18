@@ -71,7 +71,7 @@
 				</div>
 			</div>
 		@else
-			{{ Form::hidden('staff_id', $this->currentUser->staff->id) }}
+			{{ Form::hidden('staff_id', $_currentUser->staff->id) }}
 		@endif
 
 		<div class="row">
