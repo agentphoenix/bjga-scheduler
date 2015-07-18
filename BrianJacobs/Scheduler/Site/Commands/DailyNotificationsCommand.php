@@ -23,6 +23,8 @@ class DailyNotificationsCommand extends Command {
 	 */
 	protected $description = 'Send the daily notifications emails.';
 
+	protected $date;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,6 +32,8 @@ class DailyNotificationsCommand extends Command {
 
 	public function fire()
 	{
+		$this->date = Date::now()->subDay();
+
 		$this->sendStudentNotifications();
 
 		$this->sendInstructorNotifications();
@@ -42,14 +46,11 @@ class DailyNotificationsCommand extends Command {
 		// Get the user repo
 		$usersRepo = app('UserRepository');
 
-		// Get yesterday's date
-		$date = Date::now()->subDay();
-
 		foreach ($usersRepo->getStudentsWithDevelopmentPlans() as $user)
 		{
-			if ($user->countNotificationsByDate($date) > 0)
+			if ($user->countNotificationsByDate($this->date) > 0)
 			{
-				//$output = $user->name." has ".$user->countNotificationsByDate($date)." ".Str::plural('notification', $user->countNotificationsByDate($date)).".";
+				//$output = $user->name." has ".$user->countNotificationsByDate($this->date)." ".Str::plural('notification', $user->countNotificationsByDate($this->date)).".";
 				
 				//$this->info($output);
 
@@ -58,7 +59,7 @@ class DailyNotificationsCommand extends Command {
 				$data = [
 					'name' => $user->present()->firstName,
 					'userId' => $user->id,
-					'date' => $date->format('l F jS, Y'),
+					'date' => $this->date->format('l F jS, Y'),
 					'notifications' => [
 						'planCreate' => 0,
 						'planUpdate' => 0,
@@ -73,7 +74,7 @@ class DailyNotificationsCommand extends Command {
 					]
 				];
 
-				foreach ($user->getNotificationsByDate($date) as $n)
+				foreach ($user->getNotificationsByDate($this->date) as $n)
 				{
 					if ($n->type == 'plan')
 					{
@@ -169,14 +170,11 @@ class DailyNotificationsCommand extends Command {
 		// Get the staff repo
 		$staffRepo = app('StaffRepository');
 
-		// Get yesterday's date
-		$date = Date::now()->subDay();
-
 		foreach ($staffRepo->all(true) as $staff)
 		{
 			if ($staff->plans->count() > 0)
 			{
-				$data['date'] = $date->format('l F jS, Y');
+				$data['date'] = $this->date->format('l F jS, Y');
 
 				//$this->info($staff->user->present()->name." Development Plans");
 
@@ -184,9 +182,9 @@ class DailyNotificationsCommand extends Command {
 				{
 					$user = $studentPlan->user;
 					
-					if ($user->countNotificationsByDate($date) > 0)
+					if ($user->countNotificationsByDate($this->date) > 0)
 					{
-						//$output = $user->name." has ".$user->countNotificationsByDate($date)." ".Str::plural('notification', $user->countNotificationsByDate($date)).".";
+						//$output = $user->name." has ".$user->countNotificationsByDate($this->date)." ".Str::plural('notification', $user->countNotificationsByDate($this->date)).".";
 						
 						//$this->info($output);
 
@@ -207,7 +205,7 @@ class DailyNotificationsCommand extends Command {
 							'commentUpdate' => 0,
 						];
 
-						foreach ($user->getNotificationsByDate($date) as $n)
+						foreach ($user->getNotificationsByDate($this->date) as $n)
 						{
 							if ($n->type == 'plan')
 							{
