@@ -20,11 +20,13 @@
 					<div class="form-group">
 						<label class="control-label">Student</label>
 						<div class="controls">
-							{{ Form::select('user', UserModel::all()->sortBy('name')->lists('name', 'id'), $_currentUser->id, array('class' => 'form-control')) }}
+							{{ Form::select('user', $users, null, array('class' => 'form-control')) }}
 						</div>
 					</div>
 				</div>
 			</div>
+		@else
+			{{ Form::hidden('user', $_currentUser->id) }}
 		@endif
 
 		<div class="row">
@@ -205,6 +207,10 @@
 			if ($('[name="service_id"] option:selected').val() == "0")
 			{
 				alert("Please select a service");
+			}
+			else if ($('[name="user"]').val() == "")
+			{
+				alert("Please select a student");
 			}
 			else if ($('[name="date"]').val() == "")
 			{

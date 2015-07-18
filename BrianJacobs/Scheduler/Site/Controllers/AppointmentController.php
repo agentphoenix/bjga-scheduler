@@ -67,13 +67,15 @@ class AppointmentController extends BaseController {
 			$services = [0 => "Please choose one"];
 			$services+= $this->service->getValues('lesson', true, (int) $this->currentUser->staff->id);
 
+			$users = ['' => "Please choose a student"];
+			$users+= $this->user->getNonInstructors();
+
 			return View::make('pages.admin.appointments.create')
-				->withServices($services);
+				->withServices($services)
+				->withUsers($users);
 		}
-		else
-		{
-			return $this->unauthorized("You do not have permission to create appointments!");
-		}
+		
+		return $this->unauthorized("You do not have permission to create appointments!");
 	}
 
 	public function store()

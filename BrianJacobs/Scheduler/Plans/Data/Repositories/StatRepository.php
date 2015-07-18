@@ -29,20 +29,19 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 
 		// Make sure we have goals to add it to, otherwise use the goal
 		// we kicked the whole process off from as the goal to associate it with
-		if ( ! isset($data['goals']))
-		{
-			$data['goals'] = [$data['goal_id']];
-		}
+		$goals = (isset($data['goals'])) ?: [$data['goal_id']];
 
-		// Loop through the goals and create stat records for each goal
-		foreach ($data['goals'] as $goal)
-		{
-			$input['goal_id'] = $goal;
+		// TODO: need to handle stats for multiple goals
+		// TODO: need to handle kicking off the event handler for multiple stats
 
-			$stat = $this->model->create($input);
+		// We don't need the goal idea anymore
+		//unset($input['goal_id']);
 
-			sleep(1);
-		}
+		// Create the stat record
+		$stat = $this->model->create($input);
+
+		// Sync the goals up
+		//$stat->goals()->sync($goals);
 
 		return $stat;
 	}

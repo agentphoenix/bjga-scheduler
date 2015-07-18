@@ -98,16 +98,17 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 		$plan = $plan->load('goals', 'goals.comments', 'goals.comments.user', 'goals.comments.goal', 'goals.stats', 'goals.stats.goal', 'goals.lessons', 'goals.lessons.service');
 
 		$timeline = [];
+		$finalTimeline = [];
 
 		// Loop through the goals
 		foreach ($plan->goals as $goal)
 		{
 			// Use "updated_at" for goals so that when a goal is marked
 			// as complete it jumps up in the list
-			$timestamp = $goal->created_at->format('U');
+			$timestamp = $goal->updated_at->format('U');
 
 			// Store the goal
-			$timeline[$timestamp] = $goal;
+			$timeline[$timestamp][] = $goal;
 
 			// Goal comments
 			if ($goal->comments->count() > 0)
@@ -116,7 +117,7 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 				{
 					$timestamp = $comment->created_at->format('U');
 
-					$timeline[$timestamp] = $comment;
+					$timeline[$timestamp][] = $comment;
 				}
 			}
 
@@ -127,7 +128,7 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 				{
 					$timestamp = $stat->created_at->format('U');
 
-					$timeline[$timestamp] = $stat;
+					$timeline[$timestamp][] = $stat;
 				}
 			}
 
@@ -138,14 +139,25 @@ class PlanRepository extends BaseRepository implements PlanRepositoryInterface {
 				{
 					$timestamp = $lesson->start->format('U');
 
-					$timeline[$timestamp] = $lesson;
+					$timeline[$timestamp][] = $lesson;
 				}
 			}
 		}
 
 		krsort($timeline);
 
-		return $timeline;
+		if (count($timeline) > 0)
+		{
+			foreach ($timeline as $timeArr)
+			{
+				foreach ($timeArr as $item)
+				{
+					$finalTimeline[] = $item;
+				}
+			}
+		}
+
+		return $finalTimeline;
 	}
 
 	public function removeInstructor($planId, $instructorId)
