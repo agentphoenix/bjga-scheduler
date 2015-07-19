@@ -12,7 +12,7 @@ class ServicePresenter extends Presenter {
 
 	public function location()
 	{
-		if ($this->entity->location_id)
+		if ($this->entity->location)
 		{
 			return $this->entity->location->present()->name;
 		}
