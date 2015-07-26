@@ -58,7 +58,7 @@ class StatsController extends BaseController {
 		$stats = $this->repo->create(Input::except(['numHoles']));
 
 		// Fire the event
-		event('stats.created', [$stats]);
+		//event('stats.created', [$stats]);
 
 		return redirect()->back()
 			->with('messageStatus', 'success')

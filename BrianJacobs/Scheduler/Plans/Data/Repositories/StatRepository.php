@@ -29,7 +29,20 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 
 		// Make sure we have goals to add it to, otherwise use the goal
 		// we kicked the whole process off from as the goal to associate it with
-		$goals = (isset($data['goals'])) ?: [$data['goal_id']];
+		$goals = (isset($data['goals'])) ? $data['goals'] : [$data['goal_id']];
+
+		foreach ($goals as $goal)
+		{
+			// Create the stat
+			$stat = $this->model->create($input);
+
+			// Update the goal ID
+			$stat->goal_id = $goal;
+			$stat->save();
+
+			// Fire the stat creation event
+			event('stats.created', [$stat]);
+		}
 
 		// TODO: need to handle stats for multiple goals
 		// TODO: need to handle kicking off the event handler for multiple stats
@@ -38,12 +51,12 @@ class StatRepository extends BaseRepository implements StatRepositoryInterface {
 		//unset($input['goal_id']);
 
 		// Create the stat record
-		$stat = $this->model->create($input);
+		//$stat = $this->model->create($input);
 
 		// Sync the goals up
 		//$stat->goals()->sync($goals);
 
-		return $stat;
+		//return $stat;
 	}
 
 	public function delete($id)
