@@ -13,14 +13,26 @@
 		@if ($userAppt->paid == 0)
 			<p>Total Due: <strong class="text-success">{{ $userAppt->present()->due }}</strong></p>
 		@endif
+
+		@if ($appt->goal)
+			<p class="text-success">Part of your <strong><em>{{ link_to_route('goal.show', $appt->goal->present()->title, [$_currentUser->id, $appt->goal->id]) }}</em></strong> development plan goal</p>
+		@endif
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
 		<div class="visible-md visible-lg">
 			<div class="btn-toolbar pull-right">
 				@if ($appt->service->isProgram())
 					<div class="btn-group">
-						<a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="More Info">{{ $_icons['info'] }}</a>
+						<a href="{{ route('event', array($appt->service->slug)) }}" class="btn btn-sm btn-default icn-size-16 js-tooltip-top" data-title="More Info">{{ $_icons['info'] }}</a>
 					</div>
+				@endif
+
+				@if ($appt->service->isLesson())
+					@if ($_currentUser->plan->activeGoals->count() > 0 and ! $appt->goal)
+						<div class="btn-group">
+							<a href="#" class="btn btn-sm btn-default icn-size-16 js-tooltip-top js-goalAssociation" data-lesson="{{ $appt->id }}" data-title="Associate with Goal">{{ $_icons['link'] }}</a>
+						</div>
+					@endif
 				@endif
 
 				<div class="btn-group">
@@ -36,7 +48,13 @@
 		</div>
 		<div class="visible-xs visible-sm">
 			@if ($appt->service->isProgram())
-				<p><a href="{{ URL::route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">More Info</a></p>
+				<p><a href="{{ route('event', array($appt->service->slug)) }}" class="btn btn-lg btn-block btn-default icn-size-16">More Info</a></p>
+			@endif
+
+			@if ($appt->service->isLesson())
+				@if ($_currentUser->plan->activeGoals->count() > 0 and ! $appt->goal)
+					<p><a href="#" class="btn btn-lg btn-default btn-block js-goalAssociation" data-lesson="{{ $appt->id }}">Associate with Goal</a></p>
+				@endif
 			@endif
 
 			<p><a href="#" class="btn btn-lg btn-block btn-default icn-size-16 js-email-instructor" data-appt="{{ $appt->id }}">Email Instructor</a></p>
