@@ -1,6 +1,7 @@
 <?php namespace Scheduler\Commands;
 
-use Str,
+use Log,
+	Str,
 	Date,
 	Mail,
 	Config,
@@ -161,6 +162,8 @@ class DailyNotificationsCommand extends Command {
 		}
 
 		//$this->info("");
+
+		Log::info("Student notification emails sent.");
 	}
 
 	public function sendInstructorNotifications()
@@ -288,6 +291,8 @@ class DailyNotificationsCommand extends Command {
 		}
 
 		//$this->info("");
+
+		Log::info("Instructor notification emails sent.");
 	}
 
 }
