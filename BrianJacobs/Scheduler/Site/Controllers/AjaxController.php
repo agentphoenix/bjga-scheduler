@@ -121,6 +121,11 @@ class AjaxController extends BaseController {
 		// Get today
 		$today = Date::now();
 
+		if ( ! Input::has('service'))
+		{
+			return alert('alert-danger', "You must select a service to check availability.");
+		}
+
 		// Get the service
 		$service = $this->service->find(Input::get('service'));
 
