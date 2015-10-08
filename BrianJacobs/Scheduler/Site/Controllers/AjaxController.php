@@ -214,6 +214,8 @@ class AjaxController extends BaseController {
 				'description'	=> (string) $service->present()->description,
 				'price'			=> (string) $service->present()->price,
 				'user_limit'	=> (int) $service->user_limit,
+				'occurrences'	=> (int) $service->occurrences,
+				'occurrences_schedule' => (int) $service->occurrences_schedule,
 			);
 			$output['enrolled'] = (int) $service->attendees()->count();
 
@@ -247,6 +249,9 @@ class AjaxController extends BaseController {
 				'description'	=> (string) $service->present()->description,
 				'price'			=> (string) $service->price,
 				'user_limit'	=> (int) $service->user_limit,
+				'occurrences'	=> (int) $service->occurrences,
+				'occurrences_schedule' => (int) $service->occurrences_schedule,
+				'duration'		=> (int) $service->duration,
 			);
 			$output['enrolled'] = (int) $service->attendees()->count();
 
