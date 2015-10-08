@@ -151,18 +151,24 @@ class BookingService {
 			$newStartDate = $recurItem->start->copy();
 			$newEndDate = $recurItem->end->copy();
 
+			$occurrences = (array_key_exists('occurrences', $data)) 
+				? $data['occurrences']
+				: $service->occurrences;
+
 			// Loop through and create all the appointments
-			for ($i = 2; $i <= $service->occurrences; $i++)
+			for ($i = 2; $i <= $occurrences; $i++)
 			{
+				$schedule = (array_key_exists('occurrences_schedule', $data))
+					? $data['occurrences_schedule']
+					: $service->occurrences_schedule;
+
 				// Create the staff appointments
 				$sa = StaffAppointmentModel::create([
 					'staff_id' => $service->staff->id,
 					'service_id' => $service->id,
 					'recur_id' => $recurItem->id,
-					'start' => ($service->occurrences_schedule > 0) 
-						? $newStartDate->addDays($service->occurrences_schedule) : null,
-					'end' => ($service->occurrences_schedule > 0) 
-						? $newEndDate->addDays($service->occurrences_schedule) : null,
+					'start' => ($schedule > 0) ? $newStartDate->addDays($schedule) : null,
+					'end' => ($schedule > 0) ? $newEndDate->addDays($schedule) : null,
 					'location_id' => $recurItem->location_id,
 				]);
 				$bookStaffIds[] = $sa->id;

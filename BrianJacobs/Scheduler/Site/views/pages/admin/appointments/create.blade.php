@@ -67,6 +67,14 @@
 		</div>
 
 		<div class="row">
+			<div class="col-lg-2">
+				<label class="control-label">Duration</label>
+				{{ Form::text('duration', 60, array('class' => 'form-control')) }}
+				<p class="help-block">Duration in minutes.</p>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-sm-4 col-md-3 col-lg-2">
 				<div class="form-group">
 					<label class="control-label">Date</label>
@@ -79,7 +87,7 @@
 				<div class="form-group">
 					<label class="control-label">Start Time</label>
 					<div class="controls">
-						{{ Form::text('start', null, array('class' => 'form-control js-timepicker')) }}
+						{{ Form::text('start', null, array('class' => 'form-control js-timepicker-start')) }}
 					</div>
 				</div>
 			</div>
@@ -87,8 +95,25 @@
 				<div class="form-group">
 					<label class="control-label">End Time</label>
 					<div class="controls">
-						{{ Form::text('end', null, array('class' => 'form-control js-timepicker')) }}
+						{{ Form::text('end', null, array('class' => 'form-control js-timepicker-end')) }}
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2">
+				<div class="form-group{{ ($errors->has('occurrences')) ? ' has-error' : '' }}">
+					<label class="control-label">Occurrences</label>
+					{{ Form::text('occurrences', null, array('class' => 'form-control input-with-feedback')) }}
+					{{ $errors->first('occurrences', '<p class="help-block">:message</p>') }}
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="form-group">
+					<label class="control-label">Occurrence Schedule</label>
+					{{ Form::text('occurrences_schedule', null, array('class' => 'form-control input-with-feedback')) }}
+					<p class="help-block">Days between occurrences.</p>
 				</div>
 			</div>
 		</div>
@@ -139,6 +164,7 @@
 	{{ HTML::script('js/picker.js') }}
 	{{ HTML::script('js/picker.date.js') }}
 	{{ HTML::script('js/picker.time.js') }}
+	{{ HTML::script('js/moment.min.js') }}
 	<script>
 		$('[name="service_id"]').on('change', function(e)
 		{
@@ -149,9 +175,15 @@
 				{
 					var obj = $.parseJSON(data);
 					var price = obj.service.price;
+					var duration = obj.service.duration;
+					var occurrences = obj.service.occurrences;
+					var occurrences_schedule = obj.service.occurrences_schedule;
 					//price = price.replace("$", "");
 
 					$('[name="price"]').val(price);
+					$('[name="duration"]').val(duration);
+					$('[name="occurrences"]').val(occurrences);
+					$('[name="occurrences_schedule"]').val(occurrences_schedule);
 				}
 			});
 		});
@@ -166,12 +198,32 @@
 				today: false
 			});
 
-			$('.js-timepicker').pickatime({
-				format: "HH:i A",
+			var $end = $('.js-timepicker-end').pickatime({
+				format: "h:i A",
+				formatSubmit: "HH:i",
+				hiddenName: true,
 				interval: 15,
 				min: [6, 0],
 				max: [22, 0],
 				container: '.container-fluid'
+			});
+
+			$('.js-timepicker-start').pickatime({
+				format: "h:i A",
+				formatSubmit: "HH:i",
+				hiddenName: true,
+				interval: 15,
+				min: [6, 0],
+				max: [22, 0],
+				container: '.container-fluid',
+				onSet: function(context)
+				{
+					var duration = $('[name="duration"]').val();
+
+					var newEndTime = moment(this.get(), "h:mm A").add(duration, 'minute');
+
+					$end.pickatime('picker').set('select', newEndTime.toDate());
+				}
 			});
 		});
 	</script>

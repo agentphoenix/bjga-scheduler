@@ -4,6 +4,7 @@ use Book,
 	Date,
 	View,
 	Event,
+	Flash,
 	Input,
 	Config,
 	Redirect,
@@ -398,7 +399,7 @@ class AppointmentController extends BaseController {
 
 	public function cancelRemainingSeries()
 	{
-		if ($this->currentUser->access() == 4)
+		if ($this->currentUser->isStaff())
 		{
 			// Get all appointments in the series
 			$series = $this->appts->getRecurringLessons(Input::get('series'));
@@ -418,22 +419,9 @@ class AppointmentController extends BaseController {
 				}
 			});
 
+			Flash::success('Remaining appointments in the series have been cancelled.');
+
 			return json_encode([]);
-
-			/*// Filter down to just things moving forward
-			$series = $series->filter(function($s) use ($today)
-			{
-				return $s->start->gte($today);
-			});
-
-			foreach ($series as $lesson)
-			{
-				// Remove the user lesson
-				$lesson->userAppointments->first()->forceDelete();
-
-				// Remove the staff lesson
-				$lesson->forceDelete();
-			}*/
 		}
 	}
 

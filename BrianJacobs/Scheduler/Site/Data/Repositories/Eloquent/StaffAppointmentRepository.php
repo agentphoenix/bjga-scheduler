@@ -171,22 +171,36 @@ class StaffAppointmentRepository implements StaffAppointmentRepositoryInterface 
 					return $s->start >= $starting->startOfDay();
 				});
 
+				// Sort the series now
+				$series = $series->sortBy('start');
+
 				// Start building the new date
 				$newDate = Date::createFromFormat('Y-m-d H:i', $data['newDate']." ".$data['newTime']);
 
 				// Update the location if necessary
 				$location = $service->staff->getScheduleForDay($newDate->dayOfWeek)->location_id;
 
+				// Grab the first appointment and the one right after it
+				$dictionary = $series->getDictionary();
+				$firstAppt = reset($dictionary);
+				$secondAppt = next($dictionary);
+
+				// Figure out the duration
+				$duration = $firstAppt->start->diffInMinutes($firstAppt->end);
+
+				// Figure out the occurrence schedule
+				$schedule = $firstAppt->start->diffInDays($secondAppt->start);
+
 				foreach ($series as $item)
 				{
 					$item->update([
 						'start'			=> $newDate,
-						'end'			=> $newDate->copy()->addMinutes($service->duration),
+						'end'			=> $newDate->copy()->addMinutes($duration),
 						'location_id'	=> $location,
 					]);
 
 					// Add to the new date
-					$newDate->addDays($service->occurrences_schedule);
+					$newDate->addDays($schedule);
 				}
 
 				Event::fire('appointment.updated', array($item, $item->userAppointments->first()));
