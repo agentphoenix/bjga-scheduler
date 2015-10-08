@@ -63,10 +63,8 @@
 		</div>
 	{{ Form::close() }}
 
-	@if ($_currentUser->access() == 4)
-		<p class="visible-xs visible-sm"><a href="#" class="btn btn-danger btn-lg btn-block js-cancelRemaining" data-series="{{ $recurring->id }}">Cancel Remaining Lessons</a></p>
-		<p class="visible-md visible-lg"><a href="#" class="btn btn-danger js-cancelRemaining" data-series="{{ $recurring->id }}">Cancel Remaining Lessons</a></p>
-	@endif
+	<p class="visible-xs visible-sm"><a href="#" class="btn btn-danger btn-lg btn-block js-cancelRemaining" data-series="{{ $recurring->id }}">Cancel Remaining Lessons</a></p>
+	<p class="visible-md visible-lg"><a href="#" class="btn btn-danger js-cancelRemaining" data-series="{{ $recurring->id }}">Cancel Remaining Lessons</a></p>
 
 	<h3>Series Schedule</h3>
 
