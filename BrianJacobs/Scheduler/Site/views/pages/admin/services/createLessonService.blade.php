@@ -10,14 +10,14 @@
 	<div class="visible-md visible-lg">
 		<div class="btn-toolbar">
 			<div class="btn-group">
-				<a href="{{ URL::route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
+				<a href="{{ route('admin.service.index') }}" class="btn btn-sm btn-default icn-size-16">{{ $_icons['back'] }}</a>
 			</div>
 		</div>
 	</div>
 	<div class="visible-xs visible-sm">
 		<div class="row">
 			<div class="col-xs-6 col-sm-3">
-				<p><a href="{{ URL::route('admin.service.index') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
+				<p><a href="{{ route('admin.service.index') }}" class="btn btn-lg btn-block btn-default icn-size-16">{{ $_icons['back'] }}</a></p>
 			</div>
 		</div>
 	</div>
